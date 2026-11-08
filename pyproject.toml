@@ -1,0 +1,32 @@
+[project]
+name = "lima-pm25-rl"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "thought-eater", email = "135585422+thought-eater@users.noreply.github.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "gymnasium>=1.4,<2",
+    "lima-pm25-core==0.1.0",
+]
+
+[project.scripts]
+lima-pm25-rl = "lima_pm25_rl:main"
+
+[tool.uv.sources]
+lima-pm25-core = { path = "../lima-pm25-core", editable = true }
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2,<10",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib"
