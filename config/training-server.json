@@ -1,7 +1,7 @@
 {
   "kind": "generated",
   "core_root": "../../lima-pm25-core",
-  "episodes": 4,
+  "episodes": 1000,
   "steps_per_episode": 36,
   "noise_stddev_ug_m3": 0.0,
   "gp_fit_end_utc": "2026-01-18T09:00:00+00:00",

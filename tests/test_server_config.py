@@ -33,13 +33,13 @@ def server_inputs():
     return spec, configs
 
 
-def test_server_config_keeps_a_bounded_default_and_separate_final_period():
+def test_server_config_uses_the_requested_budget_and_separate_final_period():
     from lima_pm25_rl.training import TrainingConfig
 
     spec, configs = server_inputs()
     training = TrainingConfig(**spec["training"])
     assert spec["kind"] == "generated"
-    assert spec["episodes"] == 4
+    assert spec["episodes"] == 1000
     assert spec["steps_per_episode"] == 36
     assert training.hidden_size == 64 and training.history_length == 4
     assert training.capacity_steps >= spec["steps_per_episode"]
@@ -216,6 +216,7 @@ def test_check_cli_never_constructs_a_trainer_or_resets_an_environment(
     "extra",
     [
         ["--output", "unused-output"],
+        ["--resume"],
         ["--resume", "unused.pt"],
         ["--episodes", "1000"],
     ],

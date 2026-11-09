@@ -1,0 +1,12 @@
+# Rutas relativas a lima-pm25-core/. rsync necesita -r con --files-from.
+.python-version
+README.md
+pyproject.toml
+src/
+config/study_environment.json
+config/estimation_evaluation.json
+data/var_meteorologicas_lima_2025_2026_imputed.csv
+resultados/r1_2_entorno/domain/road_graph.graphml
+resultados/r1_2_entorno/domain/grid.npz
+resultados/r2_1_r2_2_estimacion/calibracion_historica/final_calibration.json
+resultados/r2_1_r2_2_estimacion/calibracion_historica/f68cc53e2ddb33bf97540847868ae5a07563f41f016197601a1542711ac8f0a6/partition.json

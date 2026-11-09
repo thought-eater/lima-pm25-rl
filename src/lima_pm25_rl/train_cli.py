@@ -5,7 +5,7 @@ import csv
 import hashlib
 import json
 from dataclasses import asdict, replace
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +18,10 @@ from .episodes import Episode, GeneratedEpisodes
 from .pilot import controlled_environment, controlled_oracle, controlled_score
 from .resources import load_study_resources
 from .training import Trainer, TrainingConfig
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_CONFIG = PROJECT_ROOT / "config/training-server.json"
+CACHE_DIRECTORY = PROJECT_ROOT / "cache"
 
 
 def _utc(value: str) -> datetime:
@@ -372,17 +376,54 @@ def run_training(
     return row
 
 
+def _latest_checkpoint(config: TrainingConfig, protocol: dict[str, Any]) -> Path:
+    """Busca en las ejecuciones locales sin cargar todos sus buffers en memoria."""
+    hardware = {"device", "cpu_threads"}
+    expected = {
+        key: value for key, value in asdict(config).items() if key not in hardware
+    }
+    protocol = json.loads(json.dumps(protocol))
+    candidates = sorted(
+        (path for path in CACHE_DIRECTORY.rglob("checkpoint-last.pt") if path.is_file()),
+        key=lambda path: (path.stat().st_mtime_ns, str(path)),
+        reverse=True,
+    )
+    for path in candidates:
+        try:
+            metadata = json.loads(path.with_name("config.json").read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not isinstance(metadata, dict) or not isinstance(
+            metadata.get("training"), dict
+        ):
+            continue
+        actual = {
+            key: value
+            for key, value in metadata["training"].items()
+            if key not in hardware
+        }
+        if actual == expected and metadata.get("protocol") == protocol:
+            return path
+    raise FileNotFoundError(
+        f"No hay un checkpoint compatible en {CACHE_DIRECTORY}. "
+        "Ejecuta sin --resume para iniciar un entrenamiento."
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Entrenador mínimo BiLG-D3QN. No inicia replay histórico final."
     )
     parser.add_argument(
-        "--config", type=Path, required=True, help="Configuración JSON explícita"
+        "--config",
+        type=Path,
+        default=DEFAULT_CONFIG,
+        help="Configuración JSON (por defecto: config/training-server.json)",
     )
     parser.add_argument(
         "--output",
         type=Path,
-        help="Directorio nuevo, también al reanudar",
+        help="Directorio nuevo (por defecto: cache/training/<fecha UTC>)",
     )
     parser.add_argument(
         "--check",
@@ -392,7 +433,10 @@ def main() -> None:
     parser.add_argument(
         "--resume",
         type=Path,
-        help="Checkpoint completo para continuar al siguiente episodio",
+        nargs="?",
+        const=True,
+        metavar="CHECKPOINT",
+        help="Continuar desde el último checkpoint compatible, o desde la ruta indicada",
     )
     parser.add_argument(
         "--episodes",
@@ -408,8 +452,6 @@ def main() -> None:
             or args.episodes is not None
         ):
             parser.error("--check no admite --output, --resume ni --episodes")
-    elif args.output is None:
-        parser.error("El entrenamiento requiere --output")
     spec = json.loads(args.config.read_text())
     parameters = dict(spec.get("training", {}))
     if args.device:
@@ -446,25 +488,48 @@ def main() -> None:
         if validation_env is not None:
             validation_env.close()
         return
-    assert args.output is not None
+    resume = None
+    if args.resume is True:
+        try:
+            resume = _latest_checkpoint(config, protocol)
+        except FileNotFoundError as error:
+            parser.error(str(error))
+    elif args.resume is not None:
+        resume = args.resume.resolve()
+    if resume is not None:
+        print(f"Reanudando: {resume}", flush=True)
     trainer = Trainer(env, config, protocol=protocol)
-    if args.resume:
-        trainer.load_checkpoint(args.resume)
+    if resume is not None:
+        trainer.load_checkpoint(resume)
     elif spec["kind"] == "controlled":
         # Empate inicial conocido: el argmax elige este. Solo para este piloto.
         with torch.no_grad():
             for parameter in trainer.online.advantage[-1].parameters():
                 parameter.zero_()
         trainer.target.load_state_dict(trainer.online.state_dict())
+    episodes = args.episodes if args.episodes is not None else spec["episodes"]
+    if (
+        resume is not None
+        and type(episodes) is int
+        and episodes <= trainer.completed_episodes
+    ):
+        parser.error(
+            f"El checkpoint ya alcanzó {trainer.completed_episodes} episodios. "
+            f"Aumenta 'episodes' en {args.config} para continuar."
+        )
+    output = args.output or (
+        CACHE_DIRECTORY / "training" / datetime.now(UTC).strftime("%Y%m%d-%H%M%S-%f")
+    )
+    print(f"Salida: {output}", flush=True)
     run_training(
         trainer,
-        episodes=args.episodes if args.episodes is not None else spec["episodes"],
-        output=args.output,
+        episodes=episodes,
+        output=output,
         checkpoint_every=spec.get("checkpoint_every", 10),
         validation_env=validation_env,
         validation_seeds=spec.get("validation_seeds"),
         validation_every=spec.get("validation_every", 10),
-        resumed_from=str(args.resume.resolve()) if args.resume else None,
+        resumed_from=str(resume) if resume is not None else None,
     )
     env.close()
     if validation_env is not None:

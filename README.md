@@ -15,14 +15,12 @@ Se necesitan Python 3.14 o posterior, [uv](https://docs.astral.sh/uv/) y el
 repositorio `lima-pm25-core` versión `0.1.0` en `../lima-pm25-core`.
 
 ```bash
-uv sync --locked
+uv sync
 ```
 
 PyTorch es una dependencia obligatoria y se instala con la misma sincronización;
 no hace falta seleccionar dependencias opcionales para usar la red o entrenar.
-Tras cambiar las dependencias de `pyproject.toml`, regenerar `uv.lock` con
-`uv lock` antes de usar `--locked`. Sin `--upgrade`, uv conserva las versiones
-bloqueadas que siguen siendo compatibles.
+`uv.lock` conserva las versiones resueltas del proyecto.
 
 En Linux, PyTorch de PyPI incluye soporte NVIDIA/CUDA; el servidor debe tener
 un controlador compatible. No se utiliza ni modifica el PyTorch global. El
@@ -73,39 +71,43 @@ El entrenador mínimo utiliza PyTorch directamente: memoria temporal, exploraci�
 enmascarada, Adam, pérdida Double DQN y actualización periódica de la red objetivo.
 No añade frameworks de aprendizaje ni inicia entrenamientos al importar módulos.
 
-Piloto artificial pequeño para comprobar que realmente puede aprender:
+Para entrenar:
 
 ```bash
-uv run --locked lima-pm25-train \
-  --config config/training-pilot.json --output cache/pilot-01
+uv run lima-pm25-train
 ```
 
-Comprobación corta sobre el dominio de Lima: dos episodios de tres ticks,
-no un entrenamiento experimental suficiente para obtener una buena política:
+Lee automáticamente `config/training-server.json` y crea una carpeta nueva en
+`cache/training/<fecha UTC>/`, cuya ruta imprime al empezar. El presupuesto se
+define con `episodes` en ese JSON; está configurado en 1000 episodios.
+
+Para continuar, después de aumentar el total en el JSON si ya se alcanzó:
 
 ```bash
-uv run --locked lima-pm25-train \
-  --config config/training-lima-smoke.json --output cache/lima-check
+uv run lima-pm25-train --resume
 ```
 
-Cada ejecución exige un directorio nuevo y conserva `config.json`, `metrics.csv`,
-`checkpoint-last.pt` y `policy-last.pt`. Con validación reservada también guarda
-`policy-best.pt`, seleccionada por incertidumbre final, no por replay histórico.
+Busca en `cache/` el checkpoint más reciente compatible con la configuración y
+el protocolo actuales. La continuación también crea una carpeta nueva; nunca
+trunca ni sobrescribe ejecuciones anteriores. El total es el objetivo acumulado,
+no una cantidad de episodios adicionales.
 
-Para continuar, usar el mismo protocolo y un nuevo directorio. `--episodes`
-indica el **total deseado**, no episodios adicionales:
+Solo para elegir un punto específico:
 
 ```bash
-uv run --locked lima-pm25-train \
-  --config config/training-pilot.json --resume cache/pilot-01/checkpoint-last.pt \
-  --episodes 200 --output cache/pilot-continued
+uv run lima-pm25-train --resume cache/server-check-01/checkpoint-last.pt
 ```
 
-Para utilizar una política guardada sobre la misma grilla y configuración del GP:
+Cada carpeta conserva `config.json`, `metrics.csv`, `checkpoint-last.pt` y
+`policy-last.pt`. Con validación también guarda `policy-best.pt`, seleccionada
+por incertidumbre final, no por replay histórico.
+
+`--config` y `--output` siguen disponibles para excepciones. Por ejemplo, los
+pilotos de software usan otras configuraciones:
 
 ```bash
-uv run --locked lima-pm25-rl --policy neural \
-  --checkpoint cache/lima-check/policy-last.pt --steps 3
+uv run lima-pm25-train --config config/training-pilot.json
+uv run lima-pm25-train --config config/training-lima-smoke.json
 ```
 
 El piloto controlado no representa Lima ni prueba generalización. El currículo
@@ -119,14 +121,13 @@ ejecutado el entrenamiento experimental largo ni la evaluación final de la tesi
 La [guía del servidor](docs/server.md) incluye el protocolo temporal inicial,
 listas explícitas de transferencia y comandos de instalación, prueba y
 reanudación. `config/training-server.json` mezcla control sintético y estrés
-con meteorología generada; **por defecto solo ejecuta cuatro episodios**.
+con meteorología generada y **1000 episodios por defecto**.
 El control no se presenta como un nominal de Lima validado.
 
 Para comprobar recursos y componer todas las familias sin simular ni entrenar:
 
 ```bash
-uv run --locked lima-pm25-train \
-  --config config/training-server.json --check
+uv run lima-pm25-train --check
 ```
 
 La ejecución larga requiere fijar y autorizar su presupuesto por separado.
