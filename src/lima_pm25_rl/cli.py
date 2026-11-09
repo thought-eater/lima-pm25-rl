@@ -119,6 +119,11 @@ def main() -> None:
                 parser.error(
                     "La fecha solicitada no pertenece al replay final reservado"
                 )
+            if "reserved_final_end_utc" in policy_protocol and (
+                args.replay_start + timedelta(seconds=args.steps * STEP_SECONDS)
+                > _utc(policy_protocol["reserved_final_end_utc"])
+            ):
+                parser.error("La ventana solicitada excede el extremo final reservado")
     if args.steps < 1:
         parser.error("--steps debe ser positivo")
     if args.episode_config and args.replay_start:

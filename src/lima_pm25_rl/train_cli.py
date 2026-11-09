@@ -32,7 +32,7 @@ def _sha256(path: Path) -> str:
         return hashlib.file_digest(file, "sha256").hexdigest()
 
 
-def prepare_experiment(spec: dict[str, Any], directory: Path):
+def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = False):
     """Los paths son relativos al JSON. No toca particiones de replay final."""
     kind = spec["kind"]
     if kind not in {"controlled", "demonstration", "generated"}:
@@ -109,6 +109,13 @@ def prepare_experiment(spec: dict[str, Any], directory: Path):
 
         fit_end = _utc(spec["gp_fit_end_utc"])
         final_start = _utc(spec["reserved_final_start_utc"])
+        final_end = (
+            _utc(spec["reserved_final_end_utc"])
+            if "reserved_final_end_utc" in spec
+            else None
+        )
+        if final_end is not None and final_end <= final_start:
+            raise ValueError("El periodo final reservado debe tener duración positiva")
         candidates = spec["episode_configs"]
         if not candidates:
             raise ValueError(
@@ -123,6 +130,18 @@ def prepare_experiment(spec: dict[str, Any], directory: Path):
             root / "data/var_meteorologicas_lima_2025_2026_imputed.csv",
             station_id="CAMPO_DE_MARTE",
         )
+        if "gp_partition_manifest" in spec:
+            manifest_path = root / spec["gp_partition_manifest"]
+            manifest = json.loads(manifest_path.read_text())
+            if _utc(manifest["calibration_end_utc"]) != fit_end:
+                raise ValueError("gp_fit_end_utc no coincide con el manifiesto del GP")
+            if manifest["weather_resource_sha256"] != weather.resource_sha256:
+                raise ValueError("La meteorología no coincide con el manifiesto del GP")
+            if final_start < _utc(manifest["replay_start_utc"]) or (
+                final_end is not None and final_end > _utc(manifest["replay_end_utc"])
+            ):
+                raise ValueError("El periodo final excede la reserva histórica del GP")
+            protocol["gp_partition_sha256"] = _sha256(manifest_path)
         configs = [
             load_episode_generation_config(directory / item["path"])
             for item in candidates
@@ -157,6 +176,19 @@ def prepare_experiment(spec: dict[str, Any], directory: Path):
             for config, item in zip(configs, candidates, strict=True)
         ]
         validation = [replace(factory, partition="evaluation") for factory in training]
+        if check:
+            from lima_pm25.simulation import EpisodeWeatherMode
+
+            # Componer no avanza el campo ni inicializa el GP o la red. Probar
+            # cada combinación, no solo la que salga en un sorteo de la mezcla.
+            for factory in (*training, *validation):
+                for mode, weight in zip(
+                    EpisodeWeatherMode, factory.config.weather_weights, strict=True
+                ):
+                    if weight > 0:
+                        replace(factory, weather_mode=mode)(0)
+        if final_end is not None:
+            protocol["reserved_final_end_utc"] = final_end.isoformat()
         protocol.update(
             gp_fit_end_utc=fit_end.isoformat(),
             policy_fit_end_utc=max(
@@ -213,18 +245,16 @@ def prepare_experiment(spec: dict[str, Any], directory: Path):
     )
 
 
-def run_training(
-    trainer: Trainer,
+def _validate_run_settings(
     *,
     episodes: int,
-    output: Path,
-    checkpoint_every: int = 10,
-    validation_env: LimaPM25Env | None = None,
-    validation_seeds: list[int] | None = None,
-    validation_every: int = 10,
-    resumed_from: str | None = None,
-) -> dict[str, Any]:
-    if type(episodes) is not int or episodes <= trainer.completed_episodes:
+    completed_episodes: int,
+    checkpoint_every: int,
+    validation_every: int,
+    validation: bool,
+    validation_seeds: list[int] | None,
+) -> list[int]:
+    if type(episodes) is not int or episodes <= completed_episodes:
         raise ValueError(
             "episodes es el total deseado y debe superar los episodios ya completados"
         )
@@ -236,7 +266,7 @@ def run_training(
             "Las frecuencias de checkpoint y validación deben ser positivas"
         )
     seeds = validation_seeds or []
-    if validation_env is not None and (
+    if validation and (
         not seeds
         or any(type(seed) is not int or seed < 0 for seed in seeds)
         or len(set(seeds)) != len(seeds)
@@ -244,6 +274,28 @@ def run_training(
         raise ValueError(
             "La validación requiere semillas distintas, explícitas y no negativas"
         )
+    return seeds
+
+
+def run_training(
+    trainer: Trainer,
+    *,
+    episodes: int,
+    output: Path,
+    checkpoint_every: int = 10,
+    validation_env: LimaPM25Env | None = None,
+    validation_seeds: list[int] | None = None,
+    validation_every: int = 10,
+    resumed_from: str | None = None,
+) -> dict[str, Any]:
+    seeds = _validate_run_settings(
+        episodes=episodes,
+        completed_episodes=trainer.completed_episodes,
+        checkpoint_every=checkpoint_every,
+        validation_every=validation_every,
+        validation=validation_env is not None,
+        validation_seeds=validation_seeds,
+    )
     output.mkdir(parents=True, exist_ok=False)
     configuration = {
         "training": asdict(trainer.config),
@@ -330,8 +382,12 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        required=True,
         help="Directorio nuevo, también al reanudar",
+    )
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Validar recursos y componer escenarios sin simular ni entrenar",
     )
     parser.add_argument(
         "--resume",
@@ -345,14 +401,52 @@ def main() -> None:
     )
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"))
     args = parser.parse_args()
+    if args.check:
+        if (
+            args.output is not None
+            or args.resume is not None
+            or args.episodes is not None
+        ):
+            parser.error("--check no admite --output, --resume ni --episodes")
+    elif args.output is None:
+        parser.error("El entrenamiento requiere --output")
     spec = json.loads(args.config.read_text())
     parameters = dict(spec.get("training", {}))
     if args.device:
         parameters["device"] = args.device
     config = TrainingConfig(**parameters)
+    if config.capacity_steps < spec["steps_per_episode"]:
+        raise ValueError("Un episodio completo debe caber en el replay buffer")
     env, validation_env, protocol = prepare_experiment(
-        spec, args.config.resolve().parent
+        spec, args.config.resolve().parent, check=args.check
     )
+    if args.check:
+        _validate_run_settings(
+            episodes=spec["episodes"],
+            completed_episodes=0,
+            checkpoint_every=spec.get("checkpoint_every", 10),
+            validation_every=spec.get("validation_every", 10),
+            validation=validation_env is not None,
+            validation_seeds=spec.get("validation_seeds"),
+        )
+        print(
+            json.dumps(
+                {
+                    "status": "configuration_checked",
+                    "training_executed": False,
+                    "cuda_available": torch.cuda.is_available(),
+                    "requested_device": config.device,
+                    "protocol": protocol,
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        env.close()
+        if validation_env is not None:
+            validation_env.close()
+        return
+    assert args.output is not None
     trainer = Trainer(env, config, protocol=protocol)
     if args.resume:
         trainer.load_checkpoint(args.resume)

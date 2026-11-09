@@ -114,6 +114,23 @@ La [guía de entrenamiento](docs/training.md) detalla esa configuración, la
 reanudación, las subdecisiones y las verificaciones realizadas. No se ha
 ejecutado el entrenamiento experimental largo ni la evaluación final de la tesis.
 
+### Preparación del servidor
+
+La [guía del servidor](docs/server.md) incluye el protocolo temporal inicial,
+listas explícitas de transferencia y comandos de instalación, prueba y
+reanudación. `config/training-server.json` mezcla control sintético y estrés
+con meteorología generada; **por defecto solo ejecuta cuatro episodios**.
+El control no se presenta como un nominal de Lima validado.
+
+Para comprobar recursos y componer todas las familias sin simular ni entrenar:
+
+```bash
+uv run --locked --extra learning lima-pm25-train \
+  --config config/training-server.json --check
+```
+
+La ejecución larga requiere fijar y autorizar su presupuesto por separado.
+
 ## Verificación
 
 ```bash
