@@ -1,77 +1,127 @@
 # Lima PM2.5 RL
 
-Proyecto de aprendizaje por refuerzo para la planificación de sensores móviles
-de PM2.5, basado en el simulador `lima-pm25-core`.
+Entorno de Gymnasium para un agente centralizado que planifica el muestreo de
+**tres vehículos** sobre las calles de Lima. Reutiliza el dominio, la física,
+los sensores y el proceso gaussiano (GP) de `lima-pm25-core`.
 
-## Dependencia local
+Cada ciclo elige tres destinos en las ocho direcciones de la grilla, evitando
+destinos ocupados o reservados. El decodificador obtiene recorridos viales
+dirigidos y se asume que todos terminan al siguiente tick de **cinco minutos**.
+Solo se mide al final, sin simular tráfico ni lecturas durante el trayecto.
 
-Se requieren Python 3.14 o posterior y [uv](https://docs.astral.sh/uv/).
-El repositorio `lima-pm25-core`, con versión de paquete `0.1.0`, debe estar
-en `../lima-pm25-core`, junto a este proyecto.
+## Preparación
 
-Desde la raíz de `lima-pm25-rl`, preparar su entorno virtual y sus dependencias:
+Se necesitan Python 3.14 o posterior, [uv](https://docs.astral.sh/uv/) y el
+repositorio `lima-pm25-core` versión `0.1.0` en `../lima-pm25-core`.
 
 ```bash
 uv sync --locked
 ```
 
-El núcleo se instala en modo editable: sus cambios de código se reflejan en
-las siguientes ejecuciones sin copiarlo ni reinstalarlo. Se importa mediante
-`lima_pm25`, aunque la distribución se llama `lima-pm25-core`.
-
-Este proyecto utiliza su propia `.venv` y su propio `uv.lock`; no reutiliza
-los del núcleo. La instalación no incorpora automáticamente los recursos de
-`config/`, `data/` o `resultados/` del repositorio vecino.
-
-## Entorno inicial de Gymnasium
-
-`LimaPM25Env`, definido en `src/lima_pm25_rl/env.py`, hereda de `gymnasium.Env`
-y compone los tipos existentes del núcleo. Recibe tres argumentos explícitos:
-
-- `domain`: un `SpatialDomain` ya preparado, con grilla, máscara y grafo vial.
-- `physics`: un `PM25PhysicsConfig`, sin parámetros físicos implícitos.
-- `initial_baseline`: un `AmbientBaseline`, con concentración inicial y procedencia.
-
-Con estos objetos ya preparados, se construye directamente:
-
-```python
-from lima_pm25_rl import LimaPM25Env
-
-env = LimaPM25Env(
-    domain=domain,
-    physics=physics,
-    initial_baseline=initial_baseline,
-)
-env.close()
-```
-
-La construcción conserva el dominio sin modificarlo y crea un `PM25Transport`
-y un `PM25State` propios. El campo inicial es uniforme sobre las celdas activas,
-con cero en las inactivas y tiempo simulado igual a cero. No se avanza la física
-ni se descargan mapas o escriben archivos al construir el entorno.
-
-El método interno `_initialize_simulation(seed=...)` prepara el reinicio físico
-para el futuro `reset()`: utiliza la inicialización aleatoria de Gymnasium y
-crea un campo nuevo. Una semilla explícita reproduce la secuencia aleatoria;
-`None` conserva la secuencia existente. La concentración inicial es determinista
-para una misma configuración. El campo verdadero permanece en `_state`, sin
-devolverse como observación del agente.
-
-**Esta clase todavía no es un entorno entrenable.** `reset()` y `step()` lanzan
-`NotImplementedError` sin modificar el estado. Quedan pendientes las observaciones,
-acciones, avance temporal, recompensas, condiciones de término, sensores y
-estimador. No se declaran espacios provisionales ni modos de visualización,
-y no se registra el entorno para `gymnasium.make()` ni se valida con `check_env`.
-La grilla del campo no se interpreta como una red de celdas transitables.
-
-## Pruebas
+Para utilizar y comprobar la red BiLG-D3QN:
 
 ```bash
-uv run --locked pytest
+uv sync --locked --extra learning
+```
+
+En Linux, PyTorch de PyPI incluye soporte NVIDIA/CUDA; el servidor debe tener
+un controlador compatible. No se utiliza ni modifica el PyTorch global. El
+entorno, la red y sus dependencias se resuelven en la `.venv` de este proyecto.
+
+El núcleo es una dependencia **editable**: se importa como `lima_pm25` y sus
+cambios de código se reflejan sin copiarlo. Este proyecto tiene su propio
+`uv.lock`. Sus recursos geográficos y científicos se cargan explícitamente;
+instalar la dependencia no incorpora `config/`, `data/` ni `resultados/`.
+
+## Demostración corta, sin entrenamiento
+
+Desde la raíz de este proyecto:
+
+```bash
+uv run --locked lima-pm25-rl --policy greedy --steps 3
+uv run --locked lima-pm25-rl --policy random --steps 3 --noise 1
+uv run --locked lima-pm25-rl --policy sweep --steps 3 --image cache/entorno.png
+uv run --locked --extra learning lima-pm25-rl --policy neural --steps 3
+```
+
+`--core-root` permite indicar otra ubicación de los recursos conservados.
+La carga no descarga mapas ni escribe en el repositorio vecino. La imagen
+es opcional y su destino no se sobrescribe.
+
+La demostración usa el escenario sintético ilustrativo con evento de `core`;
+`--scenario control` permite su alternativa sin el evento. No son observaciones
+de Lima ni un currículo definitivo. La opción `neural` utiliza una **red sin
+entrenar**, únicamente para comprobar la integración.
+
+## Componentes
+
+- `LimaPM25Env`: `reset()`, `step()`, observaciones, máscaras, recompensa y render.
+- `RoadRouter`: A* sobre vías dirigidas, incluidas celdas sin intersecciones OSM.
+- `GeneratedEpisodes` / `HistoricalReplay`: adaptación de escenarios de `core`.
+- `BaselinePolicy`: aleatoria, greedy por incertidumbre y barrido geométrico.
+- `BiLGD3QN` / `NeuralController`: CNN, Bi-LSTM, Bi-GRU y cabeza dueling;
+  selección central secuencial con memoria histórica y máscaras.
+- `double_dqn_loss`: objetivo Double DQN y pérdida Smooth L1 para comprobar una
+  actualización de la red. No inicia entrenamiento automáticamente.
+
+La [especificación del entorno](docs/environment.md) explica acciones,
+observaciones, recompensa, finalización, escenarios y límites del replay.
+
+## Entrenamiento
+
+El entrenador mínimo utiliza PyTorch directamente: memoria temporal, exploración
+enmascarada, Adam, pérdida Double DQN y actualización periódica de la red objetivo.
+No añade frameworks de aprendizaje ni inicia entrenamientos al importar módulos.
+
+Piloto artificial pequeño para comprobar que realmente puede aprender:
+
+```bash
+uv run --locked --extra learning lima-pm25-train \
+  --config config/training-pilot.json --output cache/pilot-01
+```
+
+Comprobación corta sobre el dominio de Lima: dos episodios de tres ticks,
+no un entrenamiento experimental suficiente para obtener una buena política:
+
+```bash
+uv run --locked --extra learning lima-pm25-train \
+  --config config/training-lima-smoke.json --output cache/lima-check
+```
+
+Cada ejecución exige un directorio nuevo y conserva `config.json`, `metrics.csv`,
+`checkpoint-last.pt` y `policy-last.pt`. Con validación reservada también guarda
+`policy-best.pt`, seleccionada por incertidumbre final, no por replay histórico.
+
+Para continuar, usar el mismo protocolo y un nuevo directorio. `--episodes`
+indica el **total deseado**, no episodios adicionales:
+
+```bash
+uv run --locked --extra learning lima-pm25-train \
+  --config config/training-pilot.json --resume cache/pilot-01/checkpoint-last.pt \
+  --episodes 200 --output cache/pilot-continued
+```
+
+Para utilizar una política guardada sobre la misma grilla y configuración del GP:
+
+```bash
+uv run --locked --extra learning lima-pm25-rl --policy neural \
+  --checkpoint cache/lima-check/policy-last.pt --steps 3
+```
+
+El piloto controlado no representa Lima ni prueba generalización. El currículo
+y las particiones definitivas deben fijarse antes del entrenamiento largo.
+La [guía de entrenamiento](docs/training.md) detalla esa configuración, la
+reanudación, las subdecisiones y las verificaciones realizadas. No se ha
+ejecutado el entrenamiento experimental largo ni la evaluación final de la tesis.
+
+## Verificación
+
+```bash
+uv run --locked --extra learning pytest
 uv build
 ```
 
-Las pruebas usan un dominio sintético pequeño construido en memoria. Comprueban
-la composición con el núcleo, la inicialización y el aislamiento de campos y
-generadores aleatorios, las semillas y las operaciones aún pendientes. No ejecutan
-episodios, descargan cartografía ni modifican los recursos del núcleo.
+Las pruebas usan dominios pequeños en memoria, comprueban el contrato de
+Gymnasium, la integración con `core`, las rutas y reservas, el tratamiento
+temporal del GP, las particiones y la red. La comprobación CUDA se ejecuta
+solo cuando hay una GPU compatible; no es un entrenamiento largo.

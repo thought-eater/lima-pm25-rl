@@ -1,0 +1,22 @@
+{
+  "kind": "demonstration",
+  "core_root": "../../lima-pm25-core",
+  "member": "event",
+  "episodes": 2,
+  "steps_per_episode": 3,
+  "noise_stddev_ug_m3": 0.0,
+  "checkpoint_every": 1,
+  "training": {
+    "seed": 42,
+    "device": "auto",
+    "hidden_size": 16,
+    "history_length": 4,
+    "capacity_steps": 128,
+    "batch_size": 4,
+    "learning_starts": 1,
+    "target_update_interval": 2,
+    "epsilon_start": 1.0,
+    "epsilon_end": 0.5,
+    "epsilon_decay_steps": 30
+  }
+}

@@ -8,6 +8,10 @@ wheels/
 
 # Test caches
 .pytest_cache/
+.ruff_cache/
 
 # Virtual environments
 .venv
+
+# Local runs and figures
+cache/

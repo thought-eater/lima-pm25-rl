@@ -1,7 +1,7 @@
 [project]
 name = "lima-pm25-rl"
 version = "0.1.0"
-description = "Add your description here"
+description = "Planificación centralizada de sensores móviles de PM2.5 con Gymnasium"
 readme = "README.md"
 authors = [
     { name = "thought-eater", email = "135585422+thought-eater@users.noreply.github.com" }
@@ -10,10 +10,20 @@ requires-python = ">=3.14"
 dependencies = [
     "gymnasium>=1.4,<2",
     "lima-pm25-core==0.1.0",
+    "matplotlib>=3.11,<4",
+    "networkx>=3.7,<4",
+    "numpy>=2.4,<3",
+    "osmnx>=2.1,<3",
+    "pillow>=12,<14",
+    "shapely>=2.1,<3",
 ]
 
+[project.optional-dependencies]
+learning = ["torch>=2.15,<3"]
+
 [project.scripts]
-lima-pm25-rl = "lima_pm25_rl:main"
+lima-pm25-rl = "lima_pm25_rl.cli:main"
+lima-pm25-train = "lima_pm25_rl.train_cli:main"
 
 [tool.uv.sources]
 lima-pm25-core = { path = "../lima-pm25-core", editable = true }

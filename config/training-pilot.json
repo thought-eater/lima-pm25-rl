@@ -1,0 +1,21 @@
+{
+  "kind": "controlled",
+  "episodes": 160,
+  "steps_per_episode": 1,
+  "checkpoint_every": 16,
+  "training": {
+    "seed": 42,
+    "device": "auto",
+    "hidden_size": 16,
+    "history_length": 4,
+    "capacity_steps": 256,
+    "batch_size": 16,
+    "learning_starts": 16,
+    "updates_per_step": 2,
+    "learning_rate": 0.001,
+    "target_update_interval": 32,
+    "epsilon_start": 1.0,
+    "epsilon_end": 0.1,
+    "epsilon_decay_steps": 128
+  }
+}

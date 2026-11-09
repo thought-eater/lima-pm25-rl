@@ -1,278 +1,331 @@
 import socket
-from pathlib import Path
+from dataclasses import replace
 
 import gymnasium as gym
 import networkx as nx
 import numpy as np
 import pytest
-from lima_pm25.domain import AmbientBaseline, DomainConfig, SpatialDomain, build_grid
-from lima_pm25.simulation import PM25PhysicsConfig, PM25State, PM25Transport
-from shapely.geometry import LineString, Polygon
+from gymnasium.utils.env_checker import check_env
+from lima_pm25.estimation import (
+    GaussianProcessFieldReconstructor,
+    ReconstructionRequest,
+)
+from lima_pm25.simulation import (
+    GaussianKernelSource,
+    MeasurementQuality,
+    MeasurementRecord,
+    SensorType,
+    run_simulation,
+)
 
-from lima_pm25_rl import LimaPM25Env
-
-
-@pytest.fixture
-def domain() -> SpatialDomain:
-    boundary = Polygon([(0, 0), (600, 0), (0, 400)])
-    grid = build_grid(boundary, "EPSG:32718", 200)
-    graph = nx.MultiDiGraph(crs=grid.crs)
-    graph.add_node(1, x=100.0, y=100.0)
-    graph.add_node(2, x=300.0, y=100.0)
-    graph.add_edge(
-        1,
-        2,
-        length=200.0,
-        geometry=LineString([(100, 100), (300, 100)]),
-    )
-    return SpatialDomain(
-        config=DomainConfig(cell_size_m=200),
-        road_graph=graph,
-        boundary=boundary,
-        grid=grid,
-        graph_source="synthetic_test",
-        grid_source="synthetic_test",
-    )
+from lima_pm25_rl import Episode
+from lima_pm25_rl.evaluation import evaluate_episode
+from lima_pm25_rl.policies import BaselinePolicy, vehicle_input
 
 
-@pytest.fixture
-def physics() -> PM25PhysicsConfig:
-    return PM25PhysicsConfig(
-        mixing_height_m=200,
-        diffusivity_m2_s=10,
-        dry_deposition_velocity_m_s=0.001,
-        wet_scavenging_per_mm=0.1,
-    )
-
-
-@pytest.fixture
-def initial_baseline() -> AmbientBaseline:
-    return AmbientBaseline(
-        provider_id="test-initial",
-        concentration_ug_m3=8,
-        provenance="Condición inicial sintética para pruebas de software",
-    )
-
-
-@pytest.fixture
-def env(
-    domain: SpatialDomain,
-    physics: PM25PhysicsConfig,
-    initial_baseline: AmbientBaseline,
-) -> LimaPM25Env:
-    return LimaPM25Env(
+def test_gymnasium_contract_and_registration(env, domain, template, estimator_config):
+    check_env(env, skip_render_check=True)
+    wrapped = gym.make(
+        "lima_pm25_rl/LimaPM25-v0",
         domain=domain,
-        physics=physics,
-        initial_baseline=initial_baseline,
+        episode_factory=lambda seed: Episode(template),
+        estimator_config=estimator_config,
+        initial_nodes=((0, 0), (0, 3), (3, 0)),
+    )
+    observation, _ = wrapped.reset(seed=42)
+    assert wrapped.observation_space.contains(observation)
+    wrapped.close()
+
+
+def test_three_moves_consume_one_tick_and_one_joint_mobile_batch(env):
+    observation, _ = env.reset(seed=42)
+    action = BaselinePolicy("greedy").act(env, observation)
+    observation, reward, terminated, truncated, info = env.step(action)
+    assert info["elapsed_s"] == 300
+    assert info["step_count"] == 1
+    assert observation["remaining"][0] == pytest.approx(2 / 3)
+    assert info["invalid_actions"].sum() == 0
+    assert len({env.domain.grid.xy_to_cell(*p) for p in info["positions_m"]}) == 3
+    mobile = env._simulation.mobile.history.records
+    assert len(mobile) == 3
+    assert {record.simulation_time_s for record in mobile} == {300}
+    assert env._updater.current_snapshot.sequence_number == 2
+    assert reward > 0
+    assert not terminated and not truncated
+
+
+def test_reservations_do_not_advance_time_change_truth_or_assimilate(env):
+    observation, _ = env.reset(seed=7)
+    state = env._simulation.state
+    count = len(env._records)
+    action = np.flatnonzero(observation["action_mask"][0])[0]
+    target = env.route(0, int(action)).cell
+    masks = env.action_masks((target,))
+    view, _ = vehicle_input(observation, 1, (target,))
+    assert view[6, *target] == 1
+    assert env._simulation.state is state
+    assert len(env._records) == count
+    assert env._simulation.state.simulation_time_s == 0
+    for vehicle in range(3):
+        for direction in np.flatnonzero(masks[vehicle]):
+            assert env.route(vehicle, int(direction)).cell != target
+
+
+def test_invalid_direction_is_not_executed_and_is_penalized(env):
+    observation, _ = env.reset(seed=1)
+    before = env.positions[0]
+    action = BaselinePolicy("random").act(env, observation)
+    assert not observation["action_mask"][0, 6]  # Oeste desde la columna cero.
+    action[0] = 6
+    _, reward, _, _, info = env.step(action)
+    assert env.positions[0] == before
+    assert info["invalid_actions"][0] == 1
+    assert reward == pytest.approx(
+        info["uncertainty_gain"] - info["invalid_actions"].sum()
     )
 
 
-def test_environment_composes_core_types_without_rebuilding_domain(
-    env: LimaPM25Env,
-    domain: SpatialDomain,
-    physics: PM25PhysicsConfig,
-    initial_baseline: AmbientBaseline,
-) -> None:
-    assert isinstance(env, gym.Env)
-    assert env.domain is domain
-    assert env.domain.road_graph is domain.road_graph
-    assert env.physics is physics
-    assert env.initial_baseline is initial_baseline
-    assert isinstance(env._transport, PM25Transport)
-    assert env._transport.grid is domain.grid
-    assert env._transport.physics is physics
+@pytest.mark.parametrize(
+    "action", [np.array([0, 1]), np.array([0.0, 1.0, 2.0]), np.array([0, 1, 8])]
+)
+def test_malformed_action_does_not_mutate_the_episode(env, action):
+    env.reset(seed=1)
+    state, positions = env._simulation.state, env.positions
+    with pytest.raises(ValueError):
+        env.step(action)
+    assert env._simulation.state is state
+    assert env.positions == positions
 
 
-def test_initial_field_uses_the_supplied_baseline_and_active_mask(
-    env: LimaPM25Env,
-) -> None:
-    state = env._state
-    mask = env.domain.grid.active_mask
-    assert isinstance(state, PM25State)
-    assert state.grid is env.domain.grid
-    assert state.simulation_time_s == 0
-    assert state.ambient_baseline is env.initial_baseline
-    assert state.concentration_ug_m3.shape == env.domain.grid.shape
-    assert np.any(~mask)
-    assert np.all(state.concentration_ug_m3[mask] == 8)
-    assert np.all(state.concentration_ug_m3[~mask] == 0)
-    assert not state.concentration_ug_m3.flags.writeable
+def test_horizon_and_reset_clear_all_episode_state(env):
+    observation, _ = env.reset(seed=42)
+    policy = BaselinePolicy("random", seed=2)
+    for _ in range(3):
+        observation, _, _, truncated, info = env.step(policy.act(env, observation))
+    assert truncated
+    assert observation["remaining"][0] == 0
+    assert info["elapsed_s"] == 900
+    with pytest.raises(gym.error.ResetNeeded):
+        env.step(np.zeros(3, dtype=int))
+    observation, info = env.reset(seed=42)
+    assert info["elapsed_s"] == 0
+    assert info["distance_m"].sum() == 0
+    assert len(env._simulation.mobile.history.records) == 0
+    assert len(env._records) == 1
+    assert observation["remaining"][0] == 1
 
 
-def test_internal_initialization_restores_the_initial_field_and_time(
-    env: LimaPM25Env,
-) -> None:
-    concentration = np.zeros(env.domain.grid.shape)
-    concentration[env.domain.grid.active_mask] = 25
-    env._state = env._transport.initialize_from_array(
-        concentration,
-        simulation_time_s=120,
+def test_observations_and_info_are_fresh_and_never_contain_truth(env):
+    observation, info = env.reset(seed=42)
+    saved = {key: value.copy() for key, value in observation.items()}
+    positions = info["positions_m"].copy()
+    next_observation, _, _, _, next_info = env.step(
+        BaselinePolicy("random").act(env, observation)
     )
-    previous = env._state
-
-    result = env._initialize_simulation(seed=42)
-
-    assert result is None
-    assert env._state is not previous
-    assert env._state.simulation_time_s == 0
-    assert env._state.ambient_baseline is env.initial_baseline
-    mask = env.domain.grid.active_mask
-    assert np.all(env._state.concentration_ug_m3[mask] == 8)
-    assert np.all(previous.concentration_ug_m3[mask] == 25)
-    assert previous.simulation_time_s == 120
-    assert not np.shares_memory(
-        env._state.concentration_ug_m3,
-        previous.concentration_ug_m3,
-    )
-
-
-def test_instances_own_separate_transport_state_and_random_generators(
-    env: LimaPM25Env,
-) -> None:
-    other = LimaPM25Env(
-        domain=env.domain,
-        physics=env.physics,
-        initial_baseline=env.initial_baseline,
-    )
-    env._initialize_simulation(seed=42)
-    other._initialize_simulation(seed=42)
-    assert env._transport is not other._transport
-    assert env._state is not other._state
-    assert env.np_random is not other.np_random
-    assert not np.shares_memory(
-        env._state.concentration_ug_m3,
-        other._state.concentration_ug_m3,
-    )
-    np.testing.assert_array_equal(
-        env.np_random.random(8),
-        other.np_random.random(8),
-    )
-    current_other_state = other._state
-    other_rng_state = other.np_random.bit_generator.state
-
-    env._initialize_simulation(seed=7)
-
-    assert other._state is current_other_state
-    assert other.np_random_seed == 42
-    assert other.np_random.bit_generator.state == other_rng_state
-
-
-def test_explicit_seed_reproduces_the_gymnasium_random_sequence(
-    env: LimaPM25Env,
-) -> None:
-    env._initialize_simulation(seed=42)
-    first_draw = env.np_random.random(8)
-
-    env._initialize_simulation(seed=42)
-
-    assert env.np_random_seed == 42
-    np.testing.assert_array_equal(env.np_random.random(8), first_draw)
-
-
-def test_none_seed_preserves_the_existing_random_sequence(env: LimaPM25Env) -> None:
-    env._initialize_simulation(seed=42)
-    reference = np.random.default_rng(42)
-    np.testing.assert_array_equal(env.np_random.random(8), reference.random(8))
-    generator = env.np_random
-
-    env._initialize_simulation()
-
-    assert env.np_random is generator
-    assert env.np_random_seed == 42
-    np.testing.assert_array_equal(env.np_random.random(8), reference.random(8))
-
-
-def test_invalid_seed_does_not_replace_the_field_or_generator(env: LimaPM25Env) -> None:
-    state = env._state
-    generator = env.np_random
-
-    with pytest.raises(gym.error.Error):
-        env._initialize_simulation(seed=-1)
-
-    assert env._state is state
-    assert env.np_random is generator
-
-
-@pytest.mark.parametrize("parameter", ["domain", "physics", "initial_baseline"])
-def test_constructor_rejects_inputs_that_are_not_core_objects(
-    env: LimaPM25Env,
-    parameter: str,
-) -> None:
-    arguments = {
-        "domain": env.domain,
-        "physics": env.physics,
-        "initial_baseline": env.initial_baseline,
+    for key in observation:
+        np.testing.assert_array_equal(observation[key], saved[key])
+        assert not np.shares_memory(observation[key], next_observation[key])
+    np.testing.assert_array_equal(info["positions_m"], positions)
+    assert set(next_info) == {
+        "elapsed_s",
+        "positions_m",
+        "distance_m",
+        "integrated_variance",
+        "measurement_count",
+        "step_count",
+        "uncertainty_gain",
+        "invalid_actions",
+        "held_vehicles",
+        "route_distance_m",
     }
-    arguments[parameter] = None
-
-    with pytest.raises(TypeError, match=parameter):
-        LimaPM25Env(**arguments)
 
 
-def test_reset_is_explicitly_pending_and_does_not_expose_or_change_truth(
-    env: LimaPM25Env,
-) -> None:
-    state = env._state
-    generator = env.np_random
-    rng_state = generator.bit_generator.state
-
-    with pytest.raises(NotImplementedError, match="observación inicial"):
-        env.reset(seed=42)
-
-    assert env._state is state
-    assert env.np_random is generator
-    assert generator.bit_generator.state == rng_state
-
-
-def test_step_is_explicitly_pending_without_advancing_the_simulation(
-    env: LimaPM25Env,
-) -> None:
-    state = env._state
-    rng_state = env.np_random.bit_generator.state
-
-    with pytest.raises(NotImplementedError, match="acciones"):
-        env.step(object())
-
-    assert env._state is state
-    assert env.np_random.bit_generator.state == rng_state
+def test_random_streams_and_fields_are_isolated_between_policies_and_sensor_noise(
+    make_env,
+):
+    first, second = make_env(), make_env(mobile_noise_stddev_ug_m3=1)
+    obs_a, _ = first.reset(seed=42)
+    obs_b, _ = second.reset(seed=42)
+    a, b = BaselinePolicy("random", seed=1), BaselinePolicy("greedy", seed=2)
+    for _ in range(3):
+        obs_a, *_ = first.step(a.act(first, obs_a))
+        obs_b, *_ = second.step(b.act(second, obs_b))
+        np.testing.assert_array_equal(
+            first._simulation.state.concentration_ug_m3,
+            second._simulation.state.concentration_ug_m3,
+        )
+    assert first._simulation.model is not second._simulation.model
+    assert {
+        record.noise_stddev_ug_m3
+        for record in second._simulation.mobile.history.records
+    } == {1}
 
 
-def test_no_placeholder_spaces_registration_or_render_modes(env: LimaPM25Env) -> None:
-    assert not hasattr(env, "action_space")
-    assert not hasattr(env, "observation_space")
-    assert env.spec is None
-    assert env.render_mode is None
-    assert env.metadata["render_modes"] == []
-    with pytest.raises(NotImplementedError):
-        env.render()
-    env.close()
-    env.close()
+def test_seed_replays_observations_measurements_and_reward(env):
+    outcomes = []
+    for _ in range(2):
+        observation, _ = env.reset(seed=42)
+        policy = BaselinePolicy("random", seed=7)
+        observation, reward, _, _, info = env.step(policy.act(env, observation))
+        outcomes.append(
+            (observation, reward, info, env._simulation.mobile.history.records)
+        )
+    for key in outcomes[0][0]:
+        np.testing.assert_array_equal(outcomes[0][0][key], outcomes[1][0][key])
+    assert outcomes[0][1] == outcomes[1][1]
+    assert outcomes[0][3] == outcomes[1][3]
 
 
-def test_construction_and_initialization_do_not_download_or_create_files(
-    domain: SpatialDomain,
-    physics: PM25PhysicsConfig,
-    initial_baseline: AmbientBaseline,
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    def forbid_network(*args: object, **kwargs: object) -> None:
-        pytest.fail("El entorno no debe abrir conexiones de red")
+def test_reward_excludes_new_fixed_measurements_and_compares_the_same_time(env):
+    observation, _ = env.reset(seed=42)
+    policy = BaselinePolicy("greedy")
+    observation, *_ = env.step(policy.act(env, observation))
+    history = tuple(env._records)
+    _, reward, _, _, info = env.step(policy.act(env, observation))
+    time = env._simulation.clock.utc_at(600)
+    new_fixed = tuple(
+        r for r in env._records[len(history) :] if r.sensor_type is SensorType.FIXED
+    )
+    assert new_fixed
+    before = GaussianProcessFieldReconstructor(
+        env.estimator_config.reconstruction_config
+    ).reconstruct(
+        ReconstructionRequest(
+            grid=env.domain.grid,
+            reconstruction_timestamp_utc=time,
+            measurements=(*history, *new_fixed),
+        )
+    )
+    grid = env.domain.grid
+    scale = (
+        grid.active_mask.sum()
+        * grid.cell_area_m2
+        * env.estimator_config.reconstruction_config.prior_stddev_ug_m3**2
+    )
+    expected = (env._integrated_variance(before) - info["integrated_variance"]) / scale
+    assert reward == pytest.approx(expected, abs=1e-9)
+
+
+def test_physical_events_and_fixed_cadence_are_not_replaced_by_agent_ticks(
+    make_env, template
+):
+    sensor = replace(
+        template.sensor_configs[0], sampling_interval_s=150, first_due_time_s=0
+    )
+    request = replace(template, sensor_configs=(sensor,))
+    env = make_env(episode_factory=lambda seed: Episode(request))
+    observation, _ = env.reset(seed=42)
+    env.step(BaselinePolicy("greedy").act(env, observation))
+    assert {r.simulation_time_s for r in env._simulation.fixed.history.records} == {
+        0,
+        150,
+        300,
+    }
+    assert {r.simulation_time_s for r in env._simulation.mobile.history.records} == {
+        300
+    }
+    result = run_simulation(request)
+    np.testing.assert_allclose(
+        env._simulation.state.concentration_ug_m3, result.frames[1].concentration_ug_m3
+    )
+
+
+def test_replay_never_generates_missing_historical_fixed_readings(make_env, template):
+    record = MeasurementRecord(
+        sensor_id="OBSERVED",
+        sensor_type=SensorType.FIXED,
+        timestamp_utc=template.config.start_utc,
+        simulation_time_s=0,
+        x_m=700,
+        y_m=700,
+        crs=template.model.grid.crs,
+        value_ug_m3=30,
+        quality_status=MeasurementQuality.ACCEPTED,
+        noise_stddev_ug_m3=0,
+        position_source_id="fixture",
+        provenance="Observación ficticia exclusivamente para la prueba de replay",
+    )
+    env = make_env(episode_factory=lambda seed: Episode(template, (record,)))
+    observation, _ = env.reset(seed=42)
+    env.step(BaselinePolicy("greedy").act(env, observation))
+    fixed = [r for r in env._records if r.sensor_type is SensorType.FIXED]
+    assert fixed == [record]
+    assert env._simulation.fixed.history.records == ()
+    metrics = evaluate_episode(env, BaselinePolicy("greedy"), seed=42)
+    assert metrics["synthetic_rmse_ug_m3"] is None
+
+
+@pytest.mark.parametrize("strategy", ["random", "greedy", "sweep"])
+def test_baselines_use_valid_distinct_destinations_and_report_metrics(env, strategy):
+    metrics = evaluate_episode(env, BaselinePolicy(strategy, seed=5), seed=42)
+    assert metrics["steps"] == 3
+    assert metrics["invalid_actions"] == 0
+    assert metrics["distance_m"] > 0
+    assert metrics["synthetic_rmse_ug_m3"] is not None
+
+
+def test_render_shows_estimates_and_runs_without_network_or_domain_mutation(
+    make_env, domain, tmp_path, monkeypatch
+):
+    def forbidden(*args, **kwargs):
+        pytest.fail("No se debe abrir una conexión de red")
 
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setattr(socket, "socket", forbid_network)
-    monkeypatch.setattr(socket, "create_connection", forbid_network)
-    original_graph = domain.road_graph.copy()
-    original_mask = domain.grid.active_mask.copy()
-    env = LimaPM25Env(
-        domain=domain,
-        physics=physics,
-        initial_baseline=initial_baseline,
-    )
-
-    env._initialize_simulation(seed=42)
+    monkeypatch.setattr(socket, "socket", forbidden)
+    original = domain.road_graph.copy()
+    env = make_env(render_mode="rgb_array")
+    observation, _ = env.reset(seed=42)
+    env.step(BaselinePolicy("greedy").act(env, observation))
+    image = env.render()
+    assert image.ndim == 3 and image.shape[2] == 3 and image.dtype == np.uint8
+    assert list(tmp_path.iterdir()) == []
+    assert nx.utils.graphs_equal(domain.road_graph, original)
+    env.close()
     env.close()
 
-    assert list(tmp_path.iterdir()) == []
-    assert nx.utils.graphs_equal(domain.road_graph, original_graph)
-    np.testing.assert_array_equal(domain.grid.active_mask, original_mask)
+
+def test_irregular_source_events_match_the_core_transport(make_env, template):
+    source = GaussianKernelSource(
+        source_id="pulse",
+        x_m=400,
+        y_m=400,
+        emission_rate_ug_s=1_000_000,
+        sigma_m=100,
+        starts_at_s=125,
+        ends_at_s=175,
+        provenance="Pulso sintético exclusivamente para la prueba numérica",
+    )
+    request = replace(template, sources=(source,))
+    env = make_env(episode_factory=lambda seed: Episode(request))
+    observation, _ = env.reset(seed=42)
+    env.step(BaselinePolicy("greedy").act(env, observation))
+    reference = run_simulation(request)
+    np.testing.assert_array_equal(
+        env._simulation.state.concentration_ug_m3,
+        reference.frames[1].concentration_ug_m3,
+    )
+    assert env._simulation.state.concentration_ug_m3.max() > 8
+
+
+def test_history_window_expires_records_without_exposing_future_data(
+    domain, template, estimator_config
+):
+    from lima_pm25_rl import LimaPM25Env
+
+    env = LimaPM25Env(
+        domain=domain,
+        episode_factory=lambda seed: Episode(template),
+        estimator_config=replace(
+            estimator_config, history_duration=estimator_config.history_duration / 72
+        ),
+        initial_nodes=((0, 0), (0, 3), (3, 0)),
+    )
+    observation, _ = env.reset(seed=42)
+    policy = BaselinePolicy("greedy")
+    for _ in range(2):
+        observation, *_ = env.step(policy.act(env, observation))
+    keys = env._posterior.observations.used_measurement_keys
+    assert all(
+        300 <= (time - template.config.start_utc).total_seconds() <= 600
+        for _, time in keys
+    )
