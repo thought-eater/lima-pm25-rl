@@ -85,8 +85,45 @@ def test_invalid_direction_is_not_executed_and_is_penalized(env):
     )
 
 
+def test_assignment_order_can_force_an_earlier_numbered_vehicle_to_hold(
+    domain, template, estimator_config
+):
+    from shapely.geometry import LineString
+
+    from lima_pm25_rl import LimaPM25Env
+
+    graph = nx.MultiDiGraph(crs=domain.grid.crs)
+    points = {
+        "a": (100, 100),
+        "b": (500, 100),
+        "shared": (300, 100),
+        "c": (700, 700),
+        "south": (700, 500),
+    }
+    for name, (x, y) in points.items():
+        graph.add_node(name, x=x, y=y)
+    for source, destination in (("a", "shared"), ("b", "shared"), ("c", "south")):
+        graph.add_edge(
+            source,
+            destination,
+            geometry=LineString((points[source], points[destination])),
+        )
+    env = LimaPM25Env(
+        domain=replace(domain, road_graph=graph),
+        episode_factory=lambda seed: Episode(template),
+        estimator_config=estimator_config,
+        initial_nodes=("a", "b", "c"),
+    )
+    env.reset(seed=1)
+    # B reserva oeste; C va al sur; A permanece porque su único destino se reservó.
+    _, _, _, _, info = env.step(np.array([8 + 6, 16 + 4, 0]))
+    assert info["invalid_actions"].sum() == 0
+    assert info["held_vehicles"].tolist() == [1, 0, 0]
+    assert env.positions[0] == points["a"]
+
+
 @pytest.mark.parametrize(
-    "action", [np.array([0, 1]), np.array([0.0, 1.0, 2.0]), np.array([0, 1, 8])]
+    "action", [np.array([0, 1]), np.array([0.0, 1.0, 2.0]), np.array([0, 8, 24])]
 )
 def test_malformed_action_does_not_mutate_the_episode(env, action):
     env.reset(seed=1)
@@ -134,6 +171,7 @@ def test_observations_and_info_are_fresh_and_never_contain_truth(env):
         "measurement_count",
         "step_count",
         "uncertainty_gain",
+        "distance_cost",
         "invalid_actions",
         "held_vehicles",
         "route_distance_m",
@@ -204,6 +242,45 @@ def test_reward_excludes_new_fixed_measurements_and_compares_the_same_time(env):
     )
     expected = (env._integrated_variance(before) - info["integrated_variance"]) / scale
     assert reward == pytest.approx(expected, abs=1e-9)
+
+
+def test_priority_uses_pre_decision_mean_and_subtracts_actual_road_distance(make_env):
+    env = make_env(concentration_priority=1.0, distance_cost_per_km=0.01)
+    observation, _ = env.reset(seed=42)
+    action = BaselinePolicy("random", seed=3).act(env, observation)
+    mask = env.domain.grid.active_mask
+    mean = env._posterior.mean_ug_m3[mask].copy()
+    config = env.estimator_config.reconstruction_config
+    reference = max(config.prior_mean_ug_m3, config.prior_stddev_ug_m3)
+    weights = 1 + np.maximum(mean, 0) / (reference + np.maximum(mean, 0))
+    assert np.all((weights >= 1) & (weights <= 2))
+    before = env._predict(env._simulation.clock.utc_at(300))
+    _, reward, _, _, info = env.step(action)
+    reduction = (
+        before.standard_deviation_ug_m3[mask] ** 2
+        - env._posterior.standard_deviation_ug_m3[mask] ** 2
+    )
+    gain = float(
+        np.sum(weights * reduction) / (mask.sum() * config.prior_stddev_ug_m3**2)
+    )
+    cost = info["route_distance_m"].sum() / 1000 * 0.01
+    assert info["uncertainty_gain"] == pytest.approx(gain)
+    assert info["distance_cost"] == pytest.approx(cost)
+    assert reward == pytest.approx(gain - cost)
+
+
+def test_same_sensor_quality_has_independent_reading_errors(make_env):
+    env = make_env(mobile_noise_stddev_ug_m3=1)
+    observation, _ = env.reset(seed=42)
+    env.step(BaselinePolicy("random", seed=3).act(env, observation))
+    errors = []
+    for record in env._simulation.mobile.history.records:
+        cell = env.domain.grid.xy_to_cell(record.x_m, record.y_m)
+        errors.append(
+            record.value_ug_m3 - env._simulation.state.concentration_ug_m3[cell]
+        )
+        assert record.noise_stddev_ug_m3 == 1
+    assert len(set(errors)) == 3
 
 
 def test_physical_events_and_fixed_cadence_are_not_replaced_by_agent_ticks(

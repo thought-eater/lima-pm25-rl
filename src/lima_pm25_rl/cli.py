@@ -59,8 +59,8 @@ def main() -> None:
     parser.add_argument(
         "--noise",
         type=float,
-        default=0.0,
-        help="Desviación estándar común del ruido móvil, en µg/m³",
+        default=None,
+        help="Ruido móvil común, en µg/m³; usa el de la política cargada o cero en demostración",
     )
     parser.add_argument(
         "--image", type=Path, help="Guardar una imagen final; no sobrescribe archivos"
@@ -204,7 +204,13 @@ def main() -> None:
         domain=domain,
         episode_factory=factory,
         estimator_config=gp_config,
-        mobile_noise_stddev_ug_m3=args.noise,
+        mobile_noise_stddev_ug_m3=(
+            args.noise
+            if args.noise is not None
+            else policy_protocol.get("noise_stddev_ug_m3", 0.0)
+        ),
+        concentration_priority=policy_protocol.get("concentration_priority", 0.0),
+        distance_cost_per_km=policy_protocol.get("distance_cost_per_km", 0.0),
         render_mode="rgb_array" if args.image else None,
     )
     if loaded_policy is not None:

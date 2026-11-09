@@ -8,7 +8,7 @@ import numpy as np
 import torch
 
 from .env import Observation
-from .policies import PlanningDecision, sequence_input
+from .policies import PlanningDecision, candidate_inputs, sequence_input
 
 
 @dataclass
@@ -24,7 +24,9 @@ class SequenceReplay:
 
     La capacidad se expresa en ticks físicos; hay hasta tres transiciones de
     planificación por tick y una observación terminal adicional por episodio.
-    No se guardan copias de las ventanas ni de las tres perspectivas.
+    No se guardan copias de las ventanas ni de las tres perspectivas. Cada
+    decisión conserva máscaras, pendientes y asignaciones anteriores para
+    reconstruir todos los candidatos del siguiente contexto de planificación.
     """
 
     def __init__(
@@ -78,7 +80,10 @@ class SequenceReplay:
             raise ValueError("El episodio no contiene decisiones controlables")
         for tick in episode.decisions:
             for decision in tick:
-                if decision.mask.shape != (8,) or not decision.mask[decision.action]:
+                if (
+                    decision.mask.shape != (3, 8)
+                    or not decision.mask[decision.vehicle, decision.action]
+                ):
                     raise ValueError("No se puede aprender de una acción enmascarada")
         self.episodes.append(episode)
         self.steps += count
@@ -99,6 +104,9 @@ class SequenceReplay:
             decision.vehicle,
             decision.reserved_cells,
             self.history_length,
+            decision.pending,
+            decision.assigned_positions,
+            decision.mask[decision.vehicle],
         )
         physical = choice_index == len(episode.decisions[step]) - 1
         done = physical and episode.done[step]
@@ -113,13 +121,17 @@ class SequenceReplay:
             following = episode.decisions[step + 1][0]
             next_step = step + 1
         else:
-            following = PlanningDecision(0, 0, np.zeros(8, dtype=np.int8), ())
+            following = PlanningDecision(
+                0, 0, np.zeros((3, 8), dtype=np.int8), (), (), ((0.0, 0.0),) * 3
+            )
             next_step = step + 1
-        following_input = sequence_input(
+        following_input = candidate_inputs(
             episode.observations[: next_step + 1],
-            following.vehicle,
             following.reserved_cells,
             self.history_length,
+            following.pending,
+            following.assigned_positions,
+            following.mask,
         )
         return {
             "observations": current,
@@ -190,6 +202,8 @@ class SequenceReplay:
                                 "action": item.action,
                                 "mask": torch.from_numpy(item.mask),
                                 "reserved_cells": item.reserved_cells,
+                                "pending": item.pending,
+                                "assigned_positions": item.assigned_positions,
                             }
                             for item in tick
                         ]
@@ -233,6 +247,11 @@ class SequenceReplay:
                                 decision["mask"].cpu().numpy().copy(),
                                 tuple(
                                     tuple(cell) for cell in decision["reserved_cells"]
+                                ),
+                                tuple(decision["pending"]),
+                                tuple(
+                                    tuple(point)
+                                    for point in decision["assigned_positions"]
                                 ),
                             )
                             for decision in tick

@@ -150,6 +150,6 @@ def controlled_oracle() -> dict[int, float]:
     rewards = {}
     for direction in (2, 6):
         env.reset(seed=0)
-        _, reward, _, _, _ = env.step(np.array([direction, 0, 0]))
+        _, reward, _, _, _ = env.step(np.array([direction, 8, 16]))
         rewards[direction] = reward
     return rewards

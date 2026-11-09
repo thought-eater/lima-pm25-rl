@@ -22,6 +22,8 @@ dependencies = [
 [project.scripts]
 lima-pm25-rl = "lima_pm25_rl.cli:main"
 lima-pm25-train = "lima_pm25_rl.train_cli:main"
+lima-pm25-evaluate = "lima_pm25_rl.evaluate_cli:main"
+lima-pm25-diagnose = "lima_pm25_rl.diagnose_cli:main"
 
 [tool.uv.sources]
 lima-pm25-core = { path = "../lima-pm25-core", editable = true }

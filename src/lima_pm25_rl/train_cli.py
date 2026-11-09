@@ -17,6 +17,7 @@ from .env import LimaPM25Env
 from .episodes import Episode, GeneratedEpisodes
 from .pilot import controlled_environment, controlled_oracle, controlled_score
 from .resources import load_study_resources
+from .scenario_fields import FieldVariation
 from .training import Trainer, TrainingConfig
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -86,10 +87,20 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
     if steps * 300 > template.weather.duration_s:
         raise ValueError("La plantilla conservada cubre como máximo 36 ticks")
     duration = steps * 300
+    field_variation = (
+        FieldVariation(**spec["field_variation"]) if "field_variation" in spec else None
+    )
+    if field_variation is not None and kind != "generated":
+        raise ValueError(
+            "La variación del campo se configura solo para episodios generados"
+        )
     protocol: dict[str, Any] = {
         "kind": kind,
         "steps_per_episode": steps,
         "noise_stddev_ug_m3": spec.get("noise_stddev_ug_m3", 0.0),
+        "concentration_priority": spec.get("concentration_priority", 0.0),
+        "distance_cost_per_km": spec.get("distance_cost_per_km", 0.0),
+        "planning_schema": "global_vehicle_direction_v2",
         "member": spec.get("member", "event"),
         "grid_shape": list(domain.grid.shape),
         "gp_profile_sha256": gp.profile_sha256,
@@ -99,6 +110,8 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
         ),
         "grid_sha256": _sha256(root / domain.config.cache_directory / "grid.npz"),
     }
+    if field_variation is not None:
+        protocol["field_variation"] = asdict(field_variation)
 
     def demonstration(seed):
         return Episode(replace(template, config=replace(template.config, seed=seed)))
@@ -190,7 +203,9 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
                     EpisodeWeatherMode, factory.config.weather_weights, strict=True
                 ):
                     if weight > 0:
-                        replace(factory, weather_mode=mode)(0)
+                        episode = replace(factory, weather_mode=mode)(0)
+                        if field_variation is not None:
+                            field_variation.apply(episode.request, 0)
         if final_end is not None:
             protocol["reserved_final_end_utc"] = final_end.isoformat()
         protocol.update(
@@ -224,6 +239,10 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
     def environment(factory):
         def shortened(seed):
             episode = factory(seed)
+            if field_variation is not None:
+                episode = replace(
+                    episode, request=field_variation.apply(episode.request, seed)
+                )
             config = replace(
                 episode.request.config,
                 duration_s=duration,
@@ -240,6 +259,8 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
             estimator_config=gp,
             episode_factory=shortened,
             mobile_noise_stddev_ug_m3=protocol["noise_stddev_ug_m3"],
+            concentration_priority=protocol["concentration_priority"],
+            distance_cost_per_km=protocol["distance_cost_per_km"],
         )
 
     return (
@@ -315,13 +336,23 @@ def run_training(
         json.dumps(configuration, ensure_ascii=False, indent=2) + "\n"
     )
     initial_score = None
+    if validation_env is not None and trainer.completed_episodes == 0:
+        initial_validation = trainer.validate(validation_env, seeds)
+        (output / "validation-initial.json").write_text(
+            json.dumps(initial_validation, ensure_ascii=False, indent=2) + "\n"
+        )
+        trainer.export_policy(output / "policy-initial.pt")
     if trainer.protocol.get("kind") == "controlled":
         initial_score = controlled_score(trainer.online, trainer.config.history_length)
     with (output / "metrics.csv").open("x", newline="") as file:
         writer = None
         while trainer.completed_episodes < episodes:
             row = trainer.train_episode()
-            row.update(validation_reward=None, validation_variance=None)
+            row.update(
+                validation_reward=None,
+                validation_variance=None,
+                validation_mean_variance=None,
+            )
             if validation_env is not None and (
                 trainer.completed_episodes % validation_every == 0
                 or trainer.completed_episodes == episodes
@@ -330,6 +361,7 @@ def run_training(
                 row.update(
                     validation_reward=result["reward"],
                     validation_variance=result["final_integrated_variance"],
+                    validation_mean_variance=result["mean_integrated_variance"],
                 )
                 if (
                     result["final_integrated_variance"]
@@ -384,14 +416,18 @@ def _latest_checkpoint(config: TrainingConfig, protocol: dict[str, Any]) -> Path
     }
     protocol = json.loads(json.dumps(protocol))
     candidates = sorted(
-        (path for path in CACHE_DIRECTORY.rglob("checkpoint-last.pt") if path.is_file()),
+        (
+            path
+            for path in CACHE_DIRECTORY.rglob("checkpoint-last.pt")
+            if path.is_file()
+        ),
         key=lambda path: (path.stat().st_mtime_ns, str(path)),
         reverse=True,
     )
     for path in candidates:
         try:
             metadata = json.loads(path.with_name("config.json").read_text())
-        except (OSError, json.JSONDecodeError):
+        except OSError, json.JSONDecodeError:
             continue
         if not isinstance(metadata, dict) or not isinstance(
             metadata.get("training"), dict
@@ -444,18 +480,22 @@ def main() -> None:
         help="Total de episodios deseado, no episodios adicionales",
     )
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"))
+    parser.add_argument(
+        "--seed",
+        type=int,
+        help="Semilla de una ejecución independiente; no cambia los casos de validación",
+    )
     args = parser.parse_args()
-    if args.check:
-        if (
-            args.output is not None
-            or args.resume is not None
-            or args.episodes is not None
-        ):
-            parser.error("--check no admite --output, --resume ni --episodes")
+    if args.check and (
+        args.output is not None or args.resume is not None or args.episodes is not None
+    ):
+        parser.error("--check no admite --output, --resume ni --episodes")
     spec = json.loads(args.config.read_text())
     parameters = dict(spec.get("training", {}))
     if args.device:
         parameters["device"] = args.device
+    if args.seed is not None:
+        parameters["seed"] = args.seed
     config = TrainingConfig(**parameters)
     if config.capacity_steps < spec["steps_per_episode"]:
         raise ValueError("Un episodio completo debe caber en el replay buffer")

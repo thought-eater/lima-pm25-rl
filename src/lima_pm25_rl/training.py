@@ -152,6 +152,9 @@ class Trainer:
         self.controller.reset()
         self.online.eval()
         initial_variance = info["integrated_variance"]
+        variances = [initial_variance]
+        information_gain = 0.0
+        distance_cost = 0.0
         experience = EpisodeExperience([self._snapshot(observation)], [], [], [])
         epsilon_start = self.epsilon
         choices = 0
@@ -168,6 +171,9 @@ class Trainer:
             experience.rewards.append(float(reward))
             experience.done.append(bool(terminated or truncated))
             experience.observations.append(self._snapshot(observation))
+            variances.append(info["integrated_variance"])
+            information_gain += info["uncertainty_gain"]
+            distance_cost += info["distance_cost"]
             self.physical_steps += 1
             choices += len(decisions)
             if terminated or truncated:
@@ -188,6 +194,8 @@ class Trainer:
             "episode_steps": len(experience.rewards),
             "planning_decisions": choices,
             "reward": sum(experience.rewards),
+            "information_gain": information_gain,
+            "distance_cost": distance_cost,
             "epsilon_start": epsilon_start,
             "epsilon_end": self.epsilon,
             "loss": float(np.mean(losses)) if losses else None,
@@ -197,6 +205,9 @@ class Trainer:
             "distance_m": float(info["distance_m"].sum()),
             "initial_integrated_variance": initial_variance,
             "final_integrated_variance": info["integrated_variance"],
+            "mean_integrated_variance": float(
+                np.trapezoid(variances) / len(experience.rewards)
+            ),
             "replay_steps": self.replay.steps,
             "replay_transitions": len(self.replay),
             "replay_array_bytes": self.replay.nbytes,
@@ -256,6 +267,7 @@ class Trainer:
                         seed=seed,
                     ),
                     seed=seed,
+                    comparison=True,
                 )
                 for seed in seeds
             ]
@@ -264,6 +276,9 @@ class Trainer:
             self._restore_torch_rng(rng)
         return {
             "reward": float(np.mean([item["reward"] for item in metrics])),
+            "mean_integrated_variance": float(
+                np.mean([item["mean_integrated_variance"] for item in metrics])
+            ),
             "final_integrated_variance": float(
                 np.mean([item["final_integrated_variance"] for item in metrics])
             ),
@@ -296,7 +311,7 @@ class Trainer:
 
     def load_checkpoint(self, path: Path | str) -> None:
         state = torch.load(path, map_location="cpu", weights_only=True)
-        if state.get("version") != 1 or state.get("kind") != "training":
+        if state.get("version") != 2 or state.get("kind") != "training":
             raise ValueError(
                 "Se necesita un checkpoint de entrenamiento del formato actual"
             )
@@ -327,12 +342,14 @@ class Trainer:
 
     def _policy_state(self) -> dict[str, Any]:
         return {
-            "version": 1,
+            "version": 2,
             "training_config": asdict(self.config),
             "protocol": self.protocol,
             "online": self.online.state_dict(),
             "torch_version": str(torch.__version__),
             "device": str(self.device),
+            "completed_episodes": self.completed_episodes,
+            "physical_steps": self.physical_steps,
         }
 
     @staticmethod
@@ -365,7 +382,7 @@ def load_policy(
 ) -> tuple[NeuralController, dict[str, Any]]:
     """Carga segura de pesos y contexto, sin restaurar ni ejecutar el entrenamiento."""
     state = torch.load(path, map_location="cpu", weights_only=True)
-    if state.get("version") != 1 or state.get("kind") not in {"policy", "training"}:
+    if state.get("version") != 2 or state.get("kind") not in {"policy", "training"}:
         raise ValueError("El archivo no es una política del formato actual")
     config = TrainingConfig(**state["training_config"])
     name = (

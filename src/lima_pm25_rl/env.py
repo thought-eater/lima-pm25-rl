@@ -23,7 +23,7 @@ Observation = dict[str, np.ndarray]
 
 
 class LimaPM25Env(gym.Env[Observation, np.ndarray]):
-    """Gymnasium monoagente con acciones conjuntas de tres direcciones.
+    """Gymnasium monoagente con tres asignaciones vehículo–dirección ordenadas.
 
     Las elecciones se coordinan fuera de step mediante action_masks y reservas.
     Una dirección inviable permanece en el sitio y recibe penalización; nunca
@@ -42,6 +42,8 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
         initial_nodes: tuple[object, object, object] | None = None,
         mobile_noise_stddev_ug_m3: float = 0.0,
         invalid_action_penalty: float = 1.0,
+        concentration_priority: float = 0.0,
+        distance_cost_per_km: float = 0.0,
         render_mode: str | None = None,
     ) -> None:
         if render_mode not in (None, "rgb_array"):
@@ -50,6 +52,13 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
             raise ValueError("El ruido móvil debe ser finito y no negativo")
         if not np.isfinite(invalid_action_penalty) or invalid_action_penalty < 0:
             raise ValueError("La penalización debe ser finita y no negativa")
+        if any(
+            not np.isfinite(value) or value < 0
+            for value in (concentration_priority, distance_cost_per_km)
+        ):
+            raise ValueError(
+                "La prioridad y el coste vial deben ser finitos y no negativos"
+            )
         self.domain = domain
         self.router = RoadRouter(domain)
         self._episode_factory = episode_factory
@@ -57,8 +66,12 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
         self.initial_nodes = initial_nodes
         self.mobile_noise_stddev_ug_m3 = mobile_noise_stddev_ug_m3
         self.invalid_action_penalty = invalid_action_penalty
+        self.concentration_priority = concentration_priority
+        self.distance_cost_per_km = distance_cost_per_km
         self.render_mode = render_mode
-        self.action_space = spaces.MultiDiscrete([8] * VEHICLE_COUNT)
+        # Cada entrada asigna (vehículo, dirección): 8 * vehículo + dirección.
+        # El orden de las tres entradas es el orden de reservas del ciclo.
+        self.action_space = spaces.MultiDiscrete([8 * VEHICLE_COUNT] * VEHICLE_COUNT)
         # Gymnasium anota Dict con sus espacios, no con los arrays que devuelve.
         self.observation_space = cast(
             spaces.Space[Observation],
@@ -165,12 +178,30 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
             or action.dtype.kind not in "iu"
             or not self.action_space.contains(action)
         ):
-            raise ValueError("La acción debe contener tres enteros entre 0 y 7")
+            raise ValueError("La acción debe contener tres asignaciones entre 0 y 23")
         reserved: set[tuple[int, int]] = set()
-        selected: list[Route | None] = []
+        # Ponderación congelada ANTES de mover o recibir nuevas mediciones.
+        # Conserva peso >= 1 en todo el dominio y está acotada por 1 + prioridad.
+        reference_concentration = max(
+            self.estimator_config.reconstruction_config.prior_mean_ug_m3,
+            self.estimator_config.reconstruction_config.prior_stddev_ug_m3,
+        )
+        mean = np.maximum(self._posterior.mean_ug_m3, 0.0)
+        reward_weights = (
+            1 + self.concentration_priority * mean / (reference_concentration + mean)
+            if self.concentration_priority
+            else None
+        )
+        selected: list[Route | None] = [None] * VEHICLE_COUNT
         invalid = np.zeros(VEHICLE_COUNT, dtype=np.int8)
         held = np.zeros(VEHICLE_COUNT, dtype=np.int8)
-        for vehicle, direction in enumerate(action):
+        assigned = set()
+        for assignment in action:
+            vehicle, direction = divmod(int(assignment), 8)
+            if vehicle in assigned:
+                invalid[vehicle] = 1
+                continue
+            assigned.add(vehicle)
             available = self.action_masks(reserved)[vehicle]
             route = None
             if not available.any():
@@ -181,7 +212,9 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
                 route = self.router.plan(self._nodes[vehicle], int(direction))
                 assert route is not None
                 reserved.add(route.cell)
-            selected.append(route)
+            selected[vehicle] = route
+        for vehicle in set(range(VEHICLE_COUNT)) - assigned:
+            held[vehicle] = 1
 
         for vehicle, route in enumerate(selected):
             if route is not None:
@@ -190,7 +223,7 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
                 self._routes[vehicle].extend(route.coordinates[1:])
         gain = 0.0
         for batch in self._simulation.advance(self.positions):
-            gain += self._assimilate(batch)
+            gain += self._assimilate(batch, reward_weights=reward_weights)
         self._steps += 1
         self._posterior = self._predict()
         terminated = not bool(self.action_masks().any())
@@ -198,10 +231,16 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
             self._simulation.state.simulation_time_s >= self._simulation.duration_s
         )
         self._finished = terminated or truncated
-        reward = gain - self.invalid_action_penalty * int(invalid.sum())
+        distance_cost = (
+            self.distance_cost_per_km
+            * sum(route.distance_m if route else 0.0 for route in selected)
+            / 1000
+        )
+        reward = gain - distance_cost - self.invalid_action_penalty * int(invalid.sum())
         info = self._info()
         info.update(
             uncertainty_gain=gain,
+            distance_cost=distance_cost,
             invalid_actions=invalid,
             held_vehicles=held,
             route_distance_m=np.array(
@@ -210,7 +249,9 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
         )
         return self._observation(), float(reward), terminated, truncated, info
 
-    def _assimilate(self, batch: MeasurementBatch | None) -> float:
+    def _assimilate(
+        self, batch: MeasurementBatch | None, *, reward_weights=None
+    ) -> float:
         if batch is None:
             return 0.0
         config = self.estimator_config.reconstruction_config
@@ -222,7 +263,7 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
         ]
         fixed = tuple(r for r in batch.records if r.sensor_type is SensorType.FIXED)
         reference = None
-        if mobile and fixed:
+        if mobile and (fixed or reward_weights is not None):
             reference = self._predict(batch.timestamp_utc, (*self._records, *fixed))
         result = self._updater.update(batch)
         self._records.extend(batch.records)
@@ -236,6 +277,17 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
             else diagnostic.integrated_variance_before_ug2_m4
         )
         after = diagnostic.integrated_variance_after_ug2_m4
+        if reward_weights is not None:
+            assert reference is not None
+            mask = self.domain.grid.active_mask
+            reduction = (
+                reference.standard_deviation_ug_m3[mask] ** 2
+                - result.snapshot.standard_deviation_ug_m3[mask] ** 2
+            )
+            return float(
+                np.sum(reward_weights[mask] * reduction)
+                / (mask.sum() * config.prior_stddev_ug_m3**2)
+            )
         scale = (
             self.domain.grid.active_mask.sum()
             * self.domain.grid.cell_area_m2
@@ -283,7 +335,8 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
         maps[0] = mask
         maps[1] = self.router.navigable_mask
         maps[2, mask] = np.tanh(
-            self._posterior.mean_ug_m3[mask] / config.prior_stddev_ug_m3
+            (self._posterior.mean_ug_m3[mask] - config.prior_mean_ug_m3)
+            / config.prior_stddev_ug_m3
         )
         maps[3, mask] = np.clip(
             self._posterior.standard_deviation_ug_m3[mask] / config.prior_stddev_ug_m3,

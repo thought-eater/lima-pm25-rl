@@ -8,6 +8,8 @@ import numpy as np
 from .env import LimaPM25Env, Observation
 from .simulation import VEHICLE_COUNT
 
+AUXILIARY_SIZE = 27
+
 
 @dataclass(frozen=True)
 class PlanningDecision:
@@ -17,12 +19,17 @@ class PlanningDecision:
     action: int
     mask: np.ndarray
     reserved_cells: tuple[tuple[int, int], ...]
+    pending: tuple[int, ...]
+    assigned_positions: tuple[tuple[float, float], ...]
 
 
 def vehicle_input(
     observation: Observation,
     vehicle: int,
     reserved_cells: Iterable[tuple[int, int]] = (),
+    pending: Iterable[int] = (0, 1, 2),
+    assigned_positions: tuple[tuple[float, float], ...] = ((0.0, 0.0),) * 3,
+    action_mask: np.ndarray | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Vista condicionada al vehículo, sin alterar posiciones ni anticipar lecturas."""
     maps = observation["maps"]
@@ -33,9 +40,19 @@ def vehicle_input(
     view = np.concatenate(
         (maps[:4], maps[4 + vehicle][None], others[None], reserved[None])
     )
+    pending_mask = np.zeros(VEHICLE_COUNT, dtype=np.float32)
+    pending_mask[list(pending)] = 1
+    identity = np.eye(VEHICLE_COUNT, dtype=np.float32)[vehicle]
     auxiliary = np.concatenate(
-        (observation["remaining"], observation["vehicles"].ravel())
-    )
+        (
+            observation["remaining"],
+            observation["vehicles"].ravel(),
+            identity,
+            pending_mask,
+            np.asarray(assigned_positions, dtype=np.float32).ravel(),
+            observation["action_mask"][vehicle] if action_mask is None else action_mask,
+        )
+    ).astype(np.float32)
     return view.copy(), auxiliary.copy()
 
 
@@ -44,6 +61,9 @@ def sequence_input(
     vehicle: int,
     reserved_cells: Iterable[tuple[int, int]],
     history_length: int,
+    pending: Iterable[int] = (0, 1, 2),
+    assigned_positions: tuple[tuple[float, float], ...] = ((0.0, 0.0),) * 3,
+    action_mask: np.ndarray | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Ventana causal; al inicio repite el primer mapa sin producir mediciones."""
     if history_length < 1 or not observations:
@@ -52,13 +72,43 @@ def sequence_input(
     window = [window[0]] * (history_length - len(window)) + window
     inputs = [
         vehicle_input(
-            item, vehicle, reserved_cells if index == history_length - 1 else ()
+            item,
+            vehicle,
+            reserved_cells if index == history_length - 1 else (),
+            pending if index == history_length - 1 else (0, 1, 2),
+            assigned_positions if index == history_length - 1 else ((0.0, 0.0),) * 3,
+            action_mask if index == history_length - 1 else None,
         )
         for index, item in enumerate(window)
     ]
     return np.stack([item[0] for item in inputs]), np.stack(
         [item[1] for item in inputs]
     )
+
+
+def candidate_inputs(
+    observations, reserved_cells, history_length, pending, assigned_positions, masks
+):
+    """Perspectivas para comparar los pares vehículo–dirección de un mismo contexto."""
+    views = [
+        sequence_input(
+            observations,
+            vehicle,
+            reserved_cells,
+            history_length,
+            pending,
+            assigned_positions,
+            masks[vehicle],
+        )
+        for vehicle in range(VEHICLE_COUNT)
+    ]
+    return np.stack([view[0] for view in views]), np.stack([view[1] for view in views])
+
+
+def normalized_destination(env: LimaPM25Env, route) -> tuple[float, float]:
+    x0, y0, x1, y1 = env.domain.grid.grid_bounds_m
+    x, y = route.coordinates[-1]
+    return float((x - x0) / (x1 - x0)), float((y - y0) / (y1 - y0))
 
 
 class BaselinePolicy:
@@ -81,7 +131,7 @@ class BaselinePolicy:
         self.vertical = [0, 0, 0]
 
     def act(self, env: LimaPM25Env, observation: Observation) -> np.ndarray:
-        actions = np.zeros(VEHICLE_COUNT, dtype=np.int64)
+        actions = np.arange(VEHICLE_COUNT, dtype=np.int64) * 8
         reserved = set()
         for vehicle in range(VEHICLE_COUNT):
             available = np.flatnonzero(env.action_masks(reserved)[vehicle])
@@ -109,7 +159,7 @@ class BaselinePolicy:
                     preferred = self.vertical[vehicle]
                     action = preferred if preferred in available else int(available[0])
                     self.horizontal[vehicle] = (horizontal + 4) % 8
-            actions[vehicle] = action
+            actions[vehicle] = vehicle * 8 + action
             route = env.route(vehicle, action)
             assert route is not None
             reserved.add(route.cell)

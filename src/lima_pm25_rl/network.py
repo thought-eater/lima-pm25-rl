@@ -13,13 +13,22 @@ from torch import nn
 from torch.nn import functional as F
 
 from .env import LimaPM25Env, Observation
-from .policies import PlanningDecision, sequence_input
+from .policies import (
+    AUXILIARY_SIZE,
+    PlanningDecision,
+    candidate_inputs,
+    normalized_destination,
+)
 from .simulation import VEHICLE_COUNT
 
 
 class BiLGD3QN(nn.Module):
     def __init__(
-        self, *, channels: int = 7, auxiliary_size: int = 7, hidden_size: int = 64
+        self,
+        *,
+        channels: int = 7,
+        auxiliary_size: int = AUXILIARY_SIZE,
+        hidden_size: int = 64,
     ) -> None:
         super().__init__()
         self.encoder = nn.Sequential(
@@ -88,10 +97,20 @@ def double_dqn_loss(
     """
     predicted = online(*observations).gather(1, actions[:, None]).squeeze(1)
     with torch.no_grad():
-        scores = online(*next_observations).masked_fill(~next_masks.bool(), -torch.inf)
+        # Una perspectiva por vehículo: online elige globalmente el par válido.
+        batch = next_masks.shape[0]
+        candidates = tuple(value.flatten(0, 1) for value in next_observations)
+        scores = online(*candidates).reshape(batch, -1)
+        masks = next_masks.bool().reshape(batch, -1)
+        scores = scores.masked_fill(~masks, -torch.inf)
         selected = scores.argmax(dim=-1)
-        evaluated = target(*next_observations).gather(1, selected[:, None]).squeeze(1)
-        bootstrap = (~done.bool()) & next_masks.bool().any(dim=-1)
+        evaluated = (
+            target(*candidates)
+            .reshape(batch, -1)
+            .gather(1, selected[:, None])
+            .squeeze(1)
+        )
+        bootstrap = (~done.bool()) & masks.any(dim=-1)
         expected = rewards + discounts * torch.where(bootstrap, evaluated, 0.0)
     return F.smooth_l1_loss(predicted, expected)
 
@@ -130,31 +149,52 @@ class NeuralController:
         if observation["remaining"][0] == 1:
             self.history.clear()
         self.history.append({name: value.copy() for name, value in observation.items()})
-        actions = np.zeros(VEHICLE_COUNT, dtype=np.int64)
+        assignments = []
         decisions = []
         reserved = set()
+        pending = set(range(VEHICLE_COUNT))
+        assigned_positions = [(0.0, 0.0)] * VEHICLE_COUNT
         device = next(self.network.parameters()).device
-        for vehicle in range(VEHICLE_COUNT):
-            mask = env.action_masks(reserved)[vehicle]
-            available = np.flatnonzero(mask)
+        while pending:
+            masks = env.action_masks(reserved)
+            for vehicle in set(range(VEHICLE_COUNT)) - pending:
+                masks[vehicle] = 0
+            available = np.flatnonzero(masks.ravel())
             if not len(available):
-                continue
+                break
             if self.rng.random() < epsilon:
-                action = int(self.rng.choice(available))
+                assignment = int(self.rng.choice(available))
             else:
-                maps_array, auxiliary_array = sequence_input(
-                    list(self.history), vehicle, reserved, self.history_length
+                maps_array, auxiliary_array = candidate_inputs(
+                    list(self.history),
+                    reserved,
+                    self.history_length,
+                    tuple(sorted(pending)),
+                    tuple(assigned_positions),
+                    masks,
                 )
-                maps = torch.as_tensor(maps_array[None], device=device)
-                auxiliary = torch.as_tensor(auxiliary_array[None], device=device)
+                maps = torch.as_tensor(maps_array, device=device)
+                auxiliary = torch.as_tensor(auxiliary_array, device=device)
                 with torch.no_grad():
-                    scores = self.network(maps, auxiliary)[0].cpu().numpy()
-                action = int(available[np.argmax(scores[available])])
-            actions[vehicle] = action
+                    scores = self.network(maps, auxiliary).cpu().numpy().ravel()
+                assignment = int(available[np.argmax(scores[available])])
+            vehicle, action = divmod(assignment, 8)
+            assignments.append(assignment)
             decisions.append(
-                PlanningDecision(vehicle, action, mask.copy(), tuple(sorted(reserved)))
+                PlanningDecision(
+                    vehicle,
+                    action,
+                    masks.copy(),
+                    tuple(sorted(reserved)),
+                    tuple(sorted(pending)),
+                    tuple(assigned_positions),
+                )
             )
             route = env.route(vehicle, action)
             assert route is not None
             reserved.add(route.cell)
-        return actions, tuple(decisions)
+            assigned_positions[vehicle] = normalized_destination(env, route)
+            pending.remove(vehicle)
+        # Marcadores de permanencia al final: no son experiencias aprendibles.
+        assignments.extend(vehicle * 8 for vehicle in sorted(pending))
+        return np.asarray(assignments, dtype=np.int64), tuple(decisions)

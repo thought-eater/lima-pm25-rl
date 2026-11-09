@@ -5,7 +5,8 @@ Entorno de Gymnasium para un agente centralizado que planifica el muestreo de
 los sensores y el proceso gaussiano (GP) de `lima-pm25-core`.
 
 Cada ciclo elige tres destinos en las ocho direcciones de la grilla, evitando
-destinos ocupados o reservados. El decodificador obtiene recorridos viales
+destinos ocupados o reservados. La red elige el mayor Q válido entre todos los
+vehículos pendientes y recalcula después de cada reserva. El decodificador obtiene recorridos viales
 dirigidos y se asume que todos terminan al siguiente tick de **cinco minutos**.
 Solo se mide al final, sin simular tráfico ni lecturas durante el trayecto.
 
@@ -81,6 +82,13 @@ Lee automáticamente `config/training-server.json` y crea una carpeta nueva en
 `cache/training/<fecha UTC>/`, cuya ruta imprime al empezar. El presupuesto se
 define con `episodes` en ese JSON; está configurado en 1000 episodios.
 
+La configuración actual incluye contraste espacial, fondo variable, ruido móvil
+independiente de 1 µg/m³ y recompensa informativa con prioridad acotada por
+concentración y coste vial. Son parámetros experimentales, no valores instrumentales
+o de emisiones medidos. La [guía de la revisión](docs/training-v2.md) explica los
+cambios y el diagnóstico ejecutado. Las políticas/checkpoints anteriores al formato
+2 requieren una ejecución nueva: cambió el contexto de decisión de la red.
+
 Para continuar, después de aumentar el total en el JSON si ya se alcanzó:
 
 ```bash
@@ -110,11 +118,11 @@ uv run lima-pm25-train --config config/training-pilot.json
 uv run lima-pm25-train --config config/training-lima-smoke.json
 ```
 
-El piloto controlado no representa Lima ni prueba generalización. El currículo
-y las particiones definitivas deben fijarse antes del entrenamiento largo.
+El piloto controlado no representa Lima ni prueba generalización. Las
+configuraciones iniciales no constituyen un currículo nominal definitivo.
 La [guía de entrenamiento](docs/training.md) detalla esa configuración, la
-reanudación, las subdecisiones y las verificaciones realizadas. No se ha
-ejecutado el entrenamiento experimental largo ni la evaluación final de la tesis.
+reanudación, las subdecisiones y las verificaciones realizadas. Los diagnósticos
+de validación no sustituyen la evaluación final independiente de la tesis.
 
 ### Preparación del servidor
 
@@ -131,6 +139,35 @@ uv run lima-pm25-train --check
 ```
 
 La ejecución larga requiere fijar y autorizar su presupuesto por separado.
+
+### Diagnóstico del campo antes de entrenar
+
+```bash
+uv run --locked lima-pm25-diagnose
+```
+
+Simula en CPU los primeros doce escenarios de entrenamiento y guarda contraste
+espacial por tick, variación temporal por celda, lecturas fijas y campos completos
+en una carpeta nueva de `cache/diagnostics/`. No necesita GPU ni entrena una red.
+Incluye un predictor constante ajustado en seis casos y evaluado en los otros seis.
+La [guía del diagnóstico](docs/diagnostics.md) explica las métricas y sus límites.
+
+## Comparación de estrategias
+
+```bash
+uv run lima-pm25-evaluate
+```
+
+Compara la política `best` con solo fijas, aleatoria, greedy y barrido sobre los
+mismos doce casos de validación. La política y la carpeta de salida se eligen
+automáticamente; se imprimen sus rutas. Con las cinco semillas configuradas para
+aleatoria y greedy ejecuta 144 misiones de inferencia, **sin entrenar ni abrir
+el replay final**.
+
+Guarda métricas por caso y agregadas, diferencias pareadas, lecturas, recorridos
+y cinco mapas del mismo caso preseleccionado en `cache/evaluation/`.
+La [guía de evaluación](docs/evaluation.md) explica las reglas, el horizonte
+común y cómo interpretar los resultados sin confundir validación con prueba final.
 
 ## Verificación
 

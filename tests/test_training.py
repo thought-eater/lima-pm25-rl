@@ -48,7 +48,14 @@ def fake_episode(offset=0):
             }
         )
     choices = tuple(
-        PlanningDecision(i, 2, np.ones(8, dtype=np.int8), tuple(((0, 0), (1, 1))[:i]))
+        PlanningDecision(
+            i,
+            2,
+            np.array([[int(v >= i)] * 8 for v in range(3)], dtype=np.int8),
+            tuple(((0, 0), (1, 1))[:i]),
+            tuple(range(i, 3)),
+            ((0.0, 0.0),) * 3,
+        )
         for i in range(3)
     )
     return EpisodeExperience(
@@ -71,12 +78,12 @@ def test_sequences_are_causal_and_preserve_the_next_reservation_context():
     replay.add(fake_episode())
     first = replay.transition(0)
     assert np.all(first["observations"][0][:, 2] == 0)
-    assert np.all(first["next_observations"][0][:, 2] == 0)
-    assert first["next_observations"][0][-1, 6, 0, 0] == 1
-    assert np.all(first["next_observations"][0][:-1, 6] == 0)
+    assert np.all(first["next_observations"][0][:, :, 2] == 0)
+    assert first["next_observations"][0][1, -1, 6, 0, 0] == 1
+    assert np.all(first["next_observations"][0][:, :-1, 6] == 0)
     end_tick = replay.transition(2)
     np.testing.assert_array_equal(
-        end_tick["next_observations"][0][:, 2, 0, 0], [0, 0, 0, 1]
+        end_tick["next_observations"][0][0, :, 2, 0, 0], [0, 0, 0, 1]
     )
     assert end_tick["next_mask"].any()
     assert not replay.transition(5)["next_mask"].any()
@@ -235,10 +242,36 @@ def test_runner_writes_metrics_checkpoints_and_never_overwrites_an_existing_run(
     assert (output / "checkpoint-last.pt").is_file()
     assert (output / "policy-last.pt").is_file()
     assert (output / "policy-best.pt").is_file()
+    initial = torch.load(output / "policy-initial.pt", weights_only=True)
+    assert initial["completed_episodes"] == 0
+    assert initial["physical_steps"] == 0
+    assert (output / "validation-initial.json").is_file()
     saved = (output / "metrics.csv").read_bytes()
     with pytest.raises(FileExistsError):
         run_training(trainer, episodes=2, output=output)
     assert (output / "metrics.csv").read_bytes() == saved
+
+
+def test_validation_uses_common_horizon_after_early_termination(make_env, monkeypatch):
+    trainer = Trainer(make_env(), config())
+    validation = make_env()
+    original = validation.action_masks
+
+    def masks(reserved=()):
+        return (
+            np.zeros((3, 8), dtype=np.int8)
+            if validation._steps >= 1
+            else original(reserved)
+        )
+
+    monkeypatch.setattr(validation, "action_masks", masks)
+    result = trainer.validate(validation, [100])
+    assert validation._steps == 1
+    assert validation._simulation.state.simulation_time_s == 900
+    assert (
+        result["final_integrated_variance"] == validation._info()["integrated_variance"]
+    )
+    assert trainer.updates == 0 and trainer.replay.steps == 0
 
 
 @pytest.mark.parametrize(
@@ -330,6 +363,32 @@ def test_generated_training_uses_separate_validation_and_reserves_final_replay(
     )
     assert protocol["policy_fit_end_utc"] == protocol["reserved_final_start_utc"]
     assert [item["member"] for item in protocol["scenarios"]] == ["control", "event"]
+
+
+def test_field_variation_is_in_protocol_and_short_runs_preserve_initial_field(
+    experiment_inputs,
+):
+    spec, directory = experiment_inputs
+    spec["field_variation"] = {
+        "ambient_range_ug_m3": [13.6, 25.6],
+        "road_source_scale": 20,
+        "initial_plume_count": 2,
+        "initial_plume_amplitude_range_ug_m3": [5, 15],
+        "initial_plume_sigma_range_m": [100, 200],
+        "provenance": "Prueba sintética de integración",
+    }
+    env, _, protocol = prepare_experiment(spec, directory)
+    short = env._episode_factory(42).request
+    spec["steps_per_episode"] = 2
+    longer_env, _, longer_protocol = prepare_experiment(spec, directory)
+    longer = longer_env._episode_factory(42).request
+    np.testing.assert_array_equal(
+        short.initial_state.concentration_ug_m3,
+        longer.initial_state.concentration_ug_m3,
+    )
+    assert short.config.duration_s == 300 and longer.config.duration_s == 600
+    assert protocol["field_variation"] == longer_protocol["field_variation"]
+    assert protocol["field_variation"]["road_source_scale"] == 20
 
 
 def test_experiment_rejects_final_replay_overlap(experiment_inputs):
