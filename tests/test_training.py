@@ -4,8 +4,7 @@ from datetime import timedelta
 
 import numpy as np
 import pytest
-
-torch = pytest.importorskip("torch")
+import torch
 
 from lima_pm25_rl.pilot import controlled_environment, controlled_oracle
 from lima_pm25_rl.policies import PlanningDecision

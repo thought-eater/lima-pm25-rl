@@ -45,7 +45,7 @@ def main() -> None:
     parser.add_argument(
         "--checkpoint",
         type=Path,
-        help="Política entrenada; requiere --policy neural y el extra learning",
+        help="Política entrenada; requiere --policy neural",
     )
     parser.add_argument(
         "--scenario",

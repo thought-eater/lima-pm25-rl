@@ -18,11 +18,11 @@ repositorio `lima-pm25-core` versión `0.1.0` en `../lima-pm25-core`.
 uv sync --locked
 ```
 
-Para utilizar y comprobar la red BiLG-D3QN:
-
-```bash
-uv sync --locked --extra learning
-```
+PyTorch es una dependencia obligatoria y se instala con la misma sincronización;
+no hace falta seleccionar dependencias opcionales para usar la red o entrenar.
+Tras cambiar las dependencias de `pyproject.toml`, regenerar `uv.lock` con
+`uv lock` antes de usar `--locked`. Sin `--upgrade`, uv conserva las versiones
+bloqueadas que siguen siendo compatibles.
 
 En Linux, PyTorch de PyPI incluye soporte NVIDIA/CUDA; el servidor debe tener
 un controlador compatible. No se utiliza ni modifica el PyTorch global. El
@@ -41,7 +41,7 @@ Desde la raíz de este proyecto:
 uv run --locked lima-pm25-rl --policy greedy --steps 3
 uv run --locked lima-pm25-rl --policy random --steps 3 --noise 1
 uv run --locked lima-pm25-rl --policy sweep --steps 3 --image cache/entorno.png
-uv run --locked --extra learning lima-pm25-rl --policy neural --steps 3
+uv run --locked lima-pm25-rl --policy neural --steps 3
 ```
 
 `--core-root` permite indicar otra ubicación de los recursos conservados.
@@ -76,7 +76,7 @@ No añade frameworks de aprendizaje ni inicia entrenamientos al importar módulo
 Piloto artificial pequeño para comprobar que realmente puede aprender:
 
 ```bash
-uv run --locked --extra learning lima-pm25-train \
+uv run --locked lima-pm25-train \
   --config config/training-pilot.json --output cache/pilot-01
 ```
 
@@ -84,7 +84,7 @@ Comprobación corta sobre el dominio de Lima: dos episodios de tres ticks,
 no un entrenamiento experimental suficiente para obtener una buena política:
 
 ```bash
-uv run --locked --extra learning lima-pm25-train \
+uv run --locked lima-pm25-train \
   --config config/training-lima-smoke.json --output cache/lima-check
 ```
 
@@ -96,7 +96,7 @@ Para continuar, usar el mismo protocolo y un nuevo directorio. `--episodes`
 indica el **total deseado**, no episodios adicionales:
 
 ```bash
-uv run --locked --extra learning lima-pm25-train \
+uv run --locked lima-pm25-train \
   --config config/training-pilot.json --resume cache/pilot-01/checkpoint-last.pt \
   --episodes 200 --output cache/pilot-continued
 ```
@@ -104,7 +104,7 @@ uv run --locked --extra learning lima-pm25-train \
 Para utilizar una política guardada sobre la misma grilla y configuración del GP:
 
 ```bash
-uv run --locked --extra learning lima-pm25-rl --policy neural \
+uv run --locked lima-pm25-rl --policy neural \
   --checkpoint cache/lima-check/policy-last.pt --steps 3
 ```
 
@@ -125,7 +125,7 @@ El control no se presenta como un nominal de Lima validado.
 Para comprobar recursos y componer todas las familias sin simular ni entrenar:
 
 ```bash
-uv run --locked --extra learning lima-pm25-train \
+uv run --locked lima-pm25-train \
   --config config/training-server.json --check
 ```
 
@@ -134,7 +134,7 @@ La ejecución larga requiere fijar y autorizar su presupuesto por separado.
 ## Verificación
 
 ```bash
-uv run --locked --extra learning pytest
+uv run --locked pytest
 uv build
 ```
 

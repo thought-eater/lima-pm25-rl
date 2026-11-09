@@ -17,8 +17,6 @@ from lima_pm25.simulation import (
 )
 from shapely.geometry import LineString
 
-pytest.importorskip("torch")
-
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "config/training-server.json"
 GP_END = datetime(2026, 1, 18, 9, tzinfo=UTC)

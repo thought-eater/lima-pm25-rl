@@ -1,8 +1,7 @@
 from copy import deepcopy
 
 import pytest
-
-torch = pytest.importorskip("torch")
+import torch
 
 from lima_pm25_rl.network import BiLGD3QN, NeuralController, double_dqn_loss
 
