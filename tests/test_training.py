@@ -360,6 +360,64 @@ def test_mixture_cannot_fit_weather_on_another_members_validation_period(
         prepare_experiment(spec, directory)
 
 
+def test_check_composes_all_scenario_weather_partition_combinations(
+    experiment_inputs, monkeypatch, template
+):
+    from lima_pm25_rl.episodes import Episode, GeneratedEpisodes
+
+    seen = []
+
+    def compose(factory, seed):
+        seen.append((factory.partition, factory.weather_mode))
+        return Episode(template)
+
+    monkeypatch.setattr(GeneratedEpisodes, "__call__", compose)
+    spec, directory = experiment_inputs
+    prepare_experiment(spec, directory, check=True)
+    assert len(seen) == 12
+    assert all(
+        seen.count((partition, mode)) == 2
+        for partition in ("training", "evaluation")
+        for mode in ("historical", "historical_perturbed", "synthetic")
+    )
+
+
+@pytest.mark.parametrize("problem", ["cutoff", "weather", "final_end"])
+def test_experiment_checks_the_declared_gp_partition(
+    experiment_inputs, problem, historical_weather
+):
+    spec, directory = experiment_inputs
+    spec["gp_partition_manifest"] = "partition.json"
+    spec["reserved_final_end_utc"] = "2025-01-06T00:00:00+00:00"
+    manifest = {
+        "calibration_end_utc": spec["gp_fit_end_utc"],
+        "weather_resource_sha256": historical_weather.resource_sha256,
+        "replay_start_utc": spec["gp_fit_end_utc"],
+        "replay_end_utc": spec["reserved_final_end_utc"],
+    }
+    if problem == "cutoff":
+        manifest["calibration_end_utc"] = "2025-01-01T00:00:00+00:00"
+    elif problem == "weather":
+        manifest["weather_resource_sha256"] = "different-weather"
+    else:
+        manifest["replay_end_utc"] = spec["reserved_final_start_utc"]
+    root = directory / spec["core_root"]
+    root.mkdir()
+    (root / "partition.json").write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="manifiesto|reserva histórica"):
+        prepare_experiment(spec, directory)
+
+
+def test_experiment_records_the_final_upper_bound(experiment_inputs):
+    spec, directory = experiment_inputs
+    spec["reserved_final_end_utc"] = "2025-01-06T00:00:00+00:00"
+    _, _, protocol = prepare_experiment(spec, directory)
+    assert protocol["reserved_final_end_utc"] == spec["reserved_final_end_utc"]
+    spec["reserved_final_end_utc"] = spec["reserved_final_start_utc"]
+    with pytest.raises(ValueError, match="duración positiva"):
+        prepare_experiment(spec, directory)
+
+
 def test_loaded_policy_can_be_used_by_the_existing_cli(
     make_env, domain, template, estimator_config, tmp_path, monkeypatch, capsys
 ):
@@ -439,3 +497,43 @@ def test_replay_cli_respects_the_fitting_and_reserved_period_in_the_policy(
     with pytest.raises(SystemExit) as error:
         entry.main()
     assert error.value.code == 2
+
+
+def test_replay_cli_rejects_a_window_extending_beyond_the_reserved_end(
+    make_env, tmp_path, monkeypatch, capsys
+):
+    import sys
+
+    import lima_pm25_rl.cli as entry
+
+    trainer = Trainer(
+        make_env(),
+        config(),
+        protocol={
+            "gp_fit_end_utc": "2026-01-18T09:00:00+00:00",
+            "policy_fit_end_utc": "2026-04-01T05:00:00+00:00",
+            "reserved_final_start_utc": "2026-04-01T05:00:00+00:00",
+            "reserved_final_end_utc": "2026-07-01T05:00:00+00:00",
+        },
+    )
+    path = tmp_path / "policy.pt"
+    trainer.export_policy(path)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "lima-pm25-rl",
+            "--policy",
+            "neural",
+            "--checkpoint",
+            str(path),
+            "--replay-start",
+            "2026-07-01T04:55:00+00:00",
+            "--steps",
+            "2",
+        ],
+    )
+    with pytest.raises(SystemExit) as error:
+        entry.main()
+    assert error.value.code == 2
+    assert "extremo final reservado" in capsys.readouterr().err
