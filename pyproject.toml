@@ -28,6 +28,7 @@ lima-pm25-audit-mobility = "lima_pm25_rl.mobility_diagnostics:main"
 lima-pm25-compare-arrivals = "lima_pm25_rl.arrival_experiment:main"
 lima-pm25-audit-values = "lima_pm25_rl.value_diagnostics:main"
 lima-pm25-compare-architectures = "lima_pm25_rl.architecture_experiment:main"
+lima-pm25-audit-gp = "lima_pm25_rl.gp_diagnostics:main"
 
 [tool.uv.sources]
 lima-pm25-core = { path = "../lima-pm25-core", editable = true }

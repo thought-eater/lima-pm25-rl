@@ -189,6 +189,20 @@ en una carpeta nueva de `cache/architecture-experiments/`. Se prepara para el
 servidor; no lanza el diagnóstico exhaustivo de alternativas. La comparación
 principal utiliza los pesos finales con el mismo presupuesto de episodios.
 
+### Diagnóstico del GP
+
+El [diagnóstico acotado del GP](docs/gp-diagnostic.md) reproduce doce misiones
+con BiLG-42 del episodio 200 del piloto, comparando incertidumbre con error y
+aislando el aporte de las lecturas móviles en cada tick. Para el servidor:
+
+```bash
+uv run --locked lima-pm25-audit-gp --check
+uv run --locked lima-pm25-audit-gp
+```
+
+Guarda resultados nuevos en `cache/gp-diagnostics/` y verifica que las misiones
+reproduzcan las trazas del piloto de arquitectura.
+
 ### Política frente a referencias
 
 ```bash
