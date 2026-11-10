@@ -44,10 +44,13 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
         invalid_action_penalty: float = 1.0,
         concentration_priority: float = 0.0,
         distance_cost_per_km: float = 0.0,
+        arrival_strategy: str = "shortest",
         render_mode: str | None = None,
     ) -> None:
         if render_mode not in (None, "rgb_array"):
             raise ValueError("Solo se admite render_mode=None o rgb_array")
+        if arrival_strategy not in {"shortest", "continuing"}:
+            raise ValueError("arrival_strategy debe ser shortest o continuing")
         if not np.isfinite(mobile_noise_stddev_ug_m3) or mobile_noise_stddev_ug_m3 < 0:
             raise ValueError("El ruido móvil debe ser finito y no negativo")
         if not np.isfinite(invalid_action_penalty) or invalid_action_penalty < 0:
@@ -68,6 +71,7 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
         self.invalid_action_penalty = invalid_action_penalty
         self.concentration_priority = concentration_priority
         self.distance_cost_per_km = distance_cost_per_km
+        self.arrival_strategy = arrival_strategy
         self.render_mode = render_mode
         # Cada entrada asigna (vehículo, dirección): 8 * vehículo + dirección.
         # El orden de las tres entradas es el orden de reservas del ciclo.
@@ -160,12 +164,22 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
             }
             for action in range(8):
                 if self.router.target(node, action) not in blocked:
+                    # La variante conserva la llegada más corta como fallback:
+                    # no altera la validez de una intención desde esta posición.
                     mask[vehicle, action] = self.router.plan(node, action) is not None
         return mask
 
     def route(self, vehicle: int, action: int) -> Route | None:
         """Recorrido conocido por el controlador, sin consultar el campo oculto."""
-        return self.router.plan(self._nodes[vehicle], action)
+        continuing = (
+            self.arrival_strategy == "continuing"
+            and self._simulation is not None
+            and self._simulation.state.simulation_time_s + STEP_SECONDS
+            < self._simulation.duration_s
+        )
+        return self.router.plan(
+            self._nodes[vehicle], action, prefer_continuation=continuing
+        )
 
     def step(
         self, action: np.ndarray
@@ -209,7 +223,7 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
             elif not available[direction]:
                 invalid[vehicle] = 1
             else:
-                route = self.router.plan(self._nodes[vehicle], int(direction))
+                route = self.route(vehicle, int(direction))
                 assert route is not None
                 reserved.add(route.cell)
             selected[vehicle] = route

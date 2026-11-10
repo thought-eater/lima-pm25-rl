@@ -321,6 +321,9 @@ def run_comparison(
                             distance_m=0.0,
                             sampling_coverage=0.0,
                             mobile_measurements=0,
+                            held_vehicle_ticks=0,
+                            held_ticks_by_vehicle=[0, 0, 0],
+                            structural_no_exit_vehicle_ticks=0,
                             early_termination=False,
                             decision_end_elapsed_s=metrics["elapsed_s"],
                         )

@@ -95,6 +95,7 @@ class RoadRouter:
                 self.graph.add_edge(node, goal, length=0.0)
                 self.navigable_mask[cell] = True
         self._cached_plan = lru_cache(maxsize=4096)(self._search)
+        self._cached_continuation = lru_cache(maxsize=8192)(self._can_continue)
 
     def position(self, node: object) -> tuple[float, float]:
         return self.graph.nodes[node]["xy"]
@@ -114,10 +115,39 @@ class RoadRouter:
         dr, dc = DIRECTIONS[action]
         return cell[0] + dr, cell[1] + dc
 
-    def plan(self, node: object, action: int) -> Route | None:
-        return self._cached_plan(node, action)
+    def plan(
+        self, node: object, action: int, *, prefer_continuation: bool = False
+    ) -> Route | None:
+        shortest = self._cached_plan(node, action)
+        if (
+            shortest is None
+            or not prefer_continuation
+            or self.has_continuation(shortest.destination)
+        ):
+            return shortest
+        # No se invalida la dirección si todas sus llegadas carecen de salida.
+        return self._cached_plan(node, action, True) or shortest
 
-    def _search(self, node: object, action: int) -> Route | None:
+    def has_continuation(self, node: object) -> bool:
+        """Existe ruta dirigida a alguna celda vecina, sin reservas temporales."""
+        return self._cached_continuation(node)
+
+    def _can_continue(self, node: object) -> bool:
+        origin = self.cell(node)
+        if origin is None:
+            return False
+        for _, reached in nx.bfs_edges(self.graph, node):
+            cell = self.cell(reached)
+            if (
+                cell is not None
+                and max(abs(cell[0] - origin[0]), abs(cell[1] - origin[1])) == 1
+            ):
+                return True
+        return False
+
+    def _search(
+        self, node: object, action: int, require_continuation: bool = False
+    ) -> Route | None:
         cell = self.target(node, action)
         if cell not in self._goals:
             return None
@@ -132,13 +162,18 @@ class RoadRouter:
                 max(left - x, 0, x - left - size), max(bottom - y, 0, y - bottom - size)
             )
 
+        def weight(source, destination, data):
+            if destination == self._goals[cell] and not self.has_continuation(source):
+                return None
+            return data["length"]
+
         try:
             path = nx.astar_path(
                 self.graph,
                 node,
                 self._goals[cell],
                 heuristic=heuristic,
-                weight="length",
+                weight=weight if require_continuation else "length",
             )[:-1]
         except nx.NetworkXNoPath:
             return None

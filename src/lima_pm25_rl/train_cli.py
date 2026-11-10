@@ -112,6 +112,8 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
     }
     if field_variation is not None:
         protocol["field_variation"] = asdict(field_variation)
+    if "arrival_strategy" in spec:
+        protocol["arrival_strategy"] = spec["arrival_strategy"]
 
     def demonstration(seed):
         return Episode(replace(template, config=replace(template.config, seed=seed)))
@@ -261,6 +263,7 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
             mobile_noise_stddev_ug_m3=protocol["noise_stddev_ug_m3"],
             concentration_priority=protocol["concentration_priority"],
             distance_cost_per_km=protocol["distance_cost_per_km"],
+            arrival_strategy=spec.get("arrival_strategy", "shortest"),
         )
 
     return (

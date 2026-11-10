@@ -211,6 +211,7 @@ def main() -> None:
         ),
         concentration_priority=policy_protocol.get("concentration_priority", 0.0),
         distance_cost_per_km=policy_protocol.get("distance_cost_per_km", 0.0),
+        arrival_strategy=policy_protocol.get("arrival_strategy", "shortest"),
         render_mode="rgb_array" if args.image else None,
     )
     if loaded_policy is not None:

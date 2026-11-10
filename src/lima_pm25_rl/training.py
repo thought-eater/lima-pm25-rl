@@ -5,7 +5,7 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from time import perf_counter
-from typing import Any
+from typing import Any, BinaryIO
 
 import numpy as np
 import torch
@@ -378,7 +378,7 @@ class Trainer:
 
 
 def load_policy(
-    path: Path | str, *, device: str = "auto", seed: int = 0
+    path: Path | str | BinaryIO, *, device: str = "auto", seed: int = 0
 ) -> tuple[NeuralController, dict[str, Any]]:
     """Carga segura de pesos y contexto, sin restaurar ni ejecutar el entrenamiento."""
     state = torch.load(path, map_location="cpu", weights_only=True)

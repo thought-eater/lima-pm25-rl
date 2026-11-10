@@ -51,6 +51,8 @@ def evaluate_episode(
     fixed_variances = [initial]
     reward_sum = 0.0
     invalid_count = 0
+    held_ticks = np.zeros(3, dtype=int)
+    structural_no_exit_ticks = np.zeros(3, dtype=int)
     # Huella privada del evaluador: no se añade a observaciones ni a info.
     field_hash = hashlib.sha256()
 
@@ -70,6 +72,11 @@ def evaluate_episode(
         )
         reward_sum += reward
         invalid_count += int(info["invalid_actions"].sum())
+        held_ticks += info["held_vehicles"]
+        if info["elapsed_s"] < simulation.duration_s:
+            structural_no_exit_ticks += [
+                not env.router.has_continuation(node) for node in env._nodes
+            ]
         variances.append(info["integrated_variance"])
         if comparison:
             fixed_variances.append(env._integrated_variance(fixed_posterior(env)))
@@ -107,6 +114,9 @@ def evaluate_episode(
         "steps": info["step_count"],
         "reward": reward_sum,
         "invalid_actions": invalid_count,
+        "held_vehicle_ticks": int(held_ticks.sum()),
+        "held_ticks_by_vehicle": held_ticks.tolist(),
+        "structural_no_exit_vehicle_ticks": int(structural_no_exit_ticks.sum()),
         "distance_m": float(info["distance_m"].sum()),
         "initial_integrated_variance": initial,
         "final_integrated_variance": final,

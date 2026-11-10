@@ -391,6 +391,16 @@ def test_field_variation_is_in_protocol_and_short_runs_preserve_initial_field(
     assert protocol["field_variation"]["road_source_scale"] == 20
 
 
+def test_explicit_arrival_strategy_is_part_of_training_and_validation_protocol(
+    experiment_inputs,
+):
+    spec, directory = experiment_inputs
+    spec["arrival_strategy"] = "continuing"
+    env, validation, protocol = prepare_experiment(spec, directory)
+    assert env.arrival_strategy == validation.arrival_strategy == "continuing"
+    assert protocol["arrival_strategy"] == "continuing"
+
+
 def test_experiment_rejects_final_replay_overlap(experiment_inputs):
     spec, directory = experiment_inputs
     spec["reserved_final_start_utc"] = spec["gp_fit_end_utc"]

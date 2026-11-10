@@ -152,6 +152,20 @@ en una carpeta nueva de `cache/diagnostics/`. No necesita GPU ni entrena una red
 Incluye un predictor constante ajustado en seis casos y evaluado en los otros seis.
 La [guía del diagnóstico](docs/diagnostics.md) explica las métricas y sus límites.
 
+Para auditar el bloqueo del caso 100002 con los archivos de resultados recibidos:
+
+```bash
+uv run --locked lima-pm25-audit-mobility
+```
+
+Reproduce la política `best` y registra Q, reservas, recorridos y conectividad,
+con salida nueva en `cache/mobility-diagnostics/`. La [auditoría de movilidad](docs/mobility-diagnostic.md)
+describe el sumidero encontrado y la alternativa de llegada dentro de la misma celda.
+
+La [comparación de criterios de llegada](docs/arrival-experiment.md) se ejecuta
+con `uv run --locked lima-pm25-compare-arrivals`: compara el caso 100002 sin
+reentrenar. `--all-cases` amplía a los doce casos y las cuatro políticas móviles.
+
 ## Comparación de estrategias
 
 ```bash
