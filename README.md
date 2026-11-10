@@ -166,7 +166,30 @@ La [comparación de criterios de llegada](docs/arrival-experiment.md) se ejecuta
 con `uv run --locked lima-pm25-compare-arrivals`: compara el caso 100002 sin
 reentrenar. `--all-cases` amplía a los doce casos y las cuatro políticas móviles.
 
+El [diagnóstico de Q y retornos](docs/value-diagnostic.md) se ejecuta con
+`uv run --locked lima-pm25-audit-values --ticks 1` para el piloto, o
+`--all-cases` para los doce casos en ticks prefijados. Compara alternativas
+legales con continuación congelada y ruido futuro emparejado, guardando
+resultados nuevos en `cache/value-diagnostics/`.
+
 ## Comparación de estrategias
+
+### Piloto de arquitectura en el servidor
+
+La [ablación BiLG frente a D3QN sin recurrencia](docs/architecture-pilot.md)
+conserva la misma ventana histórica y usa tres semillas emparejadas:
+
+```bash
+uv run --locked lima-pm25-compare-architectures --check
+uv run --locked lima-pm25-compare-architectures
+```
+
+El segundo comando ejecuta seis entrenamientos de 200 episodios y sus evaluaciones
+en una carpeta nueva de `cache/architecture-experiments/`. Se prepara para el
+servidor; no lanza el diagnóstico exhaustivo de alternativas. La comparación
+principal utiliza los pesos finales con el mismo presupuesto de episodios.
+
+### Política frente a referencias
 
 ```bash
 uv run lima-pm25-evaluate

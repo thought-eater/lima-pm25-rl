@@ -1,0 +1,47 @@
+{
+  "kind": "generated",
+  "core_root": "../../lima-pm25-core",
+  "episodes": 200,
+  "paired_seeds": [42, 43, 44],
+  "steps_per_episode": 36,
+  "noise_stddev_ug_m3": 1.0,
+  "concentration_priority": 1.0,
+  "distance_cost_per_km": 0.0005,
+  "field_variation": {
+    "ambient_range_ug_m3": [13.6, 25.6],
+    "road_source_scale": 20.09519380779664,
+    "initial_plume_count": 2,
+    "initial_plume_amplitude_range_ug_m3": [5.0, 15.0],
+    "initial_plume_sigma_range_m": [500.0, 1200.0],
+    "provenance": "Currículo sintético de contraste O3. Fondo 19.6 ± 6 µg/m³ y dos plumas iniciales son decisiones experimentales, no campos observados. La escala vial reutiliza el punto de partida de calibración O2 y se aplica a los corredores rutinarios y al evento, conservando sus proporciones; los perfiles e intensidades siguen siendo hipótesis. El diagnóstico debe comprobar el contraste resultante antes de entrenar."
+  },
+  "gp_fit_end_utc": "2026-01-18T09:00:00+00:00",
+  "gp_partition_manifest": "resultados/r2_1_r2_2_estimacion/calibracion_historica/f68cc53e2ddb33bf97540847868ae5a07563f41f016197601a1542711ac8f0a6/partition.json",
+  "reserved_final_start_utc": "2026-04-01T05:00:00+00:00",
+  "reserved_final_end_utc": "2026-07-01T05:00:00+00:00",
+  "episode_configs": [
+    {"path": "episodes/server-control.json", "weight": 0.8, "member": "control"},
+    {"path": "episodes/server-event-stress.json", "weight": 0.2, "member": "event"}
+  ],
+  "validation_seeds": [100002, 100003, 100010, 100013, 100000, 100001, 100032, 100037, 100018, 100033, 100006, 100011],
+  "validation_every": 100,
+  "checkpoint_every": 1,
+  "training": {
+    "seed": 42,
+    "device": "cuda",
+    "hidden_size": 64,
+    "history_length": 4,
+    "capacity_steps": 2000,
+    "batch_size": 16,
+    "learning_starts": 128,
+    "updates_per_step": 1,
+    "target_update_interval": 200,
+    "learning_rate": 0.0001,
+    "gamma": 0.99,
+    "gradient_clip": 10.0,
+    "epsilon_start": 1.0,
+    "epsilon_end": 0.05,
+    "epsilon_decay_steps": 3600,
+    "cpu_threads": 1
+  }
+}

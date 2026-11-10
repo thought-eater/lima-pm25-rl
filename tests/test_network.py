@@ -3,14 +3,20 @@ from copy import deepcopy
 import pytest
 import torch
 
-from lima_pm25_rl.network import BiLGD3QN, NeuralController, double_dqn_loss
+from lima_pm25_rl.network import (
+    BiLGD3QN,
+    NeuralController,
+    build_network,
+    double_dqn_loss,
+)
 from lima_pm25_rl.policies import AUXILIARY_SIZE
 
 
-def test_bilg_forward_backward_and_target_isolation():
+@pytest.mark.parametrize("architecture", ["bilg", "window"])
+def test_forward_backward_and_target_isolation(architecture):
     torch.set_num_threads(1)
     torch.manual_seed(42)
-    online = BiLGD3QN(hidden_size=16)
+    online = build_network(architecture, hidden_size=16, history_length=3)
     target = deepcopy(online)
     maps, auxiliary = torch.randn(2, 3, 7, 8, 8), torch.randn(2, 3, AUXILIARY_SIZE)
     output = online(maps, auxiliary)
@@ -144,8 +150,9 @@ def test_global_double_target_selects_vehicle_and_direction_with_online():
 
 
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="No hay GPU CUDA disponible")
-def test_small_forward_and_backward_on_cuda():
-    network = BiLGD3QN(hidden_size=8).cuda()
+@pytest.mark.parametrize("architecture", ["bilg", "window"])
+def test_small_forward_and_backward_on_cuda(architecture):
+    network = build_network(architecture, hidden_size=8, history_length=2).cuda()
     output = network(
         torch.randn(1, 2, 7, 8, 8, device="cuda"),
         torch.randn(1, 2, AUXILIARY_SIZE, device="cuda"),

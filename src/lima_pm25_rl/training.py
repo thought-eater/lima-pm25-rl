@@ -12,12 +12,13 @@ import torch
 
 from .env import LimaPM25Env, Observation
 from .evaluation import evaluate_episode
-from .network import BiLGD3QN, NeuralController, double_dqn_loss
+from .network import NeuralController, build_network, double_dqn_loss
 from .replay import EpisodeExperience, SequenceReplay
 
 
 @dataclass(frozen=True)
 class TrainingConfig:
+    architecture: str = "bilg"
     seed: int = 42
     history_length: int = 4
     hidden_size: int = 64
@@ -36,6 +37,8 @@ class TrainingConfig:
     cpu_threads: int = 1
 
     def __post_init__(self) -> None:
+        if self.architecture not in {"bilg", "window"}:
+            raise ValueError("architecture debe ser bilg o window")
         for name in (
             "history_length",
             "hidden_size",
@@ -101,10 +104,15 @@ class Trainer:
         if name == "cuda" and not torch.cuda.is_available():
             raise ValueError("Se solicitó CUDA pero no está disponible")
         self.device = torch.device(name)
-        self.online = BiLGD3QN(hidden_size=config.hidden_size).to(self.device)
+        self.online = build_network(
+            config.architecture,
+            hidden_size=config.hidden_size,
+            history_length=config.history_length,
+        ).to(self.device)
         self.target = deepcopy(self.online).eval().requires_grad_(False)
-        self.target.lstm.flatten_parameters()
-        self.target.gru.flatten_parameters()
+        for module in self.target.modules():
+            if isinstance(module, torch.nn.RNNBase):
+                module.flatten_parameters()
         self.optimizer = torch.optim.Adam(
             self.online.parameters(), lr=config.learning_rate
         )
@@ -315,7 +323,8 @@ class Trainer:
             raise ValueError(
                 "Se necesita un checkpoint de entrenamiento del formato actual"
             )
-        actual, expected = state["training_config"].copy(), asdict(self.config)
+        actual = asdict(TrainingConfig(**state["training_config"]))
+        expected = asdict(self.config)
         for key in ("device", "cpu_threads"):
             actual.pop(key)
             expected.pop(key)
@@ -388,7 +397,11 @@ def load_policy(
     name = (
         ("cuda" if torch.cuda.is_available() else "cpu") if device == "auto" else device
     )
-    network = BiLGD3QN(hidden_size=config.hidden_size).to(name)
+    network = build_network(
+        config.architecture,
+        hidden_size=config.hidden_size,
+        history_length=config.history_length,
+    ).to(name)
     network.load_state_dict(state["online"])
     network.eval()
     return NeuralController(

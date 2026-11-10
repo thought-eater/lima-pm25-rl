@@ -157,10 +157,11 @@ def test_warmup_does_not_update_network_weights(env):
     )
 
 
+@pytest.mark.parametrize("architecture", ["bilg", "window"])
 def test_resume_reproduces_continuous_cpu_training_at_episode_boundaries(
-    make_env, tmp_path
+    make_env, tmp_path, architecture
 ):
-    parameters = config()
+    parameters = config(architecture=architecture)
     continuous = Trainer(make_env(), parameters)
     for _ in range(4):
         continuous.train_episode()
@@ -189,13 +190,16 @@ def test_resume_reproduces_continuous_cpu_training_at_episode_boundaries(
         assert torch.equal(value, resumed.target.state_dict()[key])
 
 
+@pytest.mark.parametrize("architecture", ["bilg", "window"])
 def test_checkpoint_rejects_different_training_protocol_and_exports_a_loadable_policy(
-    make_env, tmp_path
+    make_env, tmp_path, architecture
 ):
-    trainer = Trainer(make_env(), config(), protocol={"test": 1})
+    trainer = Trainer(
+        make_env(), config(architecture=architecture), protocol={"test": 1}
+    )
     trainer.train_episode()
     trainer.save_checkpoint(tmp_path / "checkpoint.pt")
-    other = Trainer(make_env(), config(), protocol={"test": 2})
+    other = Trainer(make_env(), config(architecture=architecture), protocol={"test": 2})
     with pytest.raises(ValueError, match="protocolo"):
         other.load_checkpoint(tmp_path / "checkpoint.pt")
     trainer.export_policy(tmp_path / "policy.pt")

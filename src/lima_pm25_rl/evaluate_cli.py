@@ -29,11 +29,11 @@ def _compatible(state, config: TrainingConfig, protocol) -> bool:
     if not isinstance(state.get("training_config"), dict):
         return False
     hardware = {"device", "cpu_threads"}
-    actual = {
-        key: value
-        for key, value in state["training_config"].items()
-        if key not in hardware
-    }
+    try:
+        saved_config = asdict(TrainingConfig(**state["training_config"]))
+    except TypeError, ValueError:
+        return False
+    actual = {key: value for key, value in saved_config.items() if key not in hardware}
     expected = {
         key: value for key, value in asdict(config).items() if key not in hardware
     }

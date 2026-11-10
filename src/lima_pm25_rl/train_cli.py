@@ -436,10 +436,12 @@ def _latest_checkpoint(config: TrainingConfig, protocol: dict[str, Any]) -> Path
             metadata.get("training"), dict
         ):
             continue
+        try:
+            saved_config = asdict(TrainingConfig(**metadata["training"]))
+        except TypeError, ValueError:
+            continue
         actual = {
-            key: value
-            for key, value in metadata["training"].items()
-            if key not in hardware
+            key: value for key, value in saved_config.items() if key not in hardware
         }
         if actual == expected and metadata.get("protocol") == protocol:
             return path
