@@ -15,3 +15,22 @@ wheels/
 
 # Local runs and figures
 cache/
+
+config.json
+diag_gp.tar.zst
+docs/
+eval3.tar.zst
+evaluation.tar.zst
+evaluation_2.tar.zst
+gp3.tar.zst
+gp4.tar.zst
+metrics.csv
+objetivos.txt
+output.m4a
+output.srt
+output.txt
+papers/
+policy-best.pt
+policy-last.pt
+tesis.docx
+training.tar.zst

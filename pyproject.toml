@@ -31,6 +31,7 @@ lima-pm25-compare-architectures = "lima_pm25_rl.architecture_experiment:main"
 lima-pm25-audit-gp = "lima_pm25_rl.gp_diagnostics:main"
 lima-pm25-compare-gp = "lima_pm25_rl.gp_spatial_experiment:main"
 lima-pm25-compare-gp-time = "lima_pm25_rl.gp_temporal_experiment:main"
+lima-pm25-compare-gp-feedback = "lima_pm25_rl.gp_feedback_experiment:main"
 
 [tool.uv.sources]
 lima-pm25-core = { path = "../lima-pm25-core", editable = true }

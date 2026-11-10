@@ -226,6 +226,17 @@ uv run --locked lima-pm25-compare-gp-time
 Compara 900/1800/3600/7200 s sin generar nuevas misiones y guarda resultados en
 `cache/gp-temporal-experiments/`.
 
+La [comparación con realimentación al agente](docs/gp-feedback-experiment.md)
+ejecuta 24 misiones con los mismos pesos y GP de 3600/7200 s, permitiendo que
+cambien las decisiones. Reutiliza también la referencia congelada de `gp4`:
+
+```bash
+uv run --locked lima-pm25-compare-gp-feedback --check
+uv run --locked lima-pm25-compare-gp-feedback
+```
+
+La salida se crea en `cache/gp-feedback-experiments/`. Se prepara para el servidor.
+
 ### Política frente a referencias
 
 ```bash

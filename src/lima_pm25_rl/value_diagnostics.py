@@ -102,7 +102,7 @@ def rollout(
     policy.reset()
     initial_positions = np.asarray(env.positions).copy()
     field = hashlib.sha256()
-    errors, variances, ticks = [], [], []
+    errors, variances, ticks, times = [], [], [], []
 
     def record():
         field.update(
@@ -112,6 +112,7 @@ def rollout(
         )
         errors.append(_spatial_errors(env, env._posterior))
         variances.append(env._integrated_variance(env._posterior))
+        times.append(float(env._simulation.state.simulation_time_s))
 
     record()
     while True:
@@ -182,6 +183,10 @@ def rollout(
         "intervention": intervention,
         "future_noise_seed": future_noise_seed,
         "ticks": ticks,
+        "evaluation_series": [
+            {"elapsed_s": time, "integrated_variance": variance, **error}
+            for time, variance, error in zip(times, variances, errors, strict=True)
+        ],
         "measurements": [
             {**asdict(r), "timestamp_utc": r.timestamp_utc.isoformat()}
             for r in env._records
