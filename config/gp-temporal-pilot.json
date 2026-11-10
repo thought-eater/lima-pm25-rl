@@ -1,0 +1,7 @@
+{
+  "experiment_config": "architecture-pilot.json",
+  "calibration_cases": 12,
+  "temporal_scales_s": [900.0, 1800.0, 3600.0, 7200.0],
+  "selection_metric": "mean_case_temporal_mse",
+  "map_ticks": [1, 12, 24]
+}

@@ -215,6 +215,17 @@ uv run --locked lima-pm25-compare-gp
 Preparado para el servidor, con resultados nuevos en
 `cache/gp-spatial-experiments/`. No adopta automáticamente el GP seleccionado.
 
+La [comparación temporal del GP](docs/gp-temporal-experiment.md) reutiliza esos
+datos y los del diagnóstico, manteniendo la correlación espacial en 2000 m:
+
+```bash
+uv run --locked lima-pm25-compare-gp-time --check
+uv run --locked lima-pm25-compare-gp-time
+```
+
+Compara 900/1800/3600/7200 s sin generar nuevas misiones y guarda resultados en
+`cache/gp-temporal-experiments/`.
+
 ### Política frente a referencias
 
 ```bash

@@ -25,10 +25,36 @@ from .training import TrainingConfig, load_policy
 DEFAULT_CONFIG = PROJECT_ROOT / "config/gp-spatial-pilot.json"
 
 
-def spatial_variant(base, length_m):
-    if base.x_length_scale_m != base.y_length_scale_m:
-        raise ValueError("Esta prueba requiere el GP espacial isotrópico original")
-    return replace(base, x_length_scale_m=length_m, y_length_scale_m=length_m)
+def gp_variant(base, scale, scale_key):
+    """Cambiar exactamente el factor declarado, sin modificar el historial."""
+    if scale_key == "spatial_scale_m":
+        if base.x_length_scale_m != base.y_length_scale_m:
+            raise ValueError("Esta prueba requiere el GP espacial isotrópico original")
+        return replace(base, x_length_scale_m=scale, y_length_scale_m=scale)
+    if scale_key == "temporal_scale_s":
+        return replace(base, temporal_length_scale_s=scale)
+    raise ValueError("Factor GP desconocido")
+
+
+def scale_unit(scale_key):
+    if scale_key not in {"spatial_scale_m", "temporal_scale_s"}:
+        raise ValueError("Factor GP desconocido")
+    return "m" if scale_key == "spatial_scale_m" else "s"
+
+
+def temporal_thirds(mse, times):
+    """Integrar tres tramos iguales; incluir los extremos con interpolación lineal."""
+    times = np.asarray(times, dtype=float)
+    boundaries = np.linspace(times[0], times[-1], 4)
+    result = {}
+    for index, name in enumerate(("first", "middle", "last")):
+        low, high = boundaries[index : index + 2]
+        interior = np.asarray(times)[(times > low) & (times < high)]
+        x = np.concatenate(([low], interior, [high]))
+        result[f"{name}_third_mse"] = float(
+            np.trapezoid(np.interp(x, times, mse), x) / (high - low)
+        )
+    return result
 
 
 def load_frozen_case(path, grid, *, start_utc, end_utc):
@@ -86,10 +112,12 @@ def load_frozen_case(path, grid, *, start_utc, end_utc):
     return report, fields, records, origin
 
 
-def score_frozen_case(grid, updater_config, frozen, *, length_m, output, control=False):
+def score_frozen_case(
+    grid, updater_config, frozen, *, scale, scale_key, output, control=False
+):
     """Reconstruir solo desde lecturas disponibles; la verdad solo puntúa después."""
     report, fields, records, origin = frozen
-    config = spatial_variant(updater_config.reconstruction_config, length_m)
+    config = gp_variant(updater_config.reconstruction_config, scale, scale_key)
     model = GaussianProcessFieldReconstructor(config)
     predictions, deviations, rows = [], [], []
     for index, time in enumerate(fields["elapsed_s"]):
@@ -123,10 +151,11 @@ def score_frozen_case(grid, updater_config, frozen, *, length_m, output, control
     mse = [r["mse"] for r in rows]
     summary = {
         "case_seed": report["case_seed"],
-        "spatial_scale_m": length_m,
+        scale_key: scale,
         "temporal_mse": float(np.trapezoid(mse, fields["elapsed_s"]) / duration),
         "final_mse": mse[-1],
         "control_reproduced": control,
+        **temporal_thirds(mse, fields["elapsed_s"]),
     }
     for key in (
         "coverage_68",
@@ -158,9 +187,10 @@ def score_frozen_case(grid, updater_config, frozen, *, length_m, output, control
     return summary
 
 
-def select_scale(rows, scales, seeds, baseline):
+def select_scale(rows, scales, seeds, baseline, *, scale_key="spatial_scale_m"):
     """Esta función recibe solo resultados de calibración, nunca validación."""
-    indexed = {(r["spatial_scale_m"], r["case_seed"]): r for r in rows}
+    unit = scale_unit(scale_key)
+    indexed = {(r[scale_key], r["case_seed"]): r for r in rows}
     if len(indexed) != len(rows) or set(indexed) != {
         (s, c) for s in scales for c in seeds
     }:
@@ -179,18 +209,21 @@ def select_scale(rows, scales, seeds, baseline):
     tied = [s for s in scales if np.isclose(scores[s], minimum, rtol=1e-10, atol=1e-12)]
     selected = min(tied, key=lambda s: (abs(np.log(s / baseline)), s))
     return {
-        "selected_scale_m": selected,
-        "original_scale_m": baseline,
+        f"selected_scale_{unit}": selected,
+        f"original_scale_{unit}": baseline,
         "calibration_scores": [
-            {"spatial_scale_m": s, "mean_case_temporal_mse": scores[s]} for s in scales
+            {scale_key: s, "mean_case_temporal_mse": scores[s]} for s in scales
         ],
         "criterion": "lowest mean case temporal MSE; numerical ties prefer original or nearest log-scale",
     }
 
 
-def summarize_validation(rows, original, selected, seeds):
+def summarize_validation(
+    rows, original, selected, seeds, *, scale_key="spatial_scale_m"
+):
+    scale_unit(scale_key)
     variants = list(dict.fromkeys((original, selected)))
-    index = {(r["spatial_scale_m"], r["case_seed"]): r for r in rows}
+    index = {(r[scale_key], r["case_seed"]): r for r in rows}
     if len(index) != len(rows) or set(index) != {
         (s, c) for s in variants for c in seeds
     }:
@@ -198,10 +231,13 @@ def summarize_validation(rows, original, selected, seeds):
     summaries = []
     for scale in variants:
         records = [index[scale, seed] for seed in seeds]
-        summary = {"spatial_scale_m": scale}
+        summary = {scale_key: scale}
         for key in (
             "temporal_mse",
             "final_mse",
+            "first_third_mse",
+            "middle_third_mse",
+            "last_third_mse",
             "coverage_68",
             "coverage_95",
             "mean_variance",
@@ -212,6 +248,8 @@ def summarize_validation(rows, original, selected, seeds):
             summary[key] = float(np.mean(values)) if values else None
         summary["temporal_rmse"] = float(np.sqrt(summary["temporal_mse"]))
         summary["final_rmse"] = float(np.sqrt(summary["final_mse"]))
+        for name in ("first", "middle", "last"):
+            summary[f"{name}_third_rmse"] = float(np.sqrt(summary[f"{name}_third_mse"]))
         summaries.append(summary)
     return {
         "variants": summaries,
@@ -224,6 +262,9 @@ def summarize_validation(rows, original, selected, seeds):
                     for key in (
                         "temporal_mse",
                         "final_mse",
+                        "first_third_mse",
+                        "middle_third_mse",
+                        "last_third_mse",
                         "coverage_68",
                         "coverage_95",
                         "mean_variance",
@@ -395,7 +436,7 @@ def main():
         if original.x_length_scale_m not in scales:
             raise ValueError("La selección debe incluir el GP original")
         for scale in scales:
-            spatial_variant(original, scale)
+            gp_variant(original, scale, "spatial_scale_m")
         train_bounds = partition_bounds(protocol, "calibration")
         validation_bounds = partition_bounds(protocol, "validation")
         candidates = (
@@ -501,7 +542,8 @@ def main():
                         train.domain.grid,
                         train.estimator_config,
                         frozen,
-                        length_m=scale,
+                        scale=scale,
+                        scale_key="spatial_scale_m",
                         control=scale == original.x_length_scale_m,
                         output=folder / f"scale-{scale:g}",
                     )
@@ -517,7 +559,9 @@ def main():
             output / "selection.json",
             {
                 **selection,
-                "selected_gp": asdict(spatial_variant(original, selected)),
+                "selected_gp": asdict(
+                    gp_variant(original, selected, "spatial_scale_m")
+                ),
                 "selection_partition": "training",
             },
         )
@@ -542,7 +586,8 @@ def main():
                         train.domain.grid,
                         train.estimator_config,
                         frozen,
-                        length_m=scale,
+                        scale=scale,
+                        scale_key="spatial_scale_m",
                         control=scale == original.x_length_scale_m,
                         output=target / f"scale-{scale:g}",
                     )

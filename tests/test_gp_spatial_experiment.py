@@ -11,12 +11,12 @@ import torch
 
 from lima_pm25_rl.gp_diagnostics import diagnose_case
 from lima_pm25_rl.gp_spatial_experiment import (
+    gp_variant,
     load_frozen_case,
     partition_bounds,
     plot_pair,
     score_frozen_case,
     select_scale,
-    spatial_variant,
     summarize_validation,
 )
 from lima_pm25_rl.network import BiLGD3QN, NeuralController
@@ -25,7 +25,7 @@ from lima_pm25_rl.training import TrainingConfig
 
 def test_only_one_isotropic_spatial_scale_is_changed(estimator_config):
     original = estimator_config.reconstruction_config
-    variant = spatial_variant(original, 600)
+    variant = gp_variant(original, 600, "spatial_scale_m")
     expected = asdict(original)
     expected.update(x_length_scale_m=600, y_length_scale_m=600)
     assert asdict(variant) == expected
@@ -87,7 +87,8 @@ def test_offline_gp_reproduces_original_and_does_not_use_future_readings(
         env.domain.grid,
         estimator_config,
         frozen,
-        length_m=300,
+        scale=300,
+        scale_key="spatial_scale_m",
         output=tmp_path / "original",
         control=True,
     )
@@ -95,7 +96,8 @@ def test_offline_gp_reproduces_original_and_does_not_use_future_readings(
         env.domain.grid,
         estimator_config,
         frozen,
-        length_m=600,
+        scale=600,
+        scale_key="spatial_scale_m",
         output=tmp_path / "variant",
     )
     assert len(calls) == 8
@@ -136,6 +138,9 @@ def test_summary_does_not_select_from_validation_and_uses_mse():
             "spatial_scale_m": scale,
             "temporal_mse": mse,
             "final_mse": mse,
+            "first_third_mse": mse,
+            "middle_third_mse": mse,
+            "last_third_mse": mse,
             "coverage_68": 0.8,
             "coverage_95": 0.98,
             "mean_variance": 10,
