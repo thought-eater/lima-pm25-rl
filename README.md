@@ -237,6 +237,19 @@ uv run --locked lima-pm25-compare-gp-feedback
 
 La salida se crea en `cache/gp-feedback-experiments/`. Se prepara para el servidor.
 
+### Ablación de historia explícita
+
+La [comparación de historia](docs/history-pilot.md) reutiliza los tres controles
+BiLG de `eval3` y entrena solo las variantes con la observación actual repetida:
+
+```bash
+uv run --locked lima-pm25-compare-history --check
+uv run --locked lima-pm25-compare-history
+```
+
+Son 600 episodios nuevos en el servidor, con salida en `cache/history-experiments/`.
+Conserva la arquitectura y el GP original; no elimina el historial del GP.
+
 ### Política frente a referencias
 
 ```bash

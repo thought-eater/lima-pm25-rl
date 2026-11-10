@@ -252,7 +252,7 @@ def main():
             metadata = json.loads((path / "config.json").read_text())
             if (
                 metadata["protocol"] == json.loads(json.dumps(protocol))
-                and metadata["training"] == asdict(config)
+                and asdict(TrainingConfig(**metadata["training"])) == asdict(config)
                 and metadata["original_gp"]
                 == asdict(train.estimator_config.reconstruction_config)
                 and metadata["calibration_seeds"] == seeds

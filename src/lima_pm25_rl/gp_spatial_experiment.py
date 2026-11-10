@@ -453,9 +453,9 @@ def main():
             if not (candidate / "summary.json").is_file():
                 continue
             metadata = json.loads((candidate / "config.json").read_text())
-            if metadata["protocol"] == json.loads(json.dumps(protocol)) and metadata[
-                "training"
-            ] == asdict(training):
+            if metadata["protocol"] == json.loads(json.dumps(protocol)) and asdict(
+                TrainingConfig(**metadata["training"])
+            ) == asdict(training):
                 source = candidate
                 break
         if source is None:

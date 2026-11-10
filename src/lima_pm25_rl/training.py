@@ -13,6 +13,7 @@ import torch
 from .env import LimaPM25Env, Observation
 from .evaluation import evaluate_episode
 from .network import NeuralController, build_network, double_dqn_loss
+from .policies import HISTORY_MODES
 from .replay import EpisodeExperience, SequenceReplay
 
 
@@ -21,6 +22,7 @@ class TrainingConfig:
     architecture: str = "bilg"
     seed: int = 42
     history_length: int = 4
+    history_mode: str = "history"
     hidden_size: int = 64
     capacity_steps: int = 2000
     batch_size: int = 16
@@ -37,6 +39,8 @@ class TrainingConfig:
     cpu_threads: int = 1
 
     def __post_init__(self) -> None:
+        if self.history_mode not in HISTORY_MODES:
+            raise ValueError("history_mode debe ser history o repeat_current")
         if self.architecture not in {"bilg", "window"}:
             raise ValueError("architecture debe ser bilg o window")
         for name in (
@@ -117,13 +121,17 @@ class Trainer:
             self.online.parameters(), lr=config.learning_rate
         )
         self.controller = NeuralController(
-            self.online, history_length=config.history_length, seed=config.seed + 1
+            self.online,
+            history_length=config.history_length,
+            seed=config.seed + 1,
+            history_mode=config.history_mode,
         )
         self.replay = SequenceReplay(
             config.capacity_steps,
             config.history_length,
             config.gamma,
             seed=config.seed + 2,
+            history_mode=config.history_mode,
         )
         self.completed_episodes = 0
         self.physical_steps = 0
@@ -273,6 +281,7 @@ class Trainer:
                         self.online,
                         history_length=self.config.history_length,
                         seed=seed,
+                        history_mode=self.config.history_mode,
                     ),
                     seed=seed,
                     comparison=True,
@@ -405,5 +414,8 @@ def load_policy(
     network.load_state_dict(state["online"])
     network.eval()
     return NeuralController(
-        network, history_length=config.history_length, seed=seed
+        network,
+        history_length=config.history_length,
+        seed=seed,
+        history_mode=config.history_mode,
     ), state["protocol"]

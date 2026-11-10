@@ -15,6 +15,7 @@ from torch.nn import functional as F
 from .env import LimaPM25Env, Observation
 from .policies import (
     AUXILIARY_SIZE,
+    HISTORY_MODES,
     PlanningDecision,
     candidate_inputs,
     normalized_destination,
@@ -184,12 +185,20 @@ class NeuralController:
     """
 
     def __init__(
-        self, network: nn.Module, *, history_length: int = 4, seed: int = 0
+        self,
+        network: nn.Module,
+        *,
+        history_length: int = 4,
+        seed: int = 0,
+        history_mode: str = "history",
     ) -> None:
         if history_length < 1:
             raise ValueError("history_length debe ser positivo")
+        if history_mode not in HISTORY_MODES:
+            raise ValueError("history_mode debe ser history o repeat_current")
         self.network = network
         self.history_length = history_length
+        self.history_mode = history_mode
         self.history = deque(maxlen=history_length)
         self.rng = np.random.default_rng(seed)
 
@@ -233,6 +242,7 @@ class NeuralController:
                     tuple(sorted(pending)),
                     tuple(assigned_positions),
                     masks,
+                    history_mode=self.history_mode,
                 )
                 maps = torch.as_tensor(maps_array, device=device)
                 auxiliary = torch.as_tensor(auxiliary_array, device=device)

@@ -9,6 +9,7 @@ from .env import LimaPM25Env, Observation
 from .simulation import VEHICLE_COUNT
 
 AUXILIARY_SIZE = 27
+HISTORY_MODES = ("history", "repeat_current")
 
 
 @dataclass(frozen=True)
@@ -64,12 +65,19 @@ def sequence_input(
     pending: Iterable[int] = (0, 1, 2),
     assigned_positions: tuple[tuple[float, float], ...] = ((0.0, 0.0),) * 3,
     action_mask: np.ndarray | None = None,
+    *,
+    history_mode: str = "history",
 ) -> tuple[np.ndarray, np.ndarray]:
     """Ventana causal; al inicio repite el primer mapa sin producir mediciones."""
     if history_length < 1 or not observations:
         raise ValueError("La ventana necesita observaciones y una longitud positiva")
-    window = list(observations)[-history_length:]
-    window = [window[0]] * (history_length - len(window)) + window
+    if history_mode not in HISTORY_MODES:
+        raise ValueError("history_mode debe ser history o repeat_current")
+    if history_mode == "repeat_current":
+        window = [observations[-1]] * history_length
+    else:
+        window = list(observations)[-history_length:]
+        window = [window[0]] * (history_length - len(window)) + window
     inputs = [
         vehicle_input(
             item,
@@ -87,7 +95,14 @@ def sequence_input(
 
 
 def candidate_inputs(
-    observations, reserved_cells, history_length, pending, assigned_positions, masks
+    observations,
+    reserved_cells,
+    history_length,
+    pending,
+    assigned_positions,
+    masks,
+    *,
+    history_mode="history",
 ):
     """Perspectivas para comparar los pares vehículo–dirección de un mismo contexto."""
     views = [
@@ -99,6 +114,7 @@ def candidate_inputs(
             pending,
             assigned_positions,
             masks[vehicle],
+            history_mode=history_mode,
         )
         for vehicle in range(VEHICLE_COUNT)
     ]

@@ -8,7 +8,7 @@ import numpy as np
 import torch
 
 from .env import Observation
-from .policies import PlanningDecision, candidate_inputs, sequence_input
+from .policies import HISTORY_MODES, PlanningDecision, candidate_inputs, sequence_input
 
 
 @dataclass
@@ -30,14 +30,23 @@ class SequenceReplay:
     """
 
     def __init__(
-        self, capacity_steps: int, history_length: int, gamma: float, *, seed: int
+        self,
+        capacity_steps: int,
+        history_length: int,
+        gamma: float,
+        *,
+        seed: int,
+        history_mode: str = "history",
     ) -> None:
         if capacity_steps < 1 or history_length < 1 or not 0 <= gamma <= 1:
             raise ValueError(
                 "La capacidad y el historial deben ser positivos; gamma debe estar en [0,1]"
             )
+        if history_mode not in HISTORY_MODES:
+            raise ValueError("history_mode debe ser history o repeat_current")
         self.capacity_steps = capacity_steps
         self.history_length = history_length
+        self.history_mode = history_mode
         self.gamma = gamma
         self.rng = np.random.default_rng(seed)
         self.episodes: deque[EpisodeExperience] = deque()
@@ -107,6 +116,7 @@ class SequenceReplay:
             decision.pending,
             decision.assigned_positions,
             decision.mask[decision.vehicle],
+            history_mode=self.history_mode,
         )
         physical = choice_index == len(episode.decisions[step]) - 1
         done = physical and episode.done[step]
@@ -132,6 +142,7 @@ class SequenceReplay:
             following.pending,
             following.assigned_positions,
             following.mask,
+            history_mode=self.history_mode,
         )
         return {
             "observations": current,
@@ -187,6 +198,7 @@ class SequenceReplay:
         return {
             "capacity_steps": self.capacity_steps,
             "history_length": self.history_length,
+            "history_mode": self.history_mode,
             "gamma": self.gamma,
             "rng": self.rng.bit_generator.state,
             "episodes": [
@@ -217,11 +229,17 @@ class SequenceReplay:
         }
 
     def load_state_dict(self, state: dict[str, Any]) -> None:
-        expected = (self.capacity_steps, self.history_length, self.gamma)
+        expected = (
+            self.capacity_steps,
+            self.history_length,
+            self.gamma,
+            self.history_mode,
+        )
         if (
             state["capacity_steps"],
             state["history_length"],
             state["gamma"],
+            state.get("history_mode", "history"),
         ) != expected:
             raise ValueError(
                 "La configuración del buffer no coincide con el checkpoint"

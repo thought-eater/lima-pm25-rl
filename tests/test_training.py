@@ -158,10 +158,11 @@ def test_warmup_does_not_update_network_weights(env):
 
 
 @pytest.mark.parametrize("architecture", ["bilg", "window"])
+@pytest.mark.parametrize("history_mode", ["history", "repeat_current"])
 def test_resume_reproduces_continuous_cpu_training_at_episode_boundaries(
-    make_env, tmp_path, architecture
+    make_env, tmp_path, architecture, history_mode
 ):
-    parameters = config(architecture=architecture)
+    parameters = config(architecture=architecture, history_mode=history_mode)
     continuous = Trainer(make_env(), parameters)
     for _ in range(4):
         continuous.train_episode()
@@ -191,19 +192,27 @@ def test_resume_reproduces_continuous_cpu_training_at_episode_boundaries(
 
 
 @pytest.mark.parametrize("architecture", ["bilg", "window"])
+@pytest.mark.parametrize("history_mode", ["history", "repeat_current"])
 def test_checkpoint_rejects_different_training_protocol_and_exports_a_loadable_policy(
-    make_env, tmp_path, architecture
+    make_env, tmp_path, architecture, history_mode
 ):
     trainer = Trainer(
-        make_env(), config(architecture=architecture), protocol={"test": 1}
+        make_env(),
+        config(architecture=architecture, history_mode=history_mode),
+        protocol={"test": 1},
     )
     trainer.train_episode()
     trainer.save_checkpoint(tmp_path / "checkpoint.pt")
-    other = Trainer(make_env(), config(architecture=architecture), protocol={"test": 2})
+    other = Trainer(
+        make_env(),
+        config(architecture=architecture, history_mode=history_mode),
+        protocol={"test": 2},
+    )
     with pytest.raises(ValueError, match="protocolo"):
         other.load_checkpoint(tmp_path / "checkpoint.pt")
     trainer.export_policy(tmp_path / "policy.pt")
     policy, protocol = load_policy(tmp_path / "policy.pt", device="cpu")
+    assert policy.history_mode == history_mode
     assert protocol == {"test": 1}
     observation, _ = other.env.reset(seed=42)
     action = policy.act(other.env, observation)
