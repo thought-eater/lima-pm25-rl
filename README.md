@@ -203,6 +203,18 @@ uv run --locked lima-pm25-audit-gp
 Guarda resultados nuevos en `cache/gp-diagnostics/` y verifica que las misiones
 reproduzcan las trazas del piloto de arquitectura.
 
+La siguiente [comparación espacial del GP](docs/gp-spatial-experiment.md)
+selecciona un único alcance con doce casos de entrenamiento y compara el elegido
+con el original sobre las lecturas de validación congeladas:
+
+```bash
+uv run --locked lima-pm25-compare-gp --check
+uv run --locked lima-pm25-compare-gp
+```
+
+Preparado para el servidor, con resultados nuevos en
+`cache/gp-spatial-experiments/`. No adopta automáticamente el GP seleccionado.
+
 ### Política frente a referencias
 
 ```bash
