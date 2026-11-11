@@ -17,6 +17,7 @@ from .env import LimaPM25Env
 from .episodes import Episode, GeneratedEpisodes
 from .pilot import controlled_environment, controlled_oracle, controlled_score
 from .resources import load_study_resources
+from .reward_env import SyntheticErrorRewardEnv, error_reward_protocol
 from .scenario_fields import FieldVariation
 from .training import Trainer, TrainingConfig
 
@@ -40,6 +41,13 @@ def _sha256(path: Path) -> str:
 def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = False):
     """Los paths son relativos al JSON. No toca particiones de replay final."""
     kind = spec["kind"]
+    reward_mode = spec.get("reward_mode", "uncertainty")
+    if reward_mode not in {"uncertainty", "synthetic_error"}:
+        raise ValueError("reward_mode debe ser uncertainty o synthetic_error")
+    if reward_mode == "synthetic_error" and kind != "generated":
+        raise ValueError(
+            "La recompensa de error sintético requiere episodios generated"
+        )
     if kind not in {"controlled", "demonstration", "generated"}:
         raise ValueError("kind debe ser controlled, demonstration o generated")
     steps = spec["steps_per_episode"]
@@ -114,6 +122,8 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
         protocol["field_variation"] = asdict(field_variation)
     if "arrival_strategy" in spec:
         protocol["arrival_strategy"] = spec["arrival_strategy"]
+    if reward_mode == "synthetic_error":
+        protocol = error_reward_protocol(protocol)
 
     def demonstration(seed):
         return Episode(replace(template, config=replace(template.config, seed=seed)))
@@ -256,7 +266,10 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
             )
             return Episode(replace(episode.request, config=config))
 
-        return LimaPM25Env(
+        environment_type = (
+            SyntheticErrorRewardEnv if reward_mode == "synthetic_error" else LimaPM25Env
+        )
+        return environment_type(
             domain=domain,
             estimator_config=gp,
             episode_factory=shortened,

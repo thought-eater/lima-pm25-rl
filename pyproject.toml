@@ -39,6 +39,7 @@ lima-pm25-compare-hotspot-gp = "lima_pm25_rl.hotspot_gp_experiment:main"
 lima-pm25-compare-hotspot-gp-time = "lima_pm25_rl.hotspot_gp_time_experiment:main"
 lima-pm25-compare-hotspot-gp-mixture = "lima_pm25_rl.hotspot_gp_mixture:main"
 lima-pm25-compare-gp-multiscale = "lima_pm25_rl.gp_multiscale_experiment:main"
+lima-pm25-compare-rewards = "lima_pm25_rl.reward_experiment:main"
 
 [tool.uv.sources]
 lima-pm25-core = { path = "../lima-pm25-core", editable = true }

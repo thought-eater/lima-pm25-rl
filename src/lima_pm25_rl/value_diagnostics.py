@@ -123,7 +123,14 @@ def rollout(
                 [case_seed, tick, 741, future_noise_seed]
             )
         sensor_before = digest(env._simulation.mobile._rng.bit_generator.state)
-        actions, stages = observed_plan(env, policy, observation, force)
+        if hasattr(policy, "network"):
+            actions, stages = observed_plan(env, policy, observation, force)
+        else:
+            if intervention is not None:
+                raise ValueError(
+                    "Las intervenciones de Q requieren una política neuronal"
+                )
+            actions, stages = policy.act(env, observation), []
         observation, reward, terminated, truncated, info = env.step(actions)
         if info["invalid_actions"].any():
             raise RuntimeError("El diagnóstico ejecutó una acción inválida")

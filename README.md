@@ -315,6 +315,21 @@ Requiere transferir también `lima-pm25-core` actualizado. Lee los doce casos de
 entrenamiento de `gp3.tar.zst` y las doce misiones de `hotspot.tar.zst`: 48
 reconstrucciones para el servidor, en `cache/gp-multiscale-experiments/`.
 
+### Comparación de recompensas
+
+La [comparación de recompensa](docs/reward-pilot.md) conserva el GP original y
+BiLG, reutiliza los tres controles de `eval3` y entrena únicamente la variante
+con reducción del error sintético atribuible a los móviles:
+
+```bash
+uv run --locked lima-pm25-compare-rewards --check
+uv run --locked lima-pm25-compare-rewards
+```
+
+El segundo comando entrena **600 episodios nuevos** en el servidor y evalúa
+contra los controles, aleatoria, barrido y greedy. Lee `eval3.tar.zst` o la última
+ejecución de arquitectura y guarda resultados nuevos en `cache/reward-experiments/`.
+
 ### Política frente a referencias
 
 ```bash

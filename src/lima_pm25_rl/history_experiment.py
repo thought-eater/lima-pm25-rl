@@ -2,6 +2,8 @@
 
 import argparse
 import csv
+import hashlib
+import io
 import json
 from dataclasses import asdict, replace
 from datetime import UTC, datetime
@@ -75,18 +77,30 @@ def case_row(report, *, seed, snapshot, history_mode):
 
 
 def validate_controls(source, spec, protocol, expected_code):
-    experiment = json.loads((source / "experiment.json").read_text())
+    return validate_control_files(
+        lambda name: (source / name).read_bytes(), spec, protocol, expected_code
+    )
+
+
+def validate_control_files(read_file, spec, protocol, expected_code):
+    """Auditar los mismos controles desde carpeta o miembros de un tar en memoria."""
+    records, files, states = {}, {}, {}
+
+    def read(name):
+        data = read_file(name)
+        files[name] = hashlib.sha256(data).hexdigest()
+        return data
+
+    experiment = json.loads(read("experiment.json"))
     if any(
         experiment["code_sha256"].get(name) != value
         for name, value in expected_code.items()
     ):
         raise ValueError("El código de los controles no coincide con eval3 auditado")
-    records, files, states = {}, {}, {}
-    files["experiment.json"] = _sha256(source / "experiment.json")
     for seed in spec["paired_seeds"]:
-        folder = source / f"bilg-{seed}"
+        folder = f"bilg-{seed}"
         config = replace(TrainingConfig(**spec["training"]), seed=seed)
-        metadata = json.loads((folder / "config.json").read_text())
+        metadata = json.loads(read(f"{folder}/config.json"))
         actual = TrainingConfig(**metadata["training"])
         if (
             replace(actual, device=config.device, cpu_threads=config.cpu_threads)
@@ -100,8 +114,9 @@ def validate_controls(source, spec, protocol, expected_code):
             or metadata["validation_seeds"] != spec["validation_seeds"]
         ):
             raise ValueError("El protocolo o presupuesto de los controles no coincide")
-        with (folder / "metrics.csv").open() as file:
-            metrics = list(csv.DictReader(file))
+        metrics = list(
+            csv.DictReader(io.StringIO(read(f"{folder}/metrics.csv").decode()))
+        )
         scenarios = [
             int(np.random.SeedSequence([seed, 0, i]).generate_state(1)[0])
             for i in range(spec["episodes"])
@@ -114,17 +129,17 @@ def validate_controls(source, spec, protocol, expected_code):
             raise ValueError(
                 "El historial de entrenamiento del control está incompleto o no emparejado"
             )
-        files[f"bilg-{seed}/metrics.csv"] = _sha256(folder / "metrics.csv")
-        files[f"bilg-{seed}/config.json"] = _sha256(folder / "config.json")
         for phase, episode in (("initial", 0), ("last", spec["episodes"])):
-            policy_path = folder / f"policy-{phase}.pt"
-            state = torch.load(policy_path, map_location="cpu", weights_only=True)
-            meta_path = folder / f"evaluation-{phase}/policy.json"
-            evaluation = json.loads(meta_path.read_text())
+            policy_path = f"{folder}/policy-{phase}.pt"
+            state = torch.load(
+                io.BytesIO(read(policy_path)), map_location="cpu", weights_only=True
+            )
+            meta_path = f"{folder}/evaluation-{phase}/policy.json"
+            evaluation = json.loads(read(meta_path))
             if (
                 not _compatible(state, config, protocol)
                 or state["completed_episodes"] != episode
-                or evaluation["policy_sha256"] != _sha256(policy_path)
+                or evaluation["policy_sha256"] != files[policy_path]
                 or state["physical_steps"]
                 != (0 if phase == "initial" else int(metrics[-1]["physical_steps"]))
             ):
@@ -133,11 +148,9 @@ def validate_controls(source, spec, protocol, expected_code):
                 )
             if phase == "initial":
                 states[seed] = state["online"]
-            files[str(policy_path.relative_to(source))] = _sha256(policy_path)
-            files[str(meta_path.relative_to(source))] = _sha256(meta_path)
             for case in spec["validation_seeds"]:
-                path = folder / f"evaluation-{phase}/case-{case}.json"
-                report = json.loads(path.read_text())
+                path = f"{folder}/evaluation-{phase}/case-{case}.json"
+                report = json.loads(read(path))
                 if (
                     report["case_seed"] != case
                     or report["signatures"]["horizon_s"]
@@ -148,7 +161,6 @@ def validate_controls(source, spec, protocol, expected_code):
                     )
                 case_row(report, seed=seed, snapshot=phase, history_mode="history")
                 records[seed, phase, case] = report
-                files[str(path.relative_to(source))] = _sha256(path)
     return records, states, files
 
 

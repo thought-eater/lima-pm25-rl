@@ -414,6 +414,24 @@ def test_explicit_arrival_strategy_is_part_of_training_and_validation_protocol(
     assert protocol["arrival_strategy"] == "continuing"
 
 
+def test_synthetic_error_mode_is_part_of_train_validation_and_resume_protocol(
+    experiment_inputs,
+):
+    from lima_pm25_rl.reward_env import SyntheticErrorRewardEnv, error_reward_protocol
+
+    spec, directory = experiment_inputs
+    _, _, original_protocol = prepare_experiment(spec, directory)
+    spec["reward_mode"] = "synthetic_error"
+    env, validation, protocol = prepare_experiment(spec, directory)
+    assert isinstance(env, SyntheticErrorRewardEnv)
+    assert isinstance(validation, SyntheticErrorRewardEnv)
+    assert protocol == error_reward_protocol(original_protocol)
+    trainer = Trainer(env, config(), protocol=protocol)
+    trainer.train_episode()
+    trainer.validate(validation, spec["validation_seeds"])
+    assert trainer.completed_episodes == 1
+
+
 def test_experiment_rejects_final_replay_overlap(experiment_inputs):
     spec, directory = experiment_inputs
     spec["reserved_final_start_utc"] = spec["gp_fit_end_utc"]

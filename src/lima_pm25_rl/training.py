@@ -96,6 +96,8 @@ class Trainer:
         self.env = env
         self.config = config
         self.protocol = json.loads(json.dumps(protocol or {}, sort_keys=True))
+        if self.protocol.get("reward") != getattr(env, "reward_protocol", None):
+            raise ValueError("La recompensa del entorno no coincide con el protocolo")
         torch.set_num_threads(config.cpu_threads)
         torch.manual_seed(config.seed)
         torch.backends.cudnn.benchmark = False

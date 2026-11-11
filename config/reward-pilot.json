@@ -1,0 +1,13 @@
+{
+  "experiment_config": "architecture-pilot.json",
+  "candidate_reward_mode": "synthetic_error",
+  "reference_policy_seeds": [42, 43, 44],
+  "control_code_sha256": {
+    "network.py": "74a4062b6acee3c4c9b0ac2119a92490d37e6d1e64c21c9ebeb4ca0ffdfcb206",
+    "training.py": "753c9b9029e1b9738fe9ff2e10be577e03ed7bb77d3b570189defe14a6405cc0",
+    "replay.py": "6833fa2efa3732f4f45bb25d3018b59c14c2cc4dfcd24f3968cfa36385838d06",
+    "policies.py": "9fa1a9c8eea84e2748b00be989a59dc5a94fb957c4dc830b6a51deb9997ddd76",
+    "env.py": "5276868e93e3568831d6d40b294665cef519bf6a382721cfa10e28eb8050b469",
+    "routing.py": "61110575e845940c7bbce1789b20918786c2500f25ba221c452d7120db21bd24"
+  }
+}
