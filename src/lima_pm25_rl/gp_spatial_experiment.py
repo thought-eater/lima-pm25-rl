@@ -62,6 +62,13 @@ def load_frozen_case(path, grid, *, start_utc, end_utc):
     report = json.loads((path / "report.json").read_text())
     with np.load(path / "fields-private.npz", allow_pickle=False) as file:
         fields = {key: file[key] for key in file.files}
+    return validate_frozen_case(
+        report, fields, grid, start_utc=start_utc, end_utc=end_utc
+    )
+
+
+def validate_frozen_case(report, fields, grid, *, start_utc, end_utc):
+    """El mismo contrato para entradas congeladas en carpetas o archivos en memoria."""
     if (
         not np.array_equal(fields["active_cells"], np.argwhere(grid.active_mask))
         or not np.array_equal(fields["grid_shape"], grid.shape)

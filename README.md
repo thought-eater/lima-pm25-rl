@@ -303,6 +303,18 @@ Lee `hot3.tar.zst` o la última comparación temporal. Evalúa 48 secuencias sob
 las doce misiones congeladas y guarda resultados, evidencia predictiva y pesos
 locales en `cache/hotspot-gp-mixtures/`. El experimento completo es para el servidor.
 
+La [última comparación espacial](docs/gp-multiscale-experiment.md) enfrenta el GP
+original con un GP aditivo de 2000+500 m, con varianza repartida 50/50:
+
+```bash
+uv run --locked lima-pm25-compare-gp-multiscale --check
+uv run --locked lima-pm25-compare-gp-multiscale
+```
+
+Requiere transferir también `lima-pm25-core` actualizado. Lee los doce casos de
+entrenamiento de `gp3.tar.zst` y las doce misiones de `hotspot.tar.zst`: 48
+reconstrucciones para el servidor, en `cache/gp-multiscale-experiments/`.
+
 ### Política frente a referencias
 
 ```bash

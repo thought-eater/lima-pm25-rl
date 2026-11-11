@@ -564,6 +564,7 @@ dependencies = [
     { name = "numpy" },
     { name = "osmnx" },
     { name = "pillow" },
+    { name = "scikit-learn" },
     { name = "shapely" },
     { name = "torch" },
 ]
@@ -582,6 +583,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.4,<3" },
     { name = "osmnx", specifier = ">=2.1,<3" },
     { name = "pillow", specifier = ">=12,<14" },
+    { name = "scikit-learn", specifier = ">=1.9,<2" },
     { name = "shapely", specifier = ">=2.1,<3" },
     { name = "torch", specifier = ">=2.15,<3" },
 ]
