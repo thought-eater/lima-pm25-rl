@@ -39,6 +39,11 @@ def load_source(source):
             "summary.json",
         },
     )
+    return load_spatial_inputs(raw)
+
+
+def load_spatial_inputs(raw):
+    """Validar la comparación espacial, también cuando está contenida en hot3."""
     config = json.loads(raw["config.json"])
     if (
         config["spatial_scales_m"] != [2000, 500]

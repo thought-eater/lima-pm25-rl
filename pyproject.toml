@@ -36,6 +36,7 @@ lima-pm25-compare-history = "lima_pm25_rl.history_experiment:main"
 lima-pm25-test-hotspot-sampling = "lima_pm25_rl.hotspot_sampling:main"
 lima-pm25-compare-hotspot-gp = "lima_pm25_rl.hotspot_gp_experiment:main"
 lima-pm25-compare-hotspot-gp-time = "lima_pm25_rl.hotspot_gp_time_experiment:main"
+lima-pm25-compare-hotspot-gp-mixture = "lima_pm25_rl.hotspot_gp_mixture:main"
 
 [tool.uv.sources]
 lima-pm25-core = { path = "../lima-pm25-core", editable = true }

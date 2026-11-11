@@ -328,6 +328,33 @@ def score_case(
         )
         predictions.append(mean)
         deviations.append(std)
+    summary = summarize_frames(rows)
+    identity = {k: report[k] for k in ("regime", "sensor_seed", "plan")}
+    result = {**identity, scale_key: scale, **summary}
+    output.mkdir(parents=True, exist_ok=False)
+    _write_json(
+        output / "report.json",
+        {
+            "summary": result,
+            "frames": rows,
+            "gp": asdict(gp),
+            "history_duration_s": source_config["history_duration_s"],
+            "control_reproduced": control,
+            "input_signatures": report["signatures"],
+        },
+    )
+    with (output / "posterior-private.npz").open("xb") as file:
+        np.savez_compressed(
+            file,
+            mean=predictions,
+            std=deviations,
+            elapsed_s=[r["elapsed_s"] for r in rows],
+        )
+    return result, np.asarray(predictions)
+
+
+def summarize_frames(rows):
+    """Métricas comunes a los GP fijos y las mezclas sobre el mismo reloj."""
     summary = {}
     times = [r["elapsed_s"] for r in rows]
     for key in METRICS:
@@ -351,23 +378,7 @@ def score_case(
         ]
         summary[key] = float(np.mean(selected)) if selected else None
     summary["minimum_prediction"] = min(r["minimum_prediction"] for r in rows)
-    identity = {k: report[k] for k in ("regime", "sensor_seed", "plan")}
-    result = {**identity, scale_key: scale, **summary}
-    output.mkdir(parents=True, exist_ok=False)
-    _write_json(
-        output / "report.json",
-        {
-            "summary": result,
-            "frames": rows,
-            "gp": asdict(gp),
-            "history_duration_s": source_config["history_duration_s"],
-            "control_reproduced": control,
-            "input_signatures": report["signatures"],
-        },
-    )
-    with (output / "posterior-private.npz").open("xb") as file:
-        np.savez_compressed(file, mean=predictions, std=deviations, elapsed_s=times)
-    return result, np.asarray(predictions)
+    return summary
 
 
 def criteria(original, candidate):

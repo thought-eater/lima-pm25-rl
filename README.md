@@ -291,6 +291,18 @@ Conserva el historial de 6 h y verifica la referencia 500 m/3600 s. Guarda las
 `cache/hotspot-gp-time-experiments/`, para evaluar los descensos sin ocultar
 deterioros del régimen persistente.
 
+La [mezcla temporal local](docs/hotspot-gp-mixture.md) compara los GP lento y
+rápido, la mezcla 50/50 y una mezcla adaptativa basada en revisitas:
+
+```bash
+uv run --locked lima-pm25-compare-hotspot-gp-mixture --check
+uv run --locked lima-pm25-compare-hotspot-gp-mixture
+```
+
+Lee `hot3.tar.zst` o la última comparación temporal. Evalúa 48 secuencias sobre
+las doce misiones congeladas y guarda resultados, evidencia predictiva y pesos
+locales en `cache/hotspot-gp-mixtures/`. El experimento completo es para el servidor.
+
 ### Política frente a referencias
 
 ```bash
