@@ -265,6 +265,19 @@ Preparado para el servidor; guarda resultados nuevos en `cache/hotspot-sampling/
 Es una prueba del mecanismo en geometría artificial, no entrenamiento ni validación
 atmosférica de Lima.
 
+La [comparación espacial sobre esos focos](docs/hotspot-gp-experiment.md)
+reconstruye las mismas lecturas con GP de 2000/500 m:
+
+```bash
+uv run --locked lima-pm25-compare-hotspot-gp --check
+uv run --locked lima-pm25-compare-hotspot-gp
+```
+
+Lee `hotspot.tar.zst` o, si falta, la última ejecución en `cache/hotspot-sampling/`.
+Son 24 reconstrucciones para el servidor, con salida nueva en
+`cache/hotspot-gp-experiments/`, verificación del GP original y errores de ambos
+signos por región.
+
 ### Política frente a referencias
 
 ```bash
