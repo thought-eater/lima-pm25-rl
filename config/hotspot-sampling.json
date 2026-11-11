@@ -1,0 +1,22 @@
+{
+  "core_root": "../../lima-pm25-core",
+  "grid_cells": 41,
+  "cell_size_m": 200,
+  "steps": 36,
+  "initial_common_ticks": 4,
+  "excursion_cells": 6,
+  "focus_sigma_m": 400.0,
+  "background_ug_m3": 19.6,
+  "peak_excess_ug_m3": 60.0,
+  "relaxation_time_s": 900.0,
+  "pulse_on_ticks": 6,
+  "pulse_period_ticks": 12,
+  "core_radius_m": 500.0,
+  "background_from_m": 1200.0,
+  "high_excess_threshold_ug_m3": 20.0,
+  "mobile_noise_stddev_ug_m3": 1.0,
+  "concentration_priority": 1.0,
+  "distance_cost_per_km": 0.0005,
+  "sensor_seeds": [0, 1, 2],
+  "map_ticks": [6, 12, 24, 36]
+}

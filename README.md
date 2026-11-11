@@ -250,6 +250,21 @@ uv run --locked lima-pm25-compare-history
 Son 600 episodios nuevos en el servidor, con salida en `cache/history-experiments/`.
 Conserva la arquitectura y el GP original; no elimina el historial del GP.
 
+### Control de focos y planes de muestreo
+
+La [prueba controlada de focos](docs/hotspot-sampling.md) compara muestreo central
+con centro y alrededores, por separado en un foco persistente y uno pulsante.
+Son doce misiones sintéticas, con el mismo GP, tiempo, lecturas y distancia vial:
+
+```bash
+uv run --locked lima-pm25-test-hotspot-sampling --check
+uv run --locked lima-pm25-test-hotspot-sampling
+```
+
+Preparado para el servidor; guarda resultados nuevos en `cache/hotspot-sampling/`.
+Es una prueba del mecanismo en geometría artificial, no entrenamiento ni validación
+atmosférica de Lima.
+
 ### Política frente a referencias
 
 ```bash
