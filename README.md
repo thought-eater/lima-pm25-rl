@@ -278,6 +278,19 @@ Son 24 reconstrucciones para el servidor, con salida nueva en
 `cache/hotspot-gp-experiments/`, verificación del GP original y errores de ambos
 signos por región.
 
+La [comparación temporal a 500 m](docs/hotspot-gp-time-experiment.md) utiliza
+`hot2.tar.zst` o la última comparación espacial y cambia solo 3600/900 s:
+
+```bash
+uv run --locked lima-pm25-compare-hotspot-gp-time --check
+uv run --locked lima-pm25-compare-hotspot-gp-time
+```
+
+Conserva el historial de 6 h y verifica la referencia 500 m/3600 s. Guarda las
+24 reconstrucciones, errores del pico por fase y curvas de seguimiento en
+`cache/hotspot-gp-time-experiments/`, para evaluar los descensos sin ocultar
+deterioros del régimen persistente.
+
 ### Política frente a referencias
 
 ```bash

@@ -32,6 +32,7 @@ METRICS = (
     "surroundings_mse",
     "background_mse",
     "peak_abs_error",
+    "peak_bias",
     "false_high_area_km2",
     "background_overestimation_mse",
     "background_underestimation_mse",
@@ -39,9 +40,8 @@ METRICS = (
 )
 
 
-def load_source(source):
-    """Leer una carpeta o un único experimento tar.zst sin extraerlo al disco."""
-    names = {"config.json", "route-preview.json", "report.json", "fields-private.npz"}
+def read_source_files(source, names):
+    """Leer archivos seleccionados de una ejecución, sin extraer el tar al disco."""
     if source.is_dir():
         raw = {
             p.relative_to(source).as_posix(): p.read_bytes()
@@ -60,9 +60,22 @@ def load_source(source):
                         )
                     raw[str(path)] = archive.extractfile(member).read()
         roots = [PurePosixPath(p).parent for p in raw if p.endswith("config.json")]
+        if roots:
+            depth = min(len(root.parts) for root in roots)
+            roots = [root for root in roots if len(root.parts) == depth]
         if len(roots) != 1:
-            raise ValueError("El archivo debe contener exactamente un control de focos")
+            raise ValueError("El archivo debe contener exactamente una ejecución")
         raw = {str(PurePosixPath(p).relative_to(roots[0])): b for p, b in raw.items()}
+    return raw
+
+
+def load_source(source):
+    names = {"config.json", "route-preview.json", "report.json", "fields-private.npz"}
+    return load_frozen_inputs(read_source_files(source, names))
+
+
+def load_frozen_inputs(raw):
+    """Validar las entradas originales de muestreo, también dentro de hot2."""
     config = json.loads(raw["config.json"])
     spec = config["settings"]
     validate_settings(spec)
@@ -257,13 +270,20 @@ def error_metrics(truth, mean, std, regions, threshold, area):
     values["background_underestimation_mse"] = float(np.mean(np.minimum(error, 0) ** 2))
     values["negative_area_km2"] = float(np.sum(mean < 0) * area / 1e6)
     values["minimum_prediction"] = float(mean.min())
+    values["peak_bias"] = values["predicted_peak"] - values["truth_peak"]
     return values
 
 
-def score_case(grid, source_config, frozen, scale, output):
+def score_case(
+    grid, source_config, frozen, scale, output, *, scale_key="spatial_scale_m"
+):
     report, fields, records, origin = frozen
-    gp = gp_variant(
-        ReconstructionConfig(**source_config["gp"]), scale, "spatial_scale_m"
+    base = ReconstructionConfig(**source_config["gp"])
+    gp = gp_variant(base, scale, scale_key)
+    control = scale == (
+        base.x_length_scale_m
+        if scale_key == "spatial_scale_m"
+        else base.temporal_length_scale_s
     )
     model = GaussianProcessFieldReconstructor(gp)
     history = timedelta(seconds=source_config["history_duration_s"])
@@ -281,15 +301,15 @@ def score_case(grid, source_config, frozen, scale, output):
         )
         mean = posterior.mean_ug_m3[grid.active_mask]
         std = posterior.standard_deviation_ug_m3[grid.active_mask]
-        if scale == 2000 and (
+        if control and (
             not np.allclose(mean, fields["mean"][tick], rtol=1e-7, atol=1e-8)
             or not np.allclose(std, fields["std"][tick], rtol=1e-7, atol=1e-8)
         ):
-            raise ValueError("El GP de 2000 m no reproduce el posterior original")
+            raise ValueError("El GP de referencia no reproduce el posterior original")
         metrics = error_metrics(
             fields["truth"][tick], mean, std, regions, threshold, grid.cell_area_m2
         )
-        if scale == 2000 and any(
+        if control and any(
             not np.isclose(metrics[k], saved[k], rtol=1e-7, atol=1e-8)
             for k in METRICS
             if k in saved
@@ -316,8 +336,12 @@ def score_case(grid, source_config, frozen, scale, output):
         )
         summary[f"final_{key}"] = rows[-1][key]
     for phase in ("steady", "rising", "declining"):
-        selected = [r["core_mse"] for r in rows[1:] if r["phase"] == phase]
-        summary[f"{phase}_core_mse"] = float(np.mean(selected)) if selected else None
+        selected = [r for r in rows[1:] if r["phase"] == phase]
+        summary[f"{phase}_ticks"] = len(selected)
+        for key in ("core_mse", "peak_abs_error", "peak_bias"):
+            summary[f"{phase}_{key}"] = (
+                float(np.mean([r[key] for r in selected])) if selected else None
+            )
     for active, key in (
         (True, "active_detection_rate"),
         (False, "inactive_false_alarm_rate"),
@@ -328,7 +352,7 @@ def score_case(grid, source_config, frozen, scale, output):
         summary[key] = float(np.mean(selected)) if selected else None
     summary["minimum_prediction"] = min(r["minimum_prediction"] for r in rows)
     identity = {k: report[k] for k in ("regime", "sensor_seed", "plan")}
-    result = {**identity, "spatial_scale_m": scale, **summary}
+    result = {**identity, scale_key: scale, **summary}
     output.mkdir(parents=True, exist_ok=False)
     _write_json(
         output / "report.json",
@@ -337,7 +361,7 @@ def score_case(grid, source_config, frozen, scale, output):
             "frames": rows,
             "gp": asdict(gp),
             "history_duration_s": source_config["history_duration_s"],
-            "control_reproduced": scale == 2000,
+            "control_reproduced": control,
             "input_signatures": report["signatures"],
         },
     )
@@ -380,31 +404,26 @@ def criteria(original, candidate):
     }
 
 
-def summarize(rows, seeds):
-    index = {
-        (r["regime"], r["plan"], r["sensor_seed"], r["spatial_scale_m"]): r
-        for r in rows
-    }
+def summarize(
+    rows, seeds, *, scales=SCALES, scale_key="spatial_scale_m", criteria_fn=criteria
+):
+    index = {(r["regime"], r["plan"], r["sensor_seed"], r[scale_key]): r for r in rows}
     expected = {
         (r, p, s, scale)
         for r in REGIMES
         for p in PLANS
         for s in seeds
-        for scale in SCALES
+        for scale in scales
     }
     if len(index) != len(rows) or set(index) != expected:
         raise ValueError("La comparación requiere todos los pares, sin duplicados")
-    keys = [
-        k
-        for k in rows[0]
-        if k not in {"regime", "plan", "sensor_seed", "spatial_scale_m"}
-    ]
+    keys = [k for k in rows[0] if k not in {"regime", "plan", "sensor_seed", scale_key}]
     groups, paired, decisions = [], [], []
     for regime in REGIMES:
         for plan in PLANS:
             arms = []
-            for scale in SCALES:
-                group = {"regime": regime, "plan": plan, "spatial_scale_m": scale}
+            for scale in scales:
+                group = {"regime": regime, "plan": plan, scale_key: scale}
                 for key in keys:
                     values = [index[regime, plan, seed, scale][key] for seed in seeds]
                     values = [v for v in values if v is not None]
@@ -415,15 +434,15 @@ def summarize(rows, seeds):
                         group[key[:-3] + "rmse"] = float(np.sqrt(group[key]))
                 arms.append(group)
                 groups.append(group)
-            decisions.append({"regime": regime, "plan": plan, **criteria(*arms)})
+            decisions.append({"regime": regime, "plan": plan, **criteria_fn(*arms)})
             for seed in seeds:
-                a, b = (index[regime, plan, seed, scale] for scale in SCALES)
+                a, b = (index[regime, plan, seed, scale] for scale in scales)
                 paired.append(
                     {
                         "regime": regime,
                         "plan": plan,
                         "sensor_seed": seed,
-                        "criteria": criteria(a, b),
+                        "criteria": criteria_fn(a, b),
                         "candidate_minus_control": {
                             k: b[k] - a[k]
                             if a[k] is not None and b[k] is not None
@@ -439,11 +458,12 @@ def summarize(rows, seeds):
     }
 
 
-def plot_pair(grid, spec, frozen, predictions, output):
+def plot_pair(grid, spec, frozen, predictions, output, *, scales=SCALES, unit="m"):
     from matplotlib.backends.backend_agg import FigureCanvasAgg
     from matplotlib.figure import Figure
 
     report, fields, records, _ = frozen
+    control, candidate = scales
     vmax = spec["background_ug_m3"] + 1.5 * spec["peak_excess_ug_m3"]
     for tick in spec["map_ticks"]:
         fig = Figure(figsize=(12, 7), layout="constrained")
@@ -452,19 +472,19 @@ def plot_pair(grid, spec, frozen, predictions, output):
         truth = fields["truth"][tick]
         arrays = (
             truth,
-            predictions[2000][tick],
-            predictions[500][tick],
-            predictions[2000][tick] - truth,
-            predictions[500][tick] - truth,
-            predictions[500][tick] - predictions[2000][tick],
+            predictions[control][tick],
+            predictions[candidate][tick],
+            predictions[control][tick] - truth,
+            predictions[candidate][tick] - truth,
+            predictions[candidate][tick] - predictions[control][tick],
         )
         titles = (
             "Verdad privada",
-            "GP 2000 m",
-            "GP 500 m",
-            "Error 2000 m",
-            "Error 500 m",
-            "Media 500 − 2000 m",
+            f"GP {control} {unit}",
+            f"GP {candidate} {unit}",
+            f"Error {control} {unit}",
+            f"Error {candidate} {unit}",
+            f"Media {candidate} − {control} {unit}",
         )
         for i, (ax, values, title) in enumerate(zip(axes, arrays, titles, strict=True)):
             image = ax.imshow(
