@@ -318,6 +318,20 @@ def _validate_run_settings(
     return seeds
 
 
+def _policy_snapshots(values: list[int] | None, episodes: int) -> list[int]:
+    if values is None:
+        return []
+    if (
+        not isinstance(values, list)
+        or any(type(value) is not int or not 0 <= value <= episodes for value in values)
+        or values != sorted(set(values))
+    ):
+        raise ValueError(
+            "policy_snapshot_episodes requiere episodios únicos, ordenados y entre 0 y el total"
+        )
+    return values
+
+
 def run_training(
     trainer: Trainer,
     *,
@@ -328,6 +342,7 @@ def run_training(
     validation_seeds: list[int] | None = None,
     validation_every: int = 10,
     resumed_from: str | None = None,
+    policy_snapshot_episodes: list[int] | None = None,
 ) -> dict[str, Any]:
     seeds = _validate_run_settings(
         episodes=episodes,
@@ -337,6 +352,8 @@ def run_training(
         validation=validation_env is not None,
         validation_seeds=validation_seeds,
     )
+    snapshots = _policy_snapshots(policy_snapshot_episodes, episodes)
+    source_sha256 = _sha256(Path(resumed_from)) if resumed_from is not None else None
     output.mkdir(parents=True, exist_ok=False)
     configuration = {
         "training": asdict(trainer.config),
@@ -347,11 +364,22 @@ def run_training(
         "validation_every": validation_every,
         "validation_seeds": seeds,
         "resumed_from": resumed_from,
+        "resumed_from_sha256": source_sha256,
+        "policy_snapshot_episodes": snapshots,
+        "start_physical_steps": trainer.physical_steps,
+        "start_optimizer_updates": trainer.updates,
+        "start_target_updates": trainer.target_updates,
+        "start_epsilon": trainer.epsilon,
+        "start_replay_steps": trainer.replay.steps,
     }
     (output / "config.json").write_text(
         json.dumps(configuration, ensure_ascii=False, indent=2) + "\n"
     )
     initial_score = None
+    if trainer.completed_episodes in snapshots:
+        trainer.export_policy(
+            output / f"policy-episode-{trainer.completed_episodes:04d}.pt"
+        )
     if validation_env is not None and trainer.completed_episodes == 0:
         initial_validation = trainer.validate(validation_env, seeds)
         (output / "validation-initial.json").write_text(
@@ -392,6 +420,10 @@ def run_training(
                 writer.writeheader()
             writer.writerow(row)
             file.flush()
+            if trainer.completed_episodes in snapshots:
+                trainer.export_policy(
+                    output / f"policy-episode-{trainer.completed_episodes:04d}.pt"
+                )
             if (
                 trainer.completed_episodes % checkpoint_every == 0
                 or trainer.completed_episodes == episodes
@@ -509,6 +541,16 @@ def main() -> None:
     ):
         parser.error("--check no admite --output, --resume ni --episodes")
     spec = json.loads(args.config.read_text())
+    episodes = args.episodes if args.episodes is not None else spec["episodes"]
+    snapshots = _policy_snapshots(spec.get("policy_snapshot_episodes"), episodes)
+    minimum_resume = spec.get("minimum_resume_episode")
+    if minimum_resume is not None:
+        if type(minimum_resume) is not int or not 0 < minimum_resume < episodes:
+            parser.error(
+                "minimum_resume_episode debe ser positivo y menor que episodes"
+            )
+        if not args.check and (args.resume is None or args.resume is True):
+            parser.error("Esta continuación requiere --resume con una ruta explícita")
     parameters = dict(spec.get("training", {}))
     if args.device:
         parameters["device"] = args.device
@@ -537,6 +579,10 @@ def main() -> None:
                     "cuda_available": torch.cuda.is_available(),
                     "requested_device": config.device,
                     "protocol": protocol,
+                    "target_episodes": episodes,
+                    "minimum_resume_episode": minimum_resume,
+                    "policy_snapshot_episodes": snapshots,
+                    "checkpoint_checked": False,
                 },
                 ensure_ascii=False,
                 indent=2,
@@ -559,13 +605,17 @@ def main() -> None:
     trainer = Trainer(env, config, protocol=protocol)
     if resume is not None:
         trainer.load_checkpoint(resume)
+        if minimum_resume is not None and trainer.completed_episodes < minimum_resume:
+            parser.error(
+                f"La continuación requiere al menos {minimum_resume} episodios; "
+                f"el checkpoint contiene {trainer.completed_episodes}"
+            )
     elif spec["kind"] == "controlled":
         # Empate inicial conocido: el argmax elige este. Solo para este piloto.
         with torch.no_grad():
             for parameter in trainer.online.advantage[-1].parameters():
                 parameter.zero_()
         trainer.target.load_state_dict(trainer.online.state_dict())
-    episodes = args.episodes if args.episodes is not None else spec["episodes"]
     if (
         resume is not None
         and type(episodes) is int
@@ -588,6 +638,7 @@ def main() -> None:
         validation_seeds=spec.get("validation_seeds"),
         validation_every=spec.get("validation_every", 10),
         resumed_from=str(resume) if resume is not None else None,
+        policy_snapshot_episodes=snapshots,
     )
     env.close()
     if validation_env is not None:

@@ -110,6 +110,13 @@ Cada carpeta conserva `config.json`, `metrics.csv`, `checkpoint-last.pt` y
 `policy-last.pt`. Con validación también guarda `policy-best.pt`, seleccionada
 por incertidumbre final, no por replay histórico.
 
+Para la continuación acordada **1000 → 2000 episodios**, usar
+`config/training-continuation.json` y el checkpoint completo original, no una
+política exportada ni un piloto. La [guía de continuación](docs/training-continuation.md)
+incluye el comando del servidor, la auditoría del origen y los cortes de política
+prefijados en 1000, 1250, 1500, 1750 y 2000. No cambia el entrenamiento habitual
+de 1000 episodios ni inicia esta ejecución automáticamente.
+
 `--config` y `--output` siguen disponibles para excepciones. Por ejemplo, los
 pilotos de software usan otras configuraciones:
 

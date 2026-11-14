@@ -6,6 +6,7 @@ from dataclasses import asdict, replace
 from pathlib import Path
 
 import pytest
+import torch
 
 import lima_pm25_rl.train_cli as entry
 from lima_pm25_rl.training import TrainingConfig
@@ -114,7 +115,9 @@ def test_explicit_resume_and_output_remain_available(project, tmp_path, monkeypa
         ],
     )
     monkeypatch.setattr(
-        entry, "_latest_checkpoint", lambda *args: pytest.fail("La ruta ya está indicada")
+        entry,
+        "_latest_checkpoint",
+        lambda *args: pytest.fail("La ruta ya está indicada"),
     )
     entry.main()
     metadata = json.loads((destination / "config.json").read_text())
@@ -155,7 +158,9 @@ def test_check_also_uses_the_default_config_without_creating_output(
 ):
     monkeypatch.setattr(sys, "argv", ["lima-pm25-train", "--check"])
     monkeypatch.setattr(
-        entry, "Trainer", lambda *a, **kw: pytest.fail("No debe construir el entrenador")
+        entry,
+        "Trainer",
+        lambda *a, **kw: pytest.fail("No debe construir el entrenador"),
     )
     entry.main()
     result = json.loads(capsys.readouterr().out)
@@ -213,3 +218,116 @@ def test_automatic_resume_ignores_missing_or_invalid_metadata(project, metadata)
         path.with_name("config.json").write_text(json.dumps(metadata))
     with pytest.raises(FileNotFoundError, match="compatible"):
         entry._latest_checkpoint(config, {})
+
+
+def test_continuation_configuration_changes_only_budget_and_exports():
+    original = json.loads(entry.DEFAULT_CONFIG.read_text())
+    continuation = json.loads(
+        (entry.PROJECT_ROOT / "config/training-continuation.json").read_text()
+    )
+    assert continuation.pop("episodes") == 2000
+    assert continuation.pop("minimum_resume_episode") == 1000
+    assert continuation.pop("policy_snapshot_episodes") == [
+        1000,
+        1250,
+        1500,
+        1750,
+        2000,
+    ]
+    original.pop("episodes")
+    assert continuation == original
+
+
+@pytest.mark.parametrize("resume_args", [[], ["--resume"]])
+def test_continuation_requires_explicit_checkpoint_before_building_trainer(
+    project, monkeypatch, capsys, resume_args
+):
+    spec = json.loads(project.read_text())
+    spec.update(episodes=3, minimum_resume_episode=2)
+    project.write_text(json.dumps(spec))
+    monkeypatch.setattr(sys, "argv", ["lima-pm25-train", *resume_args])
+    monkeypatch.setattr(
+        entry, "Trainer", lambda *a, **kw: pytest.fail("No debe empezar desde cero")
+    )
+    with pytest.raises(SystemExit):
+        entry.main()
+    assert "ruta explícita" in capsys.readouterr().err
+    assert not runs()
+
+
+def test_continuation_rejects_too_short_checkpoint_without_writing_output(
+    project, monkeypatch, capsys
+):
+    entry.main()
+    [original] = runs()
+    checkpoint = original.parent / "checkpoint-last.pt"
+    spec = json.loads(project.read_text())
+    spec.update(episodes=3, minimum_resume_episode=2)
+    project.write_text(json.dumps(spec))
+    monkeypatch.setattr(sys, "argv", ["lima-pm25-train", "--resume", str(checkpoint)])
+    with pytest.raises(SystemExit):
+        entry.main()
+    assert "al menos 2 episodios" in capsys.readouterr().err
+    assert runs() == [original]
+
+
+def test_continuation_exports_start_and_prefixed_cuts_and_records_source(
+    project, monkeypatch
+):
+    entry.main()
+    [original] = runs()
+    checkpoint = original.parent / "checkpoint-last.pt"
+    state = torch.load(checkpoint, weights_only=True)
+    spec = json.loads(project.read_text())
+    spec.update(
+        episodes=3, minimum_resume_episode=1, policy_snapshot_episodes=[1, 2, 3]
+    )
+    project.write_text(json.dumps(spec))
+    monkeypatch.setattr(sys, "argv", ["lima-pm25-train", "--resume", str(checkpoint)])
+    entry.main()
+    [continued] = [path for path in runs() if path != original]
+    metadata = json.loads(continued.read_text())
+    assert metadata["resumed_from_sha256"] == entry._sha256(checkpoint)
+    assert metadata["start_physical_steps"] == state["physical_steps"]
+    assert metadata["start_optimizer_updates"] == state["updates"]
+    assert metadata["start_target_updates"] == state["target_updates"]
+    start = torch.load(continued.parent / "policy-episode-0001.pt", weights_only=True)
+    assert all(
+        torch.equal(value, start["online"][key])
+        for key, value in state["online"].items()
+    )
+    for episode in (1, 2, 3):
+        cut = torch.load(
+            continued.parent / f"policy-episode-{episode:04d}.pt", weights_only=True
+        )
+        assert cut["completed_episodes"] == episode
+    with (continued.parent / "metrics.csv").open() as file:
+        assert [row["episode"] for row in csv.DictReader(file)] == ["2", "3"]
+
+
+@pytest.mark.parametrize("values", [[2, 1], [1, 1], [-1], [4], [True], "1"])
+def test_snapshot_validation_rejects_invalid_cuts(values):
+    with pytest.raises(ValueError, match="policy_snapshot_episodes"):
+        entry._policy_snapshots(values, 3)
+
+
+def test_continuation_check_does_not_require_or_claim_to_inspect_checkpoint(
+    project, monkeypatch, capsys
+):
+    spec = json.loads(project.read_text())
+    spec.update(
+        episodes=3, minimum_resume_episode=1, policy_snapshot_episodes=[1, 2, 3]
+    )
+    project.write_text(json.dumps(spec))
+    monkeypatch.setattr(sys, "argv", ["lima-pm25-train", "--check"])
+    monkeypatch.setattr(
+        entry,
+        "Trainer",
+        lambda *a, **kw: pytest.fail("No debe construir el entrenador"),
+    )
+    entry.main()
+    result = json.loads(capsys.readouterr().out)
+    assert result["checkpoint_checked"] is False
+    assert result["minimum_resume_episode"] == 1
+    assert result["policy_snapshot_episodes"] == [1, 2, 3]
+    assert not runs()

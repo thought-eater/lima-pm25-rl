@@ -237,6 +237,31 @@ def test_validation_does_not_train_add_replay_data_or_change_exploration(make_en
     )
 
 
+def test_policy_snapshots_do_not_change_training_or_replay_rng(make_env, tmp_path):
+    plain = Trainer(make_env(), config())
+    run_training(plain, episodes=2, output=tmp_path / "plain")
+    snapshots = Trainer(make_env(), config())
+    run_training(
+        snapshots,
+        episodes=2,
+        output=tmp_path / "snapshots",
+        policy_snapshot_episodes=[0, 1, 2],
+    )
+    assert plain.updates == snapshots.updates
+    assert plain.physical_steps == snapshots.physical_steps
+    assert (
+        plain.controller.rng.bit_generator.state
+        == snapshots.controller.rng.bit_generator.state
+    )
+    assert (
+        plain.replay.rng.bit_generator.state == snapshots.replay.rng.bit_generator.state
+    )
+    for key, value in plain.online.state_dict().items():
+        assert torch.equal(value, snapshots.online.state_dict()[key])
+    for key, value in plain.target.state_dict().items():
+        assert torch.equal(value, snapshots.target.state_dict()[key])
+
+
 def test_runner_writes_metrics_checkpoints_and_never_overwrites_an_existing_run(
     env, make_env, tmp_path
 ):
