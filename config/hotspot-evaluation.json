@@ -1,0 +1,9 @@
+{
+  "experiment_config": "training-server.json",
+  "training_source": "../gp3.tar.zst",
+  "training_cases": 12,
+  "quantile": 0.9,
+  "truth_source": "../diag_gp.tar.zst",
+  "evaluation_sources": ["../evaluation.tar.zst", "../evaluation_2.tar.zst"],
+  "map_ticks": [1, 12, 24, 36]
+}

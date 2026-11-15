@@ -147,6 +147,16 @@ uv run lima-pm25-train --check
 
 La ejecución larga requiere fijar y autorizar su presupuesto por separado.
 
+### Reevaluación localizada y operacional
+
+`python -m lima_pm25_rl.hotspot_evaluation --check` valida la preparación de
+la [evaluación de focos](docs/hotspot-evaluation.md). Reconstruye posteriormente
+las evaluaciones guardadas sin simular ni entrenar, con umbral fijado solo en
+entrenamiento, déficit de concentración, detección, falsas alarmas, incertidumbre
+y recorrido vial. Conserva métricas globales y la meta original del 20 %; no
+garantiza que los nuevos indicadores favorezcan a la política. La batería completa
+se ejecuta en servidor; `--smoke` es una comprobación de un solo caso.
+
 ### Diagnóstico del campo antes de entrenar
 
 ```bash
