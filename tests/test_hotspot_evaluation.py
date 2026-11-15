@@ -170,7 +170,7 @@ def test_saved_evaluation_end_to_end_including_fixed_only(make_env, tmp_path, sm
     env = make_env()
     _, frozen = make_frozen(env, tmp_path)
     source = tmp_path / "evaluation"
-    run_comparison(
+    original_summary = run_comparison(
         env,
         BaselinePolicy("random", seed=7),
         case_seeds=[42],
@@ -197,4 +197,14 @@ def test_saved_evaluation_end_to_end_including_fixed_only(make_env, tmp_path, sm
     )
     assert all(r["reproduction_passed"] for r in results)
     assert (output / "curves.png").is_file()
-    assert json.loads((output / "summary.json").read_text())["smoke_only"] == smoke
+    summary = json.loads((output / "summary.json").read_text())
+    assert summary["smoke_only"] == smoke
+    assert (output / "references.csv").is_file()
+    for row in summary["neural_vs_references"]:
+        expected = next(
+            r
+            for r in original_summary["neural_vs_references"]
+            if r["reference"] == row["reference"]
+        )
+        for key in ("rmse_reduction_percent", "variance_reduction_percent"):
+            assert row[key] == pytest.approx(expected[key], abs=1e-8)

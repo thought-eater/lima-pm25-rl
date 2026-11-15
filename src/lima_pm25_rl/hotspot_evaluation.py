@@ -25,6 +25,7 @@ from .gp_temporal_experiment import check_control
 from .hotspot_metrics import (
     aggregate_missions,
     cell_detection_events,
+    compare_references,
     frame_metrics,
     summarize_mission,
 )
@@ -104,7 +105,7 @@ def freeze_protocol(cases, *, quantile, expected_seeds, source, grid, protocol):
         [cases[seed][1]["truth"][1:].ravel() for seed in expected_seeds]
     )
     return {
-        "version": 1,
+        "version": 2,
         "purpose": "retrospective_development_not_final_historical_replay",
         "threshold_ug_m3": float(np.quantile(values, quantile, method="linear")),
         "threshold_rule": "pooled_training_cell_tick_quantile_excluding_t0; hot_if_greater_or_equal",
@@ -118,7 +119,7 @@ def freeze_protocol(cases, *, quantile, expected_seeds, source, grid, protocol):
         "cell_area_m2": grid.cell_area_m2,
         "health_threshold": False,
         "aggregation": "trapezoid_in_time; ratios_of_cell_time_integrals; replicas_then_equal_cases; sqrt_after_MSE_average",
-        "delay_rule": "per_cell_contiguous_hot_episodes; exclude_left_censored; report_never_detected_separately",
+        "delay_rule": "per_cell_contiguous_hot_episodes; exclude_left_censored; separate_completed_undetected_and_undetected_right_censored; missed_fraction_among_completed_events",
         "original_target_percent": 20,
         "original_target_rule": "unchanged; retain original global indicators and references; no new local pass criterion",
     }
@@ -399,7 +400,6 @@ def evaluate_saved(
         },
     )
     results, tick_rows = [], []
-    fixed_by_case = {}
     for old in old_rows:
         seed, strategy, policy_seed = key(old)
         if smoke and (seed != seeds[0] or strategy not in {"fixed", "neural"}):
@@ -429,8 +429,6 @@ def evaluate_saved(
         result = {**identity, **summary}
         results.append(result)
         tick_rows.extend({**identity, **r} for r in rows)
-        if strategy == "fixed":
-            fixed_by_case[seed] = summary
         folder = (
             output / f"case-{seed}" / f"{strategy}-{policy_seed or 'deterministic'}"
         )
@@ -463,24 +461,25 @@ def evaluate_saved(
             f"Reconstruida: caso={seed}, política={strategy}, réplica={policy_seed or '-'}",
             flush=True,
         )
-    for result in results:
-        fixed = fixed_by_case[result["case_seed"]]
-        for name in ("final_integrated_variance", "mean_integrated_variance"):
-            result[f"{name}_reduction_vs_fixed_percent"] = (
-                100 * (1 - result[name] / fixed[name]) if fixed[name] > 0 else None
-            )
     cases, summaries, paired = aggregate_missions(results)
+    references = compare_references(summaries)
     for name, rows in (
         ("missions.csv", results),
         ("ticks.csv", tick_rows),
         ("cases.csv", cases),
         ("summary.csv", summaries),
         ("paired.csv", paired),
+        ("references.csv", references),
     ):
         write_csv(output / name, rows)
     _write_json(
         output / "summary.json",
-        {"smoke_only": smoke, "strategies": summaries, "reproduction_passed": True},
+        {
+            "smoke_only": smoke,
+            "strategies": summaries,
+            "neural_vs_references": references,
+            "reproduction_passed": True,
+        },
     )
     from .hotspot_plots import save_curves
 
@@ -542,7 +541,7 @@ def main():
         if args.protocol:
             protocol = json.loads(args.protocol.read_text())
             if (
-                protocol["version"] != 1
+                protocol["version"] != 2
                 or protocol["protocol"] != model_protocol
                 or not np.isfinite(protocol["threshold_ug_m3"])
             ):

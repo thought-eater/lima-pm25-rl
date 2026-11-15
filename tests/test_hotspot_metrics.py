@@ -4,6 +4,7 @@ import pytest
 from lima_pm25_rl.hotspot_metrics import (
     aggregate_missions,
     cell_detection_events,
+    compare_references,
     frame_metrics,
     summarize_mission,
 )
@@ -68,9 +69,94 @@ def test_delays_report_never_detected_and_left_censored_separately():
     result = cell_detection_events(truth, mean, np.arange(4) * 300, 10)
     assert result["cell_events_left_censored"] == 1
     assert result["cell_events_detected"] == 1
-    assert result["cell_events_never_detected"] == 1
+    assert result["cell_events_completed_undetected"] == 1
+    assert result["cell_events_undetected_right_censored"] == 0
     assert result["cell_event_delay_detected_mean_s"] == 300
-    assert result["cell_event_missed_fraction"] == 0.5
+    assert result["cell_event_completed_missed_fraction"] == 0.5
+
+
+def test_last_tick_event_is_censored_and_not_a_completed_miss():
+    truth = np.array([[0, 0, 0], [20, 20, 0], [0, 20, 20]])
+    mean = np.array([[0, 0, 0], [0, 20, 0], [0, 20, 0]])
+    result = cell_detection_events(truth, mean, np.arange(3) * 300, 10)
+    assert result["cell_events_completed_undetected"] == 1
+    assert result["cell_events_detected"] == 1
+    assert result["cell_events_completed_detected"] == 0
+    assert result["cell_events_undetected_right_censored"] == 1
+    assert result["cell_event_completed_missed_fraction"] == 1
+    assert result["cell_event_delay_detected_mean_s"] == 0
+
+
+def test_only_censored_events_do_not_imply_zero_delay_or_complete_failure():
+    truth = np.array([[0], [20]])
+    result = cell_detection_events(truth, np.zeros_like(truth), [0, 300], 10)
+    assert result["cell_events_undetected_right_censored"] == 1
+    assert result["cell_event_completed_missed_fraction"] is None
+    assert result["cell_event_delay_detected_mean_s"] is None
+
+
+def test_percentages_match_original_aggregation_instead_of_mean_case_percentages():
+    from lima_pm25_rl.comparison import summarize_comparison
+
+    original_rows, rows = [], []
+    for strategy in ("fixed", "neural", "random", "greedy", "sweep"):
+        for seed, reference, candidate in ((1, 10.0, 5.0), (2, 100.0, 100.0)):
+            for replica in (0, 1) if strategy in {"random", "greedy"} else (0,):
+                value = candidate if strategy == "neural" else reference
+                original_rows.append(
+                    {
+                        "strategy": strategy,
+                        "case_seed": seed,
+                        "synthetic_mse": value,
+                        "synthetic_rmse_ug_m3": np.sqrt(value),
+                        "synthetic_mae_ug_m3": value,
+                        "final_integrated_variance": value,
+                        "mean_integrated_variance": value,
+                        "reward": 0.0,
+                        "distance_m": 0.0 if strategy == "fixed" else value,
+                        "sampling_coverage": 0.0,
+                        "early_termination": False,
+                        "invalid_actions": 0,
+                    }
+                )
+                rows.append(
+                    {
+                        "strategy": strategy,
+                        "case_seed": seed,
+                        "policy_seed": replica,
+                        "final_mse": value,
+                        "temporal_mse": value,
+                        "final_mae_ug_m3": value,
+                        "final_integrated_variance": value,
+                        "mean_integrated_variance": value,
+                        "distance_m": 0.0 if strategy == "fixed" else value,
+                    }
+                )
+    _, summaries, _ = aggregate_missions(rows)
+    comparisons = compare_references(summaries)
+    original, _ = summarize_comparison(original_rows)
+    neural = next(r for r in original if r["strategy"] == "neural")
+    assert {r["reference"] for r in comparisons} == {
+        "fixed",
+        "random",
+        "greedy",
+        "sweep",
+    }
+    for row in comparisons:
+        reference = next(r for r in original if r["strategy"] == row["reference"])
+        assert row["variance_reduction_percent"] == pytest.approx(100 * (1 - 105 / 110))
+        assert row["variance_reduction_percent"] != pytest.approx(25)
+        assert row["rmse_reduction_percent"] == pytest.approx(
+            100
+            * (1 - neural["synthetic_rmse_ug_m3"] / reference["synthetic_rmse_ug_m3"])
+        )
+        assert row["target_percent"] == 20
+        if row["reference"] == "fixed":
+            assert row["distance_reduction_percent"] is None
+            assert (
+                row["variance_reduction_percent"]
+                == neural["variance_reduction_vs_fixed_percent"]
+            )
 
 
 def test_aggregation_averages_replicas_then_cases_and_only_then_sqrt():

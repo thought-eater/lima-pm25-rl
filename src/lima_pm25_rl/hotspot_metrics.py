@@ -4,6 +4,8 @@ from collections import defaultdict
 
 import numpy as np
 
+from .comparison import _reduction
+
 
 def frame_metrics(truth, mean, std, *, threshold, cell_area_m2, coordinates):
     truth, mean, std = (np.asarray(a, dtype=float) for a in (truth, mean, std))
@@ -62,7 +64,7 @@ def frame_metrics(truth, mean, std, *, threshold, cell_area_m2, coordinates):
 def cell_detection_events(truth, mean, times, threshold):
     """Eventos por celda; no asume identidad ni seguimiento de objetos espaciales."""
     hot, detected = truth >= threshold, mean >= threshold
-    delays, missed, left_censored = [], 0, 0
+    delays, missed, completed_detected, left_censored, right_censored = [], 0, 0, 0, 0
     for cell in range(hot.shape[1]):
         starts = np.flatnonzero(hot[:, cell] & ~np.r_[False, hot[:-1, cell]])
         for start in starts:
@@ -75,15 +77,20 @@ def cell_detection_events(truth, mean, times, threshold):
             hits = np.flatnonzero(detected[start : end + 1, cell])
             if len(hits):
                 delays.append(float(times[start + hits[0]] - times[start]))
+                completed_detected += int(end < len(times) - 1)
+            elif end == len(times) - 1:
+                right_censored += 1
             else:
                 missed += 1
     return {
         "cell_events_detected": len(delays),
-        "cell_events_never_detected": missed,
+        "cell_events_completed_detected": completed_detected,
+        "cell_events_completed_undetected": missed,
         "cell_events_left_censored": left_censored,
+        "cell_events_undetected_right_censored": right_censored,
         "cell_event_delay_detected_mean_s": float(np.mean(delays)) if delays else None,
-        "cell_event_missed_fraction": missed / (missed + len(delays))
-        if missed + len(delays)
+        "cell_event_completed_missed_fraction": missed / (missed + completed_detected)
+        if missed + completed_detected
         else None,
     }
 
@@ -190,3 +197,27 @@ def aggregate_missions(rows):
                 )
             paired.append(pair)
     return cases, summaries, paired
+
+
+def compare_references(summaries):
+    """Porcentajes sobre métricas agregadas, como en la evaluación original."""
+    neural = next(row for row in summaries if row["strategy"] == "neural")
+    return [
+        {
+            "reference": reference["strategy"],
+            "target_percent": 20,
+            **{
+                name: _reduction(neural[metric], reference[metric])
+                for name, metric in (
+                    ("variance_reduction_percent", "final_integrated_variance"),
+                    ("mean_variance_reduction_percent", "mean_integrated_variance"),
+                    ("rmse_reduction_percent", "final_rmse_ug_m3"),
+                    ("temporal_rmse_reduction_percent", "temporal_rmse_ug_m3"),
+                    ("mae_reduction_percent", "final_mae_ug_m3"),
+                    ("distance_reduction_percent", "distance_m"),
+                )
+            },
+        }
+        for reference in summaries
+        if reference["strategy"] != "neural"
+    ]
