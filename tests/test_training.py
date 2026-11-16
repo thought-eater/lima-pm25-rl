@@ -63,14 +63,58 @@ def fake_episode(offset=0):
     )
 
 
-def test_planning_rewards_and_discounts_do_not_triple_time_or_reward():
-    replay = SequenceReplay(4, 4, 0.9, seed=1)
+@pytest.mark.parametrize("gamma", [0.5, 0.99])
+def test_planning_rewards_and_discounts_do_not_triple_time_or_reward(gamma):
+    replay = SequenceReplay(4, 4, gamma, seed=1)
     replay.add(fake_episode())
     transitions = [replay.transition(i) for i in range(6)]
     assert [item["reward"] for item in transitions] == [0, 0, 0.1, 0, 0, 0.2]
-    assert [item["discount"] for item in transitions] == [1, 1, 0.9, 1, 1, 0.9]
+    assert [item["discount"] for item in transitions] == [1, 1, gamma, 1, 1, gamma]
     assert [item["done"] for item in transitions] == [False] * 5 + [True]
     assert sum(item["reward"] for item in transitions) == pytest.approx(0.3)
+
+
+def test_discount_keeps_initial_rollout_paired_and_rejects_control_resume(
+    make_env, tmp_path
+):
+    control = Trainer(make_env(), config(gamma=0.99, learning_starts=128))
+    candidate = Trainer(make_env(), config(gamma=0.5, learning_starts=128))
+    for key, value in control.online.state_dict().items():
+        assert torch.equal(value, candidate.online.state_dict()[key])
+    assert all(
+        control.episode_seed(i) == candidate.episode_seed(i) for i in range(2000)
+    )
+    left, right = control.train_episode(), candidate.train_episode()
+    assert control.updates == candidate.updates == 0
+    for key in (
+        "scenario_seed",
+        "reward",
+        "distance_m",
+        "epsilon_start",
+        "epsilon_end",
+    ):
+        assert left[key] == right[key]
+    assert len(control.replay) == len(candidate.replay)
+    for index in range(len(control.replay)):
+        a, b = control.replay.transition(index), candidate.replay.transition(index)
+        for key in ("action", "reward", "done"):
+            assert a[key] == b[key]
+        for key in ("observations", "next_observations"):
+            for x, y in zip(a[key], b[key], strict=True):
+                np.testing.assert_array_equal(x, y)
+        np.testing.assert_array_equal(a["next_mask"], b["next_mask"])
+        assert b["discount"] == (0.5 if a["discount"] == 0.99 else 1)
+    control.save_checkpoint(tmp_path / "control.pt")
+    with pytest.raises(ValueError, match="hiperparámetros"):
+        candidate.load_checkpoint(tmp_path / "control.pt")
+    candidate.save_checkpoint(tmp_path / "gamma05.pt")
+    restored = Trainer(make_env(), config(gamma=0.5, learning_starts=128))
+    restored.load_checkpoint(tmp_path / "gamma05.pt")
+    assert restored.config.gamma == restored.replay.gamma == 0.5
+    assert restored.completed_episodes == 1
+    policy, _ = load_policy(tmp_path / "gamma05.pt", device="cpu")
+    for key, value in candidate.online.state_dict().items():
+        assert torch.equal(value, policy.network.state_dict()[key])
 
 
 def test_sequences_are_causal_and_preserve_the_next_reservation_context():

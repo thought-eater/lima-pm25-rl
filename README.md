@@ -159,6 +159,15 @@ se ejecuta en servidor; `--smoke` es una comprobación de un solo caso.
 Para cerrar la comparación **final 1000 frente a final 2000**, la guía incluye
 las tres llamadas con las rutas verificadas de los cortes y del protocolo.
 
+### Comparación del descuento
+
+`config/training-gamma05.json` prepara el brazo gamma 0,5 desde cero, con la
+misma semilla, escenarios y demás parámetros que el control gamma 0,99.
+La [guía del contraste](docs/discount-comparison.md) contiene las comprobaciones
+de inicialización y los comandos existentes para entrenar y evaluar.
+El total común (1000 o 2000 episodios) se fija tras analizar el paso 2; la
+preparación no inicia ese entrenamiento.
+
 ### Diagnóstico del campo antes de entrenar
 
 ```bash

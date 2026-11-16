@@ -238,6 +238,20 @@ def test_continuation_configuration_changes_only_budget_and_exports():
     assert continuation == original
 
 
+def test_discount_configuration_changes_only_gamma_and_exports():
+    original = json.loads(
+        (entry.PROJECT_ROOT / "config/training-server.json").read_text()
+    )
+    candidate = json.loads(
+        (entry.PROJECT_ROOT / "config/training-gamma05.json").read_text()
+    )
+    assert original["training"]["gamma"] == 0.99
+    assert candidate["training"]["gamma"] == 0.5
+    assert candidate.pop("policy_snapshot_episodes") == [1000]
+    candidate["training"]["gamma"] = 0.99
+    assert candidate == original
+
+
 @pytest.mark.parametrize("resume_args", [[], ["--resume"]])
 def test_continuation_requires_explicit_checkpoint_before_building_trainer(
     project, monkeypatch, capsys, resume_args
