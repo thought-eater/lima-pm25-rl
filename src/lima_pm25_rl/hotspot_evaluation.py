@@ -666,7 +666,3 @@ def main():
         train.close()
         if validation is not None:
             validation.close()
-
-
-if __name__ == "__main__":
-    main()
