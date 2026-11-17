@@ -1,27 +1,25 @@
 """Reevaluación sintética sobre lecturas congeladas, sin política ni simulador."""
 
-import argparse
 import csv
 import hashlib
 import io
 import json
-import tarfile
 from collections import defaultdict
 from dataclasses import asdict
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import numpy as np
-import torch
 from lima_pm25.estimation import (
+    AdaptiveMapUpdater,
     GaussianProcessFieldReconstructor,
+    GPFitConfig,
     ReconstructionRequest,
 )
-from lima_pm25.simulation import MeasurementRecord, SensorType
+from lima_pm25.simulation import MeasurementBatch, MeasurementRecord, SensorType
 
-from .arrival_experiment import _write_json
-from .gp_spatial_experiment import partition_bounds, validate_frozen_case
-from .gp_temporal_experiment import check_control
+from .experiments.gp_spatial_experiment import partition_bounds, validate_frozen_case
+from .files import _write_json, source_files, unique_file, write_csv
 from .hotspot_metrics import (
     aggregate_missions,
     cell_detection_events,
@@ -29,44 +27,6 @@ from .hotspot_metrics import (
     frame_metrics,
     summarize_mission,
 )
-from .train_cli import CACHE_DIRECTORY, PROJECT_ROOT, _sha256, prepare_experiment
-
-DEFAULT_CONFIG = PROJECT_ROOT / "config/hotspot-evaluation.json"
-
-
-def source_files(path, names, *, calibration=False, cases=False):
-    """Leer carpetas o tar sin extraer rutas ni cargar archivos ajenos."""
-    result = {}
-
-    def wanted(name):
-        p = Path(name)
-        return (
-            p.name in names
-            and (not calibration or "calibration" in p.parts)
-            and (not cases or p.parent.name.startswith("case-"))
-        )
-
-    if path.is_dir():
-        for file in sorted(path.rglob("*")):
-            if file.is_file() and wanted(str(file.relative_to(path))):
-                result[str(file.relative_to(path))] = file.read_bytes()
-    else:
-        with tarfile.open(path, "r|*") as archive:
-            for member in archive:
-                if member.isfile() and wanted(member.name):
-                    if member.name in result:
-                        raise ValueError("Miembro duplicado en el archivo")
-                    result[member.name] = archive.extractfile(member).read()
-    if not result:
-        raise ValueError(f"No se encontraron entradas en {path}")
-    return result
-
-
-def unique_file(files, name):
-    matches = [value for path, value in files.items() if Path(path).name == name]
-    if len(matches) != 1:
-        raise ValueError(f"Se requiere exactamente un {name} por evaluación")
-    return matches[0]
 
 
 def frozen_cases(path, grid, protocol, *, training=False):
@@ -195,7 +155,27 @@ def route_progress(routes, records, times, total_distance_m):
     return progress
 
 
-def reconstruct_mission(grid, updater, frozen, records, old, *, threshold, routes):
+def field_protocol(protocol):
+    """Factores que deben coincidir para compartir los mismos campos retenidos."""
+    estimator_and_learning = {
+        "adaptive_gp",
+        "adaptive_gp_method",
+        "reward",
+        "observation_normalization",
+        "concentration_priority",
+        "distance_cost_per_km",
+        "validation_every",
+    }
+    return {
+        key: value
+        for key, value in protocol.items()
+        if key not in estimator_and_learning
+    }
+
+
+def reconstruct_mission(
+    grid, updater, frozen, records, old, *, threshold, routes, adaptive_gp=None
+):
     report, fields, _, origin = frozen
     times = fields["elapsed_s"]
     if (
@@ -240,6 +220,24 @@ def reconstruct_mission(grid, updater, frozen, records, old, *, threshold, route
         [grid.cell_center(int(r), int(c)) for r, c in fields["active_cells"]]
     )
     model = GaussianProcessFieldReconstructor(updater.reconstruction_config)
+    adaptive = (
+        AdaptiveMapUpdater(
+            grid,
+            updater.reconstruction_config,
+            updater.history_duration,
+            GPFitConfig(**adaptive_gp),
+        )
+        if adaptive_gp is not None
+        else None
+    )
+    groups = defaultdict(list)
+    for record in records:
+        groups[record.timestamp_utc].append(record)
+    batches = [
+        MeasurementBatch(group[0].simulation_time_s, timestamp, tuple(group))
+        for timestamp, group in sorted(groups.items())
+    ]
+    cursor = 0
     means, deviations, rows = [], [], []
     distances = route_progress(routes, records, times, float(old["distance_m"]))
     for index, time in enumerate(times):
@@ -249,11 +247,17 @@ def reconstruct_mission(grid, updater, frozen, records, old, *, threshold, route
             for r in records
             if now - updater.history_duration <= r.timestamp_utc <= now
         )
-        posterior = model.reconstruct(
-            ReconstructionRequest(
-                grid=grid, reconstruction_timestamp_utc=now, measurements=eligible
+        if adaptive is None:
+            posterior = model.reconstruct(
+                ReconstructionRequest(
+                    grid=grid, reconstruction_timestamp_utc=now, measurements=eligible
+                )
             )
-        )
+        else:
+            while cursor < len(batches) and batches[cursor].timestamp_utc <= now:
+                adaptive.update(batches[cursor], reference=False)
+                cursor += 1
+            posterior = adaptive.predict(now)
         mean, std = (
             posterior.mean_ug_m3[grid.active_mask],
             posterior.standard_deviation_ug_m3[grid.active_mask],
@@ -311,15 +315,6 @@ def reconstruct_mission(grid, updater, frozen, records, old, *, threshold, route
     )
 
 
-def write_csv(path, rows):
-    if not rows:
-        return
-    with path.open("x", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=list(rows[0]))
-        writer.writeheader()
-        writer.writerows(rows)
-
-
 def evaluate_saved(
     path, frozen, grid, updater, protocol, output, *, smoke=False, map_ticks=()
 ):
@@ -327,7 +322,7 @@ def evaluate_saved(
         path, {"config.json", "cases.csv", "measurements.csv", "trajectories.csv"}
     )
     metadata = json.loads(unique_file(files, "config.json"))
-    if metadata["protocol"] != protocol["protocol"]:
+    if field_protocol(metadata["protocol"]) != field_protocol(protocol["protocol"]):
         raise ValueError("El protocolo original difiere del congelado")
 
     def csv_rows(name):
@@ -394,9 +389,6 @@ def evaluate_saved(
             "source": str(path),
             "metadata": metadata,
             "smoke_only": smoke,
-            "file_sha256": {
-                name: hashlib.sha256(data).hexdigest() for name, data in files.items()
-            },
         },
     )
     results, tick_rows = [], []
@@ -425,6 +417,7 @@ def evaluate_saved(
             old,
             threshold=protocol["threshold_ug_m3"],
             routes=routes,
+            adaptive_gp=metadata["protocol"].get("adaptive_gp"),
         )
         result = {**identity, **summary}
         results.append(result)
@@ -485,184 +478,3 @@ def evaluate_saved(
 
     save_curves(tick_rows, summaries, output)
     return results
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Reevaluar focos sobre lecturas guardadas, sin simular ni entrenar"
-    )
-    parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    parser.add_argument(
-        "--protocol",
-        type=Path,
-        help="Protocolo previamente congelado; no reajusta el umbral",
-    )
-    parser.add_argument(
-        "--evaluation",
-        type=Path,
-        action="append",
-        help="Carpeta o tar de evaluación; repetible",
-    )
-    parser.add_argument("--output", type=Path)
-    parser.add_argument("--freeze-only", action="store_true")
-    parser.add_argument(
-        "--smoke",
-        action="store_true",
-        help="Solo primer caso, fijas y neural; no es la batería completa",
-    )
-    parser.add_argument("--check", action="store_true")
-    args = parser.parse_args()
-    if args.check and args.output:
-        parser.error("--check no escribe archivos")
-    settings = json.loads(args.config.read_text())
-    directory = args.config.resolve().parent
-    spec_path = (directory / settings["experiment_config"]).resolve()
-    spec = json.loads(spec_path.read_text())
-    if (
-        settings["training_cases"] != 12
-        or not np.isfinite(settings["quantile"])
-        or not 0 < settings["quantile"] < 1
-        or settings["map_ticks"] != sorted(set(settings["map_ticks"]))
-        or any(
-            type(t) is not int or not 0 <= t <= spec["steps_per_episode"]
-            for t in settings["map_ticks"]
-        )
-    ):
-        parser.error(
-            "Se requieren doce casos de entrenamiento, percentil válido y ticks ordenados dentro del horizonte"
-        )
-    torch.set_num_threads(1)
-    train, validation, model_protocol = prepare_experiment(spec, spec_path.parent)
-    model_protocol = json.loads(json.dumps(model_protocol))
-    try:
-        grid, updater = train.domain.grid, train.estimator_config
-        check_control(grid, updater)
-        training_source = (directory / settings["training_source"]).resolve()
-        if args.protocol:
-            protocol = json.loads(args.protocol.read_text())
-            if (
-                protocol["version"] != 2
-                or protocol["protocol"] != model_protocol
-                or not np.isfinite(protocol["threshold_ug_m3"])
-            ):
-                raise ValueError("El protocolo congelado no es compatible")
-        else:
-            calibration = frozen_cases(
-                training_source, grid, model_protocol, training=True
-            )
-            expected = [
-                int(np.random.SeedSequence([42, 0, i]).generate_state(1)[0])
-                for i in range(settings["training_cases"])
-            ]
-            protocol = freeze_protocol(
-                calibration,
-                quantile=settings["quantile"],
-                expected_seeds=expected,
-                source=training_source,
-                grid=grid,
-                protocol=model_protocol,
-            )
-        if args.check:
-            print(
-                json.dumps(
-                    {
-                        "status": "checked",
-                        "threshold_ug_m3": protocol["threshold_ug_m3"],
-                        "training_executed": False,
-                        "simulation_executed": False,
-                        "reconstruction_executed": False,
-                    },
-                    indent=2,
-                )
-            )
-            return
-        output = args.output or CACHE_DIRECTORY / "hotspot-evaluation" / datetime.now(
-            UTC
-        ).strftime("%Y%m%d-%H%M%S-%f")
-        output.mkdir(parents=True, exist_ok=False)
-        # Persistir el umbral ANTES de abrir cualquier campo de validación.
-        _write_json(output / "protocol.json", protocol)
-        _write_json(
-            output / "config.json",
-            {
-                "settings": settings,
-                "smoke_only": args.smoke,
-                "training_executed": False,
-                "simulation_executed": False,
-                "protocol_source": str(args.protocol) if args.protocol else None,
-                "code_sha256": {
-                    name: _sha256(Path(__file__).with_name(name))
-                    for name in (
-                        "hotspot_evaluation.py",
-                        "hotspot_metrics.py",
-                        "hotspot_plots.py",
-                    )
-                },
-            },
-        )
-        print(f"Salida: {output}", flush=True)
-        if args.freeze_only:
-            return
-        truth_source = (directory / settings["truth_source"]).resolve()
-        frozen = frozen_cases(truth_source, grid, model_protocol)
-        sources = args.evaluation or [
-            (directory / name).resolve() for name in settings["evaluation_sources"]
-        ]
-        for index, path in enumerate(sources):
-            evaluate_saved(
-                path,
-                frozen,
-                grid,
-                updater,
-                protocol,
-                output / f"evaluation-{index + 1}",
-                smoke=args.smoke,
-                map_ticks=settings["map_ticks"],
-            )
-        comparisons = []
-        neural_cases = []
-        for index, path in enumerate(sources):
-            folder = output / f"evaluation-{index + 1}"
-            source = json.loads((folder / "source.json").read_text())
-            summary = json.loads((folder / "summary.json").read_text())
-            comparisons.extend(
-                {
-                    "evaluation": index + 1,
-                    "source": str(path),
-                    "checkpoint_sha256": source["metadata"].get("checkpoint_sha256"),
-                    **row,
-                }
-                for row in summary["strategies"]
-            )
-            with (folder / "cases.csv").open() as file:
-                neural_cases.append(
-                    {
-                        int(row["case_seed"]): row
-                        for row in csv.DictReader(file)
-                        if row["strategy"] == "neural"
-                    }
-                )
-        write_csv(output / "comparison.csv", comparisons)
-        paired = []
-        for index, cases in enumerate(neural_cases[1:], start=2):
-            for seed, row in cases.items():
-                reference = neural_cases[0][seed]
-                pair = {
-                    "evaluation": index,
-                    "reference_evaluation": 1,
-                    "case_seed": seed,
-                }
-                for key in row:
-                    if key in {"strategy", "case_seed"}:
-                        continue
-                    pair[f"delta_{key}"] = (
-                        float(row[key]) - float(reference[key])
-                        if row[key] and reference[key]
-                        else None
-                    )
-                paired.append(pair)
-        write_csv(output / "paired-evaluations.csv", paired)
-    finally:
-        train.close()
-        if validation is not None:
-            validation.close()

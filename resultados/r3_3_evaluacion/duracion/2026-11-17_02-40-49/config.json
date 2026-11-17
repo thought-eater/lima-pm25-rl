@@ -1,0 +1,28 @@
+{
+  "settings": {
+    "experiment_config": "training-server.json",
+    "training_source": "../gp3.tar.zst",
+    "training_cases": 12,
+    "quantile": 0.9,
+    "truth_source": "../diag_gp.tar.zst",
+    "evaluation_sources": [
+      "../evaluation.tar.zst",
+      "../evaluation_2.tar.zst"
+    ],
+    "map_ticks": [
+      1,
+      12,
+      24,
+      36
+    ]
+  },
+  "smoke_only": false,
+  "training_executed": false,
+  "simulation_executed": false,
+  "protocol_source": "cache/hotspot-evaluation/20261115-050424-177424/protocol.json",
+  "code_sha256": {
+    "hotspot_evaluation.py": "a0b52110059c87c2f7ac5893f08c2bc467c081f303f35bbab66288576274f021",
+    "hotspot_metrics.py": "940d1d980de66cff61aa871c73521a3fdc2cd390eb3456174fc955d1795fb627",
+    "hotspot_plots.py": "ce440421074f28f8ae1062bfa1ce773bba88da007616122d4d044dda5f3fde68"
+  }
+}

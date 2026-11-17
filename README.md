@@ -1,388 +1,85 @@
-# Lima PM2.5 RL
+# Lima PM2.5 — planificación de sensores móviles
 
-Entorno de Gymnasium para un agente centralizado que planifica el muestreo de
-**tres vehículos** sobre las calles de Lima. Reutiliza el dominio, la física,
-los sensores y el proceso gaussiano (GP) de `lima-pm25-core`.
+Este repositorio presenta el código y la evidencia del **objetivo específico O3**
+de la tesis: planificar ubicaciones dinámicas de tres sensores móviles para reducir
+la incertidumbre de mapas urbanos de PM2.5. Reutiliza el simulador y estimador de
+[`lima-pm25-core`](../lima-pm25-core/).
 
-Cada ciclo elige tres destinos en las ocho direcciones de la grilla, evitando
-destinos ocupados o reservados. La red elige el mayor Q válido entre todos los
-vehículos pendientes y recalcula después de cada reserva. El decodificador obtiene recorridos viales
-dirigidos y se asume que todos terminan al siguiente tick de **cinco minutos**.
-Solo se mide al final, sin simular tráfico ni lecturas durante el trayecto.
+## Resultados y medios de verificación
 
-## Preparación
+| Resultado | Producto examinable |
+| --- | --- |
+| R3.1 — Formulación del MDP y recompensa | [Especificación y correspondencia con el código](resultados/r3_1_formulacion/README.md) |
+| R3.2 — Agente implementado y entrenado | [Modelos, configuraciones y bitácoras](resultados/r3_2_entrenamiento/README.md) |
+| R3.3 — Evaluación frente a referencias | [Métricas, experimentos y limitaciones](resultados/r3_3_evaluacion/README.md) |
+| R3.4 — Visualización | [Informes, mapas y curvas](resultados/r3_4_visualizacion/README.md) |
 
-Se necesitan Python 3.14 o posterior, [uv](https://docs.astral.sh/uv/) y el
-repositorio `lima-pm25-core` versión `0.1.0` en `../lima-pm25-core`.
+El [índice de evidencia e indicadores](resultados/README.md) relaciona cada IOV con
+los productos conservados. La explicación principal y la discusión se desarrollan
+en el documento de tesis; este repositorio facilita su inspección y reproducción.
 
-```bash
-uv sync
+## Instalación y procedimientos
+
+Se requieren Python 3.14, `uv` y ambos repositorios vecinos:
+
+```text
+directorio/
+├── lima-pm25-core/
+└── lima-pm25-rl/
 ```
 
-PyTorch es una dependencia obligatoria y se instala con la misma sincronización;
-no hace falta seleccionar dependencias opcionales para usar la red o entrenar.
-`uv.lock` conserva las versiones resueltas del proyecto.
-
-En Linux, PyTorch de PyPI incluye soporte NVIDIA/CUDA; el servidor debe tener
-un controlador compatible. No se utiliza ni modifica el PyTorch global. El
-entorno, la red y sus dependencias se resuelven en la `.venv` de este proyecto.
-
-El núcleo es una dependencia **editable**: se importa como `lima_pm25` y sus
-cambios de código se reflejan sin copiarlo. Este proyecto tiene su propio
-`uv.lock`. Sus recursos geográficos y científicos se cargan explícitamente;
-instalar la dependencia no incorpora `config/`, `data/` ni `resultados/`.
-
-## Demostración corta, sin entrenamiento
-
-Desde la raíz de este proyecto:
-
 ```bash
-uv run --locked lima-pm25-rl --policy greedy --steps 3
-uv run --locked lima-pm25-rl --policy random --steps 3 --noise 1
-uv run --locked lima-pm25-rl --policy sweep --steps 3 --image cache/entorno.png
-uv run --locked lima-pm25-rl --policy neural --steps 3
+uv sync --locked
+uv run --locked lima-pm25-rl --help
+uv run --locked lima-pm25-rl visualizar
 ```
 
-`--core-root` permite indicar otra ubicación de los recursos conservados.
-La carga no descarga mapas ni escribe en el repositorio vecino. La imagen
-es opcional y su destino no se sobrescribe.
+Hay una sola entrada pública: **`lima-pm25-rl`**. Sus subcomandos son `entrenar`,
+`evaluar`, `comparar`, `experimento`, `informe` y `visualizar`. Los procedimientos,
+entradas y costes se explican en [REPRODUCIR.md](REPRODUCIR.md).
+Los perfiles de entrenamiento declaran CUDA en el JSON y se detienen si no está
+disponible. El progreso muestra el mejor RMSE de validación conocido y su episodio.
 
-La demostración usa el escenario sintético ilustrativo con evento de `core`;
-`--scenario control` permite su alternativa sin el evento. No son observaciones
-de Lima ni un currículo definitivo. La opción `neural` utiliza una **red sin
-entrenar**, únicamente para comprobar la integración.
+## Organización
 
-## Componentes
-
-- `LimaPM25Env`: `reset()`, `step()`, observaciones, máscaras, recompensa y render.
-- `RoadRouter`: A* sobre vías dirigidas, incluidas celdas sin intersecciones OSM.
-- `GeneratedEpisodes` / `HistoricalReplay`: adaptación de escenarios de `core`.
-- `BaselinePolicy`: aleatoria, greedy por incertidumbre y barrido geométrico.
-- `BiLGD3QN` / `NeuralController`: CNN, Bi-LSTM, Bi-GRU y cabeza dueling;
-  selección central secuencial con memoria histórica y máscaras.
-- `double_dqn_loss`: objetivo Double DQN y pérdida Smooth L1 para comprobar una
-  actualización de la red. No inicia entrenamiento automáticamente.
-
-La [especificación del entorno](docs/environment.md) explica acciones,
-observaciones, recompensa, finalización, escenarios y límites del replay.
-
-## Entrenamiento
-
-El entrenador mínimo utiliza PyTorch directamente: memoria temporal, exploración
-enmascarada, Adam, pérdida Double DQN y actualización periódica de la red objetivo.
-No añade frameworks de aprendizaje ni inicia entrenamientos al importar módulos.
-
-Para entrenar:
-
-```bash
-uv run lima-pm25-train
+```text
+src/lima_pm25_rl/              entorno, red, entrenamiento y evaluación
+src/lima_pm25_rl/experiments/  procedimientos complementarios de la discusión
+config/                       parámetros e inventario explícito de productos
+resultados/                   evidencia experimental de R3.1–R3.4
+tests/software/               contratos y regresiones de software
+tests/tesis/                  comprobaciones de la evidencia publicada
 ```
 
-Lee automáticamente `config/training-server.json` y crea una carpeta nueva en
-`cache/training/<fecha UTC>/`, cuya ruta imprime al empezar. El presupuesto se
-define con `episodes` en ese JSON; está configurado en 1000 episodios.
-
-La configuración actual incluye contraste espacial, fondo variable, ruido móvil
-independiente de 1 µg/m³ y recompensa informativa con prioridad acotada por
-concentración y coste vial. Son parámetros experimentales, no valores instrumentales
-o de emisiones medidos. La [guía de la revisión](docs/training-v2.md) explica los
-cambios y el diagnóstico ejecutado. Las políticas/checkpoints anteriores al formato
-2 requieren una ejecución nueva: cambió el contexto de decisión de la red.
-
-Para continuar, después de aumentar el total en el JSON si ya se alcanzó:
-
-```bash
-uv run lima-pm25-train --resume
-```
-
-Busca en `cache/` el checkpoint más reciente compatible con la configuración y
-el protocolo actuales. La continuación también crea una carpeta nueva; nunca
-trunca ni sobrescribe ejecuciones anteriores. El total es el objetivo acumulado,
-no una cantidad de episodios adicionales.
-
-Solo para elegir un punto específico:
-
-```bash
-uv run lima-pm25-train --resume cache/server-check-01/checkpoint-last.pt
-```
-
-Cada carpeta conserva `config.json`, `metrics.csv`, `checkpoint-last.pt` y
-`policy-last.pt`. Con validación también guarda `policy-best.pt`, seleccionada
-por incertidumbre final, no por replay histórico.
-
-Para la continuación acordada **1000 → 2000 episodios**, usar
-`config/training-continuation.json` y el checkpoint completo original, no una
-política exportada ni un piloto. La [guía de continuación](docs/training-continuation.md)
-incluye el comando del servidor, la auditoría del origen y los cortes de política
-prefijados en 1000, 1250, 1500, 1750 y 2000. No cambia el entrenamiento habitual
-de 1000 episodios ni inicia esta ejecución automáticamente.
-
-`--config` y `--output` siguen disponibles para excepciones. Por ejemplo, los
-pilotos de software usan otras configuraciones:
-
-```bash
-uv run lima-pm25-train --config config/training-pilot.json
-uv run lima-pm25-train --config config/training-lima-smoke.json
-```
-
-El piloto controlado no representa Lima ni prueba generalización. Las
-configuraciones iniciales no constituyen un currículo nominal definitivo.
-La [guía de entrenamiento](docs/training.md) detalla esa configuración, la
-reanudación, las subdecisiones y las verificaciones realizadas. Los diagnósticos
-de validación no sustituyen la evaluación final independiente de la tesis.
-
-### Preparación del servidor
-
-La [guía del servidor](docs/server.md) incluye el protocolo temporal inicial,
-listas explícitas de transferencia y comandos de instalación, prueba y
-reanudación. `config/training-server.json` mezcla control sintético y estrés
-con meteorología generada y **1000 episodios por defecto**.
-El control no se presenta como un nominal de Lima validado.
-
-Para comprobar recursos y componer todas las familias sin simular ni entrenar:
-
-```bash
-uv run lima-pm25-train --check
-```
-
-La ejecución larga requiere fijar y autorizar su presupuesto por separado.
-
-### Reevaluación localizada y operacional
-
-`uv run --locked lima-pm25-evaluate-hotspots --check` valida la preparación de
-la [evaluación de focos](docs/hotspot-evaluation.md). Reconstruye posteriormente
-las evaluaciones guardadas sin simular ni entrenar, con umbral fijado solo en
-entrenamiento, déficit de concentración, detección, falsas alarmas, incertidumbre
-y recorrido vial. Conserva métricas globales y la meta original del 20 %; no
-garantiza que los nuevos indicadores favorezcan a la política. La batería completa
-se ejecuta en servidor; `--smoke` es una comprobación de un solo caso.
-Para cerrar la comparación **final 1000 frente a final 2000**, la guía incluye
-las tres llamadas con las rutas verificadas de los cortes y del protocolo.
-
-### Comparación del descuento
-
-`config/training-gamma05.json` prepara el brazo gamma 0,5 desde cero, con la
-misma semilla, escenarios y demás parámetros que el control gamma 0,99.
-La [guía del contraste](docs/discount-comparison.md) contiene las comprobaciones
-de inicialización y los comandos existentes para entrenar y evaluar.
-El total común (1000 o 2000 episodios) se fija tras analizar el paso 2; la
-preparación no inicia ese entrenamiento.
-
-### Diagnóstico del campo antes de entrenar
-
-```bash
-uv run --locked lima-pm25-diagnose
-```
-
-Simula en CPU los primeros doce escenarios de entrenamiento y guarda contraste
-espacial por tick, variación temporal por celda, lecturas fijas y campos completos
-en una carpeta nueva de `cache/diagnostics/`. No necesita GPU ni entrena una red.
-Incluye un predictor constante ajustado en seis casos y evaluado en los otros seis.
-La [guía del diagnóstico](docs/diagnostics.md) explica las métricas y sus límites.
-
-Para auditar el bloqueo del caso 100002 con los archivos de resultados recibidos:
-
-```bash
-uv run --locked lima-pm25-audit-mobility
-```
-
-Reproduce la política `best` y registra Q, reservas, recorridos y conectividad,
-con salida nueva en `cache/mobility-diagnostics/`. La [auditoría de movilidad](docs/mobility-diagnostic.md)
-describe el sumidero encontrado y la alternativa de llegada dentro de la misma celda.
-
-La [comparación de criterios de llegada](docs/arrival-experiment.md) se ejecuta
-con `uv run --locked lima-pm25-compare-arrivals`: compara el caso 100002 sin
-reentrenar. `--all-cases` amplía a los doce casos y las cuatro políticas móviles.
-
-El [diagnóstico de Q y retornos](docs/value-diagnostic.md) se ejecuta con
-`uv run --locked lima-pm25-audit-values --ticks 1` para el piloto, o
-`--all-cases` para los doce casos en ticks prefijados. Compara alternativas
-legales con continuación congelada y ruido futuro emparejado, guardando
-resultados nuevos en `cache/value-diagnostics/`.
-
-## Comparación de estrategias
-
-### Piloto de arquitectura en el servidor
-
-La [ablación BiLG frente a D3QN sin recurrencia](docs/architecture-pilot.md)
-conserva la misma ventana histórica y usa tres semillas emparejadas:
-
-```bash
-uv run --locked lima-pm25-compare-architectures --check
-uv run --locked lima-pm25-compare-architectures
-```
-
-El segundo comando ejecuta seis entrenamientos de 200 episodios y sus evaluaciones
-en una carpeta nueva de `cache/architecture-experiments/`. Se prepara para el
-servidor; no lanza el diagnóstico exhaustivo de alternativas. La comparación
-principal utiliza los pesos finales con el mismo presupuesto de episodios.
-
-### Diagnóstico del GP
-
-El [diagnóstico acotado del GP](docs/gp-diagnostic.md) reproduce doce misiones
-con BiLG-42 del episodio 200 del piloto, comparando incertidumbre con error y
-aislando el aporte de las lecturas móviles en cada tick. Para el servidor:
-
-```bash
-uv run --locked lima-pm25-audit-gp --check
-uv run --locked lima-pm25-audit-gp
-```
-
-Guarda resultados nuevos en `cache/gp-diagnostics/` y verifica que las misiones
-reproduzcan las trazas del piloto de arquitectura.
-
-La siguiente [comparación espacial del GP](docs/gp-spatial-experiment.md)
-selecciona un único alcance con doce casos de entrenamiento y compara el elegido
-con el original sobre las lecturas de validación congeladas:
-
-```bash
-uv run --locked lima-pm25-compare-gp --check
-uv run --locked lima-pm25-compare-gp
-```
-
-Preparado para el servidor, con resultados nuevos en
-`cache/gp-spatial-experiments/`. No adopta automáticamente el GP seleccionado.
-
-La [comparación temporal del GP](docs/gp-temporal-experiment.md) reutiliza esos
-datos y los del diagnóstico, manteniendo la correlación espacial en 2000 m:
-
-```bash
-uv run --locked lima-pm25-compare-gp-time --check
-uv run --locked lima-pm25-compare-gp-time
-```
-
-Compara 900/1800/3600/7200 s sin generar nuevas misiones y guarda resultados en
-`cache/gp-temporal-experiments/`.
-
-La [comparación con realimentación al agente](docs/gp-feedback-experiment.md)
-ejecuta 24 misiones con los mismos pesos y GP de 3600/7200 s, permitiendo que
-cambien las decisiones. Reutiliza también la referencia congelada de `gp4`:
-
-```bash
-uv run --locked lima-pm25-compare-gp-feedback --check
-uv run --locked lima-pm25-compare-gp-feedback
-```
-
-La salida se crea en `cache/gp-feedback-experiments/`. Se prepara para el servidor.
-
-### Ablación de historia explícita
-
-La [comparación de historia](docs/history-pilot.md) reutiliza los tres controles
-BiLG de `eval3` y entrena solo las variantes con la observación actual repetida:
-
-```bash
-uv run --locked lima-pm25-compare-history --check
-uv run --locked lima-pm25-compare-history
-```
-
-Son 600 episodios nuevos en el servidor, con salida en `cache/history-experiments/`.
-Conserva la arquitectura y el GP original; no elimina el historial del GP.
-
-### Control de focos y planes de muestreo
-
-La [prueba controlada de focos](docs/hotspot-sampling.md) compara muestreo central
-con centro y alrededores, por separado en un foco persistente y uno pulsante.
-Son doce misiones sintéticas, con el mismo GP, tiempo, lecturas y distancia vial:
-
-```bash
-uv run --locked lima-pm25-test-hotspot-sampling --check
-uv run --locked lima-pm25-test-hotspot-sampling
-```
-
-Preparado para el servidor; guarda resultados nuevos en `cache/hotspot-sampling/`.
-Es una prueba del mecanismo en geometría artificial, no entrenamiento ni validación
-atmosférica de Lima.
-
-La [comparación espacial sobre esos focos](docs/hotspot-gp-experiment.md)
-reconstruye las mismas lecturas con GP de 2000/500 m:
-
-```bash
-uv run --locked lima-pm25-compare-hotspot-gp --check
-uv run --locked lima-pm25-compare-hotspot-gp
-```
-
-Lee `hotspot.tar.zst` o, si falta, la última ejecución en `cache/hotspot-sampling/`.
-Son 24 reconstrucciones para el servidor, con salida nueva en
-`cache/hotspot-gp-experiments/`, verificación del GP original y errores de ambos
-signos por región.
-
-La [comparación temporal a 500 m](docs/hotspot-gp-time-experiment.md) utiliza
-`hot2.tar.zst` o la última comparación espacial y cambia solo 3600/900 s:
-
-```bash
-uv run --locked lima-pm25-compare-hotspot-gp-time --check
-uv run --locked lima-pm25-compare-hotspot-gp-time
-```
-
-Conserva el historial de 6 h y verifica la referencia 500 m/3600 s. Guarda las
-24 reconstrucciones, errores del pico por fase y curvas de seguimiento en
-`cache/hotspot-gp-time-experiments/`, para evaluar los descensos sin ocultar
-deterioros del régimen persistente.
-
-La [mezcla temporal local](docs/hotspot-gp-mixture.md) compara los GP lento y
-rápido, la mezcla 50/50 y una mezcla adaptativa basada en revisitas:
-
-```bash
-uv run --locked lima-pm25-compare-hotspot-gp-mixture --check
-uv run --locked lima-pm25-compare-hotspot-gp-mixture
-```
-
-Lee `hot3.tar.zst` o la última comparación temporal. Evalúa 48 secuencias sobre
-las doce misiones congeladas y guarda resultados, evidencia predictiva y pesos
-locales en `cache/hotspot-gp-mixtures/`. El experimento completo es para el servidor.
-
-La [última comparación espacial](docs/gp-multiscale-experiment.md) enfrenta el GP
-original con un GP aditivo de 2000+500 m, con varianza repartida 50/50:
-
-```bash
-uv run --locked lima-pm25-compare-gp-multiscale --check
-uv run --locked lima-pm25-compare-gp-multiscale
-```
-
-Requiere transferir también `lima-pm25-core` actualizado. Lee los doce casos de
-entrenamiento de `gp3.tar.zst` y las doce misiones de `hotspot.tar.zst`: 48
-reconstrucciones para el servidor, en `cache/gp-multiscale-experiments/`.
-
-### Comparación de recompensas
-
-La [comparación de recompensa](docs/reward-pilot.md) conserva el GP original y
-BiLG, reutiliza los tres controles de `eval3` y entrena únicamente la variante
-con reducción del error sintético atribuible a los móviles:
-
-```bash
-uv run --locked lima-pm25-compare-rewards --check
-uv run --locked lima-pm25-compare-rewards
-```
-
-El segundo comando entrena **600 episodios nuevos** en el servidor y evalúa
-contra los controles, aleatoria, barrido y greedy. Lee `eval3.tar.zst` o la última
-ejecución de arquitectura y guarda resultados nuevos en `cache/reward-experiments/`.
-
-### Política frente a referencias
-
-```bash
-uv run lima-pm25-evaluate
-```
-
-Compara la política `best` con solo fijas, aleatoria, greedy y barrido sobre los
-mismos doce casos de validación. La política y la carpeta de salida se eligen
-automáticamente; se imprimen sus rutas. Con las cinco semillas configuradas para
-aleatoria y greedy ejecuta 144 misiones de inferencia, **sin entrenar ni abrir
-el replay final**.
-
-Guarda métricas por caso y agregadas, diferencias pareadas, lecturas, recorridos
-y cinco mapas del mismo caso preseleccionado en `cache/evaluation/`.
-La [guía de evaluación](docs/evaluation.md) explica las reglas, el horizonte
-común y cómo interpretar los resultados sin confundir validación con prueba final.
-
-## Verificación
+Las entradas conservadas están identificadas en `config/productos.json`, mediante
+rutas relativas. Una reproducción escribe en una carpeta nueva con fecha y hora
+UTC hasta segundos (`AAAA-MM-DD_HH-MM-SS`); no reemplaza la evidencia publicada.
+La selección de productos se hace explícitamente en la configuración.
+
+`docs/` contiene notas de trabajo privadas y se excluye de Git. `cache/` se
+reserva a salidas temporales; `dist/`, a los paquetes construidos.
+
+## Alcance
+
+- Un agente centralizado BiLG-D3QN asigna destinos a tres vehículos. Las tres
+  elecciones pertenecen a un único tick físico de 300 s.
+- La estimación utiliza un GP espacio-temporal. La verdad sintética es privada
+  del evaluador y no entra en las observaciones del agente.
+- Los resultados sintéticos no demuestran precisión atmosférica real, beneficio
+  sanitario ni desempeño de vehículos desplegados en Lima.
+- Se presentan mejoras y deterioros. La meta general del 20 % no se declara
+  alcanzada por mejorar únicamente la distancia o una métrica localizada.
+- El replay histórico final sigue pendiente. El candidato con ajuste GP por
+  verosimilitud marginal y recompensa de cambio del modelo está implementado;
+  su entrenamiento de 20 000 episodios sigue pendiente. Véase el
+  [protocolo adaptativo](resultados/r3_1_formulacion/adaptativo.md).
+
+## Verificación del software
 
 ```bash
 uv run --locked pytest
 uv build
 ```
 
-Las pruebas usan dominios pequeños en memoria, comprueban el contrato de
-Gymnasium, la integración con `core`, las rutas y reservas, el tratamiento
-temporal del GP, las particiones y la red. La comprobación CUDA se ejecuta
-solo cuando hay una GPU compatible; no es un entrenamiento largo.
+Las pruebas de cálculo no equivalen a demostrar los indicadores experimentales.
+Véase [tests/README.md](tests/README.md).

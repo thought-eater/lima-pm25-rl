@@ -13,9 +13,7 @@ from .env import LimaPM25Env
 
 def fixed_posterior(env: LimaPM25Env):
     """Reconstruye con TODO el historial fijo elegible, sin ningún móvil previo."""
-    return env._predict(
-        records=tuple(r for r in env._records if r.sensor_type is SensorType.FIXED)
-    )
+    return env.predict_fixed()
 
 
 def _spatial_errors(env: LimaPM25Env, posterior) -> dict[str, float | None]:

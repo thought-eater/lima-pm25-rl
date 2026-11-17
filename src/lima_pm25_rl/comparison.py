@@ -10,6 +10,7 @@ from typing import Any
 
 import numpy as np
 from lima_pm25.simulation import SensorType
+from threadpoolctl import threadpool_limits
 
 from .env import LimaPM25Env
 from .evaluation import evaluate_episode, fixed_posterior
@@ -192,6 +193,7 @@ def _validate_seeds(seeds: list[int]) -> None:
         )
 
 
+@threadpool_limits.wrap(limits=1, user_api="blas")
 def run_comparison(
     env: LimaPM25Env,
     neural_policy,
@@ -232,6 +234,11 @@ def run_comparison(
         )
         routes_file = stack.enter_context(
             (output / "trajectories.csv").open("x", newline="")
+        )
+        gp_file = (
+            stack.enter_context((output / "gp-fits.jsonl").open("x"))
+            if hasattr(env, "gp_fit")
+            else None
         )
         cases_writer = None
         samples_writer = csv.DictWriter(
@@ -284,6 +291,22 @@ def run_comparison(
                     metrics = evaluate_episode(
                         env, policy, seed=case_seed, comparison=True
                     )
+                    if gp_file is not None:
+                        for fit in env.gp_trace:
+                            gp_file.write(
+                                json.dumps(
+                                    {
+                                        "case_seed": case_seed,
+                                        "strategy": strategy,
+                                        "policy_seed": policy_seed,
+                                        **fit,
+                                    },
+                                    ensure_ascii=False,
+                                    allow_nan=False,
+                                )
+                                + "\n"
+                            )
+                        gp_file.flush()
                     if metrics["invalid_actions"]:
                         raise RuntimeError(
                             "Una referencia produjo acciones inválidas; no se publica una comparación válida"

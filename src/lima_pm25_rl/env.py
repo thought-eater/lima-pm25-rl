@@ -129,10 +129,7 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
             positions=self.positions,
             noise_stddev_ug_m3=self.mobile_noise_stddev_ug_m3,
         )
-        self._updater = SequentialMapUpdater(self.domain.grid, self.estimator_config)
-        self._reconstructor = GaussianProcessFieldReconstructor(
-            self.estimator_config.reconstruction_config
-        )
+        self._reset_estimator()
         self._records: list[MeasurementRecord] = []
         self._routes: list[list[tuple[float, float]]] = [
             [point] for point in self.positions
@@ -143,6 +140,18 @@ class LimaPM25Env(gym.Env[Observation, np.ndarray]):
         self._assimilate(self._simulation.initial_batch())
         self._posterior = self._predict()
         return self._observation(), self._info()
+
+    def _reset_estimator(self):
+        self._updater = SequentialMapUpdater(self.domain.grid, self.estimator_config)
+        self._reconstructor = GaussianProcessFieldReconstructor(
+            self.estimator_config.reconstruction_config
+        )
+
+    def predict_fixed(self):
+        """Referencia independiente de todas las lecturas móviles."""
+        return self._predict(
+            records=tuple(r for r in self._records if r.sensor_type is SensorType.FIXED)
+        )
 
     @property
     def positions(self) -> tuple[tuple[float, float], ...]:

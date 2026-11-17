@@ -1,240 +1,238 @@
-"""Demostración corta del entorno; no inicia entrenamiento."""
+"""Interfaz única de los procedimientos reproducibles de O3."""
 
 import argparse
 import json
-from collections.abc import Callable
-from dataclasses import replace
-from datetime import datetime, timedelta
+from importlib import import_module
 from pathlib import Path
 
-from lima_pm25.estimation import load_historical_pm25_csv
-from lima_pm25.simulation import (
-    load_episode_generation_config,
-    load_historical_weather_csv,
-)
+from .files import PROJECT_ROOT, _write_json, output_directory, product
 
-from .env import LimaPM25Env
-from .episodes import Episode, GeneratedEpisodes, HistoricalReplay
-from .evaluation import evaluate_episode
-from .policies import BaselinePolicy
-from .resources import load_study_resources
-from .simulation import STEP_SECONDS
+CONFIG = PROJECT_ROOT / "config"
+POLICIES = {
+    "adaptativo-20000": ("adaptativo", "policy-last.pt", "adaptativo.json"),
+    "gamma099-1000": ("continuacion", "policy-episode-1000.pt", "entrenamiento.json"),
+    "gamma099-2000": ("continuacion", "policy-episode-2000.pt", "entrenamiento.json"),
+    "gamma05-2000": ("gamma05", "policy-last.pt", "gamma05.json"),
+    "inicial": ("entrenamiento-original", "policy-initial.pt", "entrenamiento.json"),
+    "best-original": ("entrenamiento-original", "policy-best.pt", "entrenamiento.json"),
+}
+EXPERIMENTS = {
+    "escenarios": ("diagnose_cli", "entrenamiento.json"),
+    "movilidad": ("mobility_diagnostics", "entrenamiento.json"),
+    "llegadas": ("arrival_experiment", "entrenamiento.json"),
+    "valores-q": ("value_diagnostics", "entrenamiento.json"),
+    "diagnostico-gp": ("gp_diagnostics", "controles-bilg.json"),
+    "gp-espacial": ("gp_spatial_experiment", "experimentos/gp-espacial.json"),
+    "gp-temporal": ("gp_temporal_experiment", "experimentos/gp-temporal.json"),
+    "gp-adaptativo": ("gp_adaptive_experiment", "adaptativo.json"),
+    "gp-realimentado": ("gp_feedback_experiment", "controles-bilg.json"),
+    "historia": ("history_experiment", "experimentos/historia.json"),
+    "recompensa": ("reward_experiment", "experimentos/recompensa.json"),
+    "focos-controlados": ("hotspot_sampling", "experimentos/focos-controlados.json"),
+    "gp-focos-espacial": ("hotspot_gp_experiment", None),
+    "gp-focos-temporal": ("hotspot_gp_time_experiment", None),
+    "gp-mezcla": ("hotspot_gp_mixture", None),
+    "gp-multiescala": ("gp_multiscale_experiment", None),
+}
 
 
-def _utc(value: str) -> datetime:
-    date = datetime.fromisoformat(value)
-    if date.utcoffset() != timedelta(0):
-        raise argparse.ArgumentTypeError("La fecha debe incluir zona UTC (+00:00)")
-    return date
+def experiment_arguments(name, *, check=False):
+    """Entradas concretas de los experimentos publicados; no descubrimiento automático."""
+    _, config = EXPERIMENTS[name]
+    config = CONFIG / config if config else None
+    settings = json.loads(config.read_text()) if config else {}
+    if "experiment_config" in settings:
+        settings = json.loads(
+            (config.parent / settings["experiment_config"]).read_text()
+        )
+    sources = {
+        "gp-focos-espacial": "focos-controlados",
+        "gp-focos-temporal": "gp-focos-espacial",
+        "gp-mezcla": "gp-focos-temporal",
+    }
+    return argparse.Namespace(
+        config=config,
+        output=None
+        if check
+        else output_directory(f"r3_3_evaluacion/experimentos/{name.replace('-', '_')}"),
+        check=check,
+        device=settings.get("training", {}).get("device", "cuda"),
+        cases=12,
+        case=100002,
+        vehicle=0,
+        all_cases=True,
+        ticks=[1, 12, 24],
+        noise_replicas=3,
+        checkpoint=(product("controles-bilg") / "bilg-42/policy-last.pt")
+        if name in {"diagnostico-gp", "gp-espacial", "gp-realimentado"}
+        else product("entrenamiento-original") / "policy-best.pt",
+        training_run=product("entrenamiento-original"),
+        evaluation_run=product("evaluacion-best"),
+        controls=product("controles-bilg"),
+        diagnostic=product("diagnostico-gp"),
+        spatial_experiment=product("gp-espacial"),
+        temporal_experiment=product("gp-temporal"),
+        source=product(sources[name]) if name in sources else None,
+        training_source=product("gp-espacial"),
+        hotspot_source=product("focos-controlados"),
+    )
 
 
-def main() -> None:
+def evaluate_policy(name):
+    """Ejecutar la política fijada y entregar también sus métricas localizadas."""
+    from .evaluate import run
+    from .experiments.gp_temporal_experiment import check_control
+    from .hotspot_evaluation import evaluate_saved, frozen_cases
+    from .study import prepare_experiment
+
+    key, filename, config_name = POLICIES[name]
+    config = CONFIG / config_name
+    output = output_directory(f"r3_3_evaluacion/politicas/{name}")
+    run(
+        argparse.Namespace(
+            config=config,
+            checkpoint=product(key) / filename,
+            output=output / "misiones",
+        )
+    )
+    spec = json.loads(config.read_text())
+    settings = json.loads((CONFIG / "evaluacion.json").read_text())
+    train, validation, protocol = prepare_experiment(spec, CONFIG)
+    try:
+        check_control(train.domain.grid, train.estimator_config)
+        frozen_protocol = json.loads(
+            (product(settings["protocol_product"]) / "protocol.json").read_text()
+        )
+        frozen = frozen_cases(
+            product(settings["truth_product"]), train.domain.grid, protocol
+        )
+        evaluate_saved(
+            output / "misiones",
+            frozen,
+            train.domain.grid,
+            train.estimator_config,
+            frozen_protocol,
+            output / "focos",
+            map_ticks=settings["map_ticks"],
+        )
+    finally:
+        train.close()
+        if validation is not None:
+            validation.close()
+    print(f"Resultados: {output}")
+
+
+def main():
     parser = argparse.ArgumentParser(
-        description="Demostración del controlador central de tres sensores, sin entrenamiento"
+        description="Procedimientos y evidencia de la tesis PM2.5 — O3"
     )
-    parser.add_argument(
-        "--core-root",
-        type=Path,
-        default=Path("../lima-pm25-core"),
-        help="Raíz de recursos conservados, de solo lectura",
+    commands = parser.add_subparsers(dest="command", required=True)
+    train = commands.add_parser(
+        "entrenar", help="Entrenamiento desde cero o reanudación explícita"
     )
-    parser.add_argument(
-        "--steps", type=int, default=3, help="Cantidad de ticks de cinco minutos"
+    train.add_argument("perfil", choices=("principal", "gamma05", "adaptativo"))
+    train.add_argument("--reanudar", type=Path)
+    train.add_argument("--comprobar", action="store_true")
+    evaluate = commands.add_parser(
+        "evaluar", help="Evaluación global, focos y recorrido de una política"
     )
-    parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument(
-        "--checkpoint",
-        type=Path,
-        help="Política entrenada; requiere --policy neural",
+    evaluate.add_argument("politica", choices=tuple(POLICIES))
+    compare = commands.add_parser(
+        "comparar", help="Tablas y figuras de evaluaciones conservadas"
     )
-    parser.add_argument(
-        "--scenario",
-        choices=("control", "event"),
-        default="event",
-        help="Miembro de la demostración sintética de core",
+    compare.add_argument("contraste", choices=("duracion", "descuento"))
+    experiment = commands.add_parser(
+        "experimento", help="Reproducir un procedimiento complementario"
     )
-    parser.add_argument(
-        "--policy", choices=("random", "greedy", "sweep", "neural"), default="greedy"
+    experiment.add_argument("nombre", choices=tuple(EXPERIMENTS))
+    experiment.add_argument("--comprobar", action="store_true")
+    commands.add_parser(
+        "informe", help="Generar el informe visual con los productos publicados"
     )
-    parser.add_argument(
-        "--noise",
-        type=float,
-        default=None,
-        help="Ruido móvil común, en µg/m³; usa el de la política cargada o cero en demostración",
-    )
-    parser.add_argument(
-        "--image", type=Path, help="Guardar una imagen final; no sobrescribe archivos"
-    )
-    parser.add_argument(
-        "--episode-config",
-        type=Path,
-        help="Configuración del generador de episodios de core",
-    )
-    parser.add_argument(
-        "--partition", choices=("training", "evaluation"), default="training"
-    )
-    parser.add_argument(
-        "--weather", choices=("synthetic", "historical", "historical_perturbed")
-    )
-    parser.add_argument(
-        "--gp-fit-end",
-        type=_utc,
-        help="Extremo exclusivo real del ajuste del GP y sus normalizaciones",
-    )
-    parser.add_argument(
-        "--replay-start", type=_utc, help="Inicio de una ventana histórica reservada"
-    )
-    parser.add_argument(
-        "--policy-fit-end",
-        type=_utc,
-        help="Extremo exclusivo real del entrenamiento de la política",
-    )
+    commands.add_parser("visualizar", help="Localizar el informe visual conservado")
     args = parser.parse_args()
-    loaded_policy = None
-    policy_protocol = {}
-    if args.checkpoint:
-        if args.policy != "neural":
-            parser.error("--checkpoint requiere --policy neural")
-        from .training import load_policy
+    try:
+        if args.command == "entrenar":
+            from .study import run
 
-        loaded_policy, policy_protocol = load_policy(args.checkpoint, seed=args.seed)
-        if args.replay_start:
-            if "policy_fit_end_utc" not in policy_protocol:
-                parser.error(
-                    "El checkpoint no declara un protocolo experimental válido para replay final"
-                )
-            fitted = _utc(policy_protocol["policy_fit_end_utc"])
-            if args.policy_fit_end is not None and args.policy_fit_end < fitted:
-                parser.error(
-                    "--policy-fit-end no puede omitir el periodo de validación del modelo"
-                )
-            args.policy_fit_end = args.policy_fit_end or fitted
-            gp_end = _utc(policy_protocol["gp_fit_end_utc"])
-            if args.gp_fit_end is not None and args.gp_fit_end < gp_end:
-                parser.error(
-                    "--gp-fit-end es anterior al ajuste declarado por el checkpoint"
-                )
-            args.gp_fit_end = args.gp_fit_end or gp_end
-            if args.replay_start < _utc(policy_protocol["reserved_final_start_utc"]):
-                parser.error(
-                    "La fecha solicitada no pertenece al replay final reservado"
-                )
-            if "reserved_final_end_utc" in policy_protocol and (
-                args.replay_start + timedelta(seconds=args.steps * STEP_SECONDS)
-                > _utc(policy_protocol["reserved_final_end_utc"])
-            ):
-                parser.error("La ventana solicitada excede el extremo final reservado")
-    if args.steps < 1:
-        parser.error("--steps debe ser positivo")
-    if args.episode_config and args.replay_start:
-        parser.error("Elige episodios generados o replay, no ambos")
-    if args.image and args.image.exists():
-        parser.error("La imagen de destino ya existe")
-    domain, template, gp_config = load_study_resources(
-        args.core_root, member=args.scenario
-    )
-    if loaded_policy is not None and (
-        policy_protocol.get("grid_shape") != list(domain.grid.shape)
-        or policy_protocol.get("gp_profile_sha256") != gp_config.profile_sha256
-    ):
-        parser.error(
-            "El checkpoint no corresponde a esta grilla y normalización del GP"
-        )
-    duration = args.steps * STEP_SECONDS
-    if duration > template.weather.duration_s:
-        parser.error("La demostración base cubre como máximo tres horas")
-
-    def demonstration(seed: int) -> Episode:
-        return Episode(replace(template, config=replace(template.config, seed=seed)))
-
-    source_factory: Callable[[int], Episode] = demonstration
-
-    if args.episode_config or args.replay_start:
-        if args.gp_fit_end is None:
-            parser.error(
-                "Es obligatorio declarar --gp-fit-end para impedir fugas temporales"
+            config = (
+                CONFIG
+                / {
+                    "principal": "entrenamiento.json",
+                    "gamma05": "gamma05.json",
+                    "adaptativo": "adaptativo.json",
+                }[args.perfil]
             )
-        weather = load_historical_weather_csv(
-            args.core_root / "data/var_meteorologicas_lima_2025_2026_imputed.csv",
-            station_id="CAMPO_DE_MARTE",
-        )
-        if args.episode_config:
-            source_factory = GeneratedEpisodes(
-                template,
-                weather,
-                load_episode_generation_config(args.episode_config),
-                args.gp_fit_end,
-                args.partition,
-                args.weather,
+            run(
+                argparse.Namespace(
+                    config=config,
+                    check=args.comprobar,
+                    output=None
+                    if args.comprobar
+                    else output_directory(
+                        f"r3_2_entrenamiento/{'gamma099' if args.perfil == 'principal' else args.perfil}"
+                    ),
+                    resume=args.reanudar,
+                    episodes=None,
+                    seed=None,
+                )
+            )
+        elif args.command == "evaluar":
+            evaluate_policy(args.politica)
+        elif args.command == "experimento":
+            if args.comprobar and args.nombre in {
+                "escenarios",
+                "movilidad",
+                "llegadas",
+                "valores-q",
+            }:
+                # Estos diagnósticos no tienen fase de composición: validar sus entradas.
+                options = experiment_arguments(args.nombre, check=True)
+                for path in (options.config, options.checkpoint):
+                    if not path.is_file():
+                        raise FileNotFoundError(path)
+                print("Entradas disponibles; no se ejecutaron misiones.")
+                return
+            module, _ = EXPERIMENTS[args.nombre]
+            import_module(f".experiments.{module}", __package__).run(
+                experiment_arguments(args.nombre, check=args.comprobar)
+            )
+        elif args.command == "comparar":
+            from .training_report import comparison_section
+
+            output = output_directory(f"r3_3_evaluacion/{args.contraste}")
+            output.mkdir(parents=True, exist_ok=False)
+            comparisons = json.loads((CONFIG / "informe.json").read_text())[
+                "comparisons"
+            ]
+            spec = next(
+                item
+                for item in comparisons
+                if item["protocol_product"] == args.contraste
+            )
+            section, sources = comparison_section(spec, output, 1)
+            _write_json(
+                output / "config.json",
+                {"procedure": "comparar", "settings": spec, "sources": sources},
+            )
+            (output / "index.html").write_text(
+                "<!doctype html><meta charset='utf-8'><style>body{font:16px sans-serif}img{max-width:100%}td,th{padding:.5em}</style>"
+                + section
+            )
+            print(output / "index.html")
+        elif args.command == "informe":
+            from .training_report import run
+
+            run(
+                argparse.Namespace(
+                    config=CONFIG / "informe.json",
+                    output=output_directory("r3_4_visualizacion/informes"),
+                )
             )
         else:
-            if args.policy_fit_end is None:
-                parser.error("El replay requiere --policy-fit-end")
-            pm25 = load_historical_pm25_csv(
-                args.core_root / "data/pm25_lima_2025_2026_imputed.csv"
-            )
-            source_factory = HistoricalReplay(
-                template,
-                weather,
-                pm25,
-                args.replay_start,
-                args.gp_fit_end,
-                args.policy_fit_end,
-            )
-
-    def factory(seed):
-        # Generar primero la ventana completa: un ensayo corto no altera el
-        # calendario original de fuentes ni invalida eventos posteriores.
-        episode = source_factory(seed)
-        config = replace(
-            episode.request.config,
-            duration_s=duration,
-            concentration_output_times_s=tuple(
-                t
-                for t in episode.request.config.concentration_output_times_s
-                if t <= duration
-            ),
-        )
-        fixed = episode.historical_fixed
-        if fixed is not None:
-            fixed = tuple(r for r in fixed if r.simulation_time_s <= duration)
-        return Episode(replace(episode.request, config=config), fixed)
-
-    env = LimaPM25Env(
-        domain=domain,
-        episode_factory=factory,
-        estimator_config=gp_config,
-        mobile_noise_stddev_ug_m3=(
-            args.noise
-            if args.noise is not None
-            else policy_protocol.get("noise_stddev_ug_m3", 0.0)
-        ),
-        concentration_priority=policy_protocol.get("concentration_priority", 0.0),
-        distance_cost_per_km=policy_protocol.get("distance_cost_per_km", 0.0),
-        arrival_strategy=policy_protocol.get("arrival_strategy", "shortest"),
-        render_mode="rgb_array" if args.image else None,
-    )
-    if loaded_policy is not None:
-        policy = loaded_policy
-    elif args.policy == "neural":
-        import torch
-
-        from .network import BiLGD3QN, NeuralController
-
-        torch.manual_seed(args.seed)
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        policy = NeuralController(BiLGD3QN().to(device), seed=args.seed)
-        print("Demostración con red sin entrenar; no constituye una política evaluada.")
-    else:
-        policy = BaselinePolicy(args.policy, seed=args.seed)
-    result = evaluate_episode(env, policy, seed=args.seed)
-    print(json.dumps(result, ensure_ascii=False, indent=2))
-    if args.image:
-        from PIL import Image
-
-        args.image.parent.mkdir(parents=True, exist_ok=True)
-        image = env.render()
-        assert image is not None
-        with args.image.open("xb") as output:
-            Image.fromarray(image).save(output, format="PNG")
-    env.close()
+            path = product("informe") / "index.html"
+            if not path.is_file():
+                raise FileNotFoundError(path)
+            print(path)
+    except (ValueError, FileNotFoundError, FileExistsError) as error:
+        parser.error(str(error))

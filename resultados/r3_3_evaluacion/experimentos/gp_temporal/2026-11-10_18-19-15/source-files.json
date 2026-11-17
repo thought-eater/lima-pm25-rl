@@ -1,0 +1,146 @@
+[
+  {
+    "partition": "calibration",
+    "case_seed": 3444837047,
+    "report.json": "e9d299f4c3f7e348a9d7390b36ec4549ce1788f1887e88fbbe51dba186940e86",
+    "fields-private.npz": "c8d7bd7c8b3f88ba5e38e93e9cb4baec742d6727d4d0bdf535e88bc951971008"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 1896493428,
+    "report.json": "43e9624ab7e91f506f932a4122f786066b5ab807ce0ece1926d5c9a49fe5f681",
+    "fields-private.npz": "f9d030d8bd6c33f2002b1ad0ee1ec8ee4dbe61df419c9fe18c36a8d90ecd9420"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 697079281,
+    "report.json": "f907bf5f866824f6943282a94c5197c146f4b9982c53bf32447e4c6368aa3bdc",
+    "fields-private.npz": "d0e3dd06d18068037bead5e4cc1f7fec4be93ad6d7ac52f43a7d3ef3aabfdd1b"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 1494732172,
+    "report.json": "2dfb95ac21a23e92ff53a4cd5e02433d04f6731e581479bcb86dfef7a8d83c00",
+    "fields-private.npz": "08c7be4d3b1497a03e51d8a2d1fe0d60b20845efd5fe3ddb078660d34c0efc4d"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 4101183755,
+    "report.json": "c0c09fa4af7df6d3b554dc05d8ba1e8d6cbb975ef83101148f71594d517be275",
+    "fields-private.npz": "3031980a83092030819fe5554a8e05df0859cd3f8a24557906aaa1acae6323f4"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 3625716501,
+    "report.json": "76ab2efca80294e17d521c46ba28fbccc7793003c150833d845225e8bf965c5a",
+    "fields-private.npz": "dc06d6c07638abe38dd790582e20dc9305387f9b822d24fc7c15a4679ff9ed30"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 1703491874,
+    "report.json": "f53d00604a6d01c51868f8a411d8dac07eda8b334a1e0d46c99c5ab7b1dfb029",
+    "fields-private.npz": "bf85c734acc0eeb6c643878dc3a28a69e608a9f9a59fd410c0cd36fc0043dd76"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 346678866,
+    "report.json": "c878f6d3a0eedd6d532e819e14e7941ccff15c8400e5a2c47eb5cf4cc7b5b535",
+    "fields-private.npz": "38f7459811b1f2a3c191ed1835bfa783a0a511a2fc884628d82b479a46af94a1"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 3076293740,
+    "report.json": "402f3cb23046d9085d25fc0b91d4d67fff98058a38ffe3621fd5d473fec86715",
+    "fields-private.npz": "27f53fb65910d106a50033bdce2b7b0e4cca96286b98ab1bc3230769fa2f7acd"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 260547594,
+    "report.json": "64c714a79927ba3dfee631e85080ed81611569a71a662459d09e5d83747135a7",
+    "fields-private.npz": "bb1bd4e0e9dc90eb68d8d4e6689c5ae803088c75d40e5e33bafe9ee6caa4ccb4"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 60166320,
+    "report.json": "63e7a702cc006196d8b470ef4579b34bede7143668bf3acc1db68dc263b4826f",
+    "fields-private.npz": "6689b63a359dfdf73412f85c4f1fa0b2dfd744ffdea9f8bbada380a76cbe3d73"
+  },
+  {
+    "partition": "calibration",
+    "case_seed": 2284616113,
+    "report.json": "c5e0982ce0ef6dfdbbf5dca9b965698b43c7ffe6c849918f8288e64d444b2a8c",
+    "fields-private.npz": "82183b1e16e20d19ed9a988950ac45f1a096480887c005f9b658cad92162e4e2"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100002,
+    "report.json": "4bd135a3d44d048e65dc4eecc54162beec3a14233466ba109b4d861a6b200f0c",
+    "fields-private.npz": "105eb27738e97fb010a874bf8988b4421559e5d7d444af38f525b27206c4a119"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100003,
+    "report.json": "7f596340a28f66d4fffa95d11dc8784555efa16947e2ba428102c7b997d00a56",
+    "fields-private.npz": "185d920b61d7237b7f1a61307827b3299565a1b775c2f826d3c0eb3655dcccc2"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100010,
+    "report.json": "51d9865f7fb68fb4e86682282326a506f677f6facb0526cacabc56c9d62fedf1",
+    "fields-private.npz": "94f5856075741ba24b639db9796dba65cc3ba049cde5bfacd2c2034e89fb1d7e"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100013,
+    "report.json": "7cfc4845bd0f241763f101a8d8d30c1f6d951098902286e2190a33c7fb86a366",
+    "fields-private.npz": "b7da7d5881746a6257f2b3a750639bbb4c16988d728d96e2f4303886e613bb2f"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100000,
+    "report.json": "74a80d884fffad0746468c0694e25137fce59cca2132aca25ad3fe723908bb1c",
+    "fields-private.npz": "2930a9cd123a87d97b806ebeb45e995f1a1905b32e1328c4211d29ebbb4fd853"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100001,
+    "report.json": "6fe0032fc1988ce0abe9a9adbe511bf74161052ef2f9ae9a98f31e4d5b8a96e9",
+    "fields-private.npz": "58f87bc065e10ddfc6be1371658d8941e2c68dc5c15e404b7bb4fe7ba8d5b9da"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100032,
+    "report.json": "4d9b8ef85b0b00e409496a07709252c1995ca9913038549f8cc9acb27ae9ec80",
+    "fields-private.npz": "ccde42f15ad0673a5e6734540811e1beea0fe068cbe608449c0c4bae94c50b43"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100037,
+    "report.json": "c31a66762929e927ef36a30c2b6ca3083a1af404be5a6a615e2dd0879fb06d51",
+    "fields-private.npz": "a8bdb1da0c2c1af36799cb7502ca0fab99abd1ee11541f09e6c3df0735a0e520"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100018,
+    "report.json": "de9b1f70b1715e6ac422e0f8b4d9a5495af5ebf6530ab6e17b8cb284a1216e07",
+    "fields-private.npz": "2f01de28a635c83cb050ee8b9a3cbe9218aca5f11b896d1b6d1ec160a53243da"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100033,
+    "report.json": "446df52153e55680c5054ef11d13c34f6fc3ec6d154290f137bff8d72d8a61f4",
+    "fields-private.npz": "40c00fbcc250c87623ebd66c870e99449334a3ee4f876f135414f1e78369927a"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100006,
+    "report.json": "6b6252acc64070e1b13c94a64ea8fc6f22c18dae212c2df2dd2315ac9c08a858",
+    "fields-private.npz": "d6e3f6acfd0c78a4e85267e559dff06518fc7ce2a7ec0b99582a5b61b2df2e1e"
+  },
+  {
+    "partition": "validation",
+    "case_seed": 100011,
+    "report.json": "462626b2e03202bbfcd093e4f8e4a1ba62f464d6b6a5f368425614d693961c3c",
+    "fields-private.npz": "40e3d21ded31e5eaf9fe6fdf8df1f961ace3657710392f91dacb56be9d43cf00"
+  }
+]

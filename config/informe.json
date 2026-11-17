@@ -1,0 +1,33 @@
+{
+  "training_runs": [
+    {
+      "label": "Gamma 0,99",
+      "sources": ["entrenamiento-original", "continuacion"]
+    },
+    {
+      "label": "Gamma 0,5",
+      "sources": ["gamma05"]
+    }
+  ],
+  "smoothing_episodes": 50,
+  "block_episodes": 200,
+  "comparisons": [
+    {
+      "protocol_product": "duracion",
+      "title": "Final 1000 frente a final 2000 — gamma 0,99",
+      "products": {
+        "metricas-gamma099-1000": "Final 1000",
+        "metricas-gamma099-2000": "Final 2000"
+      }
+    },
+    {
+      "protocol_product": "descuento",
+      "title": "Gamma 0,99 frente a 0,5 — finales de 2000 episodios",
+      "products": {
+        "metricas-gamma099-2000": "Gamma 0,99",
+        "metricas-gamma05-2000": "Gamma 0,5"
+      }
+    }
+  ],
+  "pending_note": "Ambos descuentos se comparan con políticas finales de 2000 episodios. El contraste no establece una mejora general del 20 %. El GP adaptativo y la recompensa de cambio del modelo están implementados y cuentan con un diagnóstico corto de entrenamiento; la corrida de 20 000 episodios y su evaluación siguen pendientes. El replay histórico final permanece pendiente."
+}

@@ -1,0 +1,11 @@
+{
+  "signatures_match": true,
+  "noise_verified_common_decision_ticks": 36,
+  "first_input_difference_tick": 2,
+  "first_assignment_difference_tick": 5,
+  "first_position_difference_tick": 14,
+  "decision_tick_counts": [
+    36,
+    36
+  ]
+}

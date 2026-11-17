@@ -1,0 +1,4 @@
+{
+  "experiment_config": "../controles-bilg.json",
+  "candidate_history_mode": "repeat_current"
+}

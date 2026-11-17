@@ -17,30 +17,12 @@ dependencies = [
     "pillow>=12,<14",
     "scikit-learn>=1.9,<2",
     "shapely>=2.1,<3",
+    "threadpoolctl>=3.7,<4",
     "torch>=2.15,<3",
 ]
 
 [project.scripts]
 lima-pm25-rl = "lima_pm25_rl.cli:main"
-lima-pm25-train = "lima_pm25_rl.train_cli:main"
-lima-pm25-evaluate = "lima_pm25_rl.evaluate_cli:main"
-lima-pm25-evaluate-hotspots = "lima_pm25_rl.hotspot_evaluation:main"
-lima-pm25-diagnose = "lima_pm25_rl.diagnose_cli:main"
-lima-pm25-audit-mobility = "lima_pm25_rl.mobility_diagnostics:main"
-lima-pm25-compare-arrivals = "lima_pm25_rl.arrival_experiment:main"
-lima-pm25-audit-values = "lima_pm25_rl.value_diagnostics:main"
-lima-pm25-compare-architectures = "lima_pm25_rl.architecture_experiment:main"
-lima-pm25-audit-gp = "lima_pm25_rl.gp_diagnostics:main"
-lima-pm25-compare-gp = "lima_pm25_rl.gp_spatial_experiment:main"
-lima-pm25-compare-gp-time = "lima_pm25_rl.gp_temporal_experiment:main"
-lima-pm25-compare-gp-feedback = "lima_pm25_rl.gp_feedback_experiment:main"
-lima-pm25-compare-history = "lima_pm25_rl.history_experiment:main"
-lima-pm25-test-hotspot-sampling = "lima_pm25_rl.hotspot_sampling:main"
-lima-pm25-compare-hotspot-gp = "lima_pm25_rl.hotspot_gp_experiment:main"
-lima-pm25-compare-hotspot-gp-time = "lima_pm25_rl.hotspot_gp_time_experiment:main"
-lima-pm25-compare-hotspot-gp-mixture = "lima_pm25_rl.hotspot_gp_mixture:main"
-lima-pm25-compare-gp-multiscale = "lima_pm25_rl.gp_multiscale_experiment:main"
-lima-pm25-compare-rewards = "lima_pm25_rl.reward_experiment:main"
 
 [tool.uv.sources]
 lima-pm25-core = { path = "../lima-pm25-core", editable = true }

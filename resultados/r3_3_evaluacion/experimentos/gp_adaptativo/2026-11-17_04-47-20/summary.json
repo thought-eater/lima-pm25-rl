@@ -1,0 +1,226 @@
+{
+  "cases": [
+    {
+      "case_seed": 3444837047,
+      "estimator": "fixed_gp",
+      "temporal_mse": 20.606278222735092,
+      "final_mse": 58.23439691617366,
+      "hot_temporal_mse": 172.0163671374968,
+      "coverage_95": 0.987677855024794
+    },
+    {
+      "case_seed": 3444837047,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 21.949707399251945,
+      "final_mse": 41.291491798683076,
+      "hot_temporal_mse": 202.51831421143683,
+      "coverage_95": 0.9133525204953776
+    },
+    {
+      "case_seed": 1896493428,
+      "estimator": "fixed_gp",
+      "temporal_mse": 18.310166744184976,
+      "final_mse": 25.230496170148918,
+      "hot_temporal_mse": 158.85449737223536,
+      "coverage_95": 0.99651765468092
+    },
+    {
+      "case_seed": 1896493428,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 14.998174744524203,
+      "final_mse": 23.076036149588703,
+      "hot_temporal_mse": 155.5201077531531,
+      "coverage_95": 0.9335052702399642
+    },
+    {
+      "case_seed": 697079281,
+      "estimator": "fixed_gp",
+      "temporal_mse": 5.06921883881602,
+      "final_mse": 4.830465163380691,
+      "hot_temporal_mse": 32.122506309946665,
+      "coverage_95": 1.0
+    },
+    {
+      "case_seed": 697079281,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 3.479189413057723,
+      "final_mse": 2.892026242677962,
+      "hot_temporal_mse": 24.314890921908926,
+      "coverage_95": 0.9628715955246567
+    },
+    {
+      "case_seed": 1494732172,
+      "estimator": "fixed_gp",
+      "temporal_mse": 10.86739643949705,
+      "final_mse": 4.9134111158813445,
+      "hot_temporal_mse": 62.67694271569618,
+      "coverage_95": 0.9984301412872841
+    },
+    {
+      "case_seed": 1494732172,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 7.93751796138376,
+      "final_mse": 4.733797190675609,
+      "hot_temporal_mse": 50.18836745099243,
+      "coverage_95": 0.9270825546335753
+    },
+    {
+      "case_seed": 4101183755,
+      "estimator": "fixed_gp",
+      "temporal_mse": 38.74763604865637,
+      "final_mse": 26.530897090724043,
+      "hot_temporal_mse": 222.88870518423556,
+      "coverage_95": 0.9748760309984801
+    },
+    {
+      "case_seed": 4101183755,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 40.70715733215194,
+      "final_mse": 30.577092185969878,
+      "hot_temporal_mse": 237.69501446185416,
+      "coverage_95": 0.8791831751015425
+    },
+    {
+      "case_seed": 3625716501,
+      "estimator": "fixed_gp",
+      "temporal_mse": 9.028591127078927,
+      "final_mse": 8.818142639335095,
+      "hot_temporal_mse": 60.50871128826488,
+      "coverage_95": 0.9998567192444744
+    },
+    {
+      "case_seed": 3625716501,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 9.026100184825053,
+      "final_mse": 9.880413213649364,
+      "hot_temporal_mse": 58.43688127263532,
+      "coverage_95": 0.9219680546211158
+    },
+    {
+      "case_seed": 1703491874,
+      "estimator": "fixed_gp",
+      "temporal_mse": 5.394366082447383,
+      "final_mse": 4.4318806664828205,
+      "hot_temporal_mse": 42.31172763793649,
+      "coverage_95": 0.9992399890359075
+    },
+    {
+      "case_seed": 1703491874,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 6.316921231547655,
+      "final_mse": 4.574507926784365,
+      "hot_temporal_mse": 58.35587357149106,
+      "coverage_95": 0.9735179786200194
+    },
+    {
+      "case_seed": 346678866,
+      "estimator": "fixed_gp",
+      "temporal_mse": 3.7281097064068445,
+      "final_mse": 6.724543871653985,
+      "hot_temporal_mse": 50.0012982533512,
+      "coverage_95": 0.9999563928135358
+    },
+    {
+      "case_seed": 346678866,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 2.6349400049706784,
+      "final_mse": 6.293434786708145,
+      "hot_temporal_mse": 44.433283139283695,
+      "coverage_95": 0.9700418628990057
+    },
+    {
+      "case_seed": 3076293740,
+      "estimator": "fixed_gp",
+      "temporal_mse": 67.06829577617118,
+      "final_mse": 95.96847546035397,
+      "hot_temporal_mse": 1051.348146445848,
+      "coverage_95": 0.9830492636615088
+    },
+    {
+      "case_seed": 3076293740,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 66.78372188965774,
+      "final_mse": 95.51845695632127,
+      "hot_temporal_mse": 1066.6609380711886,
+      "coverage_95": 0.926465824425008
+    },
+    {
+      "case_seed": 260547594,
+      "estimator": "fixed_gp",
+      "temporal_mse": 19.266947898563792,
+      "final_mse": 8.937616180081351,
+      "hot_temporal_mse": 78.17348093271276,
+      "coverage_95": 0.9926926814681918
+    },
+    {
+      "case_seed": 260547594,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 13.395003363091364,
+      "final_mse": 5.48969615116622,
+      "hot_temporal_mse": 58.980393153178206,
+      "coverage_95": 0.9136702299967605
+    },
+    {
+      "case_seed": 60166320,
+      "estimator": "fixed_gp",
+      "temporal_mse": 18.08987428111024,
+      "final_mse": 3.479353717639306,
+      "hot_temporal_mse": 121.72456888591766,
+      "coverage_95": 0.9917021753756448
+    },
+    {
+      "case_seed": 60166320,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 13.702030258847651,
+      "final_mse": 2.0130990607631976,
+      "hot_temporal_mse": 94.99153776805258,
+      "coverage_95": 0.9073222695671674
+    },
+    {
+      "case_seed": 2284616113,
+      "estimator": "fixed_gp",
+      "temporal_mse": 16.076231873552448,
+      "final_mse": 27.314757450252447,
+      "hot_temporal_mse": 146.25499261494653,
+      "coverage_95": 0.9938264683162643
+    },
+    {
+      "case_seed": 2284616113,
+      "estimator": "adaptive_gp",
+      "temporal_mse": 18.18367903700468,
+      "final_mse": 33.57676481536772,
+      "hot_temporal_mse": 162.49326933865174,
+      "coverage_95": 0.9357853031322418
+    }
+  ],
+  "aggregate": [
+    {
+      "estimator": "fixed_gp",
+      "temporal_rmse": 4.399366555153332,
+      "final_rmse": 4.790741386971573,
+      "hot_temporal_rmse": 13.536622993379194,
+      "coverage_95": 0.9931521143255838
+    },
+    {
+      "estimator": "adaptive_gp",
+      "temporal_rmse": 4.27311501152179,
+      "final_rmse": 4.654002009725568,
+      "hot_temporal_rmse": 13.584883974212621,
+      "coverage_95": 0.9303972199380364
+    }
+  ],
+  "frozen_seconds": 12.256583808999494,
+  "fit_attempts": 804,
+  "nonconverged": 0,
+  "at_bounds_amplitude_space_time": [
+    466,
+    403,
+    104
+  ],
+  "negative_signed_gain_ticks": 91,
+  "mean_change_sum": 2.346473484581831,
+  "uncertainty_change_sum": 2.338091593429616,
+  "integrated_episode_seconds": 3.3230096860006597,
+  "training_only_20000_hours_linear_estimate": 18.461164922225887,
+  "scope": "Doce casos congelados de entrenamiento y un episodio nuevo. Estimación local de coste sin validación, checkpoints ni transferencia al hardware del servidor. No evalúa una política adaptativa entrenada ni demuestra la meta del 20 %."
+}

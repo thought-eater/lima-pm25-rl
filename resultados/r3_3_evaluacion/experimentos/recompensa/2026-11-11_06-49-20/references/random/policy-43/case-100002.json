@@ -1,0 +1,5797 @@
+{
+  "case_seed": 100002,
+  "intervention": null,
+  "future_noise_seed": null,
+  "ticks": [
+    {
+      "tick": 1,
+      "actions": [
+        2,
+        13,
+        19
+      ],
+      "stages": [],
+      "reward": 0.1201077584034177,
+      "information_gain": 0.12074552612982875,
+      "distance_cost": 0.0006377677264110558,
+      "distance_m": 1275.5354528221117,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281214.4081387563,
+          8672220.711549332
+        ],
+        [
+          278811.3808097794,
+          8664869.057123557
+        ]
+      ],
+      "held_vehicles": [
+        0,
+        0,
+        0
+      ],
+      "sensor_rng_before_sha256": "603bed57277129c7698b0ab6bef3282a4a7731912b91a150343ef1f369f86db4",
+      "sensor_rng_after_sha256": "2e4893c74f2d68601949e800f3d6410485b22fb9f94d612abe4278ccd9c94402",
+      "integrated_variance": 24087171221.441097,
+      "synthetic_mse": 11.555143331277895,
+      "synthetic_rmse_ug_m3": 3.3992857089803286,
+      "synthetic_mae_ug_m3": 2.8168933546288377
+    },
+    {
+      "tick": 2,
+      "actions": [
+        0,
+        8,
+        20
+      ],
+      "stages": [],
+      "reward": 0.009355333671836951,
+      "information_gain": 0.009585019394751296,
+      "distance_cost": 0.00022968572291434515,
+      "distance_m": 459.37144582869024,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281105.99688709143,
+          8672343.426293641
+        ],
+        [
+          278707.3432802824,
+          8664664.469016794
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        0
+      ],
+      "sensor_rng_before_sha256": "2e4893c74f2d68601949e800f3d6410485b22fb9f94d612abe4278ccd9c94402",
+      "sensor_rng_after_sha256": "5fd3ecf0acf8d786775f1701c410ae4e34d4ce74df8d9c4239fc1cd421d0ead2",
+      "integrated_variance": 24055391105.23642,
+      "synthetic_mse": 11.36921204617306,
+      "synthetic_rmse_ug_m3": 3.371826218264082,
+      "synthetic_mae_ug_m3": 2.8289540623601894
+    },
+    {
+      "tick": 3,
+      "actions": [
+        0,
+        8,
+        18
+      ],
+      "stages": [],
+      "reward": 0.00586794182280334,
+      "information_gain": 0.00615218222669851,
+      "distance_cost": 0.00028424040389516975,
+      "distance_m": 568.4808077903394,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281100.7917686338,
+          8672475.188158551
+        ],
+        [
+          278892.498396234,
+          8664583.803180736
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        0
+      ],
+      "sensor_rng_before_sha256": "5fd3ecf0acf8d786775f1701c410ae4e34d4ce74df8d9c4239fc1cd421d0ead2",
+      "sensor_rng_after_sha256": "f73767ac3947b2cd7dc30d67bee753ee25b0783837b58093bb5a09b8827ecbba",
+      "integrated_variance": 24198375173.346336,
+      "synthetic_mse": 11.156871546202431,
+      "synthetic_rmse_ug_m3": 3.340190345804028,
+      "synthetic_mae_ug_m3": 2.777070268640859
+    },
+    {
+      "tick": 4,
+      "actions": [
+        0,
+        14,
+        19
+      ],
+      "stages": [],
+      "reward": 0.005175916480442454,
+      "information_gain": 0.005428856890562129,
+      "distance_cost": 0.00025294041011967525,
+      "distance_m": 505.88082023935056,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281033.35472464527,
+          8672539.267680591
+        ],
+        [
+          279062.75682324986,
+          8664288.339847855
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        0
+      ],
+      "sensor_rng_before_sha256": "f73767ac3947b2cd7dc30d67bee753ee25b0783837b58093bb5a09b8827ecbba",
+      "sensor_rng_after_sha256": "2b1887d24a35327b504045e07d853cfc042ac965234df6f7a470aeaf0d23ff2f",
+      "integrated_variance": 24422311104.010128,
+      "synthetic_mse": 9.980438576281818,
+      "synthetic_rmse_ug_m3": 3.1591832134717697,
+      "synthetic_mae_ug_m3": 2.610773172572631
+    },
+    {
+      "tick": 5,
+      "actions": [
+        0,
+        12,
+        20
+      ],
+      "stages": [],
+      "reward": 0.0059508215238542935,
+      "information_gain": 0.006088457072005012,
+      "distance_cost": 0.0001376355481507181,
+      "distance_m": 275.27109630143616,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281052.6903992591,
+          8672467.886221893
+        ],
+        [
+          279090.68978662917,
+          8664228.03766754
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        0
+      ],
+      "sensor_rng_before_sha256": "2b1887d24a35327b504045e07d853cfc042ac965234df6f7a470aeaf0d23ff2f",
+      "sensor_rng_after_sha256": "405f95d02abe3463c8a0afccdd6a0c30f61d89d14c049a21e2ec4201bf12a37e",
+      "integrated_variance": 24686413418.060192,
+      "synthetic_mse": 9.802322533405638,
+      "synthetic_rmse_ug_m3": 3.130866099565045,
+      "synthetic_mae_ug_m3": 2.4769732440454195
+    },
+    {
+      "tick": 6,
+      "actions": [
+        0,
+        15,
+        20
+      ],
+      "stages": [],
+      "reward": 0.00877499259646096,
+      "information_gain": 0.009068567043148299,
+      "distance_cost": 0.00029357444668733936,
+      "distance_m": 587.1488933746787,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          280853.59078006767,
+          8672541.048193734
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        0
+      ],
+      "sensor_rng_before_sha256": "405f95d02abe3463c8a0afccdd6a0c30f61d89d14c049a21e2ec4201bf12a37e",
+      "sensor_rng_after_sha256": "f881d82c2fbaeab12faff8ce00206b1854b8e902115d9a9057929ef9f4e02924",
+      "integrated_variance": 24911968170.200447,
+      "synthetic_mse": 10.282066264225795,
+      "synthetic_rmse_ug_m3": 3.2065661172390936,
+      "synthetic_mae_ug_m3": 2.4864137545182112
+    },
+    {
+      "tick": 7,
+      "actions": [
+        0,
+        9,
+        16
+      ],
+      "stages": [],
+      "reward": 0.006029941430633216,
+      "information_gain": 0.0061403278815173904,
+      "distance_cost": 0.00011038645088417429,
+      "distance_m": 220.77290176834856,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          280935.9592759067,
+          8672682.119925734
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "f881d82c2fbaeab12faff8ce00206b1854b8e902115d9a9057929ef9f4e02924",
+      "sensor_rng_after_sha256": "0923c7db932c971baac1f1afcedff7777189773c2b7e95056842617d1e4ce51a",
+      "integrated_variance": 25215016781.199646,
+      "synthetic_mse": 10.815903183411358,
+      "synthetic_rmse_ug_m3": 3.288754047266435,
+      "synthetic_mae_ug_m3": 2.48305618012327
+    },
+    {
+      "tick": 8,
+      "actions": [
+        0,
+        14,
+        16
+      ],
+      "stages": [],
+      "reward": 0.004615691883688224,
+      "information_gain": 0.004698041146389736,
+      "distance_cost": 8.23492627015125e-05,
+      "distance_m": 164.698525403025,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          280822.1098694272,
+          8672702.38650141
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "0923c7db932c971baac1f1afcedff7777189773c2b7e95056842617d1e4ce51a",
+      "sensor_rng_after_sha256": "45a8612a69e025ea6cc6017d6a4d99eaf7c2c0e39f523bccac196a341697d5fd",
+      "integrated_variance": 25544854537.995686,
+      "synthetic_mse": 12.023449865745535,
+      "synthetic_rmse_ug_m3": 3.4674846597707587,
+      "synthetic_mae_ug_m3": 2.699599110378927
+    },
+    {
+      "tick": 9,
+      "actions": [
+        0,
+        14,
+        16
+      ],
+      "stages": [],
+      "reward": 0.007774008513639549,
+      "information_gain": 0.007927755543748737,
+      "distance_cost": 0.00015374703010918747,
+      "distance_m": 307.49406021837495,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          280649.0763044274,
+          8672861.359893981
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "45a8612a69e025ea6cc6017d6a4d99eaf7c2c0e39f523bccac196a341697d5fd",
+      "sensor_rng_after_sha256": "c5c7680a72ce306e0d0984437c558e73da62c27f66915f6cf661de37166d890e",
+      "integrated_variance": 25797128052.432278,
+      "synthetic_mse": 12.944816925549723,
+      "synthetic_rmse_ug_m3": 3.5978906216767794,
+      "synthetic_mae_ug_m3": 2.752260626657763
+    },
+    {
+      "tick": 10,
+      "actions": [
+        0,
+        11,
+        16
+      ],
+      "stages": [],
+      "reward": 0.006321376187171695,
+      "information_gain": 0.0065587780864621165,
+      "distance_cost": 0.0002374018992904219,
+      "distance_m": 474.8037985808438,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          280664.01911206613,
+          8672670.667510113
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "c5c7680a72ce306e0d0984437c558e73da62c27f66915f6cf661de37166d890e",
+      "sensor_rng_after_sha256": "f64c7e81a7148a3649e588b2e114a5e9639e337b5fcf00ed2a6722e4de1bf177",
+      "integrated_variance": 26063055161.48136,
+      "synthetic_mse": 14.183910360385608,
+      "synthetic_rmse_ug_m3": 3.7661532576868946,
+      "synthetic_mae_ug_m3": 2.873045146412475
+    },
+    {
+      "tick": 11,
+      "actions": [
+        0,
+        10,
+        16
+      ],
+      "stages": [],
+      "reward": 0.006623934665689865,
+      "information_gain": 0.0067953336401740975,
+      "distance_cost": 0.00017139897448423266,
+      "distance_m": 342.79794896846533,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          280874.82620529603,
+          8672666.769677045
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "f64c7e81a7148a3649e588b2e114a5e9639e337b5fcf00ed2a6722e4de1bf177",
+      "sensor_rng_after_sha256": "fc395647f600a7236607309c1b0336c066db7a9eb29bc0608fe3f5be0a7629d6",
+      "integrated_variance": 26298774586.08818,
+      "synthetic_mse": 15.230217721309302,
+      "synthetic_rmse_ug_m3": 3.9025911547725958,
+      "synthetic_mae_ug_m3": 2.895970354854668
+    },
+    {
+      "tick": 12,
+      "actions": [
+        0,
+        10,
+        16
+      ],
+      "stages": [],
+      "reward": 0.004170352524153732,
+      "information_gain": 0.004374618061739882,
+      "distance_cost": 0.00020426553758614918,
+      "distance_m": 408.53107517229836,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281060.5394985559,
+          8672635.954710113
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "fc395647f600a7236607309c1b0336c066db7a9eb29bc0608fe3f5be0a7629d6",
+      "sensor_rng_after_sha256": "e2cf306b32e6cf306f5725be14a591fee1848c79b8e3bf22d31cf10bf176e19f",
+      "integrated_variance": 23581610744.633255,
+      "synthetic_mse": 9.954549590366632,
+      "synthetic_rmse_ug_m3": 3.1550831352543836,
+      "synthetic_mae_ug_m3": 2.166936033197847
+    },
+    {
+      "tick": 13,
+      "actions": [
+        0,
+        11,
+        16
+      ],
+      "stages": [],
+      "reward": 0.007881737901156953,
+      "information_gain": 0.008071162511005878,
+      "distance_cost": 0.00018942460984892575,
+      "distance_m": 378.8492196978515,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281275.66320800513,
+          8672467.92373145
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "e2cf306b32e6cf306f5725be14a591fee1848c79b8e3bf22d31cf10bf176e19f",
+      "sensor_rng_after_sha256": "67791db64a75db2cbb9e995768c2b72d5fcf72871d2d68729f593e18a9c1f202",
+      "integrated_variance": 23607945315.179466,
+      "synthetic_mse": 11.319223690372308,
+      "synthetic_rmse_ug_m3": 3.3644053992306437,
+      "synthetic_mae_ug_m3": 2.357097917033702
+    },
+    {
+      "tick": 14,
+      "actions": [
+        0,
+        13,
+        16
+      ],
+      "stages": [],
+      "reward": 0.008010643299973016,
+      "information_gain": 0.008196043755911682,
+      "distance_cost": 0.00018540045593866593,
+      "distance_m": 370.8009118773318,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281214.4081387563,
+          8672220.711549332
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "67791db64a75db2cbb9e995768c2b72d5fcf72871d2d68729f593e18a9c1f202",
+      "sensor_rng_after_sha256": "78adaf3ea7854ebdb1580dd9f20a8cbf29a2b8111c790dcbcdeeb170898a0a3d",
+      "integrated_variance": 23699787262.548267,
+      "synthetic_mse": 11.806962334677044,
+      "synthetic_rmse_ug_m3": 3.4361260650152294,
+      "synthetic_mae_ug_m3": 2.218516934005852
+    },
+    {
+      "tick": 15,
+      "actions": [
+        0,
+        11,
+        16
+      ],
+      "stages": [],
+      "reward": 0.007722938152650596,
+      "information_gain": 0.007869832173457358,
+      "distance_cost": 0.00014689402080676222,
+      "distance_m": 293.78804161352446,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281281.63667035114,
+          8671975.846723907
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "78adaf3ea7854ebdb1580dd9f20a8cbf29a2b8111c790dcbcdeeb170898a0a3d",
+      "sensor_rng_after_sha256": "c6ca43ac477e8f0f98828deebc5f5da63eec3294d4a1c2782974100e595eb124",
+      "integrated_variance": 23859889751.78042,
+      "synthetic_mse": 13.109878558201112,
+      "synthetic_rmse_ug_m3": 3.6207566278612417,
+      "synthetic_mae_ug_m3": 2.380421766486294
+    },
+    {
+      "tick": 16,
+      "actions": [
+        0,
+        9,
+        16
+      ],
+      "stages": [],
+      "reward": 0.007098117635678097,
+      "information_gain": 0.0073865027878700345,
+      "distance_cost": 0.00028838515219193776,
+      "distance_m": 576.7703043838756,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281549.1133451868,
+          8672107.45603727
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "c6ca43ac477e8f0f98828deebc5f5da63eec3294d4a1c2782974100e595eb124",
+      "sensor_rng_after_sha256": "db4a30888b7e5be4c34b504c00852e0519803664c3c27ed664cf9cddf83380d6",
+      "integrated_variance": 24083428765.568893,
+      "synthetic_mse": 14.097170199929526,
+      "synthetic_rmse_ug_m3": 3.7546198475917008,
+      "synthetic_mae_ug_m3": 2.426750314026102
+    },
+    {
+      "tick": 17,
+      "actions": [
+        0,
+        15,
+        16
+      ],
+      "stages": [],
+      "reward": 0.004949971304597026,
+      "information_gain": 0.005049581662909749,
+      "distance_cost": 9.961035831272304e-05,
+      "distance_m": 199.22071662544607,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281445.1819214136,
+          8672277.418056883
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "db4a30888b7e5be4c34b504c00852e0519803664c3c27ed664cf9cddf83380d6",
+      "sensor_rng_after_sha256": "22f60bf92b5316f2d31a1023dfa3b7327878b48448b1ce85c57929a5575e9e4f",
+      "integrated_variance": 24392229602.471066,
+      "synthetic_mse": 15.26961767130149,
+      "synthetic_rmse_ug_m3": 3.9076358161043476,
+      "synthetic_mae_ug_m3": 2.536886752301659
+    },
+    {
+      "tick": 18,
+      "actions": [
+        0,
+        11,
+        16
+      ],
+      "stages": [],
+      "reward": 0.0036271295938710402,
+      "information_gain": 0.0037131545933078635,
+      "distance_cost": 8.602499943682322e-05,
+      "distance_m": 172.04999887364644,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281551.67483714526,
+          8672223.68085109
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "22f60bf92b5316f2d31a1023dfa3b7327878b48448b1ce85c57929a5575e9e4f",
+      "sensor_rng_after_sha256": "4463aff58387f2aa1b1be8e450b7f4f02e83ab0d76c3dcfa0970818c59eaf288",
+      "integrated_variance": 24749450286.14436,
+      "synthetic_mse": 16.38201837339402,
+      "synthetic_rmse_ug_m3": 4.047470614271834,
+      "synthetic_mae_ug_m3": 2.6192310325608004
+    },
+    {
+      "tick": 19,
+      "actions": [
+        0,
+        15,
+        16
+      ],
+      "stages": [],
+      "reward": 0.00350870988582261,
+      "information_gain": 0.003648177106779629,
+      "distance_cost": 0.0001394672209570188,
+      "distance_m": 278.9344419140376,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281449.6330342084,
+          8672284.64195076
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "4463aff58387f2aa1b1be8e450b7f4f02e83ab0d76c3dcfa0970818c59eaf288",
+      "sensor_rng_after_sha256": "166ebf29594e95c5f54d4e362bc7d7ba86a27f6faf1ba4dc6087e7d1a5805827",
+      "integrated_variance": 25114871362.24552,
+      "synthetic_mse": 17.16770584558618,
+      "synthetic_rmse_ug_m3": 4.14339303537405,
+      "synthetic_mae_ug_m3": 2.7124152968523423
+    },
+    {
+      "tick": 20,
+      "actions": [
+        0,
+        9,
+        16
+      ],
+      "stages": [],
+      "reward": 0.0057101176847672505,
+      "information_gain": 0.005870301820528535,
+      "distance_cost": 0.00016018413576128447,
+      "distance_m": 320.36827152256893,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281561.97495825775,
+          8672483.06577421
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "166ebf29594e95c5f54d4e362bc7d7ba86a27f6faf1ba4dc6087e7d1a5805827",
+      "sensor_rng_after_sha256": "ace5bea5cd8088e70a121e95503fd6f4b2f17ed7a65181e0f8f99dd6ac3e1b9a",
+      "integrated_variance": 25430086341.675465,
+      "synthetic_mse": 18.070599525106456,
+      "synthetic_rmse_ug_m3": 4.250952778508185,
+      "synthetic_mae_ug_m3": 2.782443400073335
+    },
+    {
+      "tick": 21,
+      "actions": [
+        0,
+        10,
+        16
+      ],
+      "stages": [],
+      "reward": 0.004597867521190529,
+      "information_gain": 0.0046665518441540614,
+      "distance_cost": 6.868432296353228e-05,
+      "distance_m": 137.36864592706456,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281679.16519547475,
+          8672534.30634266
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "ace5bea5cd8088e70a121e95503fd6f4b2f17ed7a65181e0f8f99dd6ac3e1b9a",
+      "sensor_rng_after_sha256": "c0b90a0145a65689cd51443443e2b0777049112e442d6b93b0b99aaf8d07f1ed",
+      "integrated_variance": 25754150103.759254,
+      "synthetic_mse": 19.205379738570876,
+      "synthetic_rmse_ug_m3": 4.382394292914648,
+      "synthetic_mae_ug_m3": 2.9521668569739115
+    },
+    {
+      "tick": 22,
+      "actions": [
+        0,
+        14,
+        16
+      ],
+      "stages": [],
+      "reward": 0.0033276750776521074,
+      "information_gain": 0.003371877263169111,
+      "distance_cost": 4.420218551700361e-05,
+      "distance_m": 88.40437103400723,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281648.40578208707,
+          8672516.932243846
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "c0b90a0145a65689cd51443443e2b0777049112e442d6b93b0b99aaf8d07f1ed",
+      "sensor_rng_after_sha256": "63bb23d5d1b31fe0b4db2c23d279f40347de28e6e9fe3879f0d3e1a07b3c54ab",
+      "integrated_variance": 26086624443.8436,
+      "synthetic_mse": 19.987076530585973,
+      "synthetic_rmse_ug_m3": 4.47069083370635,
+      "synthetic_mae_ug_m3": 3.0167161205472244
+    },
+    {
+      "tick": 23,
+      "actions": [
+        0,
+        10,
+        16
+      ],
+      "stages": [],
+      "reward": 0.003171160454803301,
+      "information_gain": 0.0031976123794717343,
+      "distance_cost": 2.6451924668433234e-05,
+      "distance_m": 52.903849336866465,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281679.16519547475,
+          8672534.30634266
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "63bb23d5d1b31fe0b4db2c23d279f40347de28e6e9fe3879f0d3e1a07b3c54ab",
+      "sensor_rng_after_sha256": "a2587d8315a72c28c74533f79a6b98010f2e6258da66cce20bd7eb940f1c2c3a",
+      "integrated_variance": 26398136843.994083,
+      "synthetic_mse": 21.575237523910335,
+      "synthetic_rmse_ug_m3": 4.644915233231963,
+      "synthetic_mae_ug_m3": 3.290730534405363
+    },
+    {
+      "tick": 24,
+      "actions": [
+        0,
+        15,
+        16
+      ],
+      "stages": [],
+      "reward": 0.0048762162312950335,
+      "information_gain": 0.005106517516764345,
+      "distance_cost": 0.0002303012854693119,
+      "distance_m": 460.6025709386238,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281580.04343981546,
+          8672694.998839619
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "a2587d8315a72c28c74533f79a6b98010f2e6258da66cce20bd7eb940f1c2c3a",
+      "sensor_rng_after_sha256": "0186d7d5219099dacf079b176240f5cd6bf9b1b04ca8e8a2c138d6ea50c6c4a1",
+      "integrated_variance": 23742490554.531166,
+      "synthetic_mse": 13.30536466220366,
+      "synthetic_rmse_ug_m3": 3.64765193819307,
+      "synthetic_mae_ug_m3": 2.4081523863829326
+    },
+    {
+      "tick": 25,
+      "actions": [
+        0,
+        11,
+        16
+      ],
+      "stages": [],
+      "reward": 0.004136257883277645,
+      "information_gain": 0.004246682016358848,
+      "distance_cost": 0.00011042413308120308,
+      "distance_m": 220.84826616240616,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281665.9821310876,
+          8672588.840919577
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "0186d7d5219099dacf079b176240f5cd6bf9b1b04ca8e8a2c138d6ea50c6c4a1",
+      "sensor_rng_after_sha256": "d584a5033eb8017d60e2a698a8cbba19eafc449a6021b1dc96ccc59f6449baaf",
+      "integrated_variance": 23845978605.865547,
+      "synthetic_mse": 13.877703863065038,
+      "synthetic_rmse_ug_m3": 3.725279031571332,
+      "synthetic_mae_ug_m3": 2.5874376070480847
+    },
+    {
+      "tick": 26,
+      "actions": [
+        0,
+        11,
+        16
+      ],
+      "stages": [],
+      "reward": 0.006614716505234709,
+      "information_gain": 0.006766310943730774,
+      "distance_cost": 0.00015159443849606515,
+      "distance_m": 303.1888769921303,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281859.0288712906,
+          8672472.39285507
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "d584a5033eb8017d60e2a698a8cbba19eafc449a6021b1dc96ccc59f6449baaf",
+      "sensor_rng_after_sha256": "4ccabe51b15cd55d70881d077ab104be04d554e52b2e6af5470415dc97980793",
+      "integrated_variance": 23957930531.883575,
+      "synthetic_mse": 13.659120740050444,
+      "synthetic_rmse_ug_m3": 3.6958247712858956,
+      "synthetic_mae_ug_m3": 2.5222633597974857
+    },
+    {
+      "tick": 27,
+      "actions": [
+        0,
+        8,
+        16
+      ],
+      "stages": [],
+      "reward": 0.002554618189884462,
+      "information_gain": 0.002563269198675265,
+      "distance_cost": 8.651008790802917e-06,
+      "distance_m": 17.30201758160583,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          281873.8424894549,
+          8672481.332459606
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "4ccabe51b15cd55d70881d077ab104be04d554e52b2e6af5470415dc97980793",
+      "sensor_rng_after_sha256": "f26fed281e89f86b84dec93327761505b4363692760ca7ae7dd5ba4b3806b7ee",
+      "integrated_variance": 24213594316.18999,
+      "synthetic_mse": 13.58640089588876,
+      "synthetic_rmse_ug_m3": 3.6859735343445914,
+      "synthetic_mae_ug_m3": 2.4905403939997774
+    },
+    {
+      "tick": 28,
+      "actions": [
+        0,
+        11,
+        16
+      ],
+      "stages": [],
+      "reward": 0.007540905813363095,
+      "information_gain": 0.007715332078111374,
+      "distance_cost": 0.00017442626474827887,
+      "distance_m": 348.85252949655774,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          282124.9621227343,
+          8672401.293375434
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "f26fed281e89f86b84dec93327761505b4363692760ca7ae7dd5ba4b3806b7ee",
+      "sensor_rng_after_sha256": "233271e2c262675320e1b6dc98c5eb7793df1b7391851b5a1bbedc2bdb461a08",
+      "integrated_variance": 24411312125.29418,
+      "synthetic_mse": 14.161812412830995,
+      "synthetic_rmse_ug_m3": 3.763218358377706,
+      "synthetic_mae_ug_m3": 2.6399731518853633
+    },
+    {
+      "tick": 29,
+      "actions": [
+        0,
+        10,
+        16
+      ],
+      "stages": [],
+      "reward": 0.004414626583709379,
+      "information_gain": 0.004655440722989961,
+      "distance_cost": 0.00024081413928058197,
+      "distance_m": 481.6282785611639,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          282268.22811035404,
+          8672379.244978335
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "233271e2c262675320e1b6dc98c5eb7793df1b7391851b5a1bbedc2bdb461a08",
+      "sensor_rng_after_sha256": "0675b3614a7ec21d83fd837611e61d2cdc07a70623d375e05c06c972b9ca5f9d",
+      "integrated_variance": 24703592825.903465,
+      "synthetic_mse": 15.360194254637692,
+      "synthetic_rmse_ug_m3": 3.9192083709134033,
+      "synthetic_mae_ug_m3": 2.9221997366156063
+    },
+    {
+      "tick": 30,
+      "actions": [
+        0,
+        12,
+        16
+      ],
+      "stages": [],
+      "reward": 0.005479292554442183,
+      "information_gain": 0.005849163202601148,
+      "distance_cost": 0.0003698706481589649,
+      "distance_m": 739.7412963179297,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          282281.3509744954,
+          8672264.9144273
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "0675b3614a7ec21d83fd837611e61d2cdc07a70623d375e05c06c972b9ca5f9d",
+      "sensor_rng_after_sha256": "6fb80b45f586a1d09ba3980e013a9414ded7637d81dc3b532c340f89b641af77",
+      "integrated_variance": 24991127073.61659,
+      "synthetic_mse": 15.31135864905709,
+      "synthetic_rmse_ug_m3": 3.9129731214329966,
+      "synthetic_mae_ug_m3": 2.8641773212459714
+    },
+    {
+      "tick": 31,
+      "actions": [
+        0,
+        15,
+        16
+      ],
+      "stages": [],
+      "reward": 0.003470139084410067,
+      "information_gain": 0.0037232848196064846,
+      "distance_cost": 0.00025314573519641734,
+      "distance_m": 506.2914703928347,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          282200.8488774368,
+          8672295.116015457
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "6fb80b45f586a1d09ba3980e013a9414ded7637d81dc3b532c340f89b641af77",
+      "sensor_rng_after_sha256": "483f846790098c135c5654fbb45fcbf9614b642a5581bea079979ca6c665e864",
+      "integrated_variance": 25328172257.76586,
+      "synthetic_mse": 15.40565522232599,
+      "synthetic_rmse_ug_m3": 3.925003849975945,
+      "synthetic_mae_ug_m3": 2.8157821631344664
+    },
+    {
+      "tick": 32,
+      "actions": [
+        0,
+        8,
+        16
+      ],
+      "stages": [],
+      "reward": 0.006239845362694,
+      "information_gain": 0.0064668780446608815,
+      "distance_cost": 0.0002270326819668815,
+      "distance_m": 454.06536393376297,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          282213.16121232085,
+          8672526.626434302
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "483f846790098c135c5654fbb45fcbf9614b642a5581bea079979ca6c665e864",
+      "sensor_rng_after_sha256": "caa400502c570ce90b9b036f322eda770d737800d4ec4f0e994c7e6201d00592",
+      "integrated_variance": 25605272125.220707,
+      "synthetic_mse": 16.152990662219327,
+      "synthetic_rmse_ug_m3": 4.019078334919503,
+      "synthetic_mae_ug_m3": 2.995549980347433
+    },
+    {
+      "tick": 33,
+      "actions": [
+        0,
+        14,
+        16
+      ],
+      "stages": [],
+      "reward": 0.006376805410264612,
+      "information_gain": 0.006503320853496622,
+      "distance_cost": 0.0001265154432320096,
+      "distance_m": 253.0308864640192,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          282012.7889403735,
+          8672501.299290508
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "caa400502c570ce90b9b036f322eda770d737800d4ec4f0e994c7e6201d00592",
+      "sensor_rng_after_sha256": "b23feae3ecde51833cb2d8577f2d951ab4ae50417b10f79c7eceb6f473a8df14",
+      "integrated_variance": 25869261137.01565,
+      "synthetic_mse": 16.916793824336153,
+      "synthetic_rmse_ug_m3": 4.113003017788359,
+      "synthetic_mae_ug_m3": 3.0365559533159368
+    },
+    {
+      "tick": 34,
+      "actions": [
+        0,
+        11,
+        16
+      ],
+      "stages": [],
+      "reward": 0.004974391630318039,
+      "information_gain": 0.005120373875832738,
+      "distance_cost": 0.00014598224551469875,
+      "distance_m": 291.96449102939755,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          282124.9621227343,
+          8672401.293375434
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "b23feae3ecde51833cb2d8577f2d951ab4ae50417b10f79c7eceb6f473a8df14",
+      "sensor_rng_after_sha256": "0a5cf6844326d1701f4786c4f74fb6ba15c5136da782e2b69865c78d5534d380",
+      "integrated_variance": 26143124494.540382,
+      "synthetic_mse": 18.993532957193338,
+      "synthetic_rmse_ug_m3": 4.358157059720695,
+      "synthetic_mae_ug_m3": 3.408806654781906
+    },
+    {
+      "tick": 35,
+      "actions": [
+        0,
+        12,
+        16
+      ],
+      "stages": [],
+      "reward": 0.004933599471535359,
+      "information_gain": 0.005108391815430142,
+      "distance_cost": 0.00017479234389478312,
+      "distance_m": 349.58468778956626,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          282072.4320772872,
+          8672268.009269878
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "0a5cf6844326d1701f4786c4f74fb6ba15c5136da782e2b69865c78d5534d380",
+      "sensor_rng_after_sha256": "958036148f1a613509604efb9c90ab74fc47a6f4b2c2ea14a0fc2d8df283f618",
+      "integrated_variance": 26393758922.031498,
+      "synthetic_mse": 18.53480393113801,
+      "synthetic_rmse_ug_m3": 4.305206607253363,
+      "synthetic_mae_ug_m3": 3.277550872949716
+    },
+    {
+      "tick": 36,
+      "actions": [
+        0,
+        11,
+        16
+      ],
+      "stages": [],
+      "reward": 0.0077160552034226774,
+      "information_gain": 0.008104748601330173,
+      "distance_cost": 0.0003886933979074955,
+      "distance_m": 777.3867958149909,
+      "positions_m": [
+        [
+          284263.6168691189,
+          8663902.960033908
+        ],
+        [
+          282308.87336154375,
+          8672055.14616029
+        ],
+        [
+          279193.26921681204,
+          8663992.74060838
+        ]
+      ],
+      "held_vehicles": [
+        1,
+        0,
+        1
+      ],
+      "sensor_rng_before_sha256": "958036148f1a613509604efb9c90ab74fc47a6f4b2c2ea14a0fc2d8df283f618",
+      "sensor_rng_after_sha256": "251a56f535c72ea00847105e8acabffbe868749ce826615e7294f9cb82afc856",
+      "integrated_variance": 23664520484.418385,
+      "synthetic_mse": 13.84486651191865,
+      "synthetic_rmse_ug_m3": 3.720869053315186,
+      "synthetic_mae_ug_m3": 2.7938165854137673
+    }
+  ],
+  "evaluation_series": [
+    {
+      "elapsed_s": 0.0,
+      "integrated_variance": 26563422189.7036,
+      "synthetic_mse": 20.56820646583012,
+      "synthetic_rmse_ug_m3": 4.535218458446089,
+      "synthetic_mae_ug_m3": 3.9112010829096167
+    },
+    {
+      "elapsed_s": 300.0,
+      "integrated_variance": 24087171221.441097,
+      "synthetic_mse": 11.555143331277895,
+      "synthetic_rmse_ug_m3": 3.3992857089803286,
+      "synthetic_mae_ug_m3": 2.8168933546288377
+    },
+    {
+      "elapsed_s": 600.0,
+      "integrated_variance": 24055391105.23642,
+      "synthetic_mse": 11.36921204617306,
+      "synthetic_rmse_ug_m3": 3.371826218264082,
+      "synthetic_mae_ug_m3": 2.8289540623601894
+    },
+    {
+      "elapsed_s": 900.0,
+      "integrated_variance": 24198375173.346336,
+      "synthetic_mse": 11.156871546202431,
+      "synthetic_rmse_ug_m3": 3.340190345804028,
+      "synthetic_mae_ug_m3": 2.777070268640859
+    },
+    {
+      "elapsed_s": 1200.0,
+      "integrated_variance": 24422311104.010128,
+      "synthetic_mse": 9.980438576281818,
+      "synthetic_rmse_ug_m3": 3.1591832134717697,
+      "synthetic_mae_ug_m3": 2.610773172572631
+    },
+    {
+      "elapsed_s": 1500.0,
+      "integrated_variance": 24686413418.060192,
+      "synthetic_mse": 9.802322533405638,
+      "synthetic_rmse_ug_m3": 3.130866099565045,
+      "synthetic_mae_ug_m3": 2.4769732440454195
+    },
+    {
+      "elapsed_s": 1800.0,
+      "integrated_variance": 24911968170.200447,
+      "synthetic_mse": 10.282066264225795,
+      "synthetic_rmse_ug_m3": 3.2065661172390936,
+      "synthetic_mae_ug_m3": 2.4864137545182112
+    },
+    {
+      "elapsed_s": 2100.0,
+      "integrated_variance": 25215016781.199646,
+      "synthetic_mse": 10.815903183411358,
+      "synthetic_rmse_ug_m3": 3.288754047266435,
+      "synthetic_mae_ug_m3": 2.48305618012327
+    },
+    {
+      "elapsed_s": 2400.0,
+      "integrated_variance": 25544854537.995686,
+      "synthetic_mse": 12.023449865745535,
+      "synthetic_rmse_ug_m3": 3.4674846597707587,
+      "synthetic_mae_ug_m3": 2.699599110378927
+    },
+    {
+      "elapsed_s": 2700.0,
+      "integrated_variance": 25797128052.432278,
+      "synthetic_mse": 12.944816925549723,
+      "synthetic_rmse_ug_m3": 3.5978906216767794,
+      "synthetic_mae_ug_m3": 2.752260626657763
+    },
+    {
+      "elapsed_s": 3000.0,
+      "integrated_variance": 26063055161.48136,
+      "synthetic_mse": 14.183910360385608,
+      "synthetic_rmse_ug_m3": 3.7661532576868946,
+      "synthetic_mae_ug_m3": 2.873045146412475
+    },
+    {
+      "elapsed_s": 3300.0,
+      "integrated_variance": 26298774586.08818,
+      "synthetic_mse": 15.230217721309302,
+      "synthetic_rmse_ug_m3": 3.9025911547725958,
+      "synthetic_mae_ug_m3": 2.895970354854668
+    },
+    {
+      "elapsed_s": 3600.0,
+      "integrated_variance": 23581610744.633255,
+      "synthetic_mse": 9.954549590366632,
+      "synthetic_rmse_ug_m3": 3.1550831352543836,
+      "synthetic_mae_ug_m3": 2.166936033197847
+    },
+    {
+      "elapsed_s": 3900.0,
+      "integrated_variance": 23607945315.179466,
+      "synthetic_mse": 11.319223690372308,
+      "synthetic_rmse_ug_m3": 3.3644053992306437,
+      "synthetic_mae_ug_m3": 2.357097917033702
+    },
+    {
+      "elapsed_s": 4200.0,
+      "integrated_variance": 23699787262.548267,
+      "synthetic_mse": 11.806962334677044,
+      "synthetic_rmse_ug_m3": 3.4361260650152294,
+      "synthetic_mae_ug_m3": 2.218516934005852
+    },
+    {
+      "elapsed_s": 4500.0,
+      "integrated_variance": 23859889751.78042,
+      "synthetic_mse": 13.109878558201112,
+      "synthetic_rmse_ug_m3": 3.6207566278612417,
+      "synthetic_mae_ug_m3": 2.380421766486294
+    },
+    {
+      "elapsed_s": 4800.0,
+      "integrated_variance": 24083428765.568893,
+      "synthetic_mse": 14.097170199929526,
+      "synthetic_rmse_ug_m3": 3.7546198475917008,
+      "synthetic_mae_ug_m3": 2.426750314026102
+    },
+    {
+      "elapsed_s": 5100.0,
+      "integrated_variance": 24392229602.471066,
+      "synthetic_mse": 15.26961767130149,
+      "synthetic_rmse_ug_m3": 3.9076358161043476,
+      "synthetic_mae_ug_m3": 2.536886752301659
+    },
+    {
+      "elapsed_s": 5400.0,
+      "integrated_variance": 24749450286.14436,
+      "synthetic_mse": 16.38201837339402,
+      "synthetic_rmse_ug_m3": 4.047470614271834,
+      "synthetic_mae_ug_m3": 2.6192310325608004
+    },
+    {
+      "elapsed_s": 5700.0,
+      "integrated_variance": 25114871362.24552,
+      "synthetic_mse": 17.16770584558618,
+      "synthetic_rmse_ug_m3": 4.14339303537405,
+      "synthetic_mae_ug_m3": 2.7124152968523423
+    },
+    {
+      "elapsed_s": 6000.0,
+      "integrated_variance": 25430086341.675465,
+      "synthetic_mse": 18.070599525106456,
+      "synthetic_rmse_ug_m3": 4.250952778508185,
+      "synthetic_mae_ug_m3": 2.782443400073335
+    },
+    {
+      "elapsed_s": 6300.0,
+      "integrated_variance": 25754150103.759254,
+      "synthetic_mse": 19.205379738570876,
+      "synthetic_rmse_ug_m3": 4.382394292914648,
+      "synthetic_mae_ug_m3": 2.9521668569739115
+    },
+    {
+      "elapsed_s": 6600.0,
+      "integrated_variance": 26086624443.8436,
+      "synthetic_mse": 19.987076530585973,
+      "synthetic_rmse_ug_m3": 4.47069083370635,
+      "synthetic_mae_ug_m3": 3.0167161205472244
+    },
+    {
+      "elapsed_s": 6900.0,
+      "integrated_variance": 26398136843.994083,
+      "synthetic_mse": 21.575237523910335,
+      "synthetic_rmse_ug_m3": 4.644915233231963,
+      "synthetic_mae_ug_m3": 3.290730534405363
+    },
+    {
+      "elapsed_s": 7200.0,
+      "integrated_variance": 23742490554.531166,
+      "synthetic_mse": 13.30536466220366,
+      "synthetic_rmse_ug_m3": 3.64765193819307,
+      "synthetic_mae_ug_m3": 2.4081523863829326
+    },
+    {
+      "elapsed_s": 7500.0,
+      "integrated_variance": 23845978605.865547,
+      "synthetic_mse": 13.877703863065038,
+      "synthetic_rmse_ug_m3": 3.725279031571332,
+      "synthetic_mae_ug_m3": 2.5874376070480847
+    },
+    {
+      "elapsed_s": 7800.0,
+      "integrated_variance": 23957930531.883575,
+      "synthetic_mse": 13.659120740050444,
+      "synthetic_rmse_ug_m3": 3.6958247712858956,
+      "synthetic_mae_ug_m3": 2.5222633597974857
+    },
+    {
+      "elapsed_s": 8100.0,
+      "integrated_variance": 24213594316.18999,
+      "synthetic_mse": 13.58640089588876,
+      "synthetic_rmse_ug_m3": 3.6859735343445914,
+      "synthetic_mae_ug_m3": 2.4905403939997774
+    },
+    {
+      "elapsed_s": 8400.0,
+      "integrated_variance": 24411312125.29418,
+      "synthetic_mse": 14.161812412830995,
+      "synthetic_rmse_ug_m3": 3.763218358377706,
+      "synthetic_mae_ug_m3": 2.6399731518853633
+    },
+    {
+      "elapsed_s": 8700.0,
+      "integrated_variance": 24703592825.903465,
+      "synthetic_mse": 15.360194254637692,
+      "synthetic_rmse_ug_m3": 3.9192083709134033,
+      "synthetic_mae_ug_m3": 2.9221997366156063
+    },
+    {
+      "elapsed_s": 9000.0,
+      "integrated_variance": 24991127073.61659,
+      "synthetic_mse": 15.31135864905709,
+      "synthetic_rmse_ug_m3": 3.9129731214329966,
+      "synthetic_mae_ug_m3": 2.8641773212459714
+    },
+    {
+      "elapsed_s": 9300.0,
+      "integrated_variance": 25328172257.76586,
+      "synthetic_mse": 15.40565522232599,
+      "synthetic_rmse_ug_m3": 3.925003849975945,
+      "synthetic_mae_ug_m3": 2.8157821631344664
+    },
+    {
+      "elapsed_s": 9600.0,
+      "integrated_variance": 25605272125.220707,
+      "synthetic_mse": 16.152990662219327,
+      "synthetic_rmse_ug_m3": 4.019078334919503,
+      "synthetic_mae_ug_m3": 2.995549980347433
+    },
+    {
+      "elapsed_s": 9900.0,
+      "integrated_variance": 25869261137.01565,
+      "synthetic_mse": 16.916793824336153,
+      "synthetic_rmse_ug_m3": 4.113003017788359,
+      "synthetic_mae_ug_m3": 3.0365559533159368
+    },
+    {
+      "elapsed_s": 10200.0,
+      "integrated_variance": 26143124494.540382,
+      "synthetic_mse": 18.993532957193338,
+      "synthetic_rmse_ug_m3": 4.358157059720695,
+      "synthetic_mae_ug_m3": 3.408806654781906
+    },
+    {
+      "elapsed_s": 10500.0,
+      "integrated_variance": 26393758922.031498,
+      "synthetic_mse": 18.53480393113801,
+      "synthetic_rmse_ug_m3": 4.305206607253363,
+      "synthetic_mae_ug_m3": 3.277550872949716
+    },
+    {
+      "elapsed_s": 10800.0,
+      "integrated_variance": 23664520484.418385,
+      "synthetic_mse": 13.84486651191865,
+      "synthetic_rmse_ug_m3": 3.720869053315186,
+      "synthetic_mae_ug_m3": 2.7938165854137673
+    }
+  ],
+  "measurements": [
+    {
+      "sensor_id": "CAMPO_DE_MARTE",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T07:00:00+00:00",
+      "simulation_time_s": 0.0,
+      "x_m": 277593.7650996271,
+      "y_m": 8664821.073000595,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.05893721450444,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CAMPO_DE_MARTE",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "CERES",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T07:00:00+00:00",
+      "simulation_time_s": 0.0,
+      "x_m": 290207.8487128161,
+      "y_m": 8669538.42607851,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.058937214504436,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CERES",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "SANTA_ANITA",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T07:00:00+00:00",
+      "simulation_time_s": 0.0,
+      "x_m": 285390.34287870245,
+      "y_m": 8667920.939161547,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.058937214504667,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "SANTA_ANITA",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "SAN_JUAN_DE_LURIGANCHO",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T07:00:00+00:00",
+      "simulation_time_s": 0.0,
+      "x_m": 282307.42995940126,
+      "y_m": 8674780.815162793,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.48344575491269,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "SAN_JUAN_DE_LURIGANCHO",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:05:00+00:00",
+      "simulation_time_s": 300.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.53349069162164,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:05:00+00:00",
+      "simulation_time_s": 300.0,
+      "x_m": 281214.4081387563,
+      "y_m": 8672220.711549332,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 30.283240726085623,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:05:00+00:00",
+      "simulation_time_s": 300.0,
+      "x_m": 278811.3808097794,
+      "y_m": 8664869.057123557,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.294644564191913,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:10:00+00:00",
+      "simulation_time_s": 600.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.47435065610041,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:10:00+00:00",
+      "simulation_time_s": 600.0,
+      "x_m": 281105.99688709143,
+      "y_m": 8672343.426293641,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 30.028747459110043,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:10:00+00:00",
+      "simulation_time_s": 600.0,
+      "x_m": 278707.3432802824,
+      "y_m": 8664664.469016794,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.2559460122221,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:15:00+00:00",
+      "simulation_time_s": 900.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.621981240805752,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:15:00+00:00",
+      "simulation_time_s": 900.0,
+      "x_m": 281100.7917686338,
+      "y_m": 8672475.188158551,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 29.42741242467608,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:15:00+00:00",
+      "simulation_time_s": 900.0,
+      "x_m": 278892.498396234,
+      "y_m": 8664583.803180736,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.776780431512233,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:20:00+00:00",
+      "simulation_time_s": 1200.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.605625438649867,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:20:00+00:00",
+      "simulation_time_s": 1200.0,
+      "x_m": 281033.35472464527,
+      "y_m": 8672539.267680591,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.368005335254715,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:20:00+00:00",
+      "simulation_time_s": 1200.0,
+      "x_m": 279062.75682324986,
+      "y_m": 8664288.339847855,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.960314886849847,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:25:00+00:00",
+      "simulation_time_s": 1500.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.730320490659963,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:25:00+00:00",
+      "simulation_time_s": 1500.0,
+      "x_m": 281052.6903992591,
+      "y_m": 8672467.886221893,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.69110456023532,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:25:00+00:00",
+      "simulation_time_s": 1500.0,
+      "x_m": 279090.68978662917,
+      "y_m": 8664228.03766754,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.343892188732106,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:30:00+00:00",
+      "simulation_time_s": 1800.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.352784610336066,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:30:00+00:00",
+      "simulation_time_s": 1800.0,
+      "x_m": 280853.59078006767,
+      "y_m": 8672541.048193734,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 34.242617123358805,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:30:00+00:00",
+      "simulation_time_s": 1800.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.055941770966438,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:35:00+00:00",
+      "simulation_time_s": 2100.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.70385429321769,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:35:00+00:00",
+      "simulation_time_s": 2100.0,
+      "x_m": 280935.9592759067,
+      "y_m": 8672682.119925734,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.809293280225155,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:35:00+00:00",
+      "simulation_time_s": 2100.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.697542273523688,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:40:00+00:00",
+      "simulation_time_s": 2400.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.692298997378607,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:40:00+00:00",
+      "simulation_time_s": 2400.0,
+      "x_m": 280822.1098694272,
+      "y_m": 8672702.38650141,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 35.027013673126056,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:40:00+00:00",
+      "simulation_time_s": 2400.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.867378797390607,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:45:00+00:00",
+      "simulation_time_s": 2700.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.268783639459617,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:45:00+00:00",
+      "simulation_time_s": 2700.0,
+      "x_m": 280649.0763044274,
+      "y_m": 8672861.359893981,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 34.27493093468052,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:45:00+00:00",
+      "simulation_time_s": 2700.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.242530895803952,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:50:00+00:00",
+      "simulation_time_s": 3000.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.193430660046378,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:50:00+00:00",
+      "simulation_time_s": 3000.0,
+      "x_m": 280664.01911206613,
+      "y_m": 8672670.667510113,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 34.42343823595134,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:50:00+00:00",
+      "simulation_time_s": 3000.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.432202295206412,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:55:00+00:00",
+      "simulation_time_s": 3300.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.04582210702178,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:55:00+00:00",
+      "simulation_time_s": 3300.0,
+      "x_m": 280874.82620529603,
+      "y_m": 8672666.769677045,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.2259375464651,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T07:55:00+00:00",
+      "simulation_time_s": 3300.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.406273215270673,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "CAMPO_DE_MARTE",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T08:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 277593.7650996271,
+      "y_m": 8664821.073000595,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.746748391038995,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CAMPO_DE_MARTE",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "CERES",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T08:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 290207.8487128161,
+      "y_m": 8669538.42607851,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 29.860703396026466,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CERES",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.344394924875704,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 281060.5394985559,
+      "y_m": 8672635.954710113,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.50816813878082,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.218484522698013,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "SANTA_ANITA",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T08:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 285390.34287870245,
+      "y_m": 8667920.939161547,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.61191187075545,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "SANTA_ANITA",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "SAN_JUAN_DE_LURIGANCHO",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T08:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 282307.42995940126,
+      "y_m": 8674780.815162793,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.03424621986229,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "SAN_JUAN_DE_LURIGANCHO",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:05:00+00:00",
+      "simulation_time_s": 3900.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 22.88216487738621,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:05:00+00:00",
+      "simulation_time_s": 3900.0,
+      "x_m": 281275.66320800513,
+      "y_m": 8672467.92373145,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.452604389255534,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:05:00+00:00",
+      "simulation_time_s": 3900.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.37790758034093,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:10:00+00:00",
+      "simulation_time_s": 4200.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.55850716989763,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:10:00+00:00",
+      "simulation_time_s": 4200.0,
+      "x_m": 281214.4081387563,
+      "y_m": 8672220.711549332,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 31.5019699303039,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:10:00+00:00",
+      "simulation_time_s": 4200.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.79078607425606,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:15:00+00:00",
+      "simulation_time_s": 4500.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.368643755312764,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:15:00+00:00",
+      "simulation_time_s": 4500.0,
+      "x_m": 281281.63667035114,
+      "y_m": 8671975.846723907,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 30.444839225734395,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:15:00+00:00",
+      "simulation_time_s": 4500.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.669144932503038,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:20:00+00:00",
+      "simulation_time_s": 4800.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.879652524718257,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:20:00+00:00",
+      "simulation_time_s": 4800.0,
+      "x_m": 281549.1133451868,
+      "y_m": 8672107.45603727,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 31.289246951643662,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:20:00+00:00",
+      "simulation_time_s": 4800.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.56071737132382,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:25:00+00:00",
+      "simulation_time_s": 5100.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.69515565757768,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:25:00+00:00",
+      "simulation_time_s": 5100.0,
+      "x_m": 281445.1819214136,
+      "y_m": 8672277.418056883,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 29.958219431738705,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:25:00+00:00",
+      "simulation_time_s": 5100.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.08750765838291,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:30:00+00:00",
+      "simulation_time_s": 5400.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.088416214722855,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:30:00+00:00",
+      "simulation_time_s": 5400.0,
+      "x_m": 281551.67483714526,
+      "y_m": 8672223.68085109,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 29.035748446093354,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:30:00+00:00",
+      "simulation_time_s": 5400.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.792085001851422,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:35:00+00:00",
+      "simulation_time_s": 5700.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.39330344544019,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:35:00+00:00",
+      "simulation_time_s": 5700.0,
+      "x_m": 281449.6330342084,
+      "y_m": 8672284.64195076,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 31.31993284509731,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:35:00+00:00",
+      "simulation_time_s": 5700.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.740033140088862,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:40:00+00:00",
+      "simulation_time_s": 6000.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.54007092335902,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:40:00+00:00",
+      "simulation_time_s": 6000.0,
+      "x_m": 281561.97495825775,
+      "y_m": 8672483.06577421,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 30.39393194601997,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:40:00+00:00",
+      "simulation_time_s": 6000.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.139731131660756,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:45:00+00:00",
+      "simulation_time_s": 6300.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.383510759763105,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:45:00+00:00",
+      "simulation_time_s": 6300.0,
+      "x_m": 281679.16519547475,
+      "y_m": 8672534.30634266,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 30.306882415102038,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:45:00+00:00",
+      "simulation_time_s": 6300.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.572303749345807,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:50:00+00:00",
+      "simulation_time_s": 6600.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.65262592874938,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:50:00+00:00",
+      "simulation_time_s": 6600.0,
+      "x_m": 281648.40578208707,
+      "y_m": 8672516.932243846,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 30.048219513558507,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:50:00+00:00",
+      "simulation_time_s": 6600.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.637929308438377,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:55:00+00:00",
+      "simulation_time_s": 6900.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.06032211924468,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:55:00+00:00",
+      "simulation_time_s": 6900.0,
+      "x_m": 281679.16519547475,
+      "y_m": 8672534.30634266,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 28.632733712102837,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T08:55:00+00:00",
+      "simulation_time_s": 6900.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.22281031297426,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "CAMPO_DE_MARTE",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T09:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 277593.7650996271,
+      "y_m": 8664821.073000595,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.737296892278138,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CAMPO_DE_MARTE",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "CERES",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T09:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 290207.8487128161,
+      "y_m": 8669538.42607851,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.771633325164345,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CERES",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.998089381561435,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 281580.04343981546,
+      "y_m": 8672694.998839619,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 28.97735882081749,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.17772500881987,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "SANTA_ANITA",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T09:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 285390.34287870245,
+      "y_m": 8667920.939161547,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.173706568880142,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "SANTA_ANITA",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "SAN_JUAN_DE_LURIGANCHO",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T09:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 282307.42995940126,
+      "y_m": 8674780.815162793,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 27.860764690004384,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "SAN_JUAN_DE_LURIGANCHO",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:05:00+00:00",
+      "simulation_time_s": 7500.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.154584888161207,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:05:00+00:00",
+      "simulation_time_s": 7500.0,
+      "x_m": 281665.9821310876,
+      "y_m": 8672588.840919577,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.643437123285327,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:05:00+00:00",
+      "simulation_time_s": 7500.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.277681073343576,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:10:00+00:00",
+      "simulation_time_s": 7800.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.494757915570474,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:10:00+00:00",
+      "simulation_time_s": 7800.0,
+      "x_m": 281859.0288712906,
+      "y_m": 8672472.39285507,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.471840375916575,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:10:00+00:00",
+      "simulation_time_s": 7800.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.286623353740158,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:15:00+00:00",
+      "simulation_time_s": 8100.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.081991513101002,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:15:00+00:00",
+      "simulation_time_s": 8100.0,
+      "x_m": 281873.8424894549,
+      "y_m": 8672481.332459606,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.887280721105824,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:15:00+00:00",
+      "simulation_time_s": 8100.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.99759860746578,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:20:00+00:00",
+      "simulation_time_s": 8400.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.918267833356314,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:20:00+00:00",
+      "simulation_time_s": 8400.0,
+      "x_m": 282124.9621227343,
+      "y_m": 8672401.293375434,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.035462500784238,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:20:00+00:00",
+      "simulation_time_s": 8400.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.00135523841307,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:25:00+00:00",
+      "simulation_time_s": 8700.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.153780474861065,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:25:00+00:00",
+      "simulation_time_s": 8700.0,
+      "x_m": 282268.22811035404,
+      "y_m": 8672379.244978335,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.74840971434277,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:25:00+00:00",
+      "simulation_time_s": 8700.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.593847454597668,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:30:00+00:00",
+      "simulation_time_s": 9000.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.670816995223326,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:30:00+00:00",
+      "simulation_time_s": 9000.0,
+      "x_m": 282281.3509744954,
+      "y_m": 8672264.9144273,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.24179884618223,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:30:00+00:00",
+      "simulation_time_s": 9000.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.939575110173273,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:35:00+00:00",
+      "simulation_time_s": 9300.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.664756308483433,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:35:00+00:00",
+      "simulation_time_s": 9300.0,
+      "x_m": 282200.8488774368,
+      "y_m": 8672295.116015457,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.674020642673806,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:35:00+00:00",
+      "simulation_time_s": 9300.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.602755914956433,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:40:00+00:00",
+      "simulation_time_s": 9600.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.00088826826065,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:40:00+00:00",
+      "simulation_time_s": 9600.0,
+      "x_m": 282213.16121232085,
+      "y_m": 8672526.626434302,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 27.254558999067772,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:40:00+00:00",
+      "simulation_time_s": 9600.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.00790657260492,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:45:00+00:00",
+      "simulation_time_s": 9900.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.711928558208477,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:45:00+00:00",
+      "simulation_time_s": 9900.0,
+      "x_m": 282012.7889403735,
+      "y_m": 8672501.299290508,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.09332397425982,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:45:00+00:00",
+      "simulation_time_s": 9900.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.742778313932227,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:50:00+00:00",
+      "simulation_time_s": 10200.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.783271816792162,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:50:00+00:00",
+      "simulation_time_s": 10200.0,
+      "x_m": 282124.9621227343,
+      "y_m": 8672401.293375434,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.913404266186056,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:50:00+00:00",
+      "simulation_time_s": 10200.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.038132504448665,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:55:00+00:00",
+      "simulation_time_s": 10500.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.151311505661806,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:55:00+00:00",
+      "simulation_time_s": 10500.0,
+      "x_m": 282072.4320772872,
+      "y_m": 8672268.009269878,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.87466687583649,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T09:55:00+00:00",
+      "simulation_time_s": 10500.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.240378998591762,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "CAMPO_DE_MARTE",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T10:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 277593.7650996271,
+      "y_m": 8664821.073000595,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.850880648977004,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CAMPO_DE_MARTE",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "CERES",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T10:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 290207.8487128161,
+      "y_m": 8669538.42607851,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 31.22879236813159,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CERES",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T10:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 284263.6168691189,
+      "y_m": 8663902.960033908,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.975403075776015,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T10:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 282308.87336154375,
+      "y_m": 8672055.14616029,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 22.70503628941698,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2026-02-05T10:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 279193.26921681204,
+      "y_m": 8663992.74060838,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.910899816609156,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "SANTA_ANITA",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T10:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 285390.34287870245,
+      "y_m": 8667920.939161547,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 23.83181355692339,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "SANTA_ANITA",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    },
+    {
+      "sensor_id": "SAN_JUAN_DE_LURIGANCHO",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2026-02-05T10:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 282307.42995940126,
+      "y_m": 8674780.815162793,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.99650685732066,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "SAN_JUAN_DE_LURIGANCHO",
+      "provenance": "medición sintética de referencia en los sitios SENAMHI de PM2.5"
+    }
+  ],
+  "signatures": {
+    "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b",
+    "fixed_measurements_sha256": "694d865542b590c3f00a6ad1c336d697bbaa0ce07ae842c3bac181e6c85d7790",
+    "initial_positions_sha256": "ad7c0b744a60dd40f4c644c9ea184dffdde7ce9134e9e297e7a9854d4aca02dd",
+    "horizon_s": 10800.0
+  },
+  "metrics": {
+    "reward": 0.31970160813980575,
+    "discounted_return": 0.289270170113648,
+    "distance_m": 13664.733130749171,
+    "decision_end_elapsed_s": 10800.0,
+    "final_integrated_variance": 23664520484.418385,
+    "mean_integrated_variance": 24898840456.729305,
+    "temporal_mse": 14.43783445832753,
+    "synthetic_mse": 13.84486651191865,
+    "synthetic_rmse_ug_m3": 3.720869053315186,
+    "synthetic_mae_ug_m3": 2.7938165854137673
+  },
+  "pairing": {
+    "match": true,
+    "fixed_measurements": {
+      "match": true,
+      "max_absolute_differences": {
+        "x_m": 0.0,
+        "y_m": 0.0,
+        "simulation_time_s": 0.0,
+        "value_ug_m3": 0.0,
+        "noise_stddev_ug_m3": 0.0
+      },
+      "absolute_tolerances": {
+        "x_m": 1e-06,
+        "y_m": 1e-06,
+        "simulation_time_s": 1e-08,
+        "value_ug_m3": 1e-08,
+        "noise_stddev_ug_m3": 1e-08
+      }
+    },
+    "common_decision_ticks": 36
+  },
+  "routes_m": [
+    [
+      [
+        284069.5804333813,
+        8663944.27266871
+      ],
+      [
+        284062.81915464613,
+        8663947.824718459
+      ],
+      [
+        284039.2192660174,
+        8663960.222961713
+      ],
+      [
+        284022.38065612374,
+        8663969.069155218
+      ],
+      [
+        284036.29113140586,
+        8663993.191110568
+      ],
+      [
+        284050.201606688,
+        8664017.313065918
+      ],
+      [
+        284053.1297412995,
+        8664015.745222338
+      ],
+      [
+        284140.01503993245,
+        8663969.223263536
+      ],
+      [
+        284223.97220395395,
+        8663924.269148316
+      ],
+      [
+        284240.01503993245,
+        8663915.646080727
+      ],
+      [
+        284263.6168691189,
+        8663902.960033908
+      ]
+    ],
+    [
+      [
+        281418.8790794591,
+        8672451.842132038
+      ],
+      [
+        281390.0460017701,
+        8672442.193798847
+      ],
+      [
+        281361.21292408113,
+        8672432.54546566
+      ],
+      [
+        281355.31188493106,
+        8672453.365616703
+      ],
+      [
+        281348.40044114005,
+        8672477.75069533
+      ],
+      [
+        281347.710320837,
+        8672480.180925496
+      ],
+      [
+        281346.00800113525,
+        8672486.17557407
+      ],
+      [
+        281338.69385902747,
+        8672483.903781753
+      ],
+      [
+        281331.37971691974,
+        8672481.631989436
+      ],
+      [
+        281318.92410859454,
+        8672478.636691153
+      ],
+      [
+        281306.46850026934,
+        8672475.641392872
+      ],
+      [
+        281303.4037400507,
+        8672474.91358031
+      ],
+      [
+        281297.80375996564,
+        8672473.58370927
+      ],
+      [
+        281295.26854009926,
+        8672472.981650792
+      ],
+      [
+        281298.12096108263,
+        8672462.723397141
+      ],
+      [
+        281305.2347416221,
+        8672437.204880431
+      ],
+      [
+        281315.3407443792,
+        8672406.153733138
+      ],
+      [
+        281321.34653873055,
+        8672388.943952572
+      ],
+      [
+        281321.7265146431,
+        8672387.855120406
+      ],
+      [
+        281329.89170228154,
+        8672370.509978632
+      ],
+      [
+        281363.34700438596,
+        8672311.657672787
+      ],
+      [
+        281335.8231377461,
+        8672295.020419277
+      ],
+      [
+        281308.29927110625,
+        8672278.38316577
+      ],
+      [
+        281304.8889654002,
+        8672276.284466758
+      ],
+      [
+        281278.7682678026,
+        8672260.20981335
+      ],
+      [
+        281239.9940386954,
+        8672236.348188227
+      ],
+      [
+        281214.4081387563,
+        8672220.711549332
+      ],
+      [
+        281172.72790217935,
+        8672195.23897225
+      ],
+      [
+        281154.81686787633,
+        8672234.712369999
+      ],
+      [
+        281121.79209168674,
+        8672307.494326863
+      ],
+      [
+        281105.99688709143,
+        8672343.426293641
+      ],
+      [
+        281081.78379233705,
+        8672398.507828739
+      ],
+      [
+        281071.28567162424,
+        8672410.126531148
+      ],
+      [
+        281064.3428027327,
+        8672418.175173476
+      ],
+      [
+        281061.3872355891,
+        8672431.075403003
+      ],
+      [
+        281055.2273421219,
+        8672457.961626774
+      ],
+      [
+        281054.3968083328,
+        8672461.58667604
+      ],
+      [
+        281055.22734212194,
+        8672461.83016134
+      ],
+      [
+        281076.7152335714,
+        8672468.129707193
+      ],
+      [
+        281100.7917686338,
+        8672475.188158551
+      ],
+      [
+        281104.2109460358,
+        8672476.190549357
+      ],
+      [
+        281100.7917686338,
+        8672475.188158551
+      ],
+      [
+        281076.7152335714,
+        8672468.129707193
+      ],
+      [
+        281055.2273421219,
+        8672461.83016134
+      ],
+      [
+        281054.3968083328,
+        8672461.58667604
+      ],
+      [
+        281052.6903992591,
+        8672467.886221893
+      ],
+      [
+        281033.35472464527,
+        8672539.267680591
+      ],
+      [
+        281025.8512263284,
+        8672566.96832543
+      ],
+      [
+        281015.7204575715,
+        8672604.348238273
+      ],
+      [
+        281025.8512263284,
+        8672566.96832543
+      ],
+      [
+        281033.35472464527,
+        8672539.267680591
+      ],
+      [
+        281052.6903992591,
+        8672467.886221893
+      ],
+      [
+        281054.3968083328,
+        8672461.58667604
+      ],
+      [
+        281052.6903992591,
+        8672467.886221893
+      ],
+      [
+        281033.35472464527,
+        8672539.267680591
+      ],
+      [
+        281025.8512263284,
+        8672566.96832543
+      ],
+      [
+        281015.7204575715,
+        8672604.348238273
+      ],
+      [
+        280988.8134695587,
+        8672596.439677417
+      ],
+      [
+        280961.90648154594,
+        8672588.53111656
+      ],
+      [
+        280908.98217872845,
+        8672565.330412026
+      ],
+      [
+        280853.59078006767,
+        8672541.048193734
+      ],
+      [
+        280851.1236842243,
+        8672539.966679975
+      ],
+      [
+        280853.59078006767,
+        8672541.048193734
+      ],
+      [
+        280908.98217872845,
+        8672565.330412026
+      ],
+      [
+        280961.90648154594,
+        8672588.53111656
+      ],
+      [
+        280951.22245752474,
+        8672627.079835953
+      ],
+      [
+        280950.0357444022,
+        8672631.359205645
+      ],
+      [
+        280935.9592759067,
+        8672682.119925734
+      ],
+      [
+        280933.75905249035,
+        8672690.054083724
+      ],
+      [
+        280926.75795775076,
+        8672715.009096812
+      ],
+      [
+        280919.75686301116,
+        8672739.9641099
+      ],
+      [
+        280887.9073694611,
+        8672727.707431477
+      ],
+      [
+        280822.1098694272,
+        8672702.38650141
+      ],
+      [
+        280788.16186294344,
+        8672689.322249763
+      ],
+      [
+        280778.0214693895,
+        8672713.070383882
+      ],
+      [
+        280767.88107583555,
+        8672736.818518002
+      ],
+      [
+        280740.41325696214,
+        8672725.765710872
+      ],
+      [
+        280728.53253592225,
+        8672720.985013912
+      ],
+      [
+        280712.9473932241,
+        8672714.708047135
+      ],
+      [
+        280707.85407262866,
+        8672727.505839191
+      ],
+      [
+        280702.7607520332,
+        8672740.303631248
+      ],
+      [
+        280695.0286364322,
+        8672760.124641007
+      ],
+      [
+        280689.22890390747,
+        8672774.992053874
+      ],
+      [
+        280687.29734826717,
+        8672779.945973467
+      ],
+      [
+        280684.0593748172,
+        8672789.271955136
+      ],
+      [
+        280680.82140136714,
+        8672798.597936805
+      ],
+      [
+        280677.77209988015,
+        8672805.95578441
+      ],
+      [
+        280673.10390355065,
+        8672817.218692545
+      ],
+      [
+        280669.3992878958,
+        8672824.024457242
+      ],
+      [
+        280649.0763044274,
+        8672861.359893981
+      ],
+      [
+        280632.889371884,
+        8672891.09697451
+      ],
+      [
+        280623.6840108242,
+        8672908.008181276
+      ],
+      [
+        280639.8709433676,
+        8672916.957555749
+      ],
+      [
+        280663.7114563729,
+        8672930.138414936
+      ],
+      [
+        280671.36503683485,
+        8672934.36989965
+      ],
+      [
+        280689.20280645526,
+        8672904.277833696
+      ],
+      [
+        280710.12993893254,
+        8672868.974056147
+      ],
+      [
+        280713.2193017895,
+        8672863.762344547
+      ],
+      [
+        280723.08192160726,
+        8672838.535051174
+      ],
+      [
+        280732.944541425,
+        8672813.307757802
+      ],
+      [
+        280723.1593124827,
+        8672810.81306286
+      ],
+      [
+        280706.84767042485,
+        8672806.083866747
+      ],
+      [
+        280688.94150040264,
+        8672800.892372884
+      ],
+      [
+        280680.82140136714,
+        8672798.597936805
+      ],
+      [
+        280669.9755152454,
+        8672795.821591785
+      ],
+      [
+        280668.3181561021,
+        8672795.397338687
+      ],
+      [
+        280659.1310326653,
+        8672793.039770577
+      ],
+      [
+        280661.41200074996,
+        8672783.502095569
+      ],
+      [
+        280663.69296883466,
+        8672773.96442056
+      ],
+      [
+        280672.14664143056,
+        8672753.728074199
+      ],
+      [
+        280680.6003140264,
+        8672733.491727836
+      ],
+      [
+        280690.68106575863,
+        8672710.198318465
+      ],
+      [
+        280696.7104975998,
+        8672696.266220156
+      ],
+      [
+        280700.7548011795,
+        8672686.901875746
+      ],
+      [
+        280686.3675747004,
+        8672680.543821745
+      ],
+      [
+        280664.01911206613,
+        8672670.667510113
+      ],
+      [
+        280654.3350257064,
+        8672666.387884425
+      ],
+      [
+        280652.61217550177,
+        8672665.62651637
+      ],
+      [
+        280654.3350257064,
+        8672666.387884425
+      ],
+      [
+        280664.01911206613,
+        8672670.667510113
+      ],
+      [
+        280686.3675747004,
+        8672680.543821745
+      ],
+      [
+        280700.7548011795,
+        8672686.901875746
+      ],
+      [
+        280711.0341371878,
+        8672691.310507737
+      ],
+      [
+        280711.2008185639,
+        8672691.381994538
+      ],
+      [
+        280721.31015365396,
+        8672695.726871539
+      ],
+      [
+        280717.1302733528,
+        8672705.218120223
+      ],
+      [
+        280716.49184072483,
+        8672706.667808348
+      ],
+      [
+        280712.9473932241,
+        8672714.708047135
+      ],
+      [
+        280728.53253592225,
+        8672720.985013912
+      ],
+      [
+        280740.41325696214,
+        8672725.765710872
+      ],
+      [
+        280767.88107583555,
+        8672736.818518002
+      ],
+      [
+        280778.0214693895,
+        8672713.070383882
+      ],
+      [
+        280788.16186294344,
+        8672689.322249763
+      ],
+      [
+        280791.39262516145,
+        8672681.754008755
+      ],
+      [
+        280801.7657690113,
+        8672657.454339705
+      ],
+      [
+        280808.90815064317,
+        8672640.722911665
+      ],
+      [
+        280832.48301327706,
+        8672650.038249005
+      ],
+      [
+        280874.82620529603,
+        8672666.769677045
+      ],
+      [
+        280913.6764120047,
+        8672682.12089189
+      ],
+      [
+        280927.9047767711,
+        8672687.743067496
+      ],
+      [
+        280933.75905249035,
+        8672690.054083724
+      ],
+      [
+        280935.9592759067,
+        8672682.119925734
+      ],
+      [
+        280950.0357444022,
+        8672631.359205645
+      ],
+      [
+        280951.22245752474,
+        8672627.079835953
+      ],
+      [
+        280961.90648154594,
+        8672588.53111656
+      ],
+      [
+        280988.8134695587,
+        8672596.439677417
+      ],
+      [
+        281015.7204575715,
+        8672604.348238273
+      ],
+      [
+        281005.3252143151,
+        8672639.26700301
+      ],
+      [
+        280994.5494976616,
+        8672675.463819709
+      ],
+      [
+        280994.1690242645,
+        8672676.74187167
+      ],
+      [
+        281019.47460941575,
+        8672683.194759732
+      ],
+      [
+        281044.78019456693,
+        8672689.647647794
+      ],
+      [
+        281047.0492869136,
+        8672681.916707769
+      ],
+      [
+        281052.6881275856,
+        8672662.704823729
+      ],
+      [
+        281060.5394985559,
+        8672635.954710113
+      ],
+      [
+        281065.02112120076,
+        8672620.685540512
+      ],
+      [
+        281093.22144513536,
+        8672628.249369074
+      ],
+      [
+        281121.42176907,
+        8672635.813197633
+      ],
+      [
+        281150.6850991417,
+        8672643.24641581
+      ],
+      [
+        281179.94842921343,
+        8672650.679633988
+      ],
+      [
+        281199.89422219153,
+        8672579.56879509
+      ],
+      [
+        281219.8400151697,
+        8672508.457956193
+      ],
+      [
+        281224.49529203423,
+        8672491.32186197
+      ],
+      [
+        281231.46863562224,
+        8672465.652954135
+      ],
+      [
+        281233.7867023457,
+        8672457.120140525
+      ],
+      [
+        281244.92228912836,
+        8672459.992976317
+      ],
+      [
+        281275.66320800513,
+        8672467.92373145
+      ],
+      [
+        281295.26854009926,
+        8672472.981650792
+      ],
+      [
+        281298.12096108263,
+        8672462.723397141
+      ],
+      [
+        281305.2347416221,
+        8672437.204880431
+      ],
+      [
+        281315.3407443792,
+        8672406.153733138
+      ],
+      [
+        281321.34653873055,
+        8672388.943952572
+      ],
+      [
+        281321.7265146431,
+        8672387.855120406
+      ],
+      [
+        281329.89170228154,
+        8672370.509978632
+      ],
+      [
+        281363.34700438596,
+        8672311.657672787
+      ],
+      [
+        281335.8231377461,
+        8672295.020419277
+      ],
+      [
+        281308.29927110625,
+        8672278.38316577
+      ],
+      [
+        281304.8889654002,
+        8672276.284466758
+      ],
+      [
+        281278.7682678026,
+        8672260.20981335
+      ],
+      [
+        281239.9940386954,
+        8672236.348188227
+      ],
+      [
+        281214.4081387563,
+        8672220.711549332
+      ],
+      [
+        281172.72790217935,
+        8672195.23897225
+      ],
+      [
+        281183.84169568354,
+        8672172.377522359
+      ],
+      [
+        281194.95548918773,
+        8672149.516072467
+      ],
+      [
+        281213.8605439225,
+        8672111.850920107
+      ],
+      [
+        281244.41173728416,
+        8672050.982788863
+      ],
+      [
+        281258.12422191974,
+        8672023.662961954
+      ],
+      [
+        281281.63667035114,
+        8671975.846723907
+      ],
+      [
+        281307.18172028573,
+        8671923.896873077
+      ],
+      [
+        281319.07128349005,
+        8671899.187734377
+      ],
+      [
+        281330.9608466944,
+        8671874.478595676
+      ],
+      [
+        281331.02992866817,
+        8671874.33218171
+      ],
+      [
+        281333.7598913752,
+        8671868.546234334
+      ],
+      [
+        281334.91136195406,
+        8671865.987636045
+      ],
+      [
+        281334.95909948606,
+        8671865.881015025
+      ],
+      [
+        281336.7383691954,
+        8671861.90704438
+      ],
+      [
+        281338.9262574047,
+        8671857.62992166
+      ],
+      [
+        281356.38674848055,
+        8671865.907844704
+      ],
+      [
+        281388.2288458762,
+        8671881.004008414
+      ],
+      [
+        281414.9529342868,
+        8671893.67736717
+      ],
+      [
+        281490.2399231934,
+        8671929.380699884
+      ],
+      [
+        281491.6862379074,
+        8671930.066585403
+      ],
+      [
+        281524.42451525107,
+        8671945.585477628
+      ],
+      [
+        281550.7979917697,
+        8671958.596430521
+      ],
+      [
+        281564.83155808214,
+        8671965.519676687
+      ],
+      [
+        281567.0456649583,
+        8671966.609080052
+      ],
+      [
+        281571.07225304184,
+        8671968.596860928
+      ],
+      [
+        281577.1718394014,
+        8671971.60662767
+      ],
+      [
+        281582.23464594607,
+        8671974.144123644
+      ],
+      [
+        281587.29745249066,
+        8671976.681619616
+      ],
+      [
+        281598.8314279247,
+        8671982.806941185
+      ],
+      [
+        281610.3654033587,
+        8671988.932262756
+      ],
+      [
+        281614.90496489336,
+        8671991.526795799
+      ],
+      [
+        281619.44452642807,
+        8671994.121328842
+      ],
+      [
+        281615.19015329145,
+        8672000.972535372
+      ],
+      [
+        281610.9357801549,
+        8672007.823741904
+      ],
+      [
+        281604.8518414753,
+        8672017.615875414
+      ],
+      [
+        281602.06324410485,
+        8672022.120993454
+      ],
+      [
+        281590.3460230481,
+        8672041.004508177
+      ],
+      [
+        281549.1694640097,
+        8672107.364795748
+      ],
+      [
+        281549.1133451868,
+        8672107.45603727
+      ],
+      [
+        281528.60048468737,
+        8672140.807139961
+      ],
+      [
+        281492.3291802992,
+        8672200.207061945
+      ],
+      [
+        281451.6067631162,
+        8672266.896375837
+      ],
+      [
+        281445.1819214136,
+        8672277.418056883
+      ],
+      [
+        281443.2081925058,
+        8672280.650346018
+      ],
+      [
+        281449.63303420844,
+        8672284.64195076
+      ],
+      [
+        281476.23190879513,
+        8672301.167212987
+      ],
+      [
+        281496.40594167926,
+        8672313.700870473
+      ],
+      [
+        281506.49036749045,
+        8672297.537004497
+      ],
+      [
+        281516.57479330164,
+        8672281.373138519
+      ],
+      [
+        281518.76119498996,
+        8672277.779453132
+      ],
+      [
+        281551.67483714526,
+        8672223.68085109
+      ],
+      [
+        281582.4020776123,
+        8672173.175934438
+      ],
+      [
+        281551.67483714526,
+        8672223.68085109
+      ],
+      [
+        281518.76119498996,
+        8672277.779453132
+      ],
+      [
+        281516.57479330164,
+        8672281.373138519
+      ],
+      [
+        281506.49036749045,
+        8672297.537004497
+      ],
+      [
+        281496.40594167926,
+        8672313.700870473
+      ],
+      [
+        281476.23190879513,
+        8672301.167212987
+      ],
+      [
+        281449.6330342084,
+        8672284.64195076
+      ],
+      [
+        281443.2081925058,
+        8672280.650346018
+      ],
+      [
+        281449.63303420844,
+        8672284.64195076
+      ],
+      [
+        281476.23190879513,
+        8672301.167212987
+      ],
+      [
+        281496.40594167926,
+        8672313.700870473
+      ],
+      [
+        281476.23190879513,
+        8672347.596362287
+      ],
+      [
+        281452.1642726662,
+        8672388.033709053
+      ],
+      [
+        281448.27066942136,
+        8672394.575564004
+      ],
+      [
+        281452.1642726662,
+        8672396.86491771
+      ],
+      [
+        281475.3152101162,
+        8672410.477163516
+      ],
+      [
+        281494.57254432136,
+        8672421.800055616
+      ],
+      [
+        281501.33849883545,
+        8672426.053917104
+      ],
+      [
+        281530.9453151385,
+        8672444.675054038
+      ],
+      [
+        281567.31737868907,
+        8672467.551177192
+      ],
+      [
+        281566.1483363377,
+        8672470.868472468
+      ],
+      [
+        281562.4791099948,
+        8672481.280334111
+      ],
+      [
+        281561.97495825775,
+        8672483.06577421
+      ],
+      [
+        281559.42669753765,
+        8672492.090372434
+      ],
+      [
+        281600.0901929004,
+        8672502.350209802
+      ],
+      [
+        281640.7536882631,
+        8672512.610047173
+      ],
+      [
+        281648.40578208707,
+        8672516.932243846
+      ],
+      [
+        281679.16519547475,
+        8672534.30634266
+      ],
+      [
+        281702.2725150385,
+        8672547.3582448
+      ],
+      [
+        281679.16519547475,
+        8672534.30634266
+      ],
+      [
+        281648.40578208707,
+        8672516.932243846
+      ],
+      [
+        281640.7536882631,
+        8672512.610047173
+      ],
+      [
+        281648.40578208707,
+        8672516.932243846
+      ],
+      [
+        281679.16519547475,
+        8672534.30634266
+      ],
+      [
+        281702.2725150385,
+        8672547.3582448
+      ],
+      [
+        281679.16519547475,
+        8672534.30634266
+      ],
+      [
+        281648.40578208707,
+        8672516.932243846
+      ],
+      [
+        281640.7536882631,
+        8672512.610047173
+      ],
+      [
+        281600.0901929004,
+        8672502.350209802
+      ],
+      [
+        281559.42669753765,
+        8672492.090372434
+      ],
+      [
+        281552.17302915844,
+        8672517.403199254
+      ],
+      [
+        281544.9193607792,
+        8672542.716026073
+      ],
+      [
+        281588.15600850305,
+        8672554.373049702
+      ],
+      [
+        281613.3755799343,
+        8672561.172493128
+      ],
+      [
+        281623.38844938634,
+        8672565.306122016
+      ],
+      [
+        281630.58786180586,
+        8672568.37918682
+      ],
+      [
+        281619.5643651414,
+        8672586.356387602
+      ],
+      [
+        281616.8388234716,
+        8672591.239241116
+      ],
+      [
+        281611.5186998263,
+        8672600.770331657
+      ],
+      [
+        281604.3797251887,
+        8672614.825744543
+      ],
+      [
+        281594.6534609319,
+        8672639.863653667
+      ],
+      [
+        281593.7674476687,
+        8672642.144479994
+      ],
+      [
+        281586.7131052775,
+        8672665.516923353
+      ],
+      [
+        281585.7032479889,
+        8672669.85134555
+      ],
+      [
+        281581.6870000339,
+        8672687.089537993
+      ],
+      [
+        281580.04343981546,
+        8672694.998839619
+      ],
+      [
+        281575.7042348039,
+        8672715.880387409
+      ],
+      [
+        281580.04343981546,
+        8672694.998839619
+      ],
+      [
+        281581.6870000339,
+        8672687.089537993
+      ],
+      [
+        281585.7032479889,
+        8672669.851345548
+      ],
+      [
+        281586.7131052775,
+        8672665.516923353
+      ],
+      [
+        281593.7674476687,
+        8672642.144479994
+      ],
+      [
+        281594.6534609319,
+        8672639.863653667
+      ],
+      [
+        281604.3797251887,
+        8672614.825744543
+      ],
+      [
+        281611.5186998263,
+        8672600.770331657
+      ],
+      [
+        281616.8388234716,
+        8672591.239241116
+      ],
+      [
+        281619.5643651414,
+        8672586.356387602
+      ],
+      [
+        281630.58786180586,
+        8672568.37918682
+      ],
+      [
+        281643.32286885846,
+        8672575.741404384
+      ],
+      [
+        281665.9821310876,
+        8672588.840919577
+      ],
+      [
+        281675.90638626425,
+        8672594.578217207
+      ],
+      [
+        281698.73568406276,
+        8672608.303617174
+      ],
+      [
+        281708.973218883,
+        8672614.458614202
+      ],
+      [
+        281721.5644279988,
+        8672622.0299383
+      ],
+      [
+        281735.9167130402,
+        8672599.402131677
+      ],
+      [
+        281750.2689980817,
+        8672576.774325052
+      ],
+      [
+        281769.7072660412,
+        8672544.529645495
+      ],
+      [
+        281781.18631426373,
+        8672525.481495047
+      ],
+      [
+        281818.7594255896,
+        8672463.133270394
+      ],
+      [
+        281825.4200276474,
+        8672452.080773043
+      ],
+      [
+        281832.25222181797,
+        8672456.218853382
+      ],
+      [
+        281839.08441598853,
+        8672460.356933722
+      ],
+      [
+        281847.57114594977,
+        8672465.478438059
+      ],
+      [
+        281859.0288712906,
+        8672472.39285507
+      ],
+      [
+        281873.8424894549,
+        8672481.332459606
+      ],
+      [
+        281885.6851122396,
+        8672488.479151469
+      ],
+      [
+        281908.67762252805,
+        8672500.690188833
+      ],
+      [
+        281931.6701328164,
+        8672512.901226196
+      ],
+      [
+        281943.84978039365,
+        8672493.54349697
+      ],
+      [
+        281958.0874868231,
+        8672470.914790835
+      ],
+      [
+        281960.14554567524,
+        8672467.643813927
+      ],
+      [
+        281972.54587838484,
+        8672447.530004568
+      ],
+      [
+        281984.9462110945,
+        8672427.416195212
+      ],
+      [
+        282004.7898262963,
+        8672395.550559504
+      ],
+      [
+        282024.63344149815,
+        8672363.684923796
+      ],
+      [
+        282040.3456587046,
+        8672369.575433927
+      ],
+      [
+        282069.508055646,
+        8672380.508416357
+      ],
+      [
+        282124.9621227343,
+        8672401.293375434
+      ],
+      [
+        282193.86674984527,
+        8672427.119792322
+      ],
+      [
+        282185.11744241224,
+        8672450.655573992
+      ],
+      [
+        282177.56899086677,
+        8672470.961033467
+      ],
+      [
+        282168.52014888806,
+        8672494.962143688
+      ],
+      [
+        282160.6870886228,
+        8672515.738519628
+      ],
+      [
+        282152.49566853856,
+        8672538.261849307
+      ],
+      [
+        282144.3042484543,
+        8672560.785178984
+      ],
+      [
+        282168.68645479006,
+        8672569.891401488
+      ],
+      [
+        282193.06866112584,
+        8672578.997623995
+      ],
+      [
+        282213.16121232085,
+        8672526.626434302
+      ],
+      [
+        282227.2094811893,
+        8672490.009652955
+      ],
+      [
+        282244.5636695106,
+        8672443.147616927
+      ],
+      [
+        282267.35122263135,
+        8672381.613702714
+      ],
+      [
+        282268.22811035404,
+        8672379.244978335
+      ],
+      [
+        282280.3948305802,
+        8672346.37918939
+      ],
+      [
+        282268.2263532456,
+        8672341.806535475
+      ],
+      [
+        282243.76422116725,
+        8672332.614188647
+      ],
+      [
+        282239.05091108056,
+        8672330.843027372
+      ],
+      [
+        282231.4686186592,
+        8672327.9996844
+      ],
+      [
+        282160.1369592654,
+        8672301.094023397
+      ],
+      [
+        282130.5215589169,
+        8672289.923360482
+      ],
+      [
+        282101.2466437103,
+        8672278.878386727
+      ],
+      [
+        282072.4320772872,
+        8672268.009269878
+      ],
+      [
+        282018.07116682426,
+        8672247.503839428
+      ],
+      [
+        281980.0844577375,
+        8672233.174906842
+      ],
+      [
+        281973.98595419026,
+        8672230.004808642
+      ],
+      [
+        281967.887450643,
+        8672226.83471044
+      ],
+      [
+        281972.29151668,
+        8672218.58113064
+      ],
+      [
+        281973.57456523663,
+        8672216.176592752
+      ],
+      [
+        281976.68879353075,
+        8672210.323933227
+      ],
+      [
+        281983.77073978784,
+        8672213.06412914
+      ],
+      [
+        281990.8526860449,
+        8672215.804325052
+      ],
+      [
+        282016.8800215096,
+        8672225.564435648
+      ],
+      [
+        282042.9073569743,
+        8672235.324546244
+      ],
+      [
+        282049.47989922675,
+        8672221.975437611
+      ],
+      [
+        282049.54076127894,
+        8672221.851824233
+      ],
+      [
+        282060.9637958482,
+        8672198.675201185
+      ],
+      [
+        282065.8697157854,
+        8672188.721396318
+      ],
+      [
+        282161.1866638966,
+        8672221.555282952
+      ],
+      [
+        282192.3301688279,
+        8672232.283304889
+      ],
+      [
+        282281.3509744954,
+        8672264.9144273
+      ],
+      [
+        282307.3516560334,
+        8672274.445136618
+      ],
+      [
+        282308.059238987,
+        8672274.70450549
+      ],
+      [
+        282307.3516560334,
+        8672274.445136618
+      ],
+      [
+        282281.3509744954,
+        8672264.9144273
+      ],
+      [
+        282192.3301688279,
+        8672232.283304889
+      ],
+      [
+        282161.1866638966,
+        8672221.555282952
+      ],
+      [
+        282065.8697157854,
+        8672188.721396318
+      ],
+      [
+        282060.9637958482,
+        8672198.675201185
+      ],
+      [
+        282049.54076127894,
+        8672221.851824233
+      ],
+      [
+        282049.47989922675,
+        8672221.975437611
+      ],
+      [
+        282042.9073569743,
+        8672235.324546244
+      ],
+      [
+        282049.48261644266,
+        8672237.812032811
+      ],
+      [
+        282100.8443428413,
+        8672257.242688753
+      ],
+      [
+        282138.30255875626,
+        8672271.41350731
+      ],
+      [
+        282173.3127124286,
+        8672284.657705797
+      ],
+      [
+        282200.8488774368,
+        8672295.116015457
+      ],
+      [
+        282246.73229176813,
+        8672312.542659843
+      ],
+      [
+        282298.2537700547,
+        8672332.030860005
+      ],
+      [
+        282332.7751894087,
+        8672345.088721555
+      ],
+      [
+        282340.39969396684,
+        8672348.12044089
+      ],
+      [
+        282349.0699252613,
+        8672351.475952037
+      ],
+      [
+        282349.6649406735,
+        8672351.706232036
+      ],
+      [
+        282357.79079640616,
+        8672354.697327135
+      ],
+      [
+        282354.7497853857,
+        8672363.228175601
+      ],
+      [
+        282351.7087743652,
+        8672371.759024067
+      ],
+      [
+        282342.7782392489,
+        8672368.579520013
+      ],
+      [
+        282333.84770413267,
+        8672365.400015958
+      ],
+      [
+        282326.1790654399,
+        8672362.445427325
+      ],
+      [
+        282307.16421813506,
+        8672355.772889014
+      ],
+      [
+        282280.3948305802,
+        8672346.37918939
+      ],
+      [
+        282268.22811035404,
+        8672379.244978335
+      ],
+      [
+        282267.35122263135,
+        8672381.613702714
+      ],
+      [
+        282244.5636695106,
+        8672443.147616927
+      ],
+      [
+        282227.2094811893,
+        8672490.009652955
+      ],
+      [
+        282213.16121232085,
+        8672526.626434302
+      ],
+      [
+        282193.06866112584,
+        8672578.997623995
+      ],
+      [
+        282168.68645479006,
+        8672569.891401488
+      ],
+      [
+        282144.3042484543,
+        8672560.785178984
+      ],
+      [
+        282100.1821551037,
+        8672543.814756598
+      ],
+      [
+        282083.34557509096,
+        8672537.339001423
+      ],
+      [
+        282051.2477454604,
+        8672525.001077022
+      ],
+      [
+        282034.05649893807,
+        8672514.895864652
+      ],
+      [
+        282012.7889403735,
+        8672501.299290508
+      ],
+      [
+        281965.2619589899,
+        8672470.914790835
+      ],
+      [
+        281960.14554567524,
+        8672467.643813927
+      ],
+      [
+        281972.54587838484,
+        8672447.530004568
+      ],
+      [
+        281984.9462110945,
+        8672427.416195212
+      ],
+      [
+        282004.7898262963,
+        8672395.550559504
+      ],
+      [
+        282024.63344149815,
+        8672363.684923796
+      ],
+      [
+        282040.3456587046,
+        8672369.575433927
+      ],
+      [
+        282069.508055646,
+        8672380.508416357
+      ],
+      [
+        282124.9621227343,
+        8672401.293375434
+      ],
+      [
+        282193.86674984527,
+        8672427.119792322
+      ],
+      [
+        282202.70342319144,
+        8672402.731230322
+      ],
+      [
+        282211.54009653756,
+        8672378.342668321
+      ],
+      [
+        282221.5043575984,
+        8672353.17117636
+      ],
+      [
+        282231.4686186592,
+        8672327.9996844
+      ],
+      [
+        282160.1369592654,
+        8672301.094023397
+      ],
+      [
+        282130.5215589169,
+        8672289.923360482
+      ],
+      [
+        282101.2466437103,
+        8672278.878386727
+      ],
+      [
+        282072.4320772872,
+        8672268.009269878
+      ],
+      [
+        282018.07116682426,
+        8672247.503839428
+      ],
+      [
+        281980.0844577375,
+        8672233.174906842
+      ],
+      [
+        281973.98595419026,
+        8672230.004808642
+      ],
+      [
+        281967.887450643,
+        8672226.83471044
+      ],
+      [
+        281972.29151668,
+        8672218.58113064
+      ],
+      [
+        281973.57456523663,
+        8672216.176592752
+      ],
+      [
+        281976.68879353075,
+        8672210.323933227
+      ],
+      [
+        281983.77073978784,
+        8672213.06412914
+      ],
+      [
+        281990.8526860449,
+        8672215.804325052
+      ],
+      [
+        282016.8800215096,
+        8672225.564435648
+      ],
+      [
+        282042.9073569743,
+        8672235.324546244
+      ],
+      [
+        282049.47989922675,
+        8672221.975437611
+      ],
+      [
+        282049.54076127894,
+        8672221.851824233
+      ],
+      [
+        282060.9637958482,
+        8672198.675201185
+      ],
+      [
+        282065.8697157854,
+        8672188.721396318
+      ],
+      [
+        282078.2411222239,
+        8672165.072221238
+      ],
+      [
+        282090.6125286625,
+        8672141.42304616
+      ],
+      [
+        282102.99177733576,
+        8672118.188846136
+      ],
+      [
+        282115.3710260091,
+        8672094.95464611
+      ],
+      [
+        282120.539765505,
+        8672084.570206929
+      ],
+      [
+        282132.0688574905,
+        8672061.407276265
+      ],
+      [
+        282138.42920998007,
+        8672048.628784787
+      ],
+      [
+        282175.35760452057,
+        8672061.407276265
+      ],
+      [
+        282234.22152471653,
+        8672081.776212204
+      ],
+      [
+        282245.94983773585,
+        8672085.834610892
+      ],
+      [
+        282308.98882954195,
+        8672109.574467812
+      ],
+      [
+        282361.9197831729,
+        8672129.507738154
+      ],
+      [
+        282371.16939178156,
+        8672105.227270659
+      ],
+      [
+        282380.4190003902,
+        8672080.946803166
+      ],
+      [
+        282371.0447650137,
+        8672077.566285456
+      ],
+      [
+        282308.87336154375,
+        8672055.14616029
+      ]
+    ],
+    [
+      [
+        278539.12065751187,
+        8664971.411947558
+      ],
+      [
+        278539.28175930737,
+        8664969.515517816
+      ],
+      [
+        278539.44286110287,
+        8664967.619088076
+      ],
+      [
+        278540.97231186903,
+        8664964.034363616
+      ],
+      [
+        278543.55310572276,
+        8664961.121340863
+      ],
+      [
+        278546.93273112626,
+        8664959.154765919
+      ],
+      [
+        278548.8540388844,
+        8664958.747013783
+      ],
+      [
+        278550.7611651443,
+        8664958.342271335
+      ],
+      [
+        278554.64573141315,
+        8664958.76945932
+      ],
+      [
+        278558.2057114213,
+        8664960.378177695
+      ],
+      [
+        278561.0719333929,
+        8664963.021841237
+      ],
+      [
+        278562.4467504416,
+        8664965.218510073
+      ],
+      [
+        278562.4495092078,
+        8664965.222918002
+      ],
+      [
+        278563.3353353332,
+        8664967.652704801
+      ],
+      [
+        278567.4084772365,
+        8664970.548758585
+      ],
+      [
+        278570.05152317026,
+        8664972.427527513
+      ],
+      [
+        278576.76805242006,
+        8664977.201869987
+      ],
+      [
+        278616.411636017,
+        8664983.062779099
+      ],
+      [
+        278623.26100265817,
+        8664984.07538976
+      ],
+      [
+        278630.3643248448,
+        8664985.13503395
+      ],
+      [
+        278673.16995786154,
+        8664991.41678622
+      ],
+      [
+        278719.73784961674,
+        8664998.34185913
+      ],
+      [
+        278723.05657002586,
+        8664998.835383315
+      ],
+      [
+        278731.9874309207,
+        8665000.16305705
+      ],
+      [
+        278752.80812285194,
+        8665003.23868835
+      ],
+      [
+        278783.4190414193,
+        8665007.770051746
+      ],
+      [
+        278786.84645581257,
+        8664997.892430525
+      ],
+      [
+        278793.7732366569,
+        8664978.713094449
+      ],
+      [
+        278794.564815266,
+        8664976.517064778
+      ],
+      [
+        278798.4431626126,
+        8664965.757595347
+      ],
+      [
+        278802.71220132627,
+        8664953.99412678
+      ],
+      [
+        278805.86931284063,
+        8664945.320569491
+      ],
+      [
+        278804.14384358766,
+        8664929.828028504
+      ],
+      [
+        278806.65345466975,
+        8664909.759361729
+      ],
+      [
+        278807.0496307998,
+        8664906.591250625
+      ],
+      [
+        278811.3808097794,
+        8664869.057123557
+      ],
+      [
+        278811.97261989047,
+        8664863.928479366
+      ],
+      [
+        278813.60222502484,
+        8664827.758476257
+      ],
+      [
+        278813.2208595296,
+        8664818.981212253
+      ],
+      [
+        278812.9456214625,
+        8664813.51312893
+      ],
+      [
+        278812.6326548202,
+        8664807.259160522
+      ],
+      [
+        278810.5563867653,
+        8664795.017083984
+      ],
+      [
+        278810.5498384589,
+        8664794.99132155
+      ],
+      [
+        278806.92707912246,
+        8664780.738613859
+      ],
+      [
+        278801.6048979665,
+        8664764.190349314
+      ],
+      [
+        278798.9061039445,
+        8664758.062519701
+      ],
+      [
+        278785.33208902087,
+        8664730.875008032
+      ],
+      [
+        278783.77705558797,
+        8664728.37387386
+      ],
+      [
+        278782.22202215507,
+        8664725.872739688
+      ],
+      [
+        278762.8036653084,
+        8664702.614125624
+      ],
+      [
+        278757.9113719002,
+        8664697.923688538
+      ],
+      [
+        278750.0443571458,
+        8664690.381267287
+      ],
+      [
+        278746.9626652263,
+        8664687.426204199
+      ],
+      [
+        278724.23272495414,
+        8664670.184392266
+      ],
+      [
+        278707.3432802824,
+        8664664.469016794
+      ],
+      [
+        278684.18225185835,
+        8664656.63134206
+      ],
+      [
+        278670.0843835427,
+        8664652.451876
+      ],
+      [
+        278663.4716791747,
+        8664650.491468025
+      ],
+      [
+        278649.7187648859,
+        8664645.952328684
+      ],
+      [
+        278650.5619960235,
+        8664639.452445589
+      ],
+      [
+        278653.76242975256,
+        8664616.236771764
+      ],
+      [
+        278654.1185584214,
+        8664613.653444717
+      ],
+      [
+        278655.6492674368,
+        8664592.298543401
+      ],
+      [
+        278655.60162108555,
+        8664579.651040407
+      ],
+      [
+        278655.8297484983,
+        8664576.157067139
+      ],
+      [
+        278656.35115474195,
+        8664568.171268957
+      ],
+      [
+        278657.49936705705,
+        8664561.662585935
+      ],
+      [
+        278659.02184516174,
+        8664557.546694744
+      ],
+      [
+        278659.95431334584,
+        8664556.254938055
+      ],
+      [
+        278661.5085381279,
+        8664554.101856273
+      ],
+      [
+        278664.8936992762,
+        8664551.382906437
+      ],
+      [
+        278669.2522388076,
+        8664549.567439158
+      ],
+      [
+        278674.55132471235,
+        8664548.67733992
+      ],
+      [
+        278708.8799814102,
+        8664554.033139858
+      ],
+      [
+        278709.27078991634,
+        8664554.097329587
+      ],
+      [
+        278743.946157256,
+        8664559.792708289
+      ],
+      [
+        278799.1583728414,
+        8664568.517706683
+      ],
+      [
+        278854.3705884268,
+        8664577.242705077
+      ],
+      [
+        278855.2142321689,
+        8664577.387866957
+      ],
+      [
+        278892.498396234,
+        8664583.803180736
+      ],
+      [
+        278921.1708848302,
+        8664588.736723322
+      ],
+      [
+        278928.93622056703,
+        8664590.088907579
+      ],
+      [
+        278931.0829527857,
+        8664583.570076775
+      ],
+      [
+        278932.3675816584,
+        8664579.669134593
+      ],
+      [
+        278933.2689786999,
+        8664577.064514393
+      ],
+      [
+        278947.1958252509,
+        8664549.339696774
+      ],
+      [
+        278950.59817194345,
+        8664542.64030308
+      ],
+      [
+        278968.0494878114,
+        8664508.277774496
+      ],
+      [
+        278970.6929833287,
+        8664501.304391675
+      ],
+      [
+        278970.8093677855,
+        8664500.987088429
+      ],
+      [
+        278973.49385023816,
+        8664493.668284684
+      ],
+      [
+        278977.15713666356,
+        8664483.927026216
+      ],
+      [
+        278981.02858624863,
+        8664473.632228954
+      ],
+      [
+        278981.2367494083,
+        8664473.078690162
+      ],
+      [
+        278983.25920276984,
+        8664467.616586324
+      ],
+      [
+        278994.4601819901,
+        8664437.404084045
+      ],
+      [
+        279001.482555792,
+        8664417.793720445
+      ],
+      [
+        279018.54624916636,
+        8664370.142421773
+      ],
+      [
+        279021.3263849248,
+        8664362.362317001
+      ],
+      [
+        279024.7880477742,
+        8664353.724207403
+      ],
+      [
+        279026.53077091114,
+        8664348.846971383
+      ],
+      [
+        279031.4047712857,
+        8664335.206451163
+      ],
+      [
+        279045.6844780252,
+        8664324.490908423
+      ],
+      [
+        279047.0627095046,
+        8664321.569279322
+      ],
+      [
+        279059.3591471424,
+        8664295.502808942
+      ],
+      [
+        279062.75682324986,
+        8664288.339847855
+      ],
+      [
+        279081.06407377427,
+        8664249.744608352
+      ],
+      [
+        279090.68978662917,
+        8664228.03766754
+      ],
+      [
+        279097.22232511477,
+        8664213.306142885
+      ],
+      [
+        279117.93387774564,
+        8664185.487749062
+      ],
+      [
+        279129.75717467885,
+        8664157.968601495
+      ],
+      [
+        279141.5804716121,
+        8664130.449453926
+      ],
+      [
+        279154.8091188681,
+        8664102.846668556
+      ],
+      [
+        279168.0377661241,
+        8664075.243883187
+      ],
+      [
+        279168.15833300626,
+        8664074.714825466
+      ],
+      [
+        279176.0856176561,
+        8664039.929227019
+      ],
+      [
+        279188.113005596,
+        8664006.901294108
+      ],
+      [
+        279193.26921681204,
+        8663992.74060838
+      ]
+    ]
+  ]
+}

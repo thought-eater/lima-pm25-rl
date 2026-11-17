@@ -1,36 +1,12 @@
-# Python-generated files
 __pycache__/
 *.py[oc]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
 build/
 dist/
 wheels/
-*.egg-info
-
-# Test caches
-.pytest_cache/
-.ruff_cache/
-
-# Virtual environments
-.venv
-
-# Local runs and figures
 cache/
-
-config.json
-diag_gp.tar.zst
 docs/
-eval3.tar.zst
-evaluation.tar.zst
-evaluation_2.tar.zst
-gp3.tar.zst
-gp4.tar.zst
-metrics.csv
-objetivos.txt
-output.m4a
-output.srt
-output.txt
-papers/
-policy-best.pt
-policy-last.pt
-tesis.docx
-training.tar.zst
+*.tar.zst

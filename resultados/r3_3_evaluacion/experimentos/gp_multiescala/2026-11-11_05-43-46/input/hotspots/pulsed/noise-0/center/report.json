@@ -1,0 +1,5413 @@
+{
+  "regime": "pulsed",
+  "plan": "center",
+  "sensor_seed": 0,
+  "physics": {
+    "mixing_height_m": 200.0,
+    "diffusivity_m2_s": 0,
+    "dry_deposition_velocity_m_s": 0.2222222222222222,
+    "wet_scavenging_per_mm": 0,
+    "cfl_safety_factor": 0.8
+  },
+  "sources": [
+    {
+      "type": "area",
+      "source_id": "controlled-background",
+      "role": "counterfactual_event",
+      "provenance": "Control sintético idealizado: balance artificial de fuentes y retirada; no parámetros atmosféricos de Lima",
+      "polygon_wkt": "POLYGON ((8200 0, 8200 8200, 0 8200, 0 0, 8200 0))",
+      "emission_rate_ug_m2_s": 5.169335687791571,
+      "starts_at_s": 0,
+      "ends_at_s": 10800.0,
+      "profile": {
+        "points": [
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "interpolation": "constant"
+      },
+      "boundary_policy": "emit_only_active_cell_intersection"
+    },
+    {
+      "type": "gaussian_kernel",
+      "source_id": "controlled-focus",
+      "role": "synthetic_validation",
+      "provenance": "Control sintético idealizado: balance artificial de fuentes y retirada; no parámetros atmosféricos de Lima",
+      "x_m": 4100.0,
+      "y_m": 4100.0,
+      "emission_rate_ug_s": 15908519.530487057,
+      "sigma_m": 400.0,
+      "starts_at_s": 0.0,
+      "ends_at_s": 10800.0,
+      "profile": {
+        "points": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            300.0,
+            1.0
+          ],
+          [
+            600.0,
+            1.0
+          ],
+          [
+            900.0,
+            1.0
+          ],
+          [
+            1200.0,
+            1.0
+          ],
+          [
+            1500.0,
+            1.0
+          ],
+          [
+            1800.0,
+            0.0
+          ],
+          [
+            2100.0,
+            0.0
+          ],
+          [
+            2400.0,
+            0.0
+          ],
+          [
+            2700.0,
+            0.0
+          ],
+          [
+            3000.0,
+            0.0
+          ],
+          [
+            3300.0,
+            0.0
+          ],
+          [
+            3600.0,
+            1.0
+          ],
+          [
+            3900.0,
+            1.0
+          ],
+          [
+            4200.0,
+            1.0
+          ],
+          [
+            4500.0,
+            1.0
+          ],
+          [
+            4800.0,
+            1.0
+          ],
+          [
+            5100.0,
+            1.0
+          ],
+          [
+            5400.0,
+            0.0
+          ],
+          [
+            5700.0,
+            0.0
+          ],
+          [
+            6000.0,
+            0.0
+          ],
+          [
+            6300.0,
+            0.0
+          ],
+          [
+            6600.0,
+            0.0
+          ],
+          [
+            6900.0,
+            0.0
+          ],
+          [
+            7200.0,
+            1.0
+          ],
+          [
+            7500.0,
+            1.0
+          ],
+          [
+            7800.0,
+            1.0
+          ],
+          [
+            8100.0,
+            1.0
+          ],
+          [
+            8400.0,
+            1.0
+          ],
+          [
+            8700.0,
+            1.0
+          ],
+          [
+            9000.0,
+            0.0
+          ],
+          [
+            9300.0,
+            0.0
+          ],
+          [
+            9600.0,
+            0.0
+          ],
+          [
+            9900.0,
+            0.0
+          ],
+          [
+            10200.0,
+            0.0
+          ],
+          [
+            10500.0,
+            0.0
+          ],
+          [
+            10800.0,
+            1.0
+          ]
+        ],
+        "interpolation": "constant"
+      }
+    }
+  ],
+  "summary": {
+    "distance_m": 21450.0,
+    "mobile_records": 108,
+    "temporal_global_mse": 107.92656338499197,
+    "final_global_mse": 105.8566106739861,
+    "temporal_core_mse": 71.02756466237923,
+    "final_core_mse": 12.060149643853972,
+    "temporal_surroundings_mse": 208.99386449614428,
+    "final_surroundings_mse": 73.50384843353568,
+    "temporal_background_mse": 102.76177742786314,
+    "final_background_mse": 108.92071293784896,
+    "temporal_peak_abs_error": 5.259102918396546,
+    "final_peak_abs_error": 4.6758973401772685,
+    "temporal_false_high_area_km2": 1.6066666666666667,
+    "final_false_high_area_km2": 0.0,
+    "temporal_background_overestimation_mse": 19.511126636033048,
+    "final_background_overestimation_mse": 3.0748032932119402,
+    "steady_ticks": 6,
+    "steady_core_mse": 90.44189717163617,
+    "rising_ticks": 12,
+    "rising_core_mse": 36.12648888633911,
+    "declining_ticks": 18,
+    "declining_core_mse": 39.0876422586491,
+    "active_detection_rate": 0.92,
+    "inactive_false_alarm_rate": 0.36363636363636365
+  },
+  "frames": [
+    {
+      "tick": 0,
+      "elapsed_s": 0.0,
+      "global_mse": 26.91191803194112,
+      "core_mse": 1766.5511846920188,
+      "core_coverage_95": 0.0,
+      "core_mean_variance": 177.15233735304025,
+      "surroundings_mse": 92.42883930945464,
+      "surroundings_coverage_95": 1.0,
+      "surroundings_mean_variance": 176.67422357980223,
+      "background_mse": 0.004848265857900211,
+      "background_coverage_95": 1.0,
+      "background_mean_variance": 148.60621547621105,
+      "background_bias": -0.012549204980395082,
+      "background_overestimation_mse": 0.0,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 1.0,
+      "truth_peak": 79.6,
+      "predicted_peak": 19.6,
+      "peak_abs_error": 59.99999999999999,
+      "active_focus": true,
+      "detected_focus": false,
+      "phase": "initial"
+    },
+    {
+      "tick": 1,
+      "elapsed_s": 300.0,
+      "global_mse": 179.42982564747174,
+      "core_mse": 121.27413385635926,
+      "core_coverage_95": 0.38095238095238093,
+      "core_mean_variance": 5.695955068781289,
+      "surroundings_mse": 717.3321308298754,
+      "surroundings_coverage_95": 0.26136363636363635,
+      "surroundings_mean_variance": 35.09285989717162,
+      "background_mse": 150.09513523497927,
+      "background_coverage_95": 0.9001272264631043,
+      "background_mean_variance": 125.39931041232461,
+      "background_bias": 7.99126542249484,
+      "background_overestimation_mse": 150.0940217887261,
+      "false_high_area_km2": 9.48,
+      "true_high_area_km2": 1.0,
+      "truth_peak": 79.60000000000001,
+      "predicted_peak": 72.39999693434552,
+      "peak_abs_error": 7.200003065654485,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "steady"
+    },
+    {
+      "tick": 2,
+      "elapsed_s": 600.0,
+      "global_mse": 181.15031522263936,
+      "core_mse": 156.40648404039445,
+      "core_coverage_95": 0.2857142857142857,
+      "core_mean_variance": 5.561900615165685,
+      "surroundings_mse": 929.5418037457338,
+      "surroundings_coverage_95": 0.0,
+      "surroundings_mean_variance": 35.49590312551149,
+      "background_mse": 139.586173660804,
+      "background_coverage_95": 0.9052162849872774,
+      "background_mean_variance": 126.17258210420093,
+      "background_bias": 8.33506203931956,
+      "background_overestimation_mse": 139.586173660804,
+      "false_high_area_km2": 9.72,
+      "true_high_area_km2": 1.0,
+      "truth_peak": 79.60000000000001,
+      "predicted_peak": 79.14578922529361,
+      "peak_abs_error": 0.4542107747063966,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "steady"
+    },
+    {
+      "tick": 3,
+      "elapsed_s": 900.0,
+      "global_mse": 37.271751848556974,
+      "core_mse": 34.974789572162976,
+      "core_coverage_95": 0.5238095238095238,
+      "core_mean_variance": 4.545458712257846,
+      "surroundings_mse": 271.54922184142544,
+      "surroundings_coverage_95": 0.19318181818181818,
+      "surroundings_mean_variance": 31.199546666471488,
+      "background_mse": 24.187667146541614,
+      "background_coverage_95": 0.9879134860050891,
+      "background_mean_variance": 125.68618030679663,
+      "background_bias": 0.45725213770549983,
+      "background_overestimation_mse": 18.226497513379456,
+      "false_high_area_km2": 2.24,
+      "true_high_area_km2": 1.0,
+      "truth_peak": 79.60000000000001,
+      "predicted_peak": 72.93122596514834,
+      "peak_abs_error": 6.6687740348516655,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "steady"
+    },
+    {
+      "tick": 4,
+      "elapsed_s": 1200.0,
+      "global_mse": 60.098182210988085,
+      "core_mse": 83.57576785207978,
+      "core_coverage_95": 0.23809523809523808,
+      "core_mean_variance": 4.765102423062961,
+      "surroundings_mse": 426.57818695382974,
+      "surroundings_coverage_95": 0.125,
+      "surroundings_mean_variance": 32.28771304601317,
+      "background_mse": 39.26913022890603,
+      "background_coverage_95": 0.9764631043256997,
+      "background_mean_variance": 127.44212954681366,
+      "background_bias": 1.5405708570328696,
+      "background_overestimation_mse": 33.54905732364526,
+      "false_high_area_km2": 3.64,
+      "true_high_area_km2": 1.0,
+      "truth_peak": 79.60000000000001,
+      "predicted_peak": 78.27017300043664,
+      "peak_abs_error": 1.329826999563366,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "steady"
+    },
+    {
+      "tick": 5,
+      "elapsed_s": 1500.0,
+      "global_mse": 48.067441585399266,
+      "core_mse": 34.117461127480425,
+      "core_coverage_95": 0.47619047619047616,
+      "core_mean_variance": 4.332405496175886,
+      "surroundings_mse": 233.34087445460162,
+      "surroundings_coverage_95": 0.375,
+      "surroundings_mean_variance": 29.994714181872464,
+      "background_mse": 37.88225551486904,
+      "background_coverage_95": 0.989821882951654,
+      "background_mean_variance": 128.19966377212762,
+      "background_bias": -1.6691288953382033,
+      "background_overestimation_mse": 14.995113550450373,
+      "false_high_area_km2": 2.08,
+      "true_high_area_km2": 1.0,
+      "truth_peak": 79.60000000000001,
+      "predicted_peak": 73.06153071803882,
+      "peak_abs_error": 6.538469281961184,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "steady"
+    },
+    {
+      "tick": 6,
+      "elapsed_s": 1800.0,
+      "global_mse": 85.455137312176,
+      "core_mse": 112.30274658134013,
+      "core_coverage_95": 0.2857142857142857,
+      "core_mean_variance": 4.6338867248276605,
+      "surroundings_mse": 458.4603469064963,
+      "surroundings_coverage_95": 0.26136363636363635,
+      "surroundings_mean_variance": 31.443744704583207,
+      "background_mse": 64.21578728739698,
+      "background_coverage_95": 0.9681933842239185,
+      "background_mean_variance": 122.36681126277043,
+      "background_bias": -0.13294370217484572,
+      "background_overestimation_mse": 43.218701737607745,
+      "false_high_area_km2": 3.96,
+      "true_high_area_km2": 1.0,
+      "truth_peak": 79.60000000000001,
+      "predicted_peak": 80.53753097416163,
+      "peak_abs_error": 0.9375309741616178,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "steady"
+    },
+    {
+      "tick": 7,
+      "elapsed_s": 2100.0,
+      "global_mse": 201.9013573844626,
+      "core_mse": 93.38115498051296,
+      "core_coverage_95": 0.38095238095238093,
+      "core_mean_variance": 4.265137290218469,
+      "surroundings_mse": 260.4396782358354,
+      "surroundings_coverage_95": 0.42045454545454547,
+      "surroundings_mean_variance": 29.50734745664088,
+      "background_mse": 200.07410039690672,
+      "background_coverage_95": 0.8575063613231552,
+      "background_mean_variance": 122.03538553555698,
+      "background_bias": -9.270352535228186,
+      "background_overestimation_mse": 14.185422752666254,
+      "false_high_area_km2": 1.36,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 62.59187863442737,
+      "predicted_peak": 69.72052224569195,
+      "peak_abs_error": 7.128643611264586,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 8,
+      "elapsed_s": 2400.0,
+      "global_mse": 199.67778133370896,
+      "core_mse": 91.08634945355064,
+      "core_coverage_95": 0.3333333333333333,
+      "core_mean_variance": 4.602524548936574,
+      "surroundings_mse": 263.7888302902084,
+      "surroundings_coverage_95": 0.36363636363636365,
+      "surroundings_mean_variance": 31.172962594987336,
+      "background_mse": 197.53951655082815,
+      "background_coverage_95": 0.8600508905852418,
+      "background_mean_variance": 123.34425649505229,
+      "background_bias": -8.982162394437823,
+      "background_overestimation_mse": 15.612145121694022,
+      "false_high_area_km2": 1.52,
+      "true_high_area_km2": 0.36,
+      "truth_peak": 50.40502714195553,
+      "predicted_peak": 59.77029627579973,
+      "peak_abs_error": 9.365269133844201,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 9,
+      "elapsed_s": 2700.0,
+      "global_mse": 164.31546570027618,
+      "core_mse": 45.06633453994078,
+      "core_coverage_95": 0.38095238095238093,
+      "core_mean_variance": 4.249902757671974,
+      "surroundings_mse": 172.29354903624224,
+      "surroundings_coverage_95": 0.4318181818181818,
+      "surroundings_mean_variance": 29.359742137598175,
+      "background_mse": 165.46187818170233,
+      "background_coverage_95": 0.8854961832061069,
+      "background_mean_variance": 123.74961569551809,
+      "background_bias": -8.636635430674405,
+      "background_overestimation_mse": 9.245326455278331,
+      "false_high_area_km2": 1.0,
+      "true_high_area_km2": 0.04,
+      "truth_peak": 41.67276647028655,
+      "predicted_peak": 48.45141071390908,
+      "peak_abs_error": 6.77864424362253,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 10,
+      "elapsed_s": 3000.0,
+      "global_mse": 160.32772853393473,
+      "core_mse": 37.81997117874797,
+      "core_coverage_95": 0.47619047619047616,
+      "core_mean_variance": 4.594894427223773,
+      "surroundings_mse": 165.11957633048695,
+      "surroundings_coverage_95": 0.42045454545454547,
+      "surroundings_mean_variance": 31.08864694522067,
+      "background_mse": 161.69603661177334,
+      "background_coverage_95": 0.8918575063613231,
+      "background_mean_variance": 125.73364638477977,
+      "background_bias": -8.480214752001705,
+      "background_overestimation_mse": 9.227136703931762,
+      "false_high_area_km2": 0.64,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 35.41582828694361,
+      "predicted_peak": 42.72229619473064,
+      "peak_abs_error": 7.306467907787031,
+      "active_focus": false,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 11,
+      "elapsed_s": 3300.0,
+      "global_mse": 128.79384006654493,
+      "core_mse": 17.113478961104143,
+      "core_coverage_95": 0.6190476190476191,
+      "core_mean_variance": 4.246444215704043,
+      "surroundings_mse": 103.54957769398193,
+      "surroundings_coverage_95": 0.5795454545454546,
+      "surroundings_mean_variance": 29.319034347832588,
+      "background_mse": 131.69891810216822,
+      "background_coverage_95": 0.9230279898218829,
+      "background_mean_variance": 126.69433803891795,
+      "background_bias": -7.937957142892587,
+      "background_overestimation_mse": 5.411770990585325,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 30.932536170253712,
+      "predicted_peak": 35.88808673721942,
+      "peak_abs_error": 4.955550566965705,
+      "active_focus": false,
+      "detected_focus": false,
+      "phase": "declining"
+    },
+    {
+      "tick": 12,
+      "elapsed_s": 3600.0,
+      "global_mse": 109.07288568413801,
+      "core_mse": 12.406254146473922,
+      "core_coverage_95": 0.7619047619047619,
+      "core_mean_variance": 4.591666469831624,
+      "surroundings_mse": 82.32759320813472,
+      "surroundings_coverage_95": 0.7159090909090909,
+      "surroundings_mean_variance": 31.0282339611765,
+      "background_mse": 111.8614257605879,
+      "background_coverage_95": 0.943384223918575,
+      "background_mean_variance": 121.5544711552469,
+      "background_bias": -7.241115768603257,
+      "background_overestimation_mse": 4.686625160563559,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 27.72011699419676,
+      "predicted_peak": 31.81668607497486,
+      "peak_abs_error": 4.0965690807780994,
+      "active_focus": false,
+      "detected_focus": false,
+      "phase": "declining"
+    },
+    {
+      "tick": 13,
+      "elapsed_s": 3900.0,
+      "global_mse": 29.957242818120804,
+      "core_mse": 25.052534791431906,
+      "core_coverage_95": 0.42857142857142855,
+      "core_mean_variance": 4.244388067594258,
+      "surroundings_mse": 55.212548928073055,
+      "surroundings_coverage_95": 0.8181818181818182,
+      "surroundings_mean_variance": 29.27331582351328,
+      "background_mse": 28.608980687640315,
+      "background_coverage_95": 0.9993638676844784,
+      "background_mean_variance": 121.43904034673776,
+      "background_bias": -2.0468578154175057,
+      "background_overestimation_mse": 6.037706315519008,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 0.2,
+      "truth_peak": 42.426439437436954,
+      "predicted_peak": 39.42207940871592,
+      "peak_abs_error": 3.004360028721031,
+      "active_focus": true,
+      "detected_focus": false,
+      "phase": "rising"
+    },
+    {
+      "tick": 14,
+      "elapsed_s": 4200.0,
+      "global_mse": 44.06444397348563,
+      "core_mse": 29.698902054463783,
+      "core_coverage_95": 0.38095238095238093,
+      "core_mean_variance": 4.591680421049581,
+      "surroundings_mse": 188.66143209965114,
+      "surroundings_coverage_95": 0.2840909090909091,
+      "surroundings_mean_variance": 31.02881097901128,
+      "background_mse": 36.16186218289841,
+      "background_coverage_95": 0.989821882951654,
+      "background_mean_variance": 122.89060820920807,
+      "background_bias": 0.07012794731747363,
+      "background_overestimation_mse": 22.053825624469024,
+      "false_high_area_km2": 1.76,
+      "true_high_area_km2": 0.52,
+      "truth_peak": 52.963979931412574,
+      "predicted_peak": 50.66682918757048,
+      "peak_abs_error": 2.2971507438420957,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 15,
+      "elapsed_s": 4500.0,
+      "global_mse": 46.89208044041397,
+      "core_mse": 13.176325074650313,
+      "core_coverage_95": 0.7142857142857143,
+      "core_mean_variance": 4.244577140866242,
+      "surroundings_mse": 103.96570322354623,
+      "surroundings_coverage_95": 0.5681818181818182,
+      "surroundings_mean_variance": 29.278792280158612,
+      "background_mse": 44.14752068072276,
+      "background_coverage_95": 0.9980916030534351,
+      "background_mean_variance": 123.4069403391082,
+      "background_bias": -2.873527160076195,
+      "background_overestimation_mse": 9.589484430715377,
+      "false_high_area_km2": 0.72,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 60.5144576317853,
+      "predicted_peak": 55.41380749904756,
+      "peak_abs_error": 5.100650132737741,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 16,
+      "elapsed_s": 4800.0,
+      "global_mse": 57.465800601888525,
+      "core_mse": 47.38135240864693,
+      "core_coverage_95": 0.3333333333333333,
+      "core_mean_variance": 4.592169231543762,
+      "surroundings_mse": 235.99163341594803,
+      "surroundings_coverage_95": 0.2727272727272727,
+      "surroundings_mean_variance": 31.03944287722543,
+      "background_mse": 47.606703988924686,
+      "background_coverage_95": 0.9860050890585241,
+      "background_mean_variance": 125.46545709897757,
+      "background_bias": -1.4857356051183483,
+      "background_overestimation_mse": 21.13734337226984,
+      "false_high_area_km2": 2.24,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 65.92461131389155,
+      "predicted_peak": 64.53221494902377,
+      "peak_abs_error": 1.3923963648677784,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 17,
+      "elapsed_s": 5100.0,
+      "global_mse": 66.24709367206765,
+      "core_mse": 18.503462481690164,
+      "core_coverage_95": 0.5238095238095238,
+      "core_mean_variance": 4.245032884705363,
+      "surroundings_mse": 121.57673218652127,
+      "surroundings_coverage_95": 0.5681818181818182,
+      "surroundings_mean_variance": 29.290783407814004,
+      "background_mse": 63.7875568182038,
+      "background_coverage_95": 0.9974554707379135,
+      "background_mean_variance": 126.4827310174849,
+      "background_bias": -4.524142152545305,
+      "background_overestimation_mse": 7.276710832987223,
+      "false_high_area_km2": 1.0,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 69.80115582213675,
+      "predicted_peak": 63.91039093036088,
+      "peak_abs_error": 5.890764891775866,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 18,
+      "elapsed_s": 5400.0,
+      "global_mse": 84.73463291902212,
+      "core_mse": 85.23666371096309,
+      "core_coverage_95": 0.23809523809523808,
+      "core_mean_variance": 4.590966067439668,
+      "surroundings_mse": 326.9679206761155,
+      "surroundings_coverage_95": 0.3068181818181818,
+      "surroundings_mean_variance": 31.011643552929243,
+      "background_mse": 71.16779324392353,
+      "background_coverage_95": 0.9790076335877863,
+      "background_mean_variance": 121.44470424770371,
+      "background_bias": -2.362156959400197,
+      "background_overestimation_mse": 28.618501238054574,
+      "false_high_area_km2": 3.16,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 72.5788213391273,
+      "predicted_peak": 73.08757856691838,
+      "peak_abs_error": 0.5087572277910795,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 19,
+      "elapsed_s": 5700.0,
+      "global_mse": 230.18889204668216,
+      "core_mse": 78.00725419092241,
+      "core_coverage_95": 0.42857142857142855,
+      "core_mean_variance": 4.2440142525871565,
+      "surroundings_mse": 204.63366913957051,
+      "surroundings_coverage_95": 0.42045454545454547,
+      "surroundings_mean_variance": 29.263756366056626,
+      "background_mse": 233.6524251324308,
+      "background_coverage_95": 0.8276081424936387,
+      "background_mean_variance": 121.36070263180608,
+      "background_bias": -10.782578458599115,
+      "background_overestimation_mse": 9.419946356848873,
+      "false_high_area_km2": 1.0,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 57.56098428677952,
+      "predicted_peak": 65.07299196471672,
+      "peak_abs_error": 7.5120076779371985,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 20,
+      "elapsed_s": 6000.0,
+      "global_mse": 213.06133901976094,
+      "core_mse": 49.499177130390166,
+      "core_coverage_95": 0.42857142857142855,
+      "core_mean_variance": 4.591491967622879,
+      "surroundings_mse": 175.77649652173906,
+      "surroundings_coverage_95": 0.4318181818181818,
+      "surroundings_mean_variance": 31.023063402654916,
+      "background_mse": 217.33352193293058,
+      "background_coverage_95": 0.8428753180661578,
+      "background_mean_variance": 122.83409486452541,
+      "background_bias": -10.676859215458988,
+      "background_overestimation_mse": 6.338644058804721,
+      "false_high_area_km2": 0.76,
+      "true_high_area_km2": 0.36,
+      "truth_peak": 46.80023382167715,
+      "predicted_peak": 51.996988022387406,
+      "peak_abs_error": 5.196754200710252,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 21,
+      "elapsed_s": 6300.0,
+      "global_mse": 132.53369064196252,
+      "core_mse": 18.559494255885415,
+      "core_coverage_95": 0.7619047619047619,
+      "core_mean_variance": 4.244472164703518,
+      "surroundings_mse": 80.46904688596727,
+      "surroundings_coverage_95": 0.6818181818181818,
+      "surroundings_mean_variance": 29.275439513985486,
+      "background_mse": 136.97080691081445,
+      "background_coverage_95": 0.9198473282442748,
+      "background_mean_variance": 123.36610863532168,
+      "background_bias": -8.498986932230999,
+      "background_overestimation_mse": 3.793112815099144,
+      "false_high_area_km2": 0.28,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 39.08981918815984,
+      "predicted_peak": 42.04463210782749,
+      "peak_abs_error": 2.9548129196676527,
+      "active_focus": false,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 22,
+      "elapsed_s": 6600.0,
+      "global_mse": 115.25118306531047,
+      "core_mse": 18.451197428013845,
+      "core_coverage_95": 0.7142857142857143,
+      "core_mean_variance": 4.592116004596512,
+      "surroundings_mse": 75.684652350208,
+      "surroundings_coverage_95": 0.7386363636363636,
+      "surroundings_mean_variance": 31.037416252817618,
+      "background_mse": 118.75923293891876,
+      "background_coverage_95": 0.9465648854961832,
+      "background_mean_variance": 125.43546661817027,
+      "background_bias": -7.615444611134211,
+      "background_overestimation_mse": 5.140947303606883,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 33.565065685738354,
+      "predicted_peak": 38.33877144946232,
+      "peak_abs_error": 4.773705763723967,
+      "active_focus": false,
+      "detected_focus": false,
+      "phase": "declining"
+    },
+    {
+      "tick": 23,
+      "elapsed_s": 6900.0,
+      "global_mse": 105.20628672625735,
+      "core_mse": 13.030711315894042,
+      "core_coverage_95": 0.8095238095238095,
+      "core_mean_variance": 4.245001595599169,
+      "surroundings_mse": 64.29778317469602,
+      "surroundings_coverage_95": 0.8295454545454546,
+      "surroundings_mean_variance": 29.289582147222156,
+      "background_mse": 108.72768328869692,
+      "background_coverage_95": 0.9599236641221374,
+      "background_mean_variance": 126.4604436977346,
+      "background_bias": -7.398947090725671,
+      "background_overestimation_mse": 4.041028637055967,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 29.606406818051155,
+      "predicted_peak": 33.90005198836735,
+      "peak_abs_error": 4.293645170316196,
+      "active_focus": false,
+      "detected_focus": false,
+      "phase": "declining"
+    },
+    {
+      "tick": 24,
+      "elapsed_s": 7200.0,
+      "global_mse": 88.50887852861217,
+      "core_mse": 16.492746731288555,
+      "core_coverage_95": 0.6190476190476191,
+      "core_mean_variance": 4.590950774274329,
+      "surroundings_mse": 60.42683343938209,
+      "surroundings_coverage_95": 0.8636363636363636,
+      "surroundings_mean_variance": 31.01092133568693,
+      "background_mse": 91.04294897110329,
+      "background_coverage_95": 0.989821882951654,
+      "background_mean_variance": 121.43044526544004,
+      "background_bias": -6.424245375962686,
+      "background_overestimation_mse": 5.230319158124871,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 26.769903791472693,
+      "predicted_peak": 32.79052616599126,
+      "peak_abs_error": 6.020622374518567,
+      "active_focus": false,
+      "detected_focus": false,
+      "phase": "declining"
+    },
+    {
+      "tick": 25,
+      "elapsed_s": 7500.0,
+      "global_mse": 30.110818277298772,
+      "core_mse": 21.00342134439183,
+      "core_coverage_95": 0.5238095238095238,
+      "core_mean_variance": 4.244004880882493,
+      "surroundings_mse": 59.40437904826013,
+      "surroundings_coverage_95": 0.7727272727272727,
+      "surroundings_mean_variance": 29.26332617234614,
+      "background_mse": 28.59263888019091,
+      "background_coverage_95": 0.9987277353689568,
+      "background_mean_variance": 121.35070034647656,
+      "background_bias": -2.234397090411415,
+      "background_overestimation_mse": 5.497219760264601,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 0.04,
+      "truth_peak": 41.74558192596456,
+      "predicted_peak": 39.44097022081039,
+      "peak_abs_error": 2.3046117051541657,
+      "active_focus": true,
+      "detected_focus": false,
+      "phase": "rising"
+    },
+    {
+      "tick": 26,
+      "elapsed_s": 7800.0,
+      "global_mse": 40.96473291112394,
+      "core_mse": 28.084360228924545,
+      "core_coverage_95": 0.47619047619047616,
+      "core_mean_variance": 4.591487287484777,
+      "surroundings_mse": 182.7508167992014,
+      "surroundings_coverage_95": 0.29545454545454547,
+      "surroundings_mean_variance": 31.022802550035678,
+      "background_mse": 33.19966449138816,
+      "background_coverage_95": 0.9917302798982188,
+      "background_mean_variance": 122.82707408353741,
+      "background_bias": -0.04440414951044042,
+      "background_overestimation_mse": 19.721718414266732,
+      "false_high_area_km2": 1.72,
+      "true_high_area_km2": 0.36,
+      "truth_peak": 52.47612420640325,
+      "predicted_peak": 50.37375296564969,
+      "peak_abs_error": 2.1023712407535555,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 27,
+      "elapsed_s": 8100.0,
+      "global_mse": 42.49720738060293,
+      "core_mse": 16.381198055343354,
+      "core_coverage_95": 0.6666666666666666,
+      "core_mean_variance": 4.244469139932423,
+      "surroundings_mse": 111.37894379244203,
+      "surroundings_coverage_95": 0.5568181818181818,
+      "surroundings_mean_variance": 29.275282828548903,
+      "background_mse": 38.990110301460824,
+      "background_coverage_95": 0.9980916030534351,
+      "background_mean_variance": 123.36118690059497,
+      "background_bias": -2.674398248135201,
+      "background_overestimation_mse": 7.8089393230212485,
+      "false_high_area_km2": 0.68,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 60.164893729773446,
+      "predicted_peak": 55.550406366395165,
+      "peak_abs_error": 4.614487363378281,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 28,
+      "elapsed_s": 8400.0,
+      "global_mse": 55.353667028262905,
+      "core_mse": 63.537347680366004,
+      "core_coverage_95": 0.19047619047619047,
+      "core_mean_variance": 4.59211448872068,
+      "surroundings_mse": 280.0170283756551,
+      "surroundings_coverage_95": 0.19318181818181818,
+      "surroundings_mean_variance": 31.037321056469512,
+      "background_mse": 42.66776811460854,
+      "background_coverage_95": 0.9853689567430025,
+      "background_mean_variance": 125.43200596447112,
+      "background_bias": -0.6426650659612003,
+      "background_overestimation_mse": 22.880257984248658,
+      "false_high_area_km2": 2.6,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 65.6741378330537,
+      "predicted_peak": 65.25900732844116,
+      "peak_abs_error": 0.41513050461254863,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 29,
+      "elapsed_s": 8700.0,
+      "global_mse": 66.10558783465474,
+      "core_mse": 21.131837583125897,
+      "core_coverage_95": 0.7142857142857143,
+      "core_mean_variance": 4.245000561376846,
+      "surroundings_mse": 125.59746841609741,
+      "surroundings_coverage_95": 0.5681818181818182,
+      "surroundings_mean_variance": 29.28952460580066,
+      "background_mse": 63.37604792633105,
+      "background_coverage_95": 0.9968193384223919,
+      "background_mean_variance": 126.45800194691327,
+      "background_bias": -4.623856265841592,
+      "background_overestimation_mse": 5.860746777944073,
+      "false_high_area_km2": 1.04,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 69.62168373064803,
+      "predicted_peak": 64.70843914933127,
+      "peak_abs_error": 4.913244581316761,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 30,
+      "elapsed_s": 9000.0,
+      "global_mse": 72.8494531423829,
+      "core_mse": 64.33046122207146,
+      "core_coverage_95": 0.2857142857142857,
+      "core_mean_variance": 4.590950151323923,
+      "surroundings_mse": 287.48413519789415,
+      "surroundings_coverage_95": 0.29545454545454547,
+      "surroundings_mean_variance": 31.010884446070737,
+      "background_mse": 60.9480834282872,
+      "background_coverage_95": 0.9847328244274809,
+      "background_mean_variance": 121.42880696414727,
+      "background_bias": -2.3968346512199723,
+      "background_overestimation_mse": 21.30037342495422,
+      "false_high_area_km2": 2.56,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 72.45022396620148,
+      "predicted_peak": 70.98624187786137,
+      "peak_abs_error": 1.463982088340103,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "rising"
+    },
+    {
+      "tick": 31,
+      "elapsed_s": 9300.0,
+      "global_mse": 170.21723759421113,
+      "core_mse": 63.00093459310348,
+      "core_coverage_95": 0.47619047619047616,
+      "core_mean_variance": 4.244004432237734,
+      "surroundings_mse": 150.3355734169888,
+      "surroundings_coverage_95": 0.6022727272727273,
+      "surroundings_mean_variance": 29.26330329873397,
+      "background_mse": 172.76248492921036,
+      "background_coverage_95": 0.8835877862595419,
+      "background_mean_variance": 121.3495652584604,
+      "background_bias": -9.174728667594973,
+      "background_overestimation_mse": 7.907738109361484,
+      "false_high_area_km2": 0.84,
+      "true_high_area_km2": 0.84,
+      "truth_peak": 57.46884024262064,
+      "predicted_peak": 63.131839889642954,
+      "peak_abs_error": 5.662999647022318,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 32,
+      "elapsed_s": 9600.0,
+      "global_mse": 157.98093076108765,
+      "core_mse": 50.33984360750709,
+      "core_coverage_95": 0.47619047619047616,
+      "core_mean_variance": 4.5914870147473925,
+      "surroundings_mse": 128.41564051705765,
+      "surroundings_coverage_95": 0.6477272727272727,
+      "surroundings_mean_variance": 31.022788048870574,
+      "background_mse": 161.0739386311257,
+      "background_coverage_95": 0.8975826972010178,
+      "background_mean_variance": 122.82628697075323,
+      "background_bias": -9.005506769436659,
+      "background_overestimation_mse": 6.275604045297375,
+      "false_high_area_km2": 0.84,
+      "true_high_area_km2": 0.36,
+      "truth_peak": 46.73420972895442,
+      "predicted_peak": 52.62105599545058,
+      "peak_abs_error": 5.886846266496164,
+      "active_focus": true,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 33,
+      "elapsed_s": 9900.0,
+      "global_mse": 150.59679098757846,
+      "core_mse": 30.26160259564631,
+      "core_coverage_95": 0.42857142857142855,
+      "core_mean_variance": 4.244468937971851,
+      "surroundings_mse": 114.38474901743281,
+      "surroundings_coverage_95": 0.5681818181818182,
+      "surroundings_mean_variance": 29.27527365288681,
+      "background_mse": 154.23145933974345,
+      "background_coverage_95": 0.9045801526717557,
+      "background_mean_variance": 123.36063995551669,
+      "background_bias": -8.986213571355206,
+      "background_overestimation_mse": 4.6867315362514885,
+      "false_high_area_km2": 0.48,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 39.04251085847177,
+      "predicted_peak": 43.682613077021294,
+      "peak_abs_error": 4.640102218549522,
+      "active_focus": false,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 34,
+      "elapsed_s": 10200.0,
+      "global_mse": 142.75623932074254,
+      "core_mse": 40.250156190015524,
+      "core_coverage_95": 0.38095238095238093,
+      "core_mean_variance": 4.592114352772091,
+      "surroundings_mse": 137.57406438621268,
+      "surroundings_coverage_95": 0.5340909090909091,
+      "surroundings_mean_variance": 31.037315060160264,
+      "background_mse": 144.41569169986715,
+      "background_coverage_95": 0.916030534351145,
+      "background_mean_variance": 125.431624318083,
+      "background_bias": -8.105702060355235,
+      "background_overestimation_mse": 8.449840016657157,
+      "false_high_area_km2": 0.52,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 33.531167786265904,
+      "predicted_peak": 41.67182254794481,
+      "peak_abs_error": 8.140654761678903,
+      "active_focus": false,
+      "detected_focus": true,
+      "phase": "declining"
+    },
+    {
+      "tick": 35,
+      "elapsed_s": 10500.0,
+      "global_mse": 119.86607528492046,
+      "core_mse": 16.750749712832608,
+      "core_coverage_95": 0.6666666666666666,
+      "core_mean_variance": 4.2450004600025375,
+      "surroundings_mse": 85.48415745418714,
+      "surroundings_coverage_95": 0.6363636363636364,
+      "surroundings_mean_variance": 29.289520705194413,
+      "background_mse": 123.16825760433419,
+      "background_coverage_95": 0.9376590330788804,
+      "background_mean_variance": 126.45773397290577,
+      "background_bias": -7.984584411880631,
+      "background_overestimation_mse": 3.7584249554290605,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 29.582117911716463,
+      "predicted_peak": 34.72185675483089,
+      "peak_abs_error": 5.139738843114426,
+      "active_focus": false,
+      "detected_focus": false,
+      "phase": "declining"
+    },
+    {
+      "tick": 36,
+      "elapsed_s": 10800.0,
+      "global_mse": 105.8566106739861,
+      "core_mse": 12.060149643853972,
+      "core_coverage_95": 0.8095238095238095,
+      "core_mean_variance": 4.590950094302162,
+      "surroundings_mse": 73.50384843353568,
+      "surroundings_coverage_95": 0.7272727272727273,
+      "surroundings_mean_variance": 31.01088217345739,
+      "background_mse": 108.92071293784896,
+      "background_coverage_95": 0.9548346055979644,
+      "background_mean_variance": 121.42863541150406,
+      "background_bias": -7.489434562173099,
+      "background_overestimation_mse": 3.0748032932119402,
+      "false_high_area_km2": 0.0,
+      "true_high_area_km2": 0.0,
+      "truth_peak": 26.752500029584294,
+      "predicted_peak": 31.428397369761562,
+      "peak_abs_error": 4.6758973401772685,
+      "active_focus": false,
+      "detected_focus": false,
+      "phase": "declining"
+    }
+  ],
+  "ticks": [
+    {
+      "tick": 1,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        150.0,
+        150.0,
+        150.0
+      ],
+      "reward": 0.26455230061639606,
+      "sensor_rng_before_sha256": "3ce4e845deba793314ef9d451a2d5d1a6e8d38616999fd2e3787e36c3514e5db",
+      "sensor_rng_after_sha256": "e4ee2b7c35c52a20f34ba70ab3c2ea70203634fa899bdce56fbdf40e24e39281"
+    },
+    {
+      "tick": 2,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0029323550998588874,
+      "sensor_rng_before_sha256": "e4ee2b7c35c52a20f34ba70ab3c2ea70203634fa899bdce56fbdf40e24e39281",
+      "sensor_rng_after_sha256": "ad98e0bc882c5f6de07ce73b404b731908a3dc0b67a2009c4ebc4a3716305fba"
+    },
+    {
+      "tick": 3,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.023220938165856547,
+      "sensor_rng_before_sha256": "ad98e0bc882c5f6de07ce73b404b731908a3dc0b67a2009c4ebc4a3716305fba",
+      "sensor_rng_after_sha256": "c5305dfa38b8b959f0a9855a6495ad3458ea01ca542e62a678c2d24541da3fbb"
+    },
+    {
+      "tick": 4,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.002895111466223561,
+      "sensor_rng_before_sha256": "c5305dfa38b8b959f0a9855a6495ad3458ea01ca542e62a678c2d24541da3fbb",
+      "sensor_rng_after_sha256": "670f541a0ca01cdecd2fe5726aaadc9c1a17faaf6c532f168cd4054682efe0b1"
+    },
+    {
+      "tick": 5,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.016789302894863474,
+      "sensor_rng_before_sha256": "670f541a0ca01cdecd2fe5726aaadc9c1a17faaf6c532f168cd4054682efe0b1",
+      "sensor_rng_after_sha256": "a1c1a9cc8ac75e25b652e6274677e325865bd1a0a2e6e56bf5866b6dcf29c9fb"
+    },
+    {
+      "tick": 6,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0028676648765871677,
+      "sensor_rng_before_sha256": "a1c1a9cc8ac75e25b652e6274677e325865bd1a0a2e6e56bf5866b6dcf29c9fb",
+      "sensor_rng_after_sha256": "4c2d70d72ff063d31d6c6175de85bef2531928971eda8a996aea254faea53074"
+    },
+    {
+      "tick": 7,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.01562625016992427,
+      "sensor_rng_before_sha256": "4c2d70d72ff063d31d6c6175de85bef2531928971eda8a996aea254faea53074",
+      "sensor_rng_after_sha256": "00d8855e84694fc5b4902a01d555a098a74311aadd58dace3ab9bfd67ccaa4bc"
+    },
+    {
+      "tick": 8,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.002573832176899761,
+      "sensor_rng_before_sha256": "00d8855e84694fc5b4902a01d555a098a74311aadd58dace3ab9bfd67ccaa4bc",
+      "sensor_rng_after_sha256": "82d432d3958545029d2f9ffb32df2a7c5ff65468d00a104afea0613dd1ac9172"
+    },
+    {
+      "tick": 9,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.012644972955024078,
+      "sensor_rng_before_sha256": "82d432d3958545029d2f9ffb32df2a7c5ff65468d00a104afea0613dd1ac9172",
+      "sensor_rng_after_sha256": "7d0b8c6085dfddf601a00ca304714f1f17b10d17fe5cde37ab5c515f83ba21fa"
+    },
+    {
+      "tick": 10,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0025406810659038066,
+      "sensor_rng_before_sha256": "7d0b8c6085dfddf601a00ca304714f1f17b10d17fe5cde37ab5c515f83ba21fa",
+      "sensor_rng_after_sha256": "3ef5238494978ed3223392f72611c27573f8dda7dc26224e67089743331f8fe5"
+    },
+    {
+      "tick": 11,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.012768871630213733,
+      "sensor_rng_before_sha256": "3ef5238494978ed3223392f72611c27573f8dda7dc26224e67089743331f8fe5",
+      "sensor_rng_after_sha256": "2c546a7d78c0515cdca9b0f5a43f11345efd4179079b9a785c03fb69b030da15"
+    },
+    {
+      "tick": 12,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0024831301342679644,
+      "sensor_rng_before_sha256": "2c546a7d78c0515cdca9b0f5a43f11345efd4179079b9a785c03fb69b030da15",
+      "sensor_rng_after_sha256": "f1b211450d923a7f2c26cadf3f077d78af4347f39880a5f58579fe71640e5b4f"
+    },
+    {
+      "tick": 13,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.012998895913977938,
+      "sensor_rng_before_sha256": "f1b211450d923a7f2c26cadf3f077d78af4347f39880a5f58579fe71640e5b4f",
+      "sensor_rng_after_sha256": "ec69426b9028de33c4e1889c9c2c355f8c0ab710042ddda811661f9004dace20"
+    },
+    {
+      "tick": 14,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0026578546995205546,
+      "sensor_rng_before_sha256": "ec69426b9028de33c4e1889c9c2c355f8c0ab710042ddda811661f9004dace20",
+      "sensor_rng_after_sha256": "d754a78e200891b6c762c3a2603c950b33a50c949182281759e287d3c674571f"
+    },
+    {
+      "tick": 15,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.01561213378099347,
+      "sensor_rng_before_sha256": "d754a78e200891b6c762c3a2603c950b33a50c949182281759e287d3c674571f",
+      "sensor_rng_after_sha256": "6345eca0dfbb7206d81ac4eaed342b26ecee7c6e15112f0b37b6f30a0e556425"
+    },
+    {
+      "tick": 16,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0027252793974760657,
+      "sensor_rng_before_sha256": "6345eca0dfbb7206d81ac4eaed342b26ecee7c6e15112f0b37b6f30a0e556425",
+      "sensor_rng_after_sha256": "4e965004442af5aade38e06733c6ea1a0108928f4a8ccb2dbefe01f1f6f87209"
+    },
+    {
+      "tick": 17,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.01545207515034988,
+      "sensor_rng_before_sha256": "4e965004442af5aade38e06733c6ea1a0108928f4a8ccb2dbefe01f1f6f87209",
+      "sensor_rng_after_sha256": "fcc06fcf40dc5b546d346c38ae3a5591e658ce3fbbb755fd12cb19e98159acfd"
+    },
+    {
+      "tick": 18,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0026502748195422073,
+      "sensor_rng_before_sha256": "fcc06fcf40dc5b546d346c38ae3a5591e658ce3fbbb755fd12cb19e98159acfd",
+      "sensor_rng_after_sha256": "3be49be2e93f72694c286d3d2860635ad635cc3964711216505f1df0a385a5a0"
+    },
+    {
+      "tick": 19,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.015010764576896842,
+      "sensor_rng_before_sha256": "3be49be2e93f72694c286d3d2860635ad635cc3964711216505f1df0a385a5a0",
+      "sensor_rng_after_sha256": "57a6287d5b328633c24ee116cc428aedddf502c18103b5f9f776bf1e9f19e4db"
+    },
+    {
+      "tick": 20,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0025118468138824674,
+      "sensor_rng_before_sha256": "57a6287d5b328633c24ee116cc428aedddf502c18103b5f9f776bf1e9f19e4db",
+      "sensor_rng_after_sha256": "221994207b6d92938c363ede957b9fe83f8c433317834b5873ee6a664fcbc8b8"
+    },
+    {
+      "tick": 21,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.012330475921980886,
+      "sensor_rng_before_sha256": "221994207b6d92938c363ede957b9fe83f8c433317834b5873ee6a664fcbc8b8",
+      "sensor_rng_after_sha256": "b8f3025a3692af8bc2d969e440c4b8c3736cc16bb4a8dac5cbc7af221b4b1885"
+    },
+    {
+      "tick": 22,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0025125173325547703,
+      "sensor_rng_before_sha256": "b8f3025a3692af8bc2d969e440c4b8c3736cc16bb4a8dac5cbc7af221b4b1885",
+      "sensor_rng_after_sha256": "2dbd613cf3d9828f6d477563aa5d5a1a813af1843d528479e327da4bc8536875"
+    },
+    {
+      "tick": 23,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.013318699440879118,
+      "sensor_rng_before_sha256": "2dbd613cf3d9828f6d477563aa5d5a1a813af1843d528479e327da4bc8536875",
+      "sensor_rng_after_sha256": "b35b81937fd8e2265f8dfd82cb96f5b425e95874d776322f2feda37d5a4dbc72"
+    },
+    {
+      "tick": 24,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0025090758875404894,
+      "sensor_rng_before_sha256": "b35b81937fd8e2265f8dfd82cb96f5b425e95874d776322f2feda37d5a4dbc72",
+      "sensor_rng_after_sha256": "a0d67bfd7143dc222ec821b0d92216de1e1656a393ef1001f813684ad73aed63"
+    },
+    {
+      "tick": 25,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.01348528063225103,
+      "sensor_rng_before_sha256": "a0d67bfd7143dc222ec821b0d92216de1e1656a393ef1001f813684ad73aed63",
+      "sensor_rng_after_sha256": "32f2130ed7ce7a933744cbd9ab5a055c2a9d678cd322064bf43c3d205cbaa7fc"
+    },
+    {
+      "tick": 26,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0026521000491306914,
+      "sensor_rng_before_sha256": "32f2130ed7ce7a933744cbd9ab5a055c2a9d678cd322064bf43c3d205cbaa7fc",
+      "sensor_rng_after_sha256": "766aa603948585afcd5d5d31c14bc1f79564791e84bc95d7db0bca2931607b0d"
+    },
+    {
+      "tick": 27,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.015643755043938258,
+      "sensor_rng_before_sha256": "766aa603948585afcd5d5d31c14bc1f79564791e84bc95d7db0bca2931607b0d",
+      "sensor_rng_after_sha256": "cff078317adccd25f2f734304f75fb93b1fca6c2693d1993dd9cb4e01519e73d"
+    },
+    {
+      "tick": 28,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0027116242948825513,
+      "sensor_rng_before_sha256": "cff078317adccd25f2f734304f75fb93b1fca6c2693d1993dd9cb4e01519e73d",
+      "sensor_rng_after_sha256": "6849b9dbaa7152692592df524d0311b445a27e956969ebeb96fdef2e031a10cf"
+    },
+    {
+      "tick": 29,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.015678618850963038,
+      "sensor_rng_before_sha256": "6849b9dbaa7152692592df524d0311b445a27e956969ebeb96fdef2e031a10cf",
+      "sensor_rng_after_sha256": "2554bf9ed1aa3758884aac0afa013865002a95e55ceb9d02a7680f9b7c96579d"
+    },
+    {
+      "tick": 30,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0026246331374608876,
+      "sensor_rng_before_sha256": "2554bf9ed1aa3758884aac0afa013865002a95e55ceb9d02a7680f9b7c96579d",
+      "sensor_rng_after_sha256": "ae0a67944d9b665e82c2d32b52d0ca7bfbec1b30a3ff44aa20d131e8d5c74341"
+    },
+    {
+      "tick": 31,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.01507099307006744,
+      "sensor_rng_before_sha256": "ae0a67944d9b665e82c2d32b52d0ca7bfbec1b30a3ff44aa20d131e8d5c74341",
+      "sensor_rng_after_sha256": "d518dfde256d4be92dc8c32dedb68f9e30ae04af595fc04d52d46a95765e8ed5"
+    },
+    {
+      "tick": 32,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.0025358883747657575,
+      "sensor_rng_before_sha256": "d518dfde256d4be92dc8c32dedb68f9e30ae04af595fc04d52d46a95765e8ed5",
+      "sensor_rng_after_sha256": "6b6af589d96641a6be8efd217773d83b45eb43f39b464c28ff73c99132e4b7a3"
+    },
+    {
+      "tick": 33,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.01290841520334407,
+      "sensor_rng_before_sha256": "6b6af589d96641a6be8efd217773d83b45eb43f39b464c28ff73c99132e4b7a3",
+      "sensor_rng_after_sha256": "f258ff93711d26190902200711170bbf2d617992a14939e70567b94fa51d0d08"
+    },
+    {
+      "tick": 34,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.002512096445556611,
+      "sensor_rng_before_sha256": "f258ff93711d26190902200711170bbf2d617992a14939e70567b94fa51d0d08",
+      "sensor_rng_after_sha256": "faa6fa12e008157569a452fcbc5e3f60d8c7ed515c598a57af567cac9942d085"
+    },
+    {
+      "tick": 35,
+      "actions": [
+        0,
+        14,
+        18
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4250.0
+        ],
+        [
+          3750.0,
+          4100.0
+        ],
+        [
+          4450.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.012958258893896013,
+      "sensor_rng_before_sha256": "faa6fa12e008157569a452fcbc5e3f60d8c7ed515c598a57af567cac9942d085",
+      "sensor_rng_after_sha256": "69c70adafef6a249e51ada500e8a92730cedbbc74a97a9db2957b442638838ec"
+    },
+    {
+      "tick": 36,
+      "actions": [
+        4,
+        10,
+        22
+      ],
+      "positions_m": [
+        [
+          4100.0,
+          4150.0
+        ],
+        [
+          3850.0,
+          4100.0
+        ],
+        [
+          4350.0,
+          4100.0
+        ]
+      ],
+      "route_distance_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "reward": 0.002479642364624736,
+      "sensor_rng_before_sha256": "69c70adafef6a249e51ada500e8a92730cedbbc74a97a9db2957b442638838ec",
+      "sensor_rng_after_sha256": "261b1686f2a55b9a8f66bd6024163b712677d84a83999866b8b994004df81155"
+    }
+  ],
+  "routes_m": [
+    [
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4100.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4300.0
+      ],
+      [
+        4100.0,
+        4250.0
+      ],
+      [
+        4100.0,
+        4150.0
+      ]
+    ],
+    [
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3900.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3700.0,
+        4100.0
+      ],
+      [
+        3750.0,
+        4100.0
+      ],
+      [
+        3850.0,
+        4100.0
+      ]
+    ],
+    [
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4300.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4500.0,
+        4100.0
+      ],
+      [
+        4450.0,
+        4100.0
+      ],
+      [
+        4350.0,
+        4100.0
+      ]
+    ]
+  ],
+  "measurements": [
+    {
+      "sensor_id": "CONTROL_FIXED_0",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T00:00:00+00:00",
+      "simulation_time_s": 0,
+      "x_m": 100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_0",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_1",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T00:00:00+00:00",
+      "simulation_time_s": 0,
+      "x_m": 8100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_1",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_2",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T00:00:00+00:00",
+      "simulation_time_s": 0,
+      "x_m": 100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_2",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_3",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T00:00:00+00:00",
+      "simulation_time_s": 0,
+      "x_m": 8100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_3",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:05:00+00:00",
+      "simulation_time_s": 300.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 70.12473014130103,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:05:00+00:00",
+      "simulation_time_s": 300.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 55.95405323871757,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:05:00+00:00",
+      "simulation_time_s": 300.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 56.510152305262224,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:10:00+00:00",
+      "simulation_time_s": 600.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 78.78195554274653,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:10:00+00:00",
+      "simulation_time_s": 600.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 73.08199173059744,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:10:00+00:00",
+      "simulation_time_s": 600.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 71.7588378250548,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:15:00+00:00",
+      "simulation_time_s": 900.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 72.70274391579119,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:15:00+00:00",
+      "simulation_time_s": 900.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 57.15604428877323,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:15:00+00:00",
+      "simulation_time_s": 900.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 55.363625654445045,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:20:00+00:00",
+      "simulation_time_s": 1200.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 80.5861185958046,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:20:00+00:00",
+      "simulation_time_s": 1200.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 71.07690499678677,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:20:00+00:00",
+      "simulation_time_s": 1200.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 71.35310023190067,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:25:00+00:00",
+      "simulation_time_s": 1500.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 70.81399963659518,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:25:00+00:00",
+      "simulation_time_s": 1500.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 56.33070184540211,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:25:00+00:00",
+      "simulation_time_s": 1500.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 57.76181834680438,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_0",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T00:30:00+00:00",
+      "simulation_time_s": 1800,
+      "x_m": 100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_0",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_1",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T00:30:00+00:00",
+      "simulation_time_s": 1800,
+      "x_m": 8100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_1",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_2",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T00:30:00+00:00",
+      "simulation_time_s": 1800,
+      "x_m": 100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_2",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_3",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T00:30:00+00:00",
+      "simulation_time_s": 1800,
+      "x_m": 8100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_3",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:30:00+00:00",
+      "simulation_time_s": 1800.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 79.8182264056452,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:30:00+00:00",
+      "simulation_time_s": 1800.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 71.60773806624901,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:30:00+00:00",
+      "simulation_time_s": 1800.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 73.71414469771638,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:35:00+00:00",
+      "simulation_time_s": 2100.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 57.026931062868904,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:35:00+00:00",
+      "simulation_time_s": 2100.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 45.501791301575444,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:35:00+00:00",
+      "simulation_time_s": 2100.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 44.41199932574759,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:40:00+00:00",
+      "simulation_time_s": 2400.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 49.22743434024606,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:40:00+00:00",
+      "simulation_time_s": 2400.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 49.21536381331025,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:40:00+00:00",
+      "simulation_time_s": 2400.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 45.5755146445308,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:45:00+00:00",
+      "simulation_time_s": 2700.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 39.27382800728195,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:45:00+00:00",
+      "simulation_time_s": 2700.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.38885998935397,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:45:00+00:00",
+      "simulation_time_s": 2700.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.30434136873896,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:50:00+00:00",
+      "simulation_time_s": 3000.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 35.51919448320939,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:50:00+00:00",
+      "simulation_time_s": 3000.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.08092911131948,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:50:00+00:00",
+      "simulation_time_s": 3000.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.9768991850035,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:55:00+00:00",
+      "simulation_time_s": 3300.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 30.355318602083404,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:55:00+00:00",
+      "simulation_time_s": 3300.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.873630845210304,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T00:55:00+00:00",
+      "simulation_time_s": 3300.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.89258591317373,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_0",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T01:00:00+00:00",
+      "simulation_time_s": 3600,
+      "x_m": 100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_0",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_1",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T01:00:00+00:00",
+      "simulation_time_s": 3600,
+      "x_m": 8100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_1",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_2",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T01:00:00+00:00",
+      "simulation_time_s": 3600,
+      "x_m": 100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_2",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_3",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T01:00:00+00:00",
+      "simulation_time_s": 3600,
+      "x_m": 8100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_3",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.81775605487231,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.592338803401763,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:00:00+00:00",
+      "simulation_time_s": 3600.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 28.376048457646394,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:05:00+00:00",
+      "simulation_time_s": 3900.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 40.06072236461438,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:05:00+00:00",
+      "simulation_time_s": 3900.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.183549886803426,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:05:00+00:00",
+      "simulation_time_s": 3900.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.27517149659069,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:10:00+00:00",
+      "simulation_time_s": 4200.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 52.969593658411604,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:10:00+00:00",
+      "simulation_time_s": 4200.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 50.02649825722407,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:10:00+00:00",
+      "simulation_time_s": 4200.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 47.138301149355456,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:15:00+00:00",
+      "simulation_time_s": 4500.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 54.16362008404813,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:15:00+00:00",
+      "simulation_time_s": 4500.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 44.719576598810264,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:15:00+00:00",
+      "simulation_time_s": 4500.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 44.98771007543214,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:20:00+00:00",
+      "simulation_time_s": 4800.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 66.58685027718587,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:20:00+00:00",
+      "simulation_time_s": 4800.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 59.029195561467716,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:20:00+00:00",
+      "simulation_time_s": 4800.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 58.941783407385046,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:25:00+00:00",
+      "simulation_time_s": 5100.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 63.629485527299096,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:25:00+00:00",
+      "simulation_time_s": 5100.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 49.15742510093543,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:25:00+00:00",
+      "simulation_time_s": 5100.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 49.93597823072898,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_0",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T01:30:00+00:00",
+      "simulation_time_s": 5400,
+      "x_m": 100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_0",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_1",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T01:30:00+00:00",
+      "simulation_time_s": 5400,
+      "x_m": 8100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_1",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_2",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T01:30:00+00:00",
+      "simulation_time_s": 5400,
+      "x_m": 100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_2",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_3",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T01:30:00+00:00",
+      "simulation_time_s": 5400,
+      "x_m": 8100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_3",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:30:00+00:00",
+      "simulation_time_s": 5400.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 74.52240610208874,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:30:00+00:00",
+      "simulation_time_s": 5400.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 67.40549893372612,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:30:00+00:00",
+      "simulation_time_s": 5400.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 66.79694024665729,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:35:00+00:00",
+      "simulation_time_s": 5700.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 53.548862059589446,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:35:00+00:00",
+      "simulation_time_s": 5700.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 42.87076696652245,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:35:00+00:00",
+      "simulation_time_s": 5700.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 42.15635189113343,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:40:00+00:00",
+      "simulation_time_s": 6000.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 45.02306711889581,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:40:00+00:00",
+      "simulation_time_s": 6000.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 41.82655733835875,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:40:00+00:00",
+      "simulation_time_s": 6000.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 41.99238229571983,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:45:00+00:00",
+      "simulation_time_s": 6300.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 38.600151658675955,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:45:00+00:00",
+      "simulation_time_s": 6300.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 31.90538699646714,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:45:00+00:00",
+      "simulation_time_s": 6300.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.874508398566704,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:50:00+00:00",
+      "simulation_time_s": 6600.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.75103900366845,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:50:00+00:00",
+      "simulation_time_s": 6600.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.20173605227993,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:50:00+00:00",
+      "simulation_time_s": 6600.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 31.991296077376404,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:55:00+00:00",
+      "simulation_time_s": 6900.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 27.737764280661363,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:55:00+00:00",
+      "simulation_time_s": 6900.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.994966531878205,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T01:55:00+00:00",
+      "simulation_time_s": 6900.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.339701043704583,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_0",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T02:00:00+00:00",
+      "simulation_time_s": 7200,
+      "x_m": 100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_0",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_1",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T02:00:00+00:00",
+      "simulation_time_s": 7200,
+      "x_m": 8100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_1",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_2",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T02:00:00+00:00",
+      "simulation_time_s": 7200,
+      "x_m": 100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_2",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_3",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T02:00:00+00:00",
+      "simulation_time_s": 7200,
+      "x_m": 8100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_3",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.772168259398928,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 28.33748080312674,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:00:00+00:00",
+      "simulation_time_s": 7200.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.914233694824727,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:05:00+00:00",
+      "simulation_time_s": 7500.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 40.81862012806363,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:05:00+00:00",
+      "simulation_time_s": 7500.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 30.86674343845796,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:05:00+00:00",
+      "simulation_time_s": 7500.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.64038785232168,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:10:00+00:00",
+      "simulation_time_s": 7800.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 52.35397709464548,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:10:00+00:00",
+      "simulation_time_s": 7800.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 48.5659846549193,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:10:00+00:00",
+      "simulation_time_s": 7800.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 48.011167538053016,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:15:00+00:00",
+      "simulation_time_s": 8100.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 56.334151587769476,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:15:00+00:00",
+      "simulation_time_s": 8100.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 43.881807006723854,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:15:00+00:00",
+      "simulation_time_s": 8100.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 44.912298489290635,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:20:00+00:00",
+      "simulation_time_s": 8400.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 65.94399184617859,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:20:00+00:00",
+      "simulation_time_s": 8400.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 61.39019050229895,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:20:00+00:00",
+      "simulation_time_s": 8400.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 61.09438751833046,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:25:00+00:00",
+      "simulation_time_s": 8700.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 65.66572725227971,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:25:00+00:00",
+      "simulation_time_s": 8700.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 48.81486471160055,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:25:00+00:00",
+      "simulation_time_s": 8700.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 49.68849429994839,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_0",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T02:30:00+00:00",
+      "simulation_time_s": 9000,
+      "x_m": 100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_0",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_1",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T02:30:00+00:00",
+      "simulation_time_s": 9000,
+      "x_m": 8100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_1",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_2",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T02:30:00+00:00",
+      "simulation_time_s": 9000,
+      "x_m": 100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_2",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_3",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T02:30:00+00:00",
+      "simulation_time_s": 9000,
+      "x_m": 8100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_3",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:30:00+00:00",
+      "simulation_time_s": 9000.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 71.28291058285672,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:30:00+00:00",
+      "simulation_time_s": 9000.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 66.43312047280408,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:30:00+00:00",
+      "simulation_time_s": 9000.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 65.77655031183765,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:35:00+00:00",
+      "simulation_time_s": 9300.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 53.51328862277177,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:35:00+00:00",
+      "simulation_time_s": 9300.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 43.14450649753576,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:35:00+00:00",
+      "simulation_time_s": 9300.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 45.05227643421334,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:40:00+00:00",
+      "simulation_time_s": 9600.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 47.835046447126544,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:40:00+00:00",
+      "simulation_time_s": 9600.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 43.92401756597849,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:40:00+00:00",
+      "simulation_time_s": 9600.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 43.79564203540846,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:45:00+00:00",
+      "simulation_time_s": 9900.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 34.76300960533891,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:45:00+00:00",
+      "simulation_time_s": 9900.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 31.28990463242425,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:45:00+00:00",
+      "simulation_time_s": 9900.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 31.620995494800166,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:50:00+00:00",
+      "simulation_time_s": 10200.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 33.00664018649504,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:50:00+00:00",
+      "simulation_time_s": 10200.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.5591906884992,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:50:00+00:00",
+      "simulation_time_s": 10200.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 32.01353187128575,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:55:00+00:00",
+      "simulation_time_s": 10500.0,
+      "x_m": 4100.0,
+      "y_m": 4250.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 29.293656003875583,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:55:00+00:00",
+      "simulation_time_s": 10500.0,
+      "x_m": 3750.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 25.179686742747236,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T02:55:00+00:00",
+      "simulation_time_s": 10500.0,
+      "x_m": 4450.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.303925705795265,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_0",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T03:00:00+00:00",
+      "simulation_time_s": 10800,
+      "x_m": 100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_0",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_1",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T03:00:00+00:00",
+      "simulation_time_s": 10800,
+      "x_m": 8100.0,
+      "y_m": 100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_1",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_2",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T03:00:00+00:00",
+      "simulation_time_s": 10800,
+      "x_m": 100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_2",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "CONTROL_FIXED_3",
+      "sensor_type": "fixed",
+      "timestamp_utc": "2025-01-01T03:00:00+00:00",
+      "simulation_time_s": 10800,
+      "x_m": 8100.0,
+      "y_m": 8100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 19.6,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 0.0,
+      "position_source_id": "CONTROL_FIXED_3",
+      "provenance": "Lectura fija sintética ideal"
+    },
+    {
+      "sensor_id": "MOBILE_0",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T03:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 4100.0,
+      "y_m": 4150.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 27.746992339980075,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_1",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T03:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 3850.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 24.589968306835146,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    },
+    {
+      "sensor_id": "MOBILE_2",
+      "sensor_type": "mobile",
+      "timestamp_utc": "2025-01-01T03:00:00+00:00",
+      "simulation_time_s": 10800.0,
+      "x_m": 4350.0,
+      "y_m": 4100.0,
+      "crs": "EPSG:32718",
+      "value_ug_m3": 26.37502002510807,
+      "quality_status": "accepted",
+      "noise_stddev_ug_m3": 1.0,
+      "position_source_id": "rl-endpoints",
+      "provenance": "Medición móvil simulada al final del tick de 300 s"
+    }
+  ],
+  "signatures": {
+    "field_sha256": "0a64174cc513b4172d97065a78ac3bde4b415fe02fe23128ef3c1cb5a74be31b",
+    "initial_positions_sha256": "e2c31e84f7e8e0e4861caf1110ff774e2603396b5dad2dbcde958aeb782bfcde",
+    "fixed_measurements_sha256": "943ca95a3fb348b8aabafa659dfdc360daf21863d564291f335cada3ad83e225",
+    "horizon_s": 10800.0
+  }
+}

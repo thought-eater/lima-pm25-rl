@@ -1,0 +1,150 @@
+{
+  "selection": {
+    "selected_scale_m": 4000.0,
+    "original_scale_m": 2000.0,
+    "calibration_scores": [
+      {
+        "spatial_scale_m": 500.0,
+        "mean_case_temporal_mse": 24.97561572356138
+      },
+      {
+        "spatial_scale_m": 1000.0,
+        "mean_case_temporal_mse": 22.407531901946957
+      },
+      {
+        "spatial_scale_m": 2000.0,
+        "mean_case_temporal_mse": 19.354426086601695
+      },
+      {
+        "spatial_scale_m": 4000.0,
+        "mean_case_temporal_mse": 19.169124573202556
+      }
+    ],
+    "criterion": "lowest mean case temporal MSE; numerical ties prefer original or nearest log-scale"
+  },
+  "variants": [
+    {
+      "spatial_scale_m": 2000.0,
+      "temporal_mse": 23.1374918828017,
+      "final_mse": 25.759137136237428,
+      "coverage_68": 0.9685457210967415,
+      "coverage_95": 0.9925166953228177,
+      "mean_variance": 134.1102159216756,
+      "spearman_variance_squared_error": 0.3467441448067217,
+      "top_uncertainty_error_enrichment": 1.0408360684948894,
+      "temporal_rmse": 4.810144684185882,
+      "final_rmse": 5.075346011479161
+    },
+    {
+      "spatial_scale_m": 4000.0,
+      "temporal_mse": 22.393027865483514,
+      "final_mse": 30.608778362023305,
+      "coverage_68": 0.9459774447019345,
+      "coverage_95": 0.9848143164469696,
+      "mean_variance": 84.98592571684533,
+      "spearman_variance_squared_error": 0.19450740787729895,
+      "top_uncertainty_error_enrichment": 0.9748803010946694,
+      "temporal_rmse": 4.732127203011719,
+      "final_rmse": 5.532520073350236
+    }
+  ],
+  "paired": [
+    {
+      "case_seed": 100002,
+      "selected_minus_original_temporal_mse": -8.152921830572799,
+      "selected_minus_original_final_mse": -4.748996357745801,
+      "selected_minus_original_coverage_68": -0.0041613715083101965,
+      "selected_minus_original_coverage_95": -0.0017692058508385067,
+      "selected_minus_original_mean_variance": -52.01385703301433
+    },
+    {
+      "case_seed": 100003,
+      "selected_minus_original_temporal_mse": 1.077826525197123,
+      "selected_minus_original_final_mse": 2.726001752207436,
+      "selected_minus_original_coverage_68": -0.025597418454561538,
+      "selected_minus_original_coverage_95": -0.007083053001420203,
+      "selected_minus_original_mean_variance": -49.76280074730174
+    },
+    {
+      "case_seed": 100010,
+      "selected_minus_original_temporal_mse": -3.8116719352439805,
+      "selected_minus_original_final_mse": -1.998354255994908,
+      "selected_minus_original_coverage_68": -0.017355660212803214,
+      "selected_minus_original_coverage_95": -0.004317111459968492,
+      "selected_minus_original_mean_variance": -52.73029222284708
+    },
+    {
+      "case_seed": 100013,
+      "selected_minus_original_temporal_mse": 0.7139152388117793,
+      "selected_minus_original_final_mse": 42.65075234846488,
+      "selected_minus_original_coverage_68": -0.01915601405397349,
+      "selected_minus_original_coverage_95": -0.011562134011113612,
+      "selected_minus_original_mean_variance": -48.515372991716205
+    },
+    {
+      "case_seed": 100000,
+      "selected_minus_original_temporal_mse": 0.44885734180973635,
+      "selected_minus_original_final_mse": 3.9690857730038123,
+      "selected_minus_original_coverage_68": -0.01060900550696453,
+      "selected_minus_original_coverage_95": -0.0013206747900625926,
+      "selected_minus_original_mean_variance": -48.408940231531204
+    },
+    {
+      "case_seed": 100001,
+      "selected_minus_original_temporal_mse": -2.294804381718306,
+      "selected_minus_original_final_mse": -3.0162187393159514,
+      "selected_minus_original_coverage_68": -0.006422715606389184,
+      "selected_minus_original_coverage_95": -0.0007164037776282717,
+      "selected_minus_original_mean_variance": -50.79402384045042
+    },
+    {
+      "case_seed": 100032,
+      "selected_minus_original_temporal_mse": 1.6762535533882712,
+      "selected_minus_original_final_mse": 13.788903520197458,
+      "selected_minus_original_coverage_68": -0.04656001594777093,
+      "selected_minus_original_coverage_95": -0.01652712366998066,
+      "selected_minus_original_mean_variance": -46.136448027189985
+    },
+    {
+      "case_seed": 100037,
+      "selected_minus_original_temporal_mse": 7.200171666470165,
+      "selected_minus_original_final_mse": 8.51259575545258,
+      "selected_minus_original_coverage_68": -0.05587326505693846,
+      "selected_minus_original_coverage_95": -0.02583414318108168,
+      "selected_minus_original_mean_variance": -45.47077006251844
+    },
+    {
+      "case_seed": 100018,
+      "selected_minus_original_temporal_mse": -7.6914538154941,
+      "selected_minus_original_final_mse": -4.586103255698855,
+      "selected_minus_original_coverage_68": -0.02835713039794685,
+      "selected_minus_original_coverage_95": -0.0038249732127283442,
+      "selected_minus_original_mean_variance": -49.91215562990642
+    },
+    {
+      "case_seed": 100033,
+      "selected_minus_original_temporal_mse": -1.6462759845145323,
+      "selected_minus_original_final_mse": -1.6549140384594825,
+      "selected_minus_original_coverage_68": -0.007363384914405358,
+      "selected_minus_original_coverage_95": -0.0018439610276345109,
+      "selected_minus_original_mean_variance": -47.91077868837351
+    },
+    {
+      "case_seed": 100006,
+      "selected_minus_original_temporal_mse": 3.8748742107279526,
+      "selected_minus_original_final_mse": 3.3370459190370028,
+      "selected_minus_original_coverage_68": -0.02563479604295915,
+      "selected_minus_original_coverage_95": -0.009961127308066087,
+      "selected_minus_original_mean_variance": -52.62280838630116
+    },
+    {
+      "case_seed": 100011,
+      "selected_minus_original_temporal_mse": -0.32833879667950683,
+      "selected_minus_original_final_mse": -0.7841037117176963,
+      "selected_minus_original_coverage_68": -0.023728539034661655,
+      "selected_minus_original_coverage_95": -0.007668635219655551,
+      "selected_minus_original_mean_variance": -45.213234596812555
+    }
+  ],
+  "scope": "Reconstrucción con entradas congeladas; no demuestra mejora de una política realimentada con el GP candidato."
+}

@@ -1,0 +1,16 @@
+{
+  "purpose": "training_field_diagnostic_not_final_evaluation",
+  "training_executed": false,
+  "cases": 12,
+  "constant_fit_cases": 6,
+  "constant_value_ug_m3": 19.16752221126841,
+  "constant_diagnostic_rmse_ug_m3": 5.830095060818678,
+  "mean_spatial_contrast_ug_m3": 18.622280520865395,
+  "mean_temporal_std_ug_m3": 1.1017961754269352,
+  "limitations": [
+    "Diagnóstico de entrenamiento, no prueba final ni validación atmosférica de Lima.",
+    "El predictor constante se ajusta con fijas sintéticas de otros casos; no es el GP de solo fijas.",
+    "La variación temporal incluye el transitorio desde el estado inicial.",
+    "El soporte vial no equivale a cobertura alcanzable dentro del presupuesto."
+  ]
+}

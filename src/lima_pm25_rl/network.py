@@ -24,7 +24,7 @@ from .simulation import VEHICLE_COUNT
 
 
 def _encoder(channels: int) -> nn.Sequential:
-    """Mismo extractor espacial para las dos arquitecturas de la ablación."""
+    """Extractor espacial aplicado a cada observación histórica."""
     return nn.Sequential(
         nn.Conv2d(channels, 32, 3, padding=1),
         nn.ReLU(),
@@ -80,62 +80,6 @@ class BiLGD3QN(nn.Module):
         summary = torch.cat((hidden[-2], hidden[-1]), dim=-1)
         advantage = self.advantage(summary)
         return self.value(summary) + advantage - advantage.mean(dim=-1, keepdim=True)
-
-
-class WindowD3QN(nn.Module):
-    """CNN compartida por frame → ventana ordenada → MLP → cabeza dueling.
-
-    Conserva todos los mapas y auxiliares históricos, incluido el padding del
-    controlador. No reduce la observación al último tick ni usa recurrencia.
-    """
-
-    def __init__(
-        self,
-        *,
-        history_length: int = 4,
-        channels: int = 7,
-        auxiliary_size: int = AUXILIARY_SIZE,
-        hidden_size: int = 64,
-    ) -> None:
-        super().__init__()
-        if history_length < 1:
-            raise ValueError("history_length debe ser positivo")
-        self.history_length = history_length
-        self.encoder = _encoder(channels)
-        self.temporal = nn.Sequential(
-            nn.Linear(history_length * (128 + auxiliary_size), 2 * hidden_size),
-            nn.ReLU(),
-            nn.Linear(2 * hidden_size, 2 * hidden_size),
-            nn.ReLU(),
-        )
-        self.value = nn.Sequential(
-            nn.Linear(2 * hidden_size, 64), nn.ReLU(), nn.Linear(64, 1)
-        )
-        self.advantage = nn.Sequential(
-            nn.Linear(2 * hidden_size, 64), nn.ReLU(), nn.Linear(64, 8)
-        )
-
-    def forward(self, maps: torch.Tensor, auxiliary: torch.Tensor) -> torch.Tensor:
-        if (
-            maps.ndim != 5
-            or auxiliary.ndim != 3
-            or maps.shape[:2] != auxiliary.shape[:2]
-            or maps.shape[1] != self.history_length
-        ):
-            raise ValueError("Se requiere la ventana histórica completa configurada")
-        batch, length = maps.shape[:2]
-        features = self.encoder(maps.flatten(0, 1)).reshape(batch, length, -1)
-        summary = self.temporal(torch.cat((features, auxiliary), dim=-1).flatten(1))
-        advantage = self.advantage(summary)
-        return self.value(summary) + advantage - advantage.mean(dim=-1, keepdim=True)
-
-
-def build_network(architecture: str, *, hidden_size: int, history_length: int):
-    if architecture == "bilg":
-        return BiLGD3QN(hidden_size=hidden_size)
-    if architecture == "window":
-        return WindowD3QN(hidden_size=hidden_size, history_length=history_length)
-    raise ValueError("architecture debe ser bilg o window")
 
 
 def double_dqn_loss(

@@ -12,7 +12,7 @@ import torch
 
 from .env import LimaPM25Env, Observation
 from .evaluation import evaluate_episode
-from .network import NeuralController, build_network, double_dqn_loss
+from .network import BiLGD3QN, NeuralController, double_dqn_loss
 from .policies import HISTORY_MODES
 from .replay import EpisodeExperience, SequenceReplay
 
@@ -41,8 +41,8 @@ class TrainingConfig:
     def __post_init__(self) -> None:
         if self.history_mode not in HISTORY_MODES:
             raise ValueError("history_mode debe ser history o repeat_current")
-        if self.architecture not in {"bilg", "window"}:
-            raise ValueError("architecture debe ser bilg o window")
+        if self.architecture != "bilg":
+            raise ValueError("La arquitectura del estudio es BiLG-D3QN")
         for name in (
             "history_length",
             "hidden_size",
@@ -78,6 +78,15 @@ class TrainingConfig:
             raise ValueError("device debe ser auto, cpu o cuda")
 
 
+def resolve_device(name: str) -> torch.device:
+    """Resolver el hardware declarado; CUDA explícito nunca cae a CPU."""
+    if name == "auto":
+        name = "cuda" if torch.cuda.is_available() else "cpu"
+    if name == "cuda" and not torch.cuda.is_available():
+        raise ValueError("Se solicitó CUDA en la configuración pero no está disponible")
+    return torch.device(name)
+
+
 class Trainer:
     """Recoge un episodio y después optimiza con episodios completos anteriores.
 
@@ -98,23 +107,16 @@ class Trainer:
         self.protocol = json.loads(json.dumps(protocol or {}, sort_keys=True))
         if self.protocol.get("reward") != getattr(env, "reward_protocol", None):
             raise ValueError("La recompensa del entorno no coincide con el protocolo")
+        if hasattr(env, "gp_fit") and self.protocol.get("adaptive_gp") != json.loads(
+            json.dumps(asdict(env.gp_fit))
+        ):
+            raise ValueError("El ajuste del GP no coincide con el protocolo")
         torch.set_num_threads(config.cpu_threads)
         torch.manual_seed(config.seed)
         torch.backends.cudnn.benchmark = False
         torch.backends.cudnn.deterministic = True
-        name = (
-            ("cuda" if torch.cuda.is_available() else "cpu")
-            if config.device == "auto"
-            else config.device
-        )
-        if name == "cuda" and not torch.cuda.is_available():
-            raise ValueError("Se solicitó CUDA pero no está disponible")
-        self.device = torch.device(name)
-        self.online = build_network(
-            config.architecture,
-            hidden_size=config.hidden_size,
-            history_length=config.history_length,
-        ).to(self.device)
+        self.device = resolve_device(config.device)
+        self.online = BiLGD3QN(hidden_size=config.hidden_size).to(self.device)
         self.target = deepcopy(self.online).eval().requires_grad_(False)
         for module in self.target.modules():
             if isinstance(module, torch.nn.RNNBase):
@@ -140,6 +142,8 @@ class Trainer:
         self.updates = 0
         self.target_updates = 0
         self.best_validation_variance = float("inf")
+        self.best_validation_rmse: float | None = None
+        self.best_validation_episode: int | None = None
         if self.device.type == "cuda":
             torch.cuda.reset_peak_memory_stats(self.device)
 
@@ -176,6 +180,21 @@ class Trainer:
         experience = EpisodeExperience([self._snapshot(observation)], [], [], [])
         epsilon_start = self.epsilon
         choices = 0
+        adaptive_totals = (
+            {
+                name: 0.0
+                for name in (
+                    "model_mean_change",
+                    "model_uncertainty_change",
+                    "gp_fit_iterations",
+                    "gp_fit_attempts",
+                    "gp_fit_nonconverged",
+                    "gp_fit_seconds",
+                )
+            }
+            if self.protocol.get("adaptive_gp")
+            else {}
+        )
         while True:
             action, decisions = self.controller.plan(
                 self.env, observation, epsilon=self.epsilon
@@ -192,6 +211,8 @@ class Trainer:
             variances.append(info["integrated_variance"])
             information_gain += info["uncertainty_gain"]
             distance_cost += info["distance_cost"]
+            for name in adaptive_totals:
+                adaptive_totals[name] += info[name]
             self.physical_steps += 1
             choices += len(decisions)
             if terminated or truncated:
@@ -235,6 +256,7 @@ class Trainer:
             "cuda_peak_bytes": torch.cuda.max_memory_allocated(self.device)
             if self.device.type == "cuda"
             else 0,
+            **adaptive_totals,
         }
 
     def optimize(self) -> float | None:
@@ -304,6 +326,12 @@ class Trainer:
             "invalid_actions": float(
                 np.sum([item["invalid_actions"] for item in metrics])
             ),
+            "synthetic_mse": float(
+                np.mean([item["synthetic_mse"] for item in metrics])
+            ),
+            "synthetic_mae_ug_m3": float(
+                np.mean([item["synthetic_mae_ug_m3"] for item in metrics])
+            ),
         }
 
     def save_checkpoint(self, path: Path | str) -> None:
@@ -319,6 +347,8 @@ class Trainer:
                 "updates": self.updates,
                 "target_updates": self.target_updates,
                 "best_validation_variance": self.best_validation_variance,
+                "best_validation_rmse": self.best_validation_rmse,
+                "best_validation_episode": self.best_validation_episode,
                 "replay": self.replay.state_dict(),
                 "controller_rng": self.controller.rng.bit_generator.state,
                 "torch_rng": self._torch_rng(),
@@ -351,6 +381,9 @@ class Trainer:
         self.updates = state["updates"]
         self.target_updates = state["target_updates"]
         self.best_validation_variance = state["best_validation_variance"]
+        # Los checkpoints anteriores a este seguimiento no registraban RMSE.
+        self.best_validation_rmse = state.get("best_validation_rmse")
+        self.best_validation_episode = state.get("best_validation_episode")
         self.replay.load_state_dict(state["replay"])
         self.controller.rng.bit_generator.state = state["controller_rng"]
         self.controller.reset()
@@ -405,14 +438,8 @@ def load_policy(
     if state.get("version") != 2 or state.get("kind") not in {"policy", "training"}:
         raise ValueError("El archivo no es una política del formato actual")
     config = TrainingConfig(**state["training_config"])
-    name = (
-        ("cuda" if torch.cuda.is_available() else "cpu") if device == "auto" else device
-    )
-    network = build_network(
-        config.architecture,
-        hidden_size=config.hidden_size,
-        history_length=config.history_length,
-    ).to(name)
+    name = resolve_device(device)
+    network = BiLGD3QN(hidden_size=config.hidden_size).to(name)
     network.load_state_dict(state["online"])
     network.eval()
     return NeuralController(
