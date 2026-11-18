@@ -86,23 +86,27 @@ uv run --locked lima-pm25-rl entrenar adaptativo
 
 `config/adaptativo.json` fija **20 000 episodios totales desde cero**, gamma 0,99,
 exploración decreciente durante 240 000 ticks, validación cada 200 episodios,
-checkpoint completo cada 50 y políticas en 2000/5000/10000/15000/20000.
-Se usa el final prefijado; no se selecciona `best` por varianza de un GP cuya
-amplitud cambia. BLAS se limita a un hilo durante entrenamiento y comparación;
+checkpoint completo cada 50. La corrida original guardó solo políticas en
+2000/5000/10000/15000/20000; el código corregido conserva una por episodio.
+Se conservan el final y el mejor por RMSE, identificados por separado; no se
+selecciona `best` por varianza de un GP cuya amplitud cambia.
+BLAS se limita a un hilo durante entrenamiento y comparación;
 `cpu_threads` controla los hilos de PyTorch. El ajuste GP se realiza en CPU,
 incluso si la red utiliza CUDA.
 
 El progreso se imprime cada 50 episodios y en cada validación. Muestra recompensa,
-pérdida, actualizaciones y el **mejor RMSE global final de validación conocido,
-con su episodio**. Cada 200 episodios muestra además el RMSE recién medido sobre
+pérdida, actualizaciones y el **mejor RMSE global final de validación recuperable,
+con su episodio y las rutas de política y checkpoint**. Cada 200 episodios muestra además el RMSE recién medido sobre
 los mismos doce casos. El RMSE se obtiene del MSE agregado, no promediando RMSE
 por caso. El episodio 0 identifica la política inicial.
 
-Entre validaciones se indica «sin nueva validación». El mejor valor y su episodio
-se guardan en el checkpoint y en `metrics.csv`; se conservan al reanudar. Un
-checkpoint antiguo sin ese seguimiento comienza con «todavía no registrado».
-Este seguimiento no elige otro modelo final, no guarda un `best` adaptativo ni
-activa parada anticipada. Un récord aislado no prueba convergencia.
+Entre validaciones se indica «sin nueva validación». El récord histórico sigue
+en `metrics.csv`. El mejor **recuperable** queda identificado en `best-rmse.json`
+y en los checkpoints, con métricas y archivos `.pt` numerados que nunca se borran
+ni se sobrescriben. Se publica solo después de guardar política, checkpoint y
+registro de validación. Un fallo de escritura detiene la corrida sin anunciar un
+nuevo mejor guardado. No hay parada anticipada; un récord aislado no prueba
+convergencia.
 
 La salida se crea en `resultados/r3_2_entrenamiento/adaptativo/AAAA-MM-DD_HH-MM-SS/`.
 Para reanudar, añadir `--reanudar RUTA/checkpoint-last.pt`; el protocolo debe
@@ -116,6 +120,50 @@ lecturas guardadas y usa el umbral de focos ya fijado.
 La [formulación](resultados/r3_1_formulacion/adaptativo.md) especifica la adaptación
 de Barrionuevo y sus límites. Cambian conjuntamente estimador, recompensa,
 exploración y presupuesto: no es una ablación aislada del GP.
+
+### Continuación de 20 000 a 30 000 episodios
+
+La corrida original está en
+`resultados/r3_2_entrenamiento/adaptativo/2026-11-17_06-01-32/`.
+`config/adaptativo-continuacion.json` declara explícitamente ese checkpoint y
+30 000 como total. No reinicia redes, Adam, replay, RNG ni epsilon. En el servidor:
+
+```bash
+uv run --locked lima-pm25-rl entrenar adaptativo-continuacion --comprobar
+uv run --locked lima-pm25-rl entrenar adaptativo-continuacion
+```
+
+La comprobación lee el checkpoint, valida protocolo y configuración e imprime
+episodios completados y restantes: inicialmente **20 000 y 10 000**. No entrena.
+Para otra reanudación, `--reanudar RUTA/checkpoint-episode-NNNN.pt` sustituye la
+ruta del JSON; también puede combinarse con `--comprobar`.
+
+La nueva carpeta conserva:
+
+- `policy-episode-NNNN.pt`: todos los episodios, incluido el inicio del tramo.
+- `checkpoint-episode-NNNN.pt`: todos los puntos de guardado cada 50 episodios,
+  todas las validaciones y el final. `checkpoint-last.pt` es una copia del último.
+- `validation-episode-NNNN.json`: semillas, métricas, RMSE y nombres de los dos
+  archivos correspondientes a esa evaluación.
+- `best-rmse.json`: episodio y rutas al **modelo y checkpoint completos del mejor**.
+  Los mejores anteriores también permanecen en los archivos numerados.
+- `policy-last.pt`: copia de la política final al terminar.
+
+El récord original de 19 600 no tiene pesos conservados. Se conserva como
+histórico y no bloquea el guardado nuevo: al comenzar desde el checkpoint antiguo
+se vuelve a validar 20 000 para establecer el mejor recuperable de la continuación.
+Al reanudar checkpoints nuevos se verifica y copia al nuevo tramo su mejor
+recuperable, junto con ambos `.pt` y su validación. Si falta alguno, se detiene
+antes de entrenar.
+
+Esta estrategia requiere aproximadamente **67 GB adicionales sin compresión**
+para 10 000 episodios, según los tamaños actuales. Reservar al menos unos 80 GB
+libres como margen de trabajo; la compresión del archivo de transferencia es aparte.
+Tras registrar la carpeta nueva como `adaptativo-continuacion` en el inventario,
+`lima-pm25-rl evaluar adaptativo-mejor` carga los pesos señalados por `best-rmse.json`;
+`lima-pm25-rl evaluar adaptativo-30000` utiliza el final. Se comprueba el episodio
+interno del archivo, no solo su nombre. El mejor seleccionado por validación se
+presenta como tal, sin sustituir silenciosamente una comparación de finales.
 
 ### Informes tras una interrupción
 
@@ -145,13 +193,13 @@ Desde la raíz del repositorio en el servidor, empaquetar las carpetas completas
 del entrenamiento adaptativo, incluidos todos los tramos si hubo reanudaciones:
 
 ```bash
-tar --zstd -cf adaptativo-20000.tar.zst \
+tar --zstd -cf adaptativo-30000.tar.zst \
   resultados/r3_2_entrenamiento/adaptativo \
-  config/adaptativo.json
+  config/adaptativo.json config/adaptativo-continuacion.json
 ```
 
-El archivo de transferencia se llama **`adaptativo-20000.tar.zst`**. Incluye
-configuraciones, métricas, validación inicial, políticas y checkpoint completo;
+Para la continuación, el archivo de transferencia se llama **`adaptativo-30000.tar.zst`**.
+Incluye configuraciones, métricas, validaciones, todas las políticas y checkpoints;
 no basta con enviar `policy-last.pt`. El tar es solo transporte, no una entrada
 de la CLI.
 

@@ -61,6 +61,14 @@ def run(args) -> None:
             parser.error(
                 "La política no corresponde a los hiperparámetros y protocolo configurados"
             )
+        expected_episode = getattr(args, "expected_episode", None)
+        if (
+            expected_episode is not None
+            and state["completed_episodes"] != expected_episode
+        ):
+            raise ValueError(
+                "Los episodios de la política no coinciden con la selección"
+            )
         del state
         policy, _ = load_policy(path, device=str(device))
         print(f"Dispositivo: {device}", flush=True)

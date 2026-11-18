@@ -291,11 +291,13 @@ def test_interrupted_adaptive_training_resumes_best_rmse_and_generates_report(
     domain, template, estimator_config, tmp_path, monkeypatch, capsys, device
 ):
     import csv
+    import json
 
     import torch
 
     import lima_pm25_rl.training_report as reporting
     from lima_pm25_rl.study import run_training
+    from lima_pm25_rl.training import load_policy
 
     if device == "cuda" and not torch.cuda.is_available():
         pytest.skip("CUDA no disponible")
@@ -327,7 +329,7 @@ def test_interrupted_adaptive_training_resumes_best_rmse_and_generates_report(
             checkpoint_every=2,
             validation_env=build(domain, template, estimator_config),
             validation_seeds=[42],
-            validation_every=1,
+            validation_every=2,
         )
     original_csv = (first / "metrics.csv").read_bytes()
     state = torch.load(first / "checkpoint-last.pt", weights_only=True)
@@ -347,7 +349,7 @@ def test_interrupted_adaptive_training_resumes_best_rmse_and_generates_report(
         checkpoint_every=2,
         validation_env=build(domain, template, estimator_config),
         validation_seeds=[42],
-        validation_every=1,
+        validation_every=2,
         resumed_from=str(first / "checkpoint-last.pt"),
         policy_snapshot_episodes=[4],
     )
@@ -363,7 +365,10 @@ def test_interrupted_adaptive_training_resumes_best_rmse_and_generates_report(
         "optimizer_updates",
         "validation_mse",
     ):
-        assert float(repeated[key]) == pytest.approx(float(old[key]), rel=1e-6)
+        if old[key]:
+            assert float(repeated[key]) == pytest.approx(float(old[key]), rel=1e-6)
+        else:
+            assert repeated[key] == ""
     monkeypatch.setattr(reporting, "product", lambda name: tmp_path / name)
     page = reporting.generate_report(
         {
@@ -392,5 +397,22 @@ def test_interrupted_adaptive_training_resumes_best_rmse_and_generates_report(
     assert resumed.best_validation_episode == int(best["episode"])
     assert not (second / "policy-best.pt").exists()
     assert (second / "policy-episode-0004.pt").is_file()
+    best_record = json.loads((second / "best-rmse.json").read_text())
+    policy, _ = load_policy(second / best_record["policy_file"], device=device)
+    reproduced = evaluate_episode(
+        build(domain, template, estimator_config),
+        policy,
+        seed=42,
+        comparison=True,
+    )
+    assert np.sqrt(reproduced["synthetic_mse"]) == pytest.approx(
+        best_record["rmse"], rel=1e-7
+    )
+    checkpoint = torch.load(second / best_record["checkpoint_file"], weights_only=True)
+    assert checkpoint["completed_episodes"] == best_record["episode"]
+    assert all(
+        torch.equal(v.cpu(), checkpoint["online"][key].cpu())
+        for key, v in policy.network.state_dict().items()
+    )
     text = capsys.readouterr().out
-    assert "mejor RMSE conocido=" in text and "en episodio" in text
+    assert "mejor recuperable=" in text and "en episodio" in text

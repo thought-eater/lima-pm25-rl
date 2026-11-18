@@ -12,6 +12,7 @@ import torch
 
 from .env import LimaPM25Env, Observation
 from .evaluation import evaluate_episode
+from .files import atomic_output
 from .network import BiLGD3QN, NeuralController, double_dqn_loss
 from .policies import HISTORY_MODES
 from .replay import EpisodeExperience, SequenceReplay
@@ -87,6 +88,40 @@ def resolve_device(name: str) -> torch.device:
     return torch.device(name)
 
 
+def read_training_checkpoint(path, config, protocol):
+    """Inspección de continuación sin construir redes ni avanzar episodios."""
+    state = torch.load(path, map_location="cpu", weights_only=True)
+    if state.get("version") != 2 or state.get("kind") != "training":
+        raise ValueError(
+            "Se necesita un checkpoint de entrenamiento del formato actual"
+        )
+    actual = asdict(TrainingConfig(**state["training_config"]))
+    expected = asdict(config)
+    for key in ("device", "cpu_threads"):
+        actual.pop(key)
+        expected.pop(key)
+    if actual != expected or state["protocol"] != json.loads(json.dumps(protocol)):
+        raise ValueError(
+            "El protocolo o los hiperparámetros no coinciden con el checkpoint"
+        )
+    required = {
+        "online",
+        "target",
+        "optimizer",
+        "replay",
+        "controller_rng",
+        "torch_rng",
+        "completed_episodes",
+        "physical_steps",
+        "updates",
+        "target_updates",
+        "best_validation_variance",
+    }
+    if not required <= state.keys():
+        raise ValueError("El checkpoint de entrenamiento está incompleto")
+    return state
+
+
 class Trainer:
     """Recoge un episodio y después optimiza con episodios completos anteriores.
 
@@ -144,6 +179,7 @@ class Trainer:
         self.best_validation_variance = float("inf")
         self.best_validation_rmse: float | None = None
         self.best_validation_episode: int | None = None
+        self.best_saved_validation: dict[str, Any] | None = None
         if self.device.type == "cuda":
             torch.cuda.reset_peak_memory_stats(self.device)
 
@@ -334,7 +370,7 @@ class Trainer:
             ),
         }
 
-    def save_checkpoint(self, path: Path | str) -> None:
+    def save_checkpoint(self, path: Path | str, *, overwrite: bool = True) -> None:
         self._save(
             path,
             {
@@ -349,30 +385,21 @@ class Trainer:
                 "best_validation_variance": self.best_validation_variance,
                 "best_validation_rmse": self.best_validation_rmse,
                 "best_validation_episode": self.best_validation_episode,
+                "best_saved_validation": self.best_saved_validation,
                 "replay": self.replay.state_dict(),
                 "controller_rng": self.controller.rng.bit_generator.state,
                 "torch_rng": self._torch_rng(),
             },
+            overwrite=overwrite,
         )
 
-    def export_policy(self, path: Path | str) -> None:
-        self._save(path, {**self._policy_state(), "kind": "policy"})
+    def export_policy(self, path: Path | str, *, overwrite: bool = True) -> None:
+        self._save(
+            path, {**self._policy_state(), "kind": "policy"}, overwrite=overwrite
+        )
 
     def load_checkpoint(self, path: Path | str) -> None:
-        state = torch.load(path, map_location="cpu", weights_only=True)
-        if state.get("version") != 2 or state.get("kind") != "training":
-            raise ValueError(
-                "Se necesita un checkpoint de entrenamiento del formato actual"
-            )
-        actual = asdict(TrainingConfig(**state["training_config"]))
-        expected = asdict(self.config)
-        for key in ("device", "cpu_threads"):
-            actual.pop(key)
-            expected.pop(key)
-        if actual != expected or state["protocol"] != self.protocol:
-            raise ValueError(
-                "El protocolo o los hiperparámetros no coinciden con el checkpoint"
-            )
+        state = read_training_checkpoint(path, self.config, self.protocol)
         self.online.load_state_dict(state["online"])
         self.target.load_state_dict(state["target"])
         self.optimizer.load_state_dict(state["optimizer"])
@@ -384,6 +411,7 @@ class Trainer:
         # Los checkpoints anteriores a este seguimiento no registraban RMSE.
         self.best_validation_rmse = state.get("best_validation_rmse")
         self.best_validation_episode = state.get("best_validation_episode")
+        self.best_saved_validation = state.get("best_saved_validation")
         self.replay.load_state_dict(state["replay"])
         self.controller.rng.bit_generator.state = state["controller_rng"]
         self.controller.reset()
@@ -406,12 +434,11 @@ class Trainer:
         }
 
     @staticmethod
-    def _save(path: Path | str, state: dict[str, Any]) -> None:
-        path = Path(path)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        temporary = path.with_suffix(path.suffix + ".tmp")
-        torch.save(state, temporary)
-        temporary.replace(path)
+    def _save(
+        path: Path | str, state: dict[str, Any], *, overwrite: bool = True
+    ) -> None:
+        with atomic_output(path, overwrite=overwrite) as file:
+            torch.save(state, file)
 
     def _torch_rng(self) -> dict[str, Any]:
         return {

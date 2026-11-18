@@ -29,5 +29,5 @@
       }
     }
   ],
-  "pending_note": "Ambos descuentos se comparan con políticas finales de 2000 episodios. El contraste no establece una mejora general del 20 %. El GP adaptativo y la recompensa de cambio del modelo están implementados y cuentan con un diagnóstico corto de entrenamiento; la corrida de 20 000 episodios y su evaluación siguen pendientes. El replay histórico final permanece pendiente."
+  "pending_note": "Ambos descuentos se comparan con políticas finales de 2000 episodios. El contraste no establece una mejora general del 20 %. El candidato adaptativo completó 20 000 episodios: RMSE final de validación 5,1411; el récord registrado de 4,8326 en el episodio 19600 no tiene pesos conservados. Su evaluación comparativa y la continuación hasta 30 000 permanecen pendientes. La continuación conserva cada política y el mejor recuperable con su checkpoint completo. El replay histórico final permanece pendiente."
 }

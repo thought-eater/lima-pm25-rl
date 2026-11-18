@@ -38,7 +38,8 @@ Hay una sola entrada pública: **`lima-pm25-rl`**. Sus subcomandos son `entrenar
 `evaluar`, `comparar`, `experimento`, `informe` y `visualizar`. Los procedimientos,
 entradas y costes se explican en [REPRODUCIR.md](REPRODUCIR.md).
 Los perfiles de entrenamiento declaran CUDA en el JSON y se detienen si no está
-disponible. El progreso muestra el mejor RMSE de validación conocido y su episodio.
+disponible. Se conservan políticas por episodio, checkpoints periódicos y el mejor
+modelo por RMSE de validación con su estado completo para reanudar.
 
 ## Organización
 
@@ -70,8 +71,8 @@ reserva a salidas temporales; `dist/`, a los paquetes construidos.
 - Se presentan mejoras y deterioros. La meta general del 20 % no se declara
   alcanzada por mejorar únicamente la distancia o una métrica localizada.
 - El replay histórico final sigue pendiente. El candidato con ajuste GP por
-  verosimilitud marginal y recompensa de cambio del modelo está implementado;
-  su entrenamiento de 20 000 episodios sigue pendiente. Véase el
+  verosimilitud marginal y recompensa de cambio del modelo completó 20 000 episodios;
+  su evaluación comparativa y la continuación hasta 30 000 siguen pendientes. Véase el
   [protocolo adaptativo](resultados/r3_1_formulacion/adaptativo.md).
 
 ## Verificación del software

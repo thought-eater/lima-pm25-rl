@@ -10,6 +10,16 @@ from .files import PROJECT_ROOT, _write_json, output_directory, product
 CONFIG = PROJECT_ROOT / "config"
 POLICIES = {
     "adaptativo-20000": ("adaptativo", "policy-last.pt", "adaptativo.json"),
+    "adaptativo-30000": (
+        "adaptativo-continuacion",
+        "policy-last.pt",
+        "adaptativo-continuacion.json",
+    ),
+    "adaptativo-mejor": (
+        "adaptativo-continuacion",
+        "best-rmse.json",
+        "adaptativo-continuacion.json",
+    ),
     "gamma099-1000": ("continuacion", "policy-episode-1000.pt", "entrenamiento.json"),
     "gamma099-2000": ("continuacion", "policy-episode-2000.pt", "entrenamiento.json"),
     "gamma05-2000": ("gamma05", "policy-last.pt", "gamma05.json"),
@@ -87,11 +97,23 @@ def evaluate_policy(name):
 
     key, filename, config_name = POLICIES[name]
     config = CONFIG / config_name
+    checkpoint = product(key) / filename
+    suffix = name.rsplit("-", 1)[-1]
+    expected_episode = int(suffix) if suffix.isdigit() else None
+    if filename == "best-rmse.json":
+        from .training_artifacts import policy_name
+
+        best = json.loads(checkpoint.read_text())
+        expected_episode = best["episode"]
+        if best["policy_file"] != policy_name(expected_episode):
+            raise ValueError("El registro del mejor no identifica su política")
+        checkpoint = product(key) / best["policy_file"]
     output = output_directory(f"r3_3_evaluacion/politicas/{name}")
     run(
         argparse.Namespace(
             config=config,
-            checkpoint=product(key) / filename,
+            checkpoint=checkpoint,
+            expected_episode=expected_episode,
             output=output / "misiones",
         )
     )
@@ -130,7 +152,10 @@ def main():
     train = commands.add_parser(
         "entrenar", help="Entrenamiento desde cero o reanudación explícita"
     )
-    train.add_argument("perfil", choices=("principal", "gamma05", "adaptativo"))
+    train.add_argument(
+        "perfil",
+        choices=("principal", "gamma05", "adaptativo", "adaptativo-continuacion"),
+    )
     train.add_argument("--reanudar", type=Path)
     train.add_argument("--comprobar", action="store_true")
     evaluate = commands.add_parser(
@@ -161,6 +186,7 @@ def main():
                     "principal": "entrenamiento.json",
                     "gamma05": "gamma05.json",
                     "adaptativo": "adaptativo.json",
+                    "adaptativo-continuacion": "adaptativo-continuacion.json",
                 }[args.perfil]
             )
             run(
@@ -170,7 +196,7 @@ def main():
                     output=None
                     if args.comprobar
                     else output_directory(
-                        f"r3_2_entrenamiento/{'gamma099' if args.perfil == 'principal' else args.perfil}"
+                        f"r3_2_entrenamiento/{'gamma099' if args.perfil == 'principal' else 'adaptativo' if args.perfil.startswith('adaptativo') else args.perfil}"
                     ),
                     resume=args.reanudar,
                     episodes=None,
