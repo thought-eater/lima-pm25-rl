@@ -1,0 +1,37 @@
+<main class="viewer-shell">
+  <header class="viewer-header">
+    <div><span class="eyebrow">O3 · R3.4 · LIMA PM2.5</span><h1>Recorrido, estimación y error</h1></div>
+    <span class="scenario-badge">Validación sintética · sin despliegue físico</span>
+  </header>
+  <section class="toolbar" aria-label="Controles de reproducción">
+    <label>Misión <select id="mission-select" aria-label="Misión y política"></select></label>
+    <div class="playback">
+      <button id="previous" title="Tick anterior" aria-label="Tick anterior">◀</button>
+      <button id="play">Reproducir</button>
+      <button id="next" title="Tick siguiente" aria-label="Tick siguiente">▶</button>
+      <label>Velocidad <select id="speed"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
+    </div>
+    <div class="timeline"><input id="time-slider" type="range" min="0" max="36" value="0" step="1" aria-label="Tick de la misión"><output id="time-label">0 min</output></div>
+    <button id="reset-view">Encuadrar</button>
+    <button id="print-view">Imprimir / PDF</button>
+  </section>
+  <section class="metrics" aria-label="Métricas del instante">
+    <div><span>RMSE global</span><strong id="global-rmse">—</strong></div>
+    <div><span>RMSE en focos</span><strong id="hot-rmse">—</strong></div>
+    <div><span>Distancia de flota</span><strong id="distance">—</strong></div>
+    <div><span>Sensibilidad en focos</span><strong id="recall">—</strong></div>
+    <div class="layer-options"><label><input id="osm-toggle" type="checkbox" checked> Calles OSM</label><label><input id="samples-toggle" type="checkbox"> Muestras móviles</label></div>
+  </section>
+  <p id="startup-message" role="status">Cargando Folium. Se necesita conexión para las bibliotecas del mapa; las calles OSM y los resultados están incluidos.</p>
+  <section class="map-grid" aria-label="Cuatro mapas sincronizados">
+    <article class="map-card"><h2><b>1</b> Recorrido y sensores <small>M1 · M2 · M3</small></h2><div class="map-slot" id="slot-0"></div><div class="map-legend route-key"><span style="color:#0072b2">● M1</span><span style="color:#d55e00">● M2</span><span style="color:#009e73">● M3</span><span>▲ Fijas sintéticas</span></div></article>
+    <article class="map-card"><h2><b>2</b> Estimación disponible <select id="estimate-mode" aria-label="Campo estimado"><option value="mean">Concentración</option><option value="std">Incertidumbre</option></select></h2><div class="map-slot" id="slot-1"></div><div class="map-legend" id="estimate-legend"></div></article>
+    <article class="map-card"><h2><b>3</b> Contaminación real <small>Verdad del simulador</small></h2><div class="map-slot" id="slot-2"></div><div class="map-legend" id="truth-legend"></div></article>
+    <article class="map-card"><h2><b>4</b> Error: real − estimado</h2><div class="map-slot" id="slot-3"></div><div class="map-legend" id="error-legend"></div></article>
+  </section>
+  <footer class="viewer-footer">
+    <div id="cell-values" aria-live="polite">Pulsa una celda para comparar sus valores en los cuatro mapas.</div>
+    <div id="mission-info"></div>
+    <div id="viewer-status" role="status"></div>
+  </footer>
+</main>

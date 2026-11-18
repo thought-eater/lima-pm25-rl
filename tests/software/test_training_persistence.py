@@ -10,6 +10,7 @@ from lima_pm25_rl.evaluation import evaluate_episode
 from lima_pm25_rl.files import atomic_output
 from lima_pm25_rl.study import run_training
 from lima_pm25_rl.training import Trainer, TrainingConfig, load_policy
+from lima_pm25_rl.training_artifacts import latest_checkpoint
 
 
 def trainer_for(make_env):
@@ -42,7 +43,7 @@ def scripted_validation(trainer, monkeypatch, mse_by_episode):
     monkeypatch.setattr(trainer, "validate", validate)
 
 
-def test_all_policies_and_nonfinal_best_survive_worsening_and_resume(
+def test_compact_nonfinal_best_survives_worsening_and_resume(
     make_env, tmp_path, monkeypatch
 ):
     trainer = trainer_for(make_env)
@@ -61,15 +62,15 @@ def test_all_policies_and_nonfinal_best_survive_worsening_and_resume(
     )
     best = json.loads((first / "best-rmse.json").read_text())
     assert best["episode"] == 3 and best["rmse"] == 1
-    assert sorted(p.name for p in first.glob("policy-episode-*.pt")) == [
-        f"policy-episode-{i:04d}.pt" for i in range(5)
-    ]
-    assert sorted(p.name for p in first.glob("checkpoint-episode-*.pt")) == [
-        f"checkpoint-episode-{i:04d}.pt" for i in range(5)
+    assert not list(first.glob("policy-episode-*.pt"))
+    assert sorted(p.name for p in first.glob("checkpoint-*.pt")) == [
+        "checkpoint-best.pt",
+        "checkpoint-final.pt",
+        "checkpoint-last.pt",
     ]
     best_policy = load(first / best["policy_file"])
     best_checkpoint = load(first / best["checkpoint_file"])
-    assert best_checkpoint["best_saved_validation"] == best
+    assert best_checkpoint["best_validation"] == best
     assert (
         best_policy["completed_episodes"] == best_checkpoint["completed_episodes"] == 3
     )
@@ -83,7 +84,7 @@ def test_all_policies_and_nonfinal_best_survive_worsening_and_resume(
     from_best = trainer_for(make_env)
     from_best.load_checkpoint(first / best["checkpoint_file"])
     from_best.train_episode()
-    expected = load(first / "checkpoint-episode-0004.pt")
+    expected = load(first / "checkpoint-final.pt")
     for network in ("online", "target"):
         assert all(
             torch.equal(v, expected[network][k])
@@ -108,12 +109,16 @@ def test_all_policies_and_nonfinal_best_survive_worsening_and_resume(
         resumed_from=str(first / "checkpoint-last.pt"),
     )
     assert json.loads((second / "best-rmse.json").read_text()) == best
-    for key in ("policy_file", "checkpoint_file", "validation_file"):
-        assert (second / best[key]).read_bytes() == (first / best[key]).read_bytes()
+    for key in ("policy_file", "checkpoint_file"):
+        original, copied = load(first / best[key]), load(second / best[key])
+        assert copied["completed_episodes"] == original["completed_episodes"]
+        assert all(
+            torch.equal(v, copied["online"][k]) for k, v in original["online"].items()
+        )
     assert load(second / "checkpoint-last.pt")["completed_episodes"] == 6
 
 
-def test_each_saved_validation_reproduces_from_its_actual_policy(make_env, tmp_path):
+def test_best_and_final_reproduce_from_their_actual_policy(make_env, tmp_path):
     trainer = trainer_for(make_env)
     run_training(
         trainer,
@@ -125,20 +130,28 @@ def test_each_saved_validation_reproduces_from_its_actual_policy(make_env, tmp_p
         validation_every=1,
     )
     folder = tmp_path / "run"
-    for path in sorted(folder.glob("validation-episode-*.json")):
-        record = json.loads(path.read_text())
-        policy, _ = load_policy(folder / record["policy_file"], device="cpu")
+    records = [
+        (
+            json.loads((folder / "best-rmse.json").read_text()),
+            "policy-best.pt",
+            "checkpoint-best.pt",
+        ),
+        (
+            json.loads((folder / "validation-episode-0003.json").read_text()),
+            "policy-last.pt",
+            "checkpoint-final.pt",
+        ),
+    ]
+    for record, policy_file, checkpoint_file in records:
+        policy, _ = load_policy(folder / policy_file, device="cpu")
         metrics = [
             evaluate_episode(make_env(), policy, seed=seed, comparison=True)
             for seed in record["case_seeds"]
         ]
         rmse = np.sqrt(np.mean([row["synthetic_mse"] for row in metrics]))
         assert rmse == pytest.approx(record["rmse"], rel=1e-10)
-        assert (
-            load(folder / record["policy_file"])["completed_episodes"]
-            == record["episode"]
-        )
-        checkpoint = load(folder / record["checkpoint_file"])
+        assert load(folder / policy_file)["completed_episodes"] == record["episode"]
+        checkpoint = load(folder / checkpoint_file)
         assert checkpoint["completed_episodes"] == record["episode"]
         assert {
             "optimizer",
@@ -154,9 +167,11 @@ def test_missing_historical_best_does_not_block_saving_recoverable_best(
 ):
     trainer = trainer_for(make_env)
     trainer.train_episode()
-    trainer.best_validation_rmse = 0.01
-    trainer.best_validation_episode = 0
     trainer.save_checkpoint(tmp_path / "old.pt")
+    old = load(tmp_path / "old.pt")
+    old.pop("best_validation")
+    old["best_validation_rmse"], old["best_validation_episode"] = 0.01, 0
+    torch.save(old, tmp_path / "old.pt")
     resumed = trainer_for(make_env)
     resumed.load_checkpoint(tmp_path / "old.pt")
     scripted_validation(resumed, monkeypatch, {1: 9.0, 2: 4.0})
@@ -171,7 +186,7 @@ def test_missing_historical_best_does_not_block_saving_recoverable_best(
         resumed_from=str(tmp_path / "old.pt"),
     )
     best = json.loads((tmp_path / "new/best-rmse.json").read_text())
-    assert resumed.best_validation_rmse == 0.01
+    assert not hasattr(resumed, "best_validation_rmse")
     assert best["episode"] == 2 and best["rmse"] == 2.0
     assert (tmp_path / "new" / best["policy_file"]).is_file()
     assert (tmp_path / "new" / best["checkpoint_file"]).is_file()
@@ -204,7 +219,7 @@ def test_persistence_failure_does_not_announce_or_replace_best(
     best = json.loads((folder / "best-rmse.json").read_text())
     assert best["episode"] == 0
     assert load(folder / best["checkpoint_file"])["completed_episodes"] == 0
-    assert load(folder / "policy-episode-0001.pt")["completed_episodes"] == 1
+    assert load(folder / "policy-best.pt")["completed_episodes"] == 0
     assert "en episodio 1;" not in capsys.readouterr().out
 
 
@@ -250,8 +265,8 @@ def test_resume_refuses_missing_saved_best_before_training(make_env, tmp_path):
     )
     resumed = trainer_for(make_env)
     resumed.load_checkpoint(source / "checkpoint-last.pt")
-    best = resumed.best_saved_validation
-    (source / best["policy_file"]).unlink()
+    best = resumed.best_validation
+    (source / best["checkpoint_file"]).unlink()
     with pytest.raises(FileNotFoundError):
         run_training(
             resumed,
@@ -265,7 +280,7 @@ def test_resume_refuses_missing_saved_best_before_training(make_env, tmp_path):
     assert resumed.completed_episodes == 1
 
 
-def test_continuation_check_reads_checkpoint_without_constructing_trainer(
+def test_completed_run_returns_without_constructing_trainer(
     make_env, tmp_path, monkeypatch, capsys
 ):
     from argparse import Namespace
@@ -275,15 +290,14 @@ def test_continuation_check_reads_checkpoint_without_constructing_trainer(
 
     trainer = trainer_for(make_env)
     trainer.train_episode()
-    trainer.save_checkpoint(tmp_path / "checkpoint.pt")
+    source = tmp_path / "source"
+    trainer.save_checkpoint(source / "checkpoint-last.pt")
     config = tmp_path / "config.json"
     config.write_text(
         json.dumps(
             {
                 "kind": "controlled",
-                "episodes": 3,
-                "minimum_resume_episode": 1,
-                "resume_checkpoint": "checkpoint.pt",
+                "episodes": 1,
                 "steps_per_episode": 3,
                 "training": asdict(trainer.config),
             }
@@ -299,17 +313,11 @@ def test_continuation_check_reads_checkpoint_without_constructing_trainer(
     study.run(
         Namespace(
             config=config,
-            check=True,
             output=None,
-            resume=None,
-            episodes=None,
-            seed=None,
+            resume=source,
         )
     )
-    result = json.loads(capsys.readouterr().out)
-    assert result["checkpoint_checked"]
-    assert result["completed_episodes"] == 1
-    assert result["remaining_episodes"] == 2
+    assert "ya alcanzó 1 episodios" in capsys.readouterr().out
     assert set(tmp_path.iterdir()) == before
 
 
@@ -331,3 +339,66 @@ def test_server_continuation_only_changes_budget_and_resume_settings():
     assert {k: v for k, v in first.items() if k not in allowed} == {
         k: v for k, v in continuation.items() if k not in allowed
     }
+
+
+def test_resume_uses_latest_complete_episode_not_modification_time(make_env, tmp_path):
+    import os
+
+    trainer = trainer_for(make_env)
+    trainer.train_episode()
+    trainer.save_checkpoint(tmp_path / "checkpoint-final.pt")
+    trainer.train_episode()
+    trainer.save_checkpoint(tmp_path / "checkpoint-last.pt")
+    trainer.train_episode()
+    trainer.save_checkpoint(tmp_path / "checkpoint-best.pt")
+    os.utime(tmp_path / "checkpoint-best.pt", (1, 1))
+    assert (
+        latest_checkpoint(tmp_path, trainer.config, trainer.protocol).name
+        == "checkpoint-best.pt"
+    )
+
+
+def test_full_best_recovers_even_if_policy_export_fails(
+    make_env, tmp_path, monkeypatch
+):
+    trainer = trainer_for(make_env)
+    scripted_validation(trainer, monkeypatch, {0: 9.0, 1: 1.0})
+    original = trainer.export_policy
+
+    def fail(path, **kwargs):
+        if trainer.completed_episodes == 1:
+            raise OSError("exportación interrumpida")
+        return original(path, **kwargs)
+
+    monkeypatch.setattr(trainer, "export_policy", fail)
+    first = tmp_path / "first"
+    with pytest.raises(OSError, match="interrumpida"):
+        run_training(
+            trainer,
+            episodes=2,
+            output=first,
+            checkpoint_every=2,
+            validation_env=make_env(),
+            validation_seeds=[42],
+            validation_every=1,
+        )
+    path = latest_checkpoint(first, trainer.config, trainer.protocol)
+    assert path.name == "checkpoint-best.pt"
+    restored = trainer_for(make_env)
+    restored.load_checkpoint(path)
+    assert restored.completed_episodes == 1
+    scripted_validation(restored, monkeypatch, {2: 4.0})
+    second = tmp_path / "second"
+    run_training(
+        restored,
+        episodes=2,
+        output=second,
+        resumed_from=str(path),
+        validation_env=make_env(),
+        validation_seeds=[42],
+        validation_every=1,
+    )
+    best = json.loads((second / "best-rmse.json").read_text())
+    assert best["episode"] == 1
+    assert load(second / best["policy_file"])["completed_episodes"] == 1
+    assert load(second / best["checkpoint_file"])["completed_episodes"] == 1

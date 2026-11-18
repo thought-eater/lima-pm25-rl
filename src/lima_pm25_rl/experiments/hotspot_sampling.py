@@ -763,33 +763,6 @@ def run(args):
         parser.error(
             "El control requiere el GP original 2000 m/3600 s e historial de 6 h"
         )
-    if args.check:
-        if args.output:
-            parser.error("--check no escribe salidas")
-        domain = build_domain(spec)
-        router = RoadRouter(domain)
-        previews = [
-            preview_plan(router, initial_nodes(spec), prescribed_actions(spec, p))
-            for p in PLANS
-        ]
-        distances = [
-            np.asarray([r["route_distance_m"] for r in preview]) for preview in previews
-        ]
-        if not np.allclose(*distances, rtol=0, atol=1e-6):
-            raise ValueError("Los planes no tienen igual distancia por tick y vehículo")
-        print(
-            json.dumps(
-                {
-                    "simulation_executed": False,
-                    "training_executed": False,
-                    "missions": len(REGIMES) * len(PLANS) * len(spec["sensor_seeds"]),
-                    "mobile_readings_per_mission": 3 * spec["steps"],
-                    "road_distance_per_mission_m": float(distances[0].sum()),
-                },
-                indent=2,
-            )
-        )
-        return
     torch.set_num_threads(1)
     output = args.output
     print(f"Salida: {output}", flush=True)

@@ -175,13 +175,12 @@ def test_initial_reproduction_failure_stops_before_any_new_training(
     assert not list((tmp_path / "bad").rglob("checkpoint-last.pt"))
 
 
-def test_check_does_not_construct_trainer_or_simulate(
+def test_bad_controls_stop_before_training_or_simulation(
     make_env, tmp_path, monkeypatch, capsys
 ):
     env, validation = make_env(), make_env()
 
-    def prepare(*args, check):
-        assert check
+    def prepare(*args):
         return env, validation, {}
 
     monkeypatch.setattr(experiment, "prepare_experiment", prepare)
@@ -197,17 +196,19 @@ def test_check_does_not_construct_trainer_or_simulate(
     monkeypatch.setattr(
         sys, "argv", ["compare-rewards", "--controls", str(tmp_path), "--check"]
     )
-    experiment.run(
-        Namespace(
-            config=experiment.DEFAULT_CONFIG, controls=tmp_path, check=True, output=None
+
+    def invalid_controls(*args):
+        raise ValueError("Control incompatible")
+
+    monkeypatch.setattr(experiment, "validate_control_files", invalid_controls)
+    with pytest.raises(ValueError, match="Control incompatible"):
+        experiment.run(
+            Namespace(
+                config=experiment.DEFAULT_CONFIG,
+                controls=tmp_path,
+                output=tmp_path / "output",
+            )
         )
-    )
-    result = json.loads(capsys.readouterr().out)
-    assert result["new_training_episodes"] == 600
-    assert (
-        result["candidate_evaluation_missions"] == 72
-        and result["reference_missions"] == 84
-    )
     assert env._simulation is None and validation._simulation is None
 
 

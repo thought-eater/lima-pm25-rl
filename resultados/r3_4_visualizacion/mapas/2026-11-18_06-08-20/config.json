@@ -1,0 +1,144 @@
+{
+  "settings": {
+    "core_root": "../../lima-pm25-core",
+    "truth_product": "diagnostico-gp",
+    "protocol_product": "descuento",
+    "case_seeds": [
+      100002,
+      100003
+    ],
+    "raster_width": 620,
+    "studies": [
+      {
+        "id": "gamma05-2000",
+        "label": "Gamma 0,5 · final de 2000 episodios",
+        "policy_product": "gamma05",
+        "policy_file": "policy-last.pt",
+        "episodes": 2000,
+        "missions_product": "evaluacion-gamma05",
+        "posteriors_product": "metricas-gamma05-2000"
+      }
+    ],
+    "strategies": [
+      {
+        "id": "neural",
+        "label": "BiLG-D3QN",
+        "policy_seed": null
+      },
+      {
+        "id": "greedy",
+        "label": "Greedy · réplica 0",
+        "policy_seed": 0
+      },
+      {
+        "id": "random",
+        "label": "Aleatoria · réplica 0",
+        "policy_seed": 0
+      },
+      {
+        "id": "sweep",
+        "label": "Barrido",
+        "policy_seed": null
+      },
+      {
+        "id": "fixed",
+        "label": "Solo fijas",
+        "policy_seed": null
+      }
+    ]
+  },
+  "sources": [
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "evaluacion-gamma05",
+      "posteriors_product": "metricas-gamma05-2000",
+      "policy_file": "resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49/policy-last.pt",
+      "checkpoint_sha256": "854e6a350d1607ede374c408cd3156b28bd98a7e41202323c6b978f21f06c85e",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    }
+  ],
+  "training_executed": false,
+  "simulation_executed": false,
+  "gp_fit_executed": false,
+  "raster_projection": "EPSG:3857; inverse nearest-neighbor sampling from native grid",
+  "error": "synthetic_truth_minus_GP_mean",
+  "limits": {
+    "concentration": [
+      0.0,
+      46.1173945219933
+    ],
+    "std": [
+      0.0,
+      13.35915593838527
+    ],
+    "error": [
+      -31.76268241265847,
+      31.76268241265847
+    ]
+  },
+  "missions": 10,
+  "folium_version": "0.20.0",
+  "internet": "Folium JS/CSS CDN; roads and fields are local, no tile service"
+}

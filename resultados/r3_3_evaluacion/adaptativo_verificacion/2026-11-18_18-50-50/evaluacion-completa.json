@@ -1,0 +1,8 @@
+{
+  "missions_per_policy": 156,
+  "cases": 12,
+  "references_identical_between_policies": true,
+  "rmse_recomputed_from_mission_csv": true,
+  "fixed_coordinate_tolerance_m": 1e-06,
+  "note": "Solo coordenadas admiten redondeo; concentraciones, ruido, reloj y procedencia deben coincidir. Mejor 28400 seleccionado en validación; final 30000 evaluado por separado."
+}

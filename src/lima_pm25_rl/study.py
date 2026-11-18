@@ -1,6 +1,5 @@
 """Preparación del estudio y ejecución explícita del entrenamiento."""
 
-import argparse
 import csv
 import hashlib
 import json
@@ -19,17 +18,17 @@ from threadpoolctl import threadpool_limits
 from .adaptive_env import AdaptiveGPEnv, ModelChangeReward
 from .env import LimaPM25Env
 from .episodes import Episode, GeneratedEpisodes
-from .files import PROJECT_ROOT, copy_atomic, write_json_atomic
+from .files import PROJECT_ROOT, write_json_atomic
 from .pilot import controlled_environment, controlled_oracle, controlled_score
 from .resources import load_study_resources
 from .reward_env import SyntheticErrorRewardEnv, error_reward_protocol
 from .scenario_fields import FieldVariation
 from .training import Trainer, TrainingConfig, read_training_checkpoint, resolve_device
 from .training_artifacts import (
-    checkpoint_name,
     inherit_best,
-    policy_name,
+    latest_checkpoint,
     save_checkpoint,
+    save_final,
     save_validation,
     validation_progress,
     validation_record,
@@ -50,7 +49,7 @@ def _sha256(path: Path) -> str:
         return hashlib.file_digest(file, "sha256").hexdigest()
 
 
-def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = False):
+def prepare_experiment(spec: dict[str, Any], directory: Path):
     """Los paths son relativos al JSON. No toca particiones de replay final."""
     kind = spec["kind"]
     reward_mode = spec.get("reward_mode", "uncertainty")
@@ -239,19 +238,6 @@ def prepare_experiment(spec: dict[str, Any], directory: Path, *, check: bool = F
             for config, item in zip(configs, candidates, strict=True)
         ]
         validation = [replace(factory, partition="evaluation") for factory in training]
-        if check:
-            from lima_pm25.simulation import EpisodeWeatherMode
-
-            # Componer no avanza el campo ni inicializa el GP o la red. Probar
-            # cada combinación, no solo la que salga en un sorteo de la mezcla.
-            for factory in (*training, *validation):
-                for mode, weight in zip(
-                    EpisodeWeatherMode, factory.config.weather_weights, strict=True
-                ):
-                    if weight > 0:
-                        episode = replace(factory, weather_mode=mode)(0)
-                        if field_variation is not None:
-                            field_variation.apply(episode.request, 0)
         if final_end is not None:
             protocol["reserved_final_end_utc"] = final_end.isoformat()
         protocol.update(
@@ -359,32 +345,17 @@ def _validate_run_settings(
     return seeds
 
 
-def _policy_snapshots(values: list[int] | None, episodes: int) -> list[int]:
-    if values is None:
-        return []
-    if (
-        not isinstance(values, list)
-        or any(type(value) is not int or not 0 <= value <= episodes for value in values)
-        or values != sorted(set(values))
-    ):
-        raise ValueError(
-            "policy_snapshot_episodes requiere episodios únicos, ordenados y entre 0 y el total"
-        )
-    return values
-
-
 @threadpool_limits.wrap(limits=1, user_api="blas")
 def run_training(
     trainer: Trainer,
     *,
     episodes: int,
     output: Path,
-    checkpoint_every: int = 10,
+    checkpoint_every: int = 50,
     validation_env: LimaPM25Env | None = None,
     validation_seeds: list[int] | None = None,
     validation_every: int = 10,
     resumed_from: str | None = None,
-    policy_snapshot_episodes: list[int] | None = None,
 ) -> dict[str, Any]:
     seeds = _validate_run_settings(
         episodes=episodes,
@@ -394,7 +365,6 @@ def run_training(
         validation=validation_env is not None,
         validation_seeds=validation_seeds,
     )
-    snapshots = _policy_snapshots(policy_snapshot_episodes, episodes)
     output.mkdir(parents=True, exist_ok=False)
     inherit_best(trainer, resumed_from, output, seeds)
     configuration = {
@@ -406,29 +376,20 @@ def run_training(
         "validation_every": validation_every,
         "validation_seeds": seeds,
         "resumed_from": resumed_from,
-        "policy_snapshot_episodes": snapshots,
         "start_physical_steps": trainer.physical_steps,
         "start_optimizer_updates": trainer.updates,
         "start_target_updates": trainer.target_updates,
         "start_epsilon": trainer.epsilon,
         "start_replay_steps": trainer.replay.steps,
-        "start_best_validation_rmse": trainer.best_validation_rmse,
-        "start_best_validation_episode": trainer.best_validation_episode,
-        "start_best_saved_validation": trainer.best_saved_validation,
-        "policy_every": 1,
-        "checkpoint_retention": "all_periodic_and_validation_checkpoints",
-        "selection": "final_and_best_validation_rmse"
-        if trainer.protocol.get("adaptive_gp")
-        else "best_validation_variance_and_final",
+        "start_best_validation": trainer.best_validation,
+        "checkpoint_retention": "best_final_and_rotating_last",
+        "selection": "final_and_best_validation_rmse",
     }
     (output / "config.json").write_text(
         json.dumps(configuration, ensure_ascii=False, indent=2) + "\n"
     )
     initial_score = None
-    starting_policy = output / policy_name(trainer.completed_episodes)
-    if not starting_policy.exists():  # Puede haberse copiado como mejor heredado.
-        trainer.export_policy(starting_policy, overwrite=False)
-    if validation_env is not None and trainer.best_saved_validation is None:
+    if validation_env is not None and trainer.best_validation is None:
         initial_validation = trainer.validate(validation_env, seeds)
         record, improved = validation_record(trainer, initial_validation, seeds)
         save_validation(trainer, output, record, improved)
@@ -445,27 +406,21 @@ def run_training(
             ),
             initial_validation,
         )
-    elif not (output / checkpoint_name(trainer.completed_episodes)).exists():
-        save_checkpoint(trainer, output)
-    else:
-        copy_atomic(
-            output / checkpoint_name(trainer.completed_episodes),
-            output / "checkpoint-last.pt",
-            overwrite=True,
-        )
+    save_checkpoint(trainer, output)
     if trainer.completed_episodes == 0:
-        copy_atomic(starting_policy, output / "policy-initial.pt")
+        # El contraste inicial/final de los experimentos conservados usa estos pesos.
+        trainer.export_policy(output / "policy-initial.pt", overwrite=False)
         if (
-            trainer.best_saved_validation
+            trainer.best_validation
             and not (output / "validation-initial.json").exists()
         ):
             write_json_atomic(
                 output / "validation-initial.json",
-                trainer.best_saved_validation["metrics"],
+                trainer.best_validation["metrics"],
             )
-    elif trainer.best_saved_validation is not None:
+    elif trainer.best_validation is not None:
         print(
-            "Archivos recuperables conservados en la nueva salida | "
+            "Mejor conservado en la nueva salida | "
             + validation_progress(trainer, None),
             flush=True,
         )
@@ -475,10 +430,6 @@ def run_training(
         writer = None
         while trainer.completed_episodes < episodes:
             row = trainer.train_episode()
-            # Primero los pesos: ni una validación ni una métrica quedan sin modelo.
-            trainer.export_policy(
-                output / policy_name(trainer.completed_episodes), overwrite=False
-            )
             record, improved = None, False
             row.update(
                 validation_reward=None,
@@ -500,18 +451,13 @@ def run_training(
                     validation_mse=result["synthetic_mse"],
                     validation_mae_ug_m3=result["synthetic_mae_ug_m3"],
                 )
-                if (
-                    not trainer.protocol.get("adaptive_gp")
-                    and result["final_integrated_variance"]
-                    < trainer.best_validation_variance
-                ):
-                    trainer.best_validation_variance = result[
-                        "final_integrated_variance"
-                    ]
-                    trainer.export_policy(output / "policy-best.pt")
             row.update(
-                best_validation_rmse=trainer.best_validation_rmse,
-                best_validation_episode=trainer.best_validation_episode,
+                best_validation_rmse=trainer.best_validation["rmse"]
+                if trainer.best_validation
+                else None,
+                best_validation_episode=trainer.best_validation["episode"]
+                if trainer.best_validation
+                else None,
             )
             if writer is None:
                 writer = csv.DictWriter(file, fieldnames=list(row))
@@ -521,7 +467,7 @@ def run_training(
             os.fsync(file.fileno())
             if record is not None:
                 save_validation(trainer, output, record, improved)
-            elif (
+            if (
                 trainer.completed_episodes % checkpoint_every == 0
                 or trainer.completed_episodes == episodes
             ):
@@ -536,9 +482,7 @@ def run_training(
                     + validation_progress(trainer, row["validation_mse"]),
                     flush=True,
                 )
-    copy_atomic(
-        output / policy_name(trainer.completed_episodes), output / "policy-last.pt"
-    )
+    save_final(trainer, output)
     if initial_score is not None:
         final_score = controlled_score(trainer.online, trainer.config.history_length)
         oracle = controlled_oracle()
@@ -562,131 +506,75 @@ def run_training(
 
 
 def run(args) -> None:
-    parser = argparse.ArgumentParser(
-        description="Entrenador mínimo BiLG-D3QN. No inicia replay histórico final."
-    )
-    if args.check and (args.output is not None or args.episodes is not None):
-        parser.error("--comprobar no admite salida ni cambio del total de episodios")
     spec = json.loads(args.config.read_text())
-    resume = (
-        args.resume.resolve()
-        if args.resume is not None
-        else (args.config.resolve().parent / spec["resume_checkpoint"]).resolve()
-        if spec.get("resume_checkpoint")
-        else None
-    )
-    episodes = args.episodes if args.episodes is not None else spec["episodes"]
-    snapshots = _policy_snapshots(spec.get("policy_snapshot_episodes"), episodes)
-    minimum_resume = spec.get("minimum_resume_episode")
-    if minimum_resume is not None:
-        if type(minimum_resume) is not int or not 0 < minimum_resume < episodes:
-            parser.error(
-                "minimum_resume_episode debe ser positivo y menor que episodes"
-            )
-        if resume is None:
-            parser.error(
-                "Esta continuación requiere un checkpoint explícito en configuración o --reanudar"
-            )
-    parameters = dict(spec.get("training", {}))
-    if args.seed is not None:
-        parameters["seed"] = args.seed
-    config = TrainingConfig(**parameters)
+    episodes = spec["episodes"]
+    if type(episodes) is not int or episodes < 1:
+        raise ValueError("episodes debe ser un total entero positivo")
+    config = TrainingConfig(**spec.get("training", {}))
     device = resolve_device(config.device)
     if config.capacity_steps < spec["steps_per_episode"]:
         raise ValueError("Un episodio completo debe caber en el replay buffer")
     env, validation_env, protocol = prepare_experiment(
-        spec, args.config.resolve().parent, check=args.check
+        spec, args.config.resolve().parent
     )
-    if args.check:
+    try:
+        resume = args.resume
+        if resume is not None and resume.is_dir():
+            resume = latest_checkpoint(resume, config, protocol)
         state = read_training_checkpoint(resume, config, protocol) if resume else None
         completed = state["completed_episodes"] if state else 0
-        if minimum_resume is not None and completed < minimum_resume:
-            raise ValueError(
-                f"La continuación requiere al menos {minimum_resume} episodios"
+        del state
+        if completed >= episodes:
+            print(
+                f"La corrida ya alcanzó {completed} episodios; objetivo configurado: {episodes}. "
+                "No se ejecutaron episodios nuevos."
             )
+            return
         _validate_run_settings(
-            episodes=spec["episodes"],
+            episodes=episodes,
             completed_episodes=completed,
-            checkpoint_every=spec.get("checkpoint_every", 10),
+            checkpoint_every=spec.get("checkpoint_every", 50),
             validation_every=spec.get("validation_every", 10),
             validation=validation_env is not None,
             validation_seeds=spec.get("validation_seeds"),
         )
+        if resume:
+            print(f"Reanudando: {resume}", flush=True)
         print(
-            json.dumps(
-                {
-                    "status": "configuration_checked",
-                    "training_executed": False,
-                    "cuda_available": torch.cuda.is_available(),
-                    "requested_device": config.device,
-                    "effective_device": str(device),
-                    "protocol": protocol,
-                    "target_episodes": episodes,
-                    "minimum_resume_episode": minimum_resume,
-                    "policy_snapshot_episodes": snapshots,
-                    "checkpoint_checked": state is not None,
-                    "completed_episodes": completed,
-                    "remaining_episodes": episodes - completed,
-                    "resume_checkpoint": str(resume) if resume else None,
-                    "policy_every": 1,
-                    "checkpoint_retention": "all_periodic_and_validation_checkpoints",
-                },
-                ensure_ascii=False,
-                indent=2,
-            )
+            f"Dispositivo: {device}"
+            + (
+                f" — {torch.cuda.get_device_name(device)}"
+                if device.type == "cuda"
+                else ""
+            ),
+            flush=True,
         )
+        trainer = Trainer(env, config, protocol=protocol)
+        if resume:
+            trainer.load_checkpoint(resume)
+            print(
+                f"Estado recuperado: episodio {trainer.completed_episodes}; "
+                f"ticks={trainer.physical_steps}; epsilon={trainer.epsilon:.6f}; "
+                f"episodios restantes={episodes - trainer.completed_episodes}",
+                flush=True,
+            )
+        elif spec["kind"] == "controlled":
+            with torch.no_grad():
+                for parameter in trainer.online.advantage[-1].parameters():
+                    parameter.zero_()
+            trainer.target.load_state_dict(trainer.online.state_dict())
+        print(f"Salida: {args.output}", flush=True)
+        run_training(
+            trainer,
+            episodes=episodes,
+            output=args.output,
+            checkpoint_every=spec.get("checkpoint_every", 50),
+            validation_env=validation_env,
+            validation_seeds=spec.get("validation_seeds"),
+            validation_every=spec.get("validation_every", 10),
+            resumed_from=str(resume) if resume else None,
+        )
+    finally:
         env.close()
         if validation_env is not None:
             validation_env.close()
-        return
-    if resume is not None:
-        print(f"Reanudando: {resume}", flush=True)
-    print(
-        f"Dispositivo: {device}"
-        + (f" — {torch.cuda.get_device_name(device)}" if device.type == "cuda" else ""),
-        flush=True,
-    )
-    trainer = Trainer(env, config, protocol=protocol)
-    if resume is not None:
-        trainer.load_checkpoint(resume)
-        print(
-            f"Estado recuperado: episodio {trainer.completed_episodes}; "
-            f"ticks={trainer.physical_steps}; epsilon={trainer.epsilon:.6f}",
-            flush=True,
-        )
-        if minimum_resume is not None and trainer.completed_episodes < minimum_resume:
-            parser.error(
-                f"La continuación requiere al menos {minimum_resume} episodios; "
-                f"el checkpoint contiene {trainer.completed_episodes}"
-            )
-    elif spec["kind"] == "controlled":
-        # Empate inicial conocido: el argmax elige este. Solo para este piloto.
-        with torch.no_grad():
-            for parameter in trainer.online.advantage[-1].parameters():
-                parameter.zero_()
-        trainer.target.load_state_dict(trainer.online.state_dict())
-    if (
-        resume is not None
-        and type(episodes) is int
-        and episodes <= trainer.completed_episodes
-    ):
-        parser.error(
-            f"El checkpoint ya alcanzó {trainer.completed_episodes} episodios. "
-            f"Aumenta 'episodes' en {args.config} para continuar."
-        )
-    output = args.output
-    print(f"Salida: {output}", flush=True)
-    run_training(
-        trainer,
-        episodes=episodes,
-        output=output,
-        checkpoint_every=spec.get("checkpoint_every", 10),
-        validation_env=validation_env,
-        validation_seeds=spec.get("validation_seeds"),
-        validation_every=spec.get("validation_every", 10),
-        resumed_from=str(resume) if resume is not None else None,
-        policy_snapshot_episodes=snapshots,
-    )
-    env.close()
-    if validation_env is not None:
-        validation_env.close()

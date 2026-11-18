@@ -246,9 +246,7 @@ def test_small_full_experiment_reuses_controls_and_never_warm_starts(
     ] == pytest.approx(np.sqrt(5))
 
 
-def test_check_never_constructs_trainer_or_runs_experiment(
-    tmp_path, monkeypatch, capsys
-):
+def test_bad_controls_stop_before_constructing_trainer(tmp_path, monkeypatch, capsys):
     source = tmp_path / "controls"
     source.mkdir()
     (source / "summary.json").write_text("{}")
@@ -256,8 +254,7 @@ def test_check_never_constructs_trainer_or_runs_experiment(
         close=lambda: None, domain=SimpleNamespace(grid=None), estimator_config=None
     )
 
-    def prepare(*args, check):
-        assert check
+    def prepare(*args):
         return env, env, {}
 
     monkeypatch.setattr(experiment, "prepare_experiment", prepare)
@@ -272,11 +269,16 @@ def test_check_never_constructs_trainer_or_runs_experiment(
     monkeypatch.setattr(
         sys, "argv", ["compare-history", "--controls", str(source), "--check"]
     )
-    experiment.run(
-        Namespace(
-            config=experiment.DEFAULT_CONFIG, controls=source, check=True, output=None
+
+    def invalid_controls(*args):
+        raise ValueError("Control incompatible")
+
+    monkeypatch.setattr(experiment, "validate_controls", invalid_controls)
+    with pytest.raises(ValueError, match="Control incompatible"):
+        experiment.run(
+            Namespace(
+                config=experiment.DEFAULT_CONFIG,
+                controls=source,
+                output=tmp_path / "output",
+            )
         )
-    )
-    result = json.loads(capsys.readouterr().out)
-    assert result["new_training_episodes"] == 600 and result["reused_controls"] == 3
-    assert not result["training_executed"]

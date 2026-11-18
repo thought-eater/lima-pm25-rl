@@ -1,0 +1,8 @@
+{
+  "reward": 0.2056373599077259,
+  "mean_integrated_variance": 3222142978.313009,
+  "final_integrated_variance": 2432356685.407619,
+  "invalid_actions": 0.0,
+  "synthetic_mse": 29.927694186146823,
+  "synthetic_mae_ug_m3": 2.9269592691587145
+}

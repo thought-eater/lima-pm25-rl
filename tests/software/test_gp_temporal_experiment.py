@@ -245,22 +245,6 @@ def test_cli_reuses_both_partitions_without_simulation_and_freezes_selection(
         str(source),
     ]
     loader = experiment.load_frozen_case
-    monkeypatch.setattr(
-        experiment,
-        "load_frozen_case",
-        lambda *a, **k: pytest.fail("check no carga campos"),
-    )
-    monkeypatch.setattr(sys, "argv", [*args, "--check"])
-    experiment.run(
-        Namespace(
-            config=settings_path,
-            spatial_experiment=source,
-            diagnostic=None,
-            check=True,
-            output=None,
-        )
-    )
-    assert json.loads(capsys.readouterr().out)["new_missions"] == 0
     output = tmp_path / "output"
     validation_reads = []
 

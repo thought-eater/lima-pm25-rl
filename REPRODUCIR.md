@@ -25,7 +25,7 @@ uv run --locked lima-pm25-rl comparar duracion
 uv run --locked lima-pm25-rl comparar descuento
 ```
 
-`visualizar` imprime la ruta del HTML conservado. `informe` genera una presentación
+`visualizar` genera un visor Folium nuevo e imprime su ruta. `informe` genera una presentación
 nueva de las curvas de ambos descuentos, tablas, casos pareados y mapas existentes.
 `comparar` presenta las evaluaciones declaradas del contraste. Estas operaciones
 no entrenan ni generan misiones.
@@ -33,16 +33,47 @@ no entrenan ni generan misiones.
 La duración compara finales 1000/2000 de gamma 0,99. El descuento compara finales
 de 2000 episodios con gamma 0,99/0,5. Las políticas `best` no reemplazan esos cortes.
 
+### Visor de cuatro mapas
+
+Abrir el `index.html` indicado por `lima-pm25-rl visualizar`, conservando a su lado
+la carpeta `frames/`. La salida está en
+`resultados/r3_4_visualizacion/mapas/AAAA-MM-DD_HH-MM-SS/`.
+
+Los cuatro mapas comparten reloj, encuadre y zoom:
+
+1. Calles OSM conservadas, posiciones actuales, estaciones fijas y recorrido pasado.
+2. Media GP; el selector permite mostrar su desviación estándar.
+3. Verdad sintética del mismo caso e instante.
+4. Error **real − estimado**: rojo = subestimación; azul = sobreestimación.
+
+Hay reproducción/pausa, avance por tick, barra temporal, velocidad y consulta por
+celda. Las métricas mostradas corresponden al instante, no al promedio del episodio.
+Las posiciones cambian en los ticks registrados de 300 s; no se inventan velocidades
+intermedias. Una terminación anticipada mantiene el último móvil y no añade muestras.
+
+`config/visualizacion.json` declara productos, políticas, casos y réplicas. La
+configuración publicada incluye los casos prefijados 100002/100003 del mejor
+adaptativo (28 400) y del final (30 000), con BiLG, greedy/aleatoria réplica 0,
+barrido y solo fijas. Son
+ejemplos individuales; las conclusiones agregadas pertenecen al informe completo.
+Para un candidato nuevo se requieren primero sus mediciones, rutas y posteriores
+de evaluación. Añadirlos a la configuración no vuelve a entrenar ni ajustar el GP.
+
+El generador comprueba episodio/pesos, protocolo, grilla, reloj, identidad del campo,
+lecturas fijas, RMSE por tick y distancia contra los productos originales.
+Reproyecta las imágenes UTM a Web Mercator con vecino más próximo, sin suavizar
+el campo. Las métricas se calculan desde los arrays originales; las consultas del
+HTML conservan cinco decimales. Las escalas son fijas y compartidas entre misiones
+seleccionadas, con una escala común para verdad/media y otra simétrica para error.
+
+Folium, Branca y PyProj se declaran como dependencias Python. No hay instalación
+separada de Leaflet ni gestor JavaScript. El HTML carga las bibliotecas habituales
+de Folium por CDN, por lo que requiere conexión al abrirse. Las calles OSM y los
+campos son locales: no solicita teselas ni descarga nueva cartografía.
+
 ## Entrenar
 
-```bash
-uv run --locked lima-pm25-rl entrenar principal --comprobar
-uv run --locked lima-pm25-rl entrenar gamma05 --comprobar
-```
-
-La comprobación verifica el dispositivo configurado y compone escenarios sin
-avanzar la simulación ni construir el entrenador. Para reproducir un entrenamiento
-completo en servidor:
+Para reproducir un entrenamiento completo en servidor:
 
 ```bash
 uv run --locked lima-pm25-rl entrenar principal
@@ -60,16 +91,21 @@ escenarios, sin pasar a CPU. El entrenamiento imprime el dispositivo efectivo al
 inicio. La CLI no admite `--device`. Las comprobaciones locales en CPU requieren
 declararlo explícitamente en su configuración.
 
-`--reanudar RUTA/checkpoint-last.pt` continúa un estado del mismo protocolo en
-otra salida. No cambia el total del JSON ni reinicia exploración. Los
+`--reanudar RUTA` continúa un estado del mismo protocolo en otra salida. Si
+`RUTA` es un archivo, se usa exactamente ese checkpoint completo; una política
+de solo pesos no sirve. Si es una carpeta, busca el mayor episodio entre `checkpoint-last.pt`,
+`checkpoint-best.pt` y `checkpoint-final.pt` de esa carpeta, comprobando su
+contenido. No descubre carpetas por antigüedad ni usa una ruta fija al episodio
+20 000. No cambia el total del JSON ni reinicia exploración. Los
 entrenamientos son operaciones costosas; graficar resultados existentes no
 requiere ejecutarlos.
 
-### Candidato adaptativo de 20 000 episodios
+CUDA, configuración y compatibilidad se comprueban automáticamente al ejecutar.
+La CLI no tiene modo separado de comprobación.
+
+### Candidato adaptativo
 
 ```bash
-uv run --locked lima-pm25-rl entrenar adaptativo --comprobar
-uv run --locked lima-pm25-rl experimento gp-adaptativo --comprobar
 uv run --locked lima-pm25-rl experimento gp-adaptativo
 ```
 
@@ -84,10 +120,11 @@ Comando de entrenamiento en el servidor:
 uv run --locked lima-pm25-rl entrenar adaptativo
 ```
 
-`config/adaptativo.json` fija **20 000 episodios totales desde cero**, gamma 0,99,
+`config/adaptativo.json` fija actualmente **30 000 episodios totales**, gamma 0,99,
 exploración decreciente durante 240 000 ticks, validación cada 200 episodios,
-checkpoint completo cada 50. La corrida original guardó solo políticas en
-2000/5000/10000/15000/20000; el código corregido conserva una por episodio.
+checkpoint rotativo cada 50. Las corridas recibidas conservaron los cortes
+2000/5000/10000/15000/20000 y, durante la continuación, una política por episodio;
+esa retención masiva ya no se utiliza en entrenamientos nuevos.
 Se conservan el final y el mejor por RMSE, identificados por separado; no se
 selecciona `best` por varianza de un GP cuya amplitud cambia.
 BLAS se limita a un hilo durante entrenamiento y comparación;
@@ -95,21 +132,19 @@ BLAS se limita a un hilo durante entrenamiento y comparación;
 incluso si la red utiliza CUDA.
 
 El progreso se imprime cada 50 episodios y en cada validación. Muestra recompensa,
-pérdida, actualizaciones y el **mejor RMSE global final de validación recuperable,
-con su episodio y las rutas de política y checkpoint**. Cada 200 episodios muestra además el RMSE recién medido sobre
+pérdida, actualizaciones y el **mejor RMSE global final de validación,
+con su episodio**. Cada 200 episodios muestra además el RMSE recién medido sobre
 los mismos doce casos. El RMSE se obtiene del MSE agregado, no promediando RMSE
 por caso. El episodio 0 identifica la política inicial.
 
-Entre validaciones se indica «sin nueva validación». El récord histórico sigue
-en `metrics.csv`. El mejor **recuperable** queda identificado en `best-rmse.json`
-y en los checkpoints, con métricas y archivos `.pt` numerados que nunca se borran
-ni se sobrescriben. Se publica solo después de guardar política, checkpoint y
-registro de validación. Un fallo de escritura detiene la corrida sin anunciar un
-nuevo mejor guardado. No hay parada anticipada; un récord aislado no prueba
-convergencia.
+Entre validaciones se indica «sin nueva validación». Hay un solo mejor por RMSE,
+identificado en `best-rmse.json` y respaldado por `checkpoint-best.pt` y
+`policy-best.pt`. El checkpoint completo del mejor es el estado autoritativo:
+su publicación es atómica y permite recuperar también la política si se interrumpe
+su exportación. No hay parada anticipada; un récord aislado no prueba convergencia.
 
 La salida se crea en `resultados/r3_2_entrenamiento/adaptativo/AAAA-MM-DD_HH-MM-SS/`.
-Para reanudar, añadir `--reanudar RUTA/checkpoint-last.pt`; el protocolo debe
+Para reanudar, añadir `--reanudar RUTA`; el protocolo debe
 coincidir. Al terminar, registrar explícitamente esa carpeta como `adaptativo`
 en `config/productos.json`; entonces `lima-pm25-rl evaluar adaptativo-20000`
 ejecuta política y referencias con el mismo GP adaptativo, incluida una referencia
@@ -121,45 +156,38 @@ La [formulación](resultados/r3_1_formulacion/adaptativo.md) especifica la adapt
 de Barrionuevo y sus límites. Cambian conjuntamente estimador, recompensa,
 exploración y presupuesto: no es una ablación aislada del GP.
 
-### Continuación de 20 000 a 30 000 episodios
+### Guardado y reanudación
 
-La corrida original está en
-`resultados/r3_2_entrenamiento/adaptativo/2026-11-17_06-01-32/`.
-`config/adaptativo-continuacion.json` declara explícitamente ese checkpoint y
-30 000 como total. No reinicia redes, Adam, replay, RNG ni epsilon. En el servidor:
+La corrida original y su continuación están conservadas en
+`2026-11-17_06-01-32/` y `2026-11-18_05-28-17/` bajo
+`resultados/r3_2_entrenamiento/adaptativo/`. El archivo
+`config/adaptativo-continuacion.json` se conserva como configuración histórica;
+no corresponde a un perfil ejecutable actual.
 
 ```bash
-uv run --locked lima-pm25-rl entrenar adaptativo-continuacion --comprobar
-uv run --locked lima-pm25-rl entrenar adaptativo-continuacion
+uv run --locked lima-pm25-rl entrenar adaptativo \
+  --reanudar resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17
 ```
 
-La comprobación lee el checkpoint, valida protocolo y configuración e imprime
-episodios completados y restantes: inicialmente **20 000 y 10 000**. No entrena.
-Para otra reanudación, `--reanudar RUTA/checkpoint-episode-NNNN.pt` sustituye la
-ruta del JSON; también puede combinarse con `--comprobar`.
+Con el objetivo actual de 30 000, el comando anterior indica que esa corrida
+ya lo alcanzó y termina sin entrenar. Para una ampliación autorizada, cambiar
+`episodes` en el JSON: un último estado de 27 350 y un total de 30 000 dejan
+2650 episodios. No se reinician redes, Adam, replay, RNG ni epsilon.
 
-La nueva carpeta conserva:
+Una nueva ejecución conserva:
 
-- `policy-episode-NNNN.pt`: todos los episodios, incluido el inicio del tramo.
-- `checkpoint-episode-NNNN.pt`: todos los puntos de guardado cada 50 episodios,
-  todas las validaciones y el final. `checkpoint-last.pt` es una copia del último.
-- `validation-episode-NNNN.json`: semillas, métricas, RMSE y nombres de los dos
-  archivos correspondientes a esa evaluación.
-- `best-rmse.json`: episodio y rutas al **modelo y checkpoint completos del mejor**.
-  Los mejores anteriores también permanecen en los archivos numerados.
-- `policy-last.pt`: copia de la política final al terminar.
+- `checkpoint-best.pt` y `policy-best.pt`: mejor por RMSE, actualizados al mejorar.
+- `checkpoint-final.pt` y `policy-last.pt`: estado completo y política finales.
+- `checkpoint-last.pt`: un único estado rotativo, cada 50 episodios.
+- CSV por episodio y registros pequeños por validación. Se conserva también la
+  política inicial ligera para los contrastes inicial/final de los experimentos.
 
-El récord original de 19 600 no tiene pesos conservados. Se conserva como
-histórico y no bloquea el guardado nuevo: al comenzar desde el checkpoint antiguo
-se vuelve a validar 20 000 para establecer el mejor recuperable de la continuación.
-Al reanudar checkpoints nuevos se verifica y copia al nuevo tramo su mejor
-recuperable, junto con ambos `.pt` y su validación. Si falta alguno, se detiene
-antes de entrenar.
+La ocupación estable de modelos es aproximadamente **0,82 GB** con el tamaño
+actual del replay, más espacio temporal para escrituras atómicas. No se acumulan
+los checkpoints anteriores. Las salidas antiguas no se modifican al reanudar.
+El mejor anterior se transfiere desde su checkpoint completo a la carpeta nueva.
+El récord perdido de 19 600 se discute solo en la documentación histórica.
 
-Esta estrategia requiere aproximadamente **67 GB adicionales sin compresión**
-para 10 000 episodios, según los tamaños actuales. Reservar al menos unos 80 GB
-libres como margen de trabajo; la compresión del archivo de transferencia es aparte.
-Tras registrar la carpeta nueva como `adaptativo-continuacion` en el inventario,
 `lima-pm25-rl evaluar adaptativo-mejor` carga los pesos señalados por `best-rmse.json`;
 `lima-pm25-rl evaluar adaptativo-30000` utiliza el final. Se comprueba el episodio
 interno del archivo, no solo su nombre. El mejor seleccionado por validación se
@@ -228,7 +256,6 @@ Para presentar una reproducción, actualizar explícitamente las rutas relativas
 ## Experimentos complementarios
 
 ```bash
-uv run --locked lima-pm25-rl experimento gp-espacial --comprobar
 uv run --locked lima-pm25-rl experimento gp-espacial
 ```
 
@@ -253,8 +280,8 @@ uv run --locked lima-pm25-rl experimento gp-espacial
 
 Las fuentes se resuelven desde `config/productos.json`; no se eligen por fecha
 de modificación ni se exige que coincidan hashes de archivos de código.
-`--comprobar` valida la preparación sin iniciar la batería. Las comprobaciones
-numéricas de cada experimento distinguen reconstrucción, incertidumbre y efecto
+Las comprobaciones numéricas automáticas de cada experimento distinguen
+reconstrucción, incertidumbre y efecto
 de cambiar rutas; no convierten un caso artificial en validación de Lima.
 
 Los controles BiLG de 200 episodios y semillas 42/43/44 se conservan porque

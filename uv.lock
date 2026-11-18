@@ -559,6 +559,8 @@ name = "lima-pm25-rl"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "branca" },
+    { name = "folium" },
     { name = "gymnasium" },
     { name = "lima-pm25-core" },
     { name = "matplotlib" },
@@ -566,6 +568,7 @@ dependencies = [
     { name = "numpy" },
     { name = "osmnx" },
     { name = "pillow" },
+    { name = "pyproj" },
     { name = "scikit-learn" },
     { name = "shapely" },
     { name = "threadpoolctl" },
@@ -579,6 +582,8 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "branca", specifier = ">=0.8,<1" },
+    { name = "folium", specifier = ">=0.20,<2" },
     { name = "gymnasium", specifier = ">=1.4,<2" },
     { name = "lima-pm25-core", editable = "../lima-pm25-core" },
     { name = "matplotlib", specifier = ">=3.11,<4" },
@@ -586,6 +591,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.4,<3" },
     { name = "osmnx", specifier = ">=2.1,<3" },
     { name = "pillow", specifier = ">=12,<14" },
+    { name = "pyproj", specifier = ">=3.8,<4" },
     { name = "scikit-learn", specifier = ">=1.9,<2" },
     { name = "shapely", specifier = ">=2.1,<3" },
     { name = "threadpoolctl", specifier = ">=3.7,<4" },

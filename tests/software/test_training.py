@@ -283,13 +283,13 @@ def test_validation_does_not_train_add_replay_data_or_change_exploration(make_en
 
 def test_policy_snapshots_do_not_change_training_or_replay_rng(make_env, tmp_path):
     plain = Trainer(make_env(), config())
-    run_training(plain, episodes=2, output=tmp_path / "plain")
+    for _ in range(2):
+        plain.train_episode()
     snapshots = Trainer(make_env(), config())
     run_training(
         snapshots,
         episodes=2,
         output=tmp_path / "snapshots",
-        policy_snapshot_episodes=[0, 1, 2],
     )
     assert plain.updates == snapshots.updates
     assert plain.physical_steps == snapshots.physical_steps
@@ -528,7 +528,7 @@ def test_mixture_cannot_fit_weather_on_another_members_validation_period(
         prepare_experiment(spec, directory)
 
 
-def test_check_composes_all_scenario_weather_partition_combinations(
+def test_preparation_defers_episode_composition_until_requested(
     experiment_inputs, monkeypatch, template
 ):
     from lima_pm25_rl.episodes import Episode, GeneratedEpisodes
@@ -541,13 +541,13 @@ def test_check_composes_all_scenario_weather_partition_combinations(
 
     monkeypatch.setattr(GeneratedEpisodes, "__call__", compose)
     spec, directory = experiment_inputs
-    prepare_experiment(spec, directory, check=True)
-    assert len(seen) == 12
-    assert all(
-        seen.count((partition, mode)) == 2
-        for partition in ("training", "evaluation")
-        for mode in ("historical", "historical_perturbed", "synthetic")
-    )
+    train, validation, _ = prepare_experiment(spec, directory)
+    assert not seen
+    train._episode_factory(42)
+    validation._episode_factory(42)
+    assert [partition for partition, _ in seen] == ["training", "evaluation"]
+    train.close()
+    validation.close()
 
 
 @pytest.mark.parametrize("problem", ["cutoff", "weather", "final_end"])

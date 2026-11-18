@@ -115,7 +115,6 @@ def read_training_checkpoint(path, config, protocol):
         "physical_steps",
         "updates",
         "target_updates",
-        "best_validation_variance",
     }
     if not required <= state.keys():
         raise ValueError("El checkpoint de entrenamiento está incompleto")
@@ -176,10 +175,7 @@ class Trainer:
         self.physical_steps = 0
         self.updates = 0
         self.target_updates = 0
-        self.best_validation_variance = float("inf")
-        self.best_validation_rmse: float | None = None
-        self.best_validation_episode: int | None = None
-        self.best_saved_validation: dict[str, Any] | None = None
+        self.best_validation: dict[str, Any] | None = None
         if self.device.type == "cuda":
             torch.cuda.reset_peak_memory_stats(self.device)
 
@@ -382,10 +378,7 @@ class Trainer:
                 "physical_steps": self.physical_steps,
                 "updates": self.updates,
                 "target_updates": self.target_updates,
-                "best_validation_variance": self.best_validation_variance,
-                "best_validation_rmse": self.best_validation_rmse,
-                "best_validation_episode": self.best_validation_episode,
-                "best_saved_validation": self.best_saved_validation,
+                "best_validation": self.best_validation,
                 "replay": self.replay.state_dict(),
                 "controller_rng": self.controller.rng.bit_generator.state,
                 "torch_rng": self._torch_rng(),
@@ -407,11 +400,10 @@ class Trainer:
         self.physical_steps = state["physical_steps"]
         self.updates = state["updates"]
         self.target_updates = state["target_updates"]
-        self.best_validation_variance = state["best_validation_variance"]
-        # Los checkpoints anteriores a este seguimiento no registraban RMSE.
-        self.best_validation_rmse = state.get("best_validation_rmse")
-        self.best_validation_episode = state.get("best_validation_episode")
-        self.best_saved_validation = state.get("best_saved_validation")
+        # Las corridas conservadas usan best_saved_validation para el mismo registro.
+        self.best_validation = state.get(
+            "best_validation", state.get("best_saved_validation")
+        )
         self.replay.load_state_dict(state["replay"])
         self.controller.rng.bit_generator.state = state["controller_rng"]
         self.controller.reset()

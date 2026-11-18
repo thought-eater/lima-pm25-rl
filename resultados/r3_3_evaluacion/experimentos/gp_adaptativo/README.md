@@ -64,6 +64,8 @@ y un solo episodio de calentamiento. Su extrapolación de 18,46 h **no incluye
 Adam** y no debe usarse como coste del entrenamiento completo. Se conserva
 para explicar la corrección de la medición.
 
-Los 20 000 episodios no se han ejecutado. Procedimiento reproducible:
+La corrida posterior de 20 000 episodios está conservada en
+[entrenamiento adaptativo](../../../r3_2_entrenamiento/adaptativo/README.md).
+Este diagnóstico sigue siendo una comprobación corta. Procedimiento reproducible:
 `lima-pm25-rl experimento gp-adaptativo`, según
 [REPRODUCIR.md](../../../../REPRODUCIR.md).

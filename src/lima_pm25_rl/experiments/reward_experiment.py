@@ -482,8 +482,6 @@ def run(args):
     parser = argparse.ArgumentParser(
         description="Comparar recompensa de incertidumbre y error sintético; reutilizar controles BiLG"
     )
-    if args.check and args.output:
-        parser.error("--check no escribe resultados")
     settings = json.loads(args.config.read_text())
     spec_path = (args.config.resolve().parent / settings["experiment_config"]).resolve()
     spec = json.loads(spec_path.read_text())
@@ -503,37 +501,13 @@ def run(args):
             "Se requiere el piloto BiLG original: 200 episodios, semillas 42/43/44, historia completa y shortest"
         )
     _validate_seeds(settings["reference_policy_seeds"])
-    train, validation, protocol = prepare_experiment(
-        spec, spec_path.parent, check=args.check
-    )
+    train, validation, protocol = prepare_experiment(spec, spec_path.parent)
     assert validation is not None
     try:
         check_control(train.domain.grid, train.estimator_config)
         source = args.controls
         raw = read_controls(source, spec)
         validate_control_files(raw.__getitem__, spec, protocol)
-        if args.check:
-            print(
-                json.dumps(
-                    {
-                        "training_executed": False,
-                        "simulation_executed": False,
-                        "controls": str(source),
-                        "reused_controls": 3,
-                        "new_training_episodes": 600,
-                        "candidate_evaluation_missions": 2
-                        * len(spec["paired_seeds"])
-                        * len(spec["validation_seeds"]),
-                        "reference_missions": (
-                            2 * len(settings["reference_policy_seeds"]) + 1
-                        )
-                        * len(spec["validation_seeds"]),
-                        "candidate_reward": error_reward_protocol({})["reward"],
-                    },
-                    indent=2,
-                )
-            )
-            return
         output = args.output
         print(f"Salida: {output}", flush=True)
         run_experiment(

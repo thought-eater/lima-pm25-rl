@@ -1,6 +1,5 @@
 import json
 import sys
-from argparse import Namespace
 from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
@@ -269,17 +268,8 @@ def test_training_loader_and_check_never_open_validation_or_reconstruct(
         ],
     )
     capsys.readouterr()
-    experiment.run(
-        Namespace(
-            training_source=path,
-            hotspot_source=sources["hotspots"],
-            check=True,
-            output=None,
-        )
-    )
-    report = json.loads(capsys.readouterr().out)
-    assert report["training_cases"] == 2 and report["reconstructions"] == 12
-    assert not report["validation_opened"] and not report["gp_reconstruction_executed"]
+    assert len(experiment.load_training(path)[1]) == 2
+    assert len(experiment.load_hotspots(sources["hotspots"])[2]) == 4
     assert sorted(str(p) for p in tmp_path.rglob("*")) == before
 
 

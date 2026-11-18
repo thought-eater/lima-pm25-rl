@@ -146,7 +146,7 @@ def test_small_experiment_pairs_fields_noise_budget_and_keeps_covariance_fixed(
         experiment.run_experiment(spec, estimator_config, tmp_path / "run", maps=False)
 
 
-def test_check_has_no_simulation_or_gp_updates(
+def test_wrong_gp_is_rejected_before_simulation(
     spec, estimator_config, tmp_path, monkeypatch, capsys
 ):
     path = tmp_path / "config.json"
@@ -157,6 +157,7 @@ def test_check_has_no_simulation_or_gp_updates(
             estimator_config.reconstruction_config,
             x_length_scale_m=2000,
             y_length_scale_m=2000,
+            temporal_length_scale_s=900,
         ),
     )
     monkeypatch.setattr(experiment, "load_gp", lambda root: gp)
@@ -167,7 +168,6 @@ def test_check_has_no_simulation_or_gp_updates(
         experiment, "run_experiment", lambda *a: pytest.fail("No simular")
     )
     monkeypatch.setattr(sys, "argv", ["hotspot", "--config", str(path), "--check"])
-    experiment.run(Namespace(config=path, check=True, output=None))
-    report = json.loads(capsys.readouterr().out)
-    assert report["simulation_executed"] is False
-    assert report["missions"] == 8 and report["road_distance_per_mission_m"] == 7050
+    with pytest.raises(SystemExit) as error:
+        experiment.run(Namespace(config=path, output=tmp_path / "output"))
+    assert error.value.code == 2

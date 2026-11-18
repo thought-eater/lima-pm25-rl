@@ -112,6 +112,34 @@ def measurement_digest(records):
     ).hexdigest()
 
 
+def validate_fixed_reference(records, reference):
+    """Mismas lecturas: solo coordenadas admiten redondeo de hasta 10⁻⁶ m.
+
+    Una proyección puede variar en el último bit entre entornos. No se relajan
+    valores medidos, reloj, ruido, procedencia ni identidad de sensores.
+    """
+
+    def fixed(items):
+        return {
+            (r.sensor_id, r.timestamp_utc): asdict(r)
+            for r in items
+            if r.sensor_type is SensorType.FIXED
+        }
+
+    actual, expected = fixed(records), fixed(reference)
+    if actual.keys() != expected.keys():
+        raise ValueError("Las lecturas fijas no coinciden con la referencia")
+    for key, row in actual.items():
+        other = expected[key]
+        if any(
+            not np.isclose(value, other[name], rtol=0, atol=1e-6)
+            if name in {"x_m", "y_m"}
+            else value != other[name]
+            for name, value in row.items()
+        ):
+            raise ValueError("Las lecturas fijas no coinciden con la referencia")
+
+
 def route_progress(routes, records, times, total_distance_m):
     """Reconstruir distancia vial por extremos observados; no usar distancia en grilla."""
     if not routes:
@@ -176,12 +204,10 @@ def field_protocol(protocol):
 def reconstruct_mission(
     grid, updater, frozen, records, old, *, threshold, routes, adaptive_gp=None
 ):
-    report, fields, _, origin = frozen
+    report, fields, reference_records, origin = frozen
     times = fields["elapsed_s"]
     if (
         old["field_sha256"] != report["signatures"]["field_sha256"]
-        or old["fixed_measurements_sha256"]
-        != report["signatures"]["fixed_measurements_sha256"]
         or old["initial_positions_sha256"]
         != report["signatures"]["initial_positions_sha256"]
         or datetime.fromisoformat(old["start_utc"]) != origin
@@ -197,6 +223,7 @@ def reconstruct_mission(
     ):
         raise ValueError("Lecturas fuera del reloj de la misión")
     fixed = tuple(r for r in records if r.sensor_type is SensorType.FIXED)
+    validate_fixed_reference(fixed, reference_records)
     if routes:
         starts = np.asarray([routes[vehicle][0] for vehicle in sorted(routes)])
         if (

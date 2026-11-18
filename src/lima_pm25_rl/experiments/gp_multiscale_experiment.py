@@ -543,8 +543,6 @@ def run(args):
     parser = argparse.ArgumentParser(
         description="Comparar GP original y aditivo 2000/500 m sobre gp3 y focos"
     )
-    if args.check and args.output:
-        parser.error("--check no escribe salidas")
     sources = {
         "training": args.training_source,
         "hotspots": args.hotspot_source,
@@ -556,27 +554,6 @@ def run(args):
     # También detecta un core desactualizado antes de iniciar la batería.
     gp = ReconstructionConfig(**training[0]["original_gp"])
     GaussianProcessFieldReconstructor(gp, kernel=multiscale_kernel(gp))
-    if args.check:
-        print(
-            json.dumps(
-                {
-                    "sources": {k: str(v) for k, v in sources.items()},
-                    "training_cases": len(training[1]),
-                    "hotspot_missions": len(hotspots[2]),
-                    "reconstructions": 2 * (len(training[1]) + len(hotspots[2])),
-                    "spatial_scales_m": [2000, 500],
-                    "variance_fractions": [0.5, 0.5],
-                    "temporal_scale_s": 3600,
-                    "history_duration_s": HISTORY_SECONDS,
-                    "gp_reconstruction_executed": False,
-                    "validation_opened": False,
-                    "simulation_executed": False,
-                    "training_executed": False,
-                },
-                indent=2,
-            )
-        )
-        return
     torch.set_num_threads(1)
     output = args.output
     print(f"Salida: {output}", flush=True)

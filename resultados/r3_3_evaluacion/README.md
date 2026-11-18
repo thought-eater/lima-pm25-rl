@@ -42,7 +42,9 @@ Los experimentos complementarios están en [experimentos/](experimentos/):
 - **[GP adaptativo](experimentos/gp_adaptativo/README.md):** doce reconstrucciones
   de entrenamiento y cuatro episodios cortos para comprobar ajuste, recompensa
   y coste. Mejora global pequeña, deterioro local leve y menor cobertura; el
-  entrenamiento de 20 000 episodios y su evaluación siguen pendientes.
+  entrenamiento llegó a 30 000 episodios. La
+  [evaluación completa del mejor y el final](adaptativo/README.md) conserva
+  156 misiones por política, resultados localizados, diferencias y mapas.
 
 Los resultados desfavorables se conservan para discutir por qué una modificación
 no se incorporó a la configuración principal.

@@ -1,0 +1,223 @@
+{
+  "settings": {
+    "core_root": "../../lima-pm25-core",
+    "truth_product": "diagnostico-gp",
+    "protocol_product": "descuento",
+    "case_seeds": [
+      100002,
+      100003
+    ],
+    "raster_width": 620,
+    "studies": [
+      {
+        "id": "adaptativo-mejor",
+        "label": "Adaptativo · mejor en validación · 28 400",
+        "policy_product": "adaptativo-continuacion",
+        "policy_file": "policy-episode-28400.pt",
+        "episodes": 28400,
+        "missions_product": "misiones-adaptativo-mejor",
+        "posteriors_product": "metricas-adaptativo-mejor"
+      },
+      {
+        "id": "adaptativo-final",
+        "label": "Adaptativo · final · 30 000",
+        "policy_product": "adaptativo-continuacion",
+        "policy_file": "policy-last.pt",
+        "episodes": 30000,
+        "missions_product": "misiones-adaptativo-final",
+        "posteriors_product": "metricas-adaptativo-final"
+      }
+    ],
+    "strategies": [
+      {
+        "id": "neural",
+        "label": "BiLG-D3QN",
+        "policy_seed": null
+      },
+      {
+        "id": "greedy",
+        "label": "Greedy · réplica 0",
+        "policy_seed": 0
+      },
+      {
+        "id": "random",
+        "label": "Aleatoria · réplica 0",
+        "policy_seed": 0
+      },
+      {
+        "id": "sweep",
+        "label": "Barrido",
+        "policy_seed": null
+      },
+      {
+        "id": "fixed",
+        "label": "Solo fijas",
+        "policy_seed": null
+      }
+    ]
+  },
+  "sources": [
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-episode-28400.pt",
+      "checkpoint_sha256": "d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "a6f06b966b0f5978d88e2be379678eba1a0eba648b45b6dfd8cfa8a13536f02b"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    },
+    {
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final",
+      "policy_file": "resultados/r3_2_entrenamiento/adaptativo/2026-11-18_05-28-17/policy-last.pt",
+      "checkpoint_sha256": "17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30",
+      "field_sha256": "5c65198523b10cafeb0edf15ca2661f3b33a9b45490e2b7fb7d1c1ef9fce3528"
+    }
+  ],
+  "training_executed": false,
+  "simulation_executed": false,
+  "gp_fit_executed": false,
+  "raster_projection": "EPSG:3857; inverse nearest-neighbor sampling from native grid",
+  "error": "synthetic_truth_minus_GP_mean",
+  "limits": {
+    "concentration": [
+      0.0,
+      46.1173945219933
+    ],
+    "std": [
+      0.0,
+      13.35915593838527
+    ],
+    "error": [
+      -26.17182931995587,
+      26.17182931995587
+    ]
+  },
+  "missions": 20,
+  "folium_version": "0.20.0",
+  "internet": "Folium JS/CSS CDN; roads and fields are local, no tile service"
+}

@@ -1,0 +1,68 @@
+html, body {height:100%; margin:0; background:#eef2f5; color:#172b3a; font-family:system-ui,-apple-system,sans-serif}
+* {box-sizing:border-box}
+.viewer-shell {height:100vh; display:flex; flex-direction:column; gap:8px; padding:12px; overflow:hidden}
+.viewer-header {display:flex; align-items:center; justify-content:space-between; gap:16px}
+.eyebrow {font-size:10px; letter-spacing:1.6px; color:#386d78; font-weight:700}
+.viewer-header h1 {font-size:21px; margin:2px 0}
+.scenario-badge {font-size:11px; background:#deecec; padding:6px 10px; border-radius:16px; white-space:nowrap}
+.toolbar {display:flex; flex-wrap:wrap; align-items:center; gap:9px; padding:8px 10px; background:white; border:1px solid #d9e2e8; border-radius:7px; font-size:12px}
+.toolbar label {display:flex; align-items:center; gap:5px; margin:0; font-weight:500}
+button, select {font:inherit; color:#203c4b; border:1px solid #c4d3dc; border-radius:4px; background:white; padding:5px 7px; cursor:pointer}
+button:hover {background:#edf5f6}
+button:disabled {opacity:.4; cursor:default}
+#play {background:#116577; color:white; min-width:90px; border-color:#116577}
+#mission-select {max-width:420px}
+.playback {display:flex; align-items:center; gap:5px}
+.timeline {display:flex; align-items:center; gap:8px; flex:1; min-width:200px}
+.timeline input {width:100%; margin:0; accent-color:#116577}
+#time-label {white-space:nowrap; min-width:105px; font-size:12px}
+.metrics {display:flex; align-items:center; gap:20px; padding:0 10px}
+.metrics > div {display:flex; align-items:baseline; gap:8px}
+.metrics span {color:#5c6f7b; font-size:11px}
+.metrics strong {font-size:15px; font-variant-numeric:tabular-nums}
+.layer-options {margin-left:auto; font-size:11px; gap:12px!important}
+.layer-options label {margin:0; font-weight:400; display:flex; align-items:center; gap:4px}
+.map-grid {display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:10px; flex:1; min-height:0}
+.map-card {display:grid; grid-template-rows:34px minmax(0,1fr) 30px; border:1px solid #cfdae2; border-radius:7px; background:white; overflow:hidden; min-height:0; box-shadow:0 1px 3px #2638460a}
+.map-card h2 {font-size:13px; font-weight:650; margin:0; padding:6px 10px; display:flex; align-items:center; gap:7px}
+.map-card h2 b {background:#e6f0f2; color:#116577; font-size:11px; border-radius:4px; padding:2px 6px}
+.map-card h2 small {font-size:10px; font-weight:400; margin-left:auto; color:#627782}
+.map-card h2 select {margin-left:auto; padding:2px 5px; font-size:11px; max-width:155px}
+.map-slot {min-height:0; position:relative}
+.map-slot .folium-map {height:100%!important; width:100%!important; position:relative!important}
+.map-legend {font-size:10px; display:flex; align-items:center; justify-content:center; gap:8px; padding:3px 9px; color:#405665; white-space:nowrap}
+.color-strip {width:35%; height:10px; border:1px solid #b8c6ce; border-radius:2px}
+.route-key {gap:18px}
+.viewer-footer {font-size:11px; line-height:1.5; padding:2px 6px; color:#536a78}
+#cell-values {color:#1e3c4d; font-variant-numeric:tabular-nums}
+#viewer-status {min-height:16px; color:#326775}
+#startup-message {font-size:13px; margin:0; padding:6px; background:#fff1cc}
+.station-symbol {color:#172b3a; font-size:19px; text-shadow:0 0 3px white,0 0 3px white; line-height:20px}
+.vehicle-label {background:white; border:0; padding:1px 4px; font-weight:bold; box-shadow:0 1px 3px #0003}
+.map-slot .leaflet-container {font-family:inherit; background:#edf2f4}
+.leaflet-image-layer {image-rendering:pixelated}
+.leaflet-control-attribution {font-size:8px!important}
+.leaflet-control-scale-line {font-size:9px!important}
+@media(max-width:950px) {
+  .viewer-shell {height:auto; min-height:100vh; overflow:visible}
+  .map-grid {grid-template-rows:350px 350px}
+  .metrics {flex-wrap:wrap; gap:8px 18px}
+  .layer-options {margin-left:0}
+  .scenario-badge {white-space:normal}
+}
+@media(max-width:600px) {
+  .map-grid {grid-template-columns:1fr; grid-template-rows:repeat(4,340px)}
+  #mission-select {max-width:280px}
+  .viewer-header h1 {font-size:18px}
+  .scenario-badge {display:none}
+}
+@media print {
+  @page {size:A4 landscape; margin:8mm}
+  .viewer-shell {height:185mm; padding:0; overflow:visible}
+  .toolbar {display:none}
+  .map-grid {grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr}
+  .viewer-header h1 {font-size:15px}
+  .metrics strong {font-size:11px}
+  .layer-options {display:none!important}
+  .map-legend {-webkit-print-color-adjust:exact; print-color-adjust:exact}
+}

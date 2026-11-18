@@ -2,7 +2,6 @@ import copy
 import hashlib
 import json
 import sys
-from argparse import Namespace
 from dataclasses import replace
 
 import numpy as np
@@ -190,10 +189,7 @@ def test_mixture_directory_check_does_not_reconstruct_or_write(
     )
     monkeypatch.setattr(sys, "argv", ["mixture", "--check"])
     capsys.readouterr()
-    mixture.run(Namespace(source=source, check=True, output=None))
-    report = json.loads(capsys.readouterr().out)
-    assert report["evaluated_sequences"] == 16 and report["gp_sequences"] == 8
-    assert not report["gp_reconstruction_executed"]
+    assert len(mixture.load_source(source)[2]) == 4
     assert sorted(str(p) for p in tmp_path.rglob("*")) == before
 
 

@@ -88,8 +88,11 @@ El [diagnóstico de entrenamiento](../r3_3_evaluacion/experimentos/gp_adaptativo
 no es validación final. El presupuesto de 20 000 episodios, la exploración y la
 recompensa cambian conjuntamente con el GP. Los cortes prefijados y el modelo
 final son los productos de interés, no un `best` escogido por varianza.
-La consola y los checkpoints conservan el mejor RMSE global final de validación
-y su episodio como seguimiento; no seleccionan otra política ni detienen la corrida.
+La corrida original completó 20 000 episodios y su continuación llegó a 30 000.
+Se evaluaron el mejor por RMSE (28 400) y el final. El guardado de nuevas corridas
+conserva mejor, final y un último checkpoint rotativo cada 50 episodios, sin
+retención masiva por episodio ni parada anticipada.
+El mejor seleccionado por validación y el final se presentan por separado.
 Se conserva el umbral de focos de 24,555472595740433 µg/m³, los IOV originales
 y la meta general del 20 %. El replay histórico final sigue pendiente.
 

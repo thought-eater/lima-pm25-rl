@@ -391,8 +391,6 @@ def run(args):
     parser = argparse.ArgumentParser(
         description="Comparar alcances GP en trayectorias congeladas, sin entrenar al agente"
     )
-    if args.check and args.output:
-        parser.error("--check no escribe archivos")
     settings = json.loads(args.config.read_text())
     spec_path = (args.config.resolve().parent / settings["experiment_config"]).resolve()
     spec = json.loads(spec_path.read_text())
@@ -425,9 +423,7 @@ def run(args):
         for t in settings["map_ticks"]
     ):
         parser.error("Los ticks de mapas deben pertenecer a la misión")
-    train, validation, protocol = prepare_experiment(
-        spec, spec_path.parent, check=args.check
-    )
+    train, validation, protocol = prepare_experiment(spec, spec_path.parent)
     assert validation is not None
     try:
         original = train.estimator_config.reconstruction_config
@@ -477,21 +473,6 @@ def run(args):
         ]
         if set(seeds) & set(spec["validation_seeds"]):
             raise ValueError("Las semillas de calibración y validación deben diferir")
-        if args.check:
-            print(
-                json.dumps(
-                    {
-                        "simulation_executed": False,
-                        "neural_training_executed": False,
-                        "new_training_partition_missions": len(seeds),
-                        "validation_missions_simulated": 0,
-                        "spatial_scales_m": scales,
-                        "source": str(source),
-                    },
-                    indent=2,
-                )
-            )
-            return
         torch.set_num_threads(training.cpu_threads)
         torch.backends.cudnn.benchmark = False
         torch.backends.cudnn.deterministic = True

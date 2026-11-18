@@ -167,7 +167,7 @@ def test_early_termination_adds_spatial_assessments_but_no_mobile_contributions(
     )
 
 
-def test_check_does_not_load_policy_or_simulate(tmp_path, monkeypatch, capsys):
+def test_bad_reference_is_rejected_before_loading_policy(tmp_path, monkeypatch, capsys):
     spec = json.loads(CONTROL_CONFIG.read_text())
     path = tmp_path / "policy-last.pt"
     torch.save(
@@ -189,8 +189,7 @@ def test_check_does_not_load_policy_or_simulate(tmp_path, monkeypatch, capsys):
         (references / f"case-{seed}.json").write_text("{}")
     env = SimpleNamespace(close=lambda: None)
 
-    def prepare(*args, check):
-        assert check
+    def prepare(*args):
         return env, env, {}
 
     monkeypatch.setattr(diagnostic, "prepare_experiment", prepare)
@@ -201,15 +200,13 @@ def test_check_does_not_load_policy_or_simulate(tmp_path, monkeypatch, capsys):
         diagnostic, "diagnose_case", lambda *a, **k: pytest.fail("No simular")
     )
     monkeypatch.setattr(sys, "argv", ["audit-gp", "--checkpoint", str(path), "--check"])
-    diagnostic.run(
-        Namespace(
-            config=CONTROL_CONFIG,
-            checkpoint=path,
-            check=True,
-            output=None,
-            device="cpu",
+    (references / "policy.json").write_text('{"policy_sha256":"incorrecto"}')
+    with pytest.raises(ValueError, match="trazas de referencia"):
+        diagnostic.run(
+            Namespace(
+                config=CONTROL_CONFIG,
+                checkpoint=path,
+                output=tmp_path / "output",
+                device="cpu",
+            )
         )
-    )
-    result = json.loads(capsys.readouterr().out)
-    assert result["simulation_executed"] is False
-    assert result["missions"] == 12

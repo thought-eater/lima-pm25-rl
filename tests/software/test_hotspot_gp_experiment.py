@@ -1,7 +1,6 @@
 import copy
 import hashlib
 import json
-from argparse import Namespace
 from dataclasses import replace
 from datetime import timedelta
 
@@ -103,10 +102,7 @@ def test_frozen_directory_check_does_not_reconstruct(
         hotspot_sampling, "build_episode", lambda *a: pytest.fail("No simular")
     )
     capsys.readouterr()
-    experiment.run(Namespace(source=source, check=True, output=None))
-    report = json.loads(capsys.readouterr().out)
-    assert report["frozen_missions"] == 4 and report["reconstructions"] == 8
-    assert not report["gp_reconstruction_executed"]
+    assert len(experiment.load_source(source)[2]) == 4
     assert sorted(str(p) for p in tmp_path.rglob("*")) == before
 
 

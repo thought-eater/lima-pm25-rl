@@ -1,0 +1,121 @@
+{
+  "purpose": "diagnostic_validation_not_final",
+  "training_executed": false,
+  "strategies": [
+    {
+      "strategy": "fixed",
+      "cases": 12,
+      "rollouts": 12,
+      "synthetic_rmse_ug_m3": 5.523020396728231,
+      "synthetic_mae_ug_m3": 3.183063361876473,
+      "final_integrated_variance": 5081198424.11958,
+      "mean_integrated_variance": 19543723347.64656,
+      "reward": 0.0,
+      "distance_m": 0.0,
+      "sampling_coverage": 0.0,
+      "policy_seed_rmse_sd_mean": null,
+      "early_terminations": 0,
+      "invalid_actions": 0,
+      "rmse_reduction_vs_fixed_percent": 0.0,
+      "variance_reduction_vs_fixed_percent": 0.0
+    },
+    {
+      "strategy": "random",
+      "cases": 12,
+      "rollouts": 60,
+      "synthetic_rmse_ug_m3": 5.408632282851048,
+      "synthetic_mae_ug_m3": 2.9418213973677396,
+      "final_integrated_variance": 3988022286.49709,
+      "mean_integrated_variance": 3869423007.4090905,
+      "reward": 0.25815652406930845,
+      "distance_m": 49297.68097803888,
+      "sampling_coverage": 0.014951035359198624,
+      "policy_seed_rmse_sd_mean": 0.3267274203933267,
+      "early_terminations": 0,
+      "invalid_actions": 0,
+      "rmse_reduction_vs_fixed_percent": 2.0711151808337602,
+      "variance_reduction_vs_fixed_percent": 21.51413990119674
+    },
+    {
+      "strategy": "greedy",
+      "cases": 12,
+      "rollouts": 60,
+      "synthetic_rmse_ug_m3": 5.45798649391852,
+      "synthetic_mae_ug_m3": 2.7655524278223944,
+      "final_integrated_variance": 3599875066.591097,
+      "mean_integrated_variance": 3226383867.221234,
+      "reward": 0.29707749611987033,
+      "distance_m": 74232.4045473087,
+      "sampling_coverage": 0.02097256485011587,
+      "policy_seed_rmse_sd_mean": 0.041602381894943495,
+      "early_terminations": 0,
+      "invalid_actions": 0,
+      "rmse_reduction_vs_fixed_percent": 1.1775061132896836,
+      "variance_reduction_vs_fixed_percent": 29.153031113622617
+    },
+    {
+      "strategy": "sweep",
+      "cases": 12,
+      "rollouts": 12,
+      "synthetic_rmse_ug_m3": 5.385764233505567,
+      "synthetic_mae_ug_m3": 2.9674264093676133,
+      "final_integrated_variance": 2772740131.768168,
+      "mean_integrated_variance": 3462929462.0290856,
+      "reward": 0.2789706568104843,
+      "distance_m": 45260.990582913655,
+      "sampling_coverage": 0.02195933318382298,
+      "policy_seed_rmse_sd_mean": null,
+      "early_terminations": 0,
+      "invalid_actions": 0,
+      "rmse_reduction_vs_fixed_percent": 2.48516488014372,
+      "variance_reduction_vs_fixed_percent": 45.431374641729306
+    },
+    {
+      "strategy": "neural",
+      "cases": 12,
+      "rollouts": 12,
+      "synthetic_rmse_ug_m3": 4.831652205493165,
+      "synthetic_mae_ug_m3": 2.6929631436048953,
+      "final_integrated_variance": 5985177071.731518,
+      "mean_integrated_variance": 4022938512.140509,
+      "reward": 0.25121344025157777,
+      "distance_m": 72097.97097655004,
+      "sampling_coverage": 0.014334305150631681,
+      "policy_seed_rmse_sd_mean": null,
+      "early_terminations": 0,
+      "invalid_actions": 0,
+      "rmse_reduction_vs_fixed_percent": 12.517936592170198,
+      "variance_reduction_vs_fixed_percent": -17.79065826913795
+    }
+  ],
+  "neural_vs_references": [
+    {
+      "reference": "fixed",
+      "rmse_reduction_percent": 12.517936592170198,
+      "variance_reduction_percent": -17.79065826913795,
+      "cases_with_lower_rmse": 11,
+      "cases": 12
+    },
+    {
+      "reference": "random",
+      "rmse_reduction_percent": 10.667763071771263,
+      "variance_reduction_percent": -50.07882709172733,
+      "cases_with_lower_rmse": 8,
+      "cases": 12
+    },
+    {
+      "reference": "greedy",
+      "rmse_reduction_percent": 11.475555850554764,
+      "variance_reduction_percent": -66.26068852437103,
+      "cases_with_lower_rmse": 6,
+      "cases": 12
+    },
+    {
+      "reference": "sweep",
+      "rmse_reduction_percent": 10.288456827820202,
+      "variance_reduction_percent": -115.85784412889745,
+      "cases_with_lower_rmse": 8,
+      "cases": 12
+    }
+  ]
+}

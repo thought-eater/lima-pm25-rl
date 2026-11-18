@@ -165,7 +165,7 @@ def test_product_inventory_uses_existing_relative_directories():
         assert ".." not in path.parts and (ROOT / path).is_dir()
 
 
-def test_check_cli_never_constructs_a_trainer_or_resets_an_environment(
+def test_invalid_schedule_stops_before_constructing_trainer(
     tmp_path, monkeypatch, capsys
 ):
     import sys
@@ -178,6 +178,7 @@ def test_check_cli_never_constructs_a_trainer_or_resets_an_environment(
             {
                 "kind": "controlled",
                 "episodes": 1,
+                "checkpoint_every": 0,
                 "steps_per_episode": 1,
                 "training": {"device": "cpu"},
             }
@@ -192,20 +193,8 @@ def test_check_cli_never_constructs_a_trainer_or_resets_an_environment(
     monkeypatch.setattr(
         sys, "argv", ["lima-pm25-train", "--config", str(path), "--check"]
     )
-    entry.run(
-        Namespace(
-            config=path,
-            check=True,
-            output=None,
-            resume=None,
-            episodes=None,
-            device="cpu",
-            seed=None,
-        )
-    )
-    result = json.loads(capsys.readouterr().out)
-    assert result["status"] == "configuration_checked"
-    assert result["training_executed"] is False
+    with pytest.raises(ValueError, match="frecuencias"):
+        entry.run(Namespace(config=path, output=tmp_path / "output", resume=None))
     assert list(tmp_path.iterdir()) == [path]
 
 
@@ -224,9 +213,7 @@ def test_check_rejects_training_arguments(monkeypatch, extra):
     import lima_pm25_rl.cli as entry
     from lima_pm25_rl import study
 
-    monkeypatch.setattr(
-        sys, "argv", ["lima-pm25-rl", "entrenar", "principal", "--comprobar", *extra]
-    )
+    monkeypatch.setattr(sys, "argv", ["lima-pm25-rl", "entrenar", "principal", *extra])
     monkeypatch.setattr(
         study,
         "prepare_experiment",

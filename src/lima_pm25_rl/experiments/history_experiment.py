@@ -362,8 +362,6 @@ def run(args):
     parser = argparse.ArgumentParser(
         description="BiLG con historia frente a presente repetido; reutiliza controles"
     )
-    if args.check and args.output:
-        parser.error("--check no escribe archivos")
     settings = json.loads(args.config.read_text())
     spec_path = (args.config.resolve().parent / settings["experiment_config"]).resolve()
     spec = json.loads(spec_path.read_text())
@@ -381,28 +379,12 @@ def run(args):
         parser.error(
             "Se requiere el piloto BiLG de 200 episodios, cuatro observaciones y semillas 42/43/44"
         )
-    train, validation, protocol = prepare_experiment(
-        spec, spec_path.parent, check=args.check
-    )
+    train, validation, protocol = prepare_experiment(spec, spec_path.parent)
     assert validation is not None
     try:
         check_control(train.domain.grid, train.estimator_config)
         source = args.controls
         validate_controls(source, spec, protocol)
-        if args.check:
-            print(
-                json.dumps(
-                    {
-                        "training_executed": False,
-                        "simulation_executed": False,
-                        "reused_controls": 3,
-                        "new_training_episodes": 600,
-                        "controls": str(source),
-                    },
-                    indent=2,
-                )
-            )
-            return
         output = args.output
         print(f"Salida: {output}", flush=True)
         run_experiment(

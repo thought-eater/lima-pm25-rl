@@ -286,25 +286,6 @@ def test_cli_freezes_training_selection_before_loading_validation(
         "--diagnostic",
         str(source),
     ]
-    original_load = experiment.load_policy
-    monkeypatch.setattr(
-        experiment,
-        "load_policy",
-        lambda *a, **k: pytest.fail("check no debe cargar la red"),
-    )
-    monkeypatch.setattr(sys, "argv", [*arguments, "--check"])
-    experiment.run(
-        Namespace(
-            config=settings_path,
-            diagnostic=source,
-            checkpoint=None,
-            check=True,
-            output=None,
-            device="cpu",
-        )
-    )
-    assert json.loads(capsys.readouterr().out)["simulation_executed"] is False
-    monkeypatch.setattr(experiment, "load_policy", original_load)
     output = tmp_path / "result"
     original_loader = experiment.load_frozen_case
     validation_reads = []

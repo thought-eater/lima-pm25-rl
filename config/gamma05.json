@@ -2,7 +2,6 @@
   "kind": "generated",
   "core_root": "../../lima-pm25-core",
   "episodes": 2000,
-  "policy_snapshot_episodes": [1000],
   "steps_per_episode": 36,
   "noise_stddev_ug_m3": 1.0,
   "concentration_priority": 1.0,
@@ -26,7 +25,7 @@
   "validation_seeds": [100002, 100003, 100010, 100013, 100000, 100001, 100032, 100037, 100018, 100033, 100006, 100011],
   "validation_every": 20,
   "evaluation_policy_seeds": [0, 1, 2, 3, 4],
-  "checkpoint_every": 1,
+  "checkpoint_every": 50,
   "training": {
     "seed": 42,
     "device": "cuda",

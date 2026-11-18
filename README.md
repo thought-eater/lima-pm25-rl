@@ -38,8 +38,15 @@ Hay una sola entrada pública: **`lima-pm25-rl`**. Sus subcomandos son `entrenar
 `evaluar`, `comparar`, `experimento`, `informe` y `visualizar`. Los procedimientos,
 entradas y costes se explican en [REPRODUCIR.md](REPRODUCIR.md).
 Los perfiles de entrenamiento declaran CUDA en el JSON y se detienen si no está
-disponible. Se conservan políticas por episodio, checkpoints periódicos y el mejor
-modelo por RMSE de validación con su estado completo para reanudar.
+disponible. Se conservan el mejor modelo por RMSE y el final, con sus estados
+completos, además de un último checkpoint rotativo cada 50 episodios.
+`entrenar adaptativo --reanudar RUTA` acepta la carpeta de la corrida (último
+estado completo) o un checkpoint completo concreto. El total se declara en el JSON.
+
+`visualizar` genera un HTML Folium con cuatro mapas sincronizados: recorrido,
+estimación GP, verdad sintética y error. Incluye reproducción temporal, selección
+de misión y consulta por celda. Sus entradas se fijan en `config/visualizacion.json`.
+Usa los datos conservados; no entrena ni ejecuta misiones nuevas.
 
 ## Organización
 
@@ -71,8 +78,9 @@ reserva a salidas temporales; `dist/`, a los paquetes construidos.
 - Se presentan mejoras y deterioros. La meta general del 20 % no se declara
   alcanzada por mejorar únicamente la distancia o una métrica localizada.
 - El replay histórico final sigue pendiente. El candidato con ajuste GP por
-  verosimilitud marginal y recompensa de cambio del modelo completó 20 000 episodios;
-  su evaluación comparativa y la continuación hasta 30 000 siguen pendientes. Véase el
+  verosimilitud marginal y recompensa de cambio del modelo completó 30 000 episodios;
+  se evaluaron el mejor de validación (28 400) y el final. Véanse la
+  [comparación](resultados/r3_3_evaluacion/adaptativo/README.md) y el
   [protocolo adaptativo](resultados/r3_1_formulacion/adaptativo.md).
 
 ## Verificación del software

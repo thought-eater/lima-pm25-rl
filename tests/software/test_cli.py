@@ -22,44 +22,37 @@ def test_new_directory_name_contains_only_date_and_seconds():
     assert path.parent.name == "gamma099"
 
 
-def test_training_check_never_builds_network_or_writes_output(
-    tmp_path, monkeypatch, capsys
-):
-    (tmp_path / "entrenamiento.json").write_text(
-        json.dumps(
-            {
-                "kind": "controlled",
-                "episodes": 1,
-                "steps_per_episode": 1,
-                "training": {"device": "cpu"},
-            }
-        )
-    )
-    monkeypatch.setattr(cli, "CONFIG", tmp_path)
+@pytest.mark.parametrize(
+    "command",
+    [
+        ["entrenar", "adaptativo", "--comprobar"],
+        ["experimento", "gp-adaptativo", "--comprobar"],
+        ["entrenar", "adaptativo-continuacion"],
+    ],
+)
+def test_removed_cli_modes_fail_before_any_work(monkeypatch, command):
     monkeypatch.setattr(
         study, "Trainer", lambda *a, **k: pytest.fail("No debe entrenar")
     )
-    monkeypatch.setattr(
-        sys, "argv", ["lima-pm25-rl", "entrenar", "principal", "--comprobar"]
-    )
-    cli.main()
-    assert json.loads(capsys.readouterr().out)["training_executed"] is False
-    assert len(list(tmp_path.iterdir())) == 1
+    monkeypatch.setattr(sys, "argv", ["lima-pm25-rl", *command])
+    with pytest.raises(SystemExit) as error:
+        cli.main()
+    assert error.value.code == 2
 
 
-def test_visualize_only_returns_the_declared_report(tmp_path, monkeypatch, capsys):
-    page = tmp_path / "index.html"
-    page.write_text("<html>Informe</html>")
-    monkeypatch.setattr(cli, "product", lambda name: tmp_path)
+def test_visualize_uses_the_folium_viewer(monkeypatch):
+    from lima_pm25_rl import map_viewer
+
+    calls = []
+    monkeypatch.setattr(map_viewer, "run", lambda: calls.append("viewer"))
     monkeypatch.setattr(sys, "argv", ["lima-pm25-rl", "visualizar"])
     cli.main()
-    assert str(page) in capsys.readouterr().out
-    assert page.read_text() == "<html>Informe</html>"
+    assert calls == ["viewer"]
 
 
 def test_experiment_inputs_are_explicit_without_cache_search():
-    args = cli.experiment_arguments("gp-temporal", check=True)
-    assert args.output is None and args.check
+    args = cli.experiment_arguments("gp-temporal")
+    assert "resultados" in args.output.parts
     assert args.spatial_experiment.is_dir() and args.diagnostic.is_dir()
     assert "resultados" in args.spatial_experiment.parts
     assert args.device == "cuda"

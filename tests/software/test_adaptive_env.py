@@ -270,12 +270,12 @@ def test_adaptive_training_exports_final_without_variance_selected_best(
         validation_env=build(domain, template, estimator_config),
         validation_seeds=[42],
         validation_every=1,
-        policy_snapshot_episodes=[1],
     )
     assert row["validation_mse"] >= 0
     assert (output / "policy-last.pt").exists()
-    assert (output / "policy-episode-0001.pt").exists()
-    assert not (output / "policy-best.pt").exists()
+    assert (output / "checkpoint-final.pt").exists()
+    assert (output / "policy-best.pt").exists()
+    assert not list(output.glob("policy-episode-*.pt"))
     other = Trainer(
         build(domain, template, estimator_config), config, protocol=protocol
     )
@@ -334,14 +334,13 @@ def test_interrupted_adaptive_training_resumes_best_rmse_and_generates_report(
     original_csv = (first / "metrics.csv").read_bytes()
     state = torch.load(first / "checkpoint-last.pt", weights_only=True)
     assert state["completed_episodes"] == 2
-    assert state["best_validation_rmse"] is not None
-    assert state["best_validation_episode"] <= 2
+    assert state["best_validation"]["rmse"] is not None
+    assert state["best_validation"]["episode"] <= 2
     resumed = Trainer(
         build(domain, template, estimator_config), config, protocol=protocol
     )
     resumed.load_checkpoint(first / "checkpoint-last.pt")
-    assert resumed.best_validation_rmse == state["best_validation_rmse"]
-    assert resumed.best_validation_episode == state["best_validation_episode"]
+    assert resumed.best_validation == state["best_validation"]
     run_training(
         resumed,
         episodes=4,
@@ -351,7 +350,6 @@ def test_interrupted_adaptive_training_resumes_best_rmse_and_generates_report(
         validation_seeds=[42],
         validation_every=2,
         resumed_from=str(first / "checkpoint-last.pt"),
-        policy_snapshot_episodes=[4],
     )
     # El episodio repetido reproduce recompensa y aprendizaje desde el checkpoint.
     with (first / "metrics.csv").open() as file:
@@ -391,12 +389,12 @@ def test_interrupted_adaptive_training_resumes_best_rmse_and_generates_report(
     with (tmp_path / "report/validation-1.csv").open() as file:
         validations = list(csv.DictReader(file))
     best = min(validations, key=lambda row: float(row["synthetic_mse"]))
-    assert resumed.best_validation_rmse == pytest.approx(
+    assert resumed.best_validation["rmse"] == pytest.approx(
         np.sqrt(float(best["synthetic_mse"]))
     )
-    assert resumed.best_validation_episode == int(best["episode"])
-    assert not (second / "policy-best.pt").exists()
-    assert (second / "policy-episode-0004.pt").is_file()
+    assert resumed.best_validation["episode"] == int(best["episode"])
+    assert (second / "policy-best.pt").exists()
+    assert (second / "policy-last.pt").is_file()
     best_record = json.loads((second / "best-rmse.json").read_text())
     policy, _ = load_policy(second / best_record["policy_file"], device=device)
     reproduced = evaluate_episode(
@@ -415,4 +413,5 @@ def test_interrupted_adaptive_training_resumes_best_rmse_and_generates_report(
         for key, v in policy.network.state_dict().items()
     )
     text = capsys.readouterr().out
-    assert "mejor recuperable=" in text and "en episodio" in text
+    assert "mejor RMSE=" in text and "en episodio" in text
+    assert "recuperable" not in text and "histórico" not in text

@@ -194,7 +194,7 @@ def test_frozen_reference_loader_checks_consistency(tmp_path):
         experiment.load_offline(tmp_path, [42])
 
 
-def test_check_does_not_simulate_or_load_controller(
+def test_bad_reference_is_rejected_before_feedback_simulation(
     domain, estimator_config, tmp_path, monkeypatch, capsys
 ):
     spec = json.loads(CONTROL_CONFIG.read_text())
@@ -257,8 +257,7 @@ def test_check_does_not_simulate_or_load_controller(
     for seed in spec["validation_seeds"]:
         (reference / f"case-{seed}.json").write_text("{}")
 
-    def prepare(*args, check):
-        assert check
+    def prepare(*args):
         return env, env, {}
 
     monkeypatch.setattr(experiment, "prepare_experiment", prepare)
@@ -272,16 +271,15 @@ def test_check_does_not_simulate_or_load_controller(
     monkeypatch.setattr(
         sys, "argv", ["feedback", "--temporal-experiment", str(source), "--check"]
     )
-    experiment.run(
-        Namespace(
-            config=CONTROL_CONFIG,
-            temporal_experiment=source,
-            diagnostic=None,
-            checkpoint=None,
-            check=True,
-            output=None,
-            device="cpu",
+    (reference / "policy.json").write_text('{"policy_sha256":"incorrecto"}')
+    with pytest.raises(ValueError, match="trazas de control"):
+        experiment.run(
+            Namespace(
+                config=CONTROL_CONFIG,
+                temporal_experiment=source,
+                diagnostic=None,
+                checkpoint=None,
+                output=tmp_path / "output",
+                device="cpu",
+            )
         )
-    )
-    report = json.loads(capsys.readouterr().out)
-    assert report["missions"] == 24 and report["simulation_executed"] is False

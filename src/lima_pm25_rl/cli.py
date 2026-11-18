@@ -13,12 +13,12 @@ POLICIES = {
     "adaptativo-30000": (
         "adaptativo-continuacion",
         "policy-last.pt",
-        "adaptativo-continuacion.json",
+        "adaptativo.json",
     ),
     "adaptativo-mejor": (
         "adaptativo-continuacion",
         "best-rmse.json",
-        "adaptativo-continuacion.json",
+        "adaptativo.json",
     ),
     "gamma099-1000": ("continuacion", "policy-episode-1000.pt", "entrenamiento.json"),
     "gamma099-2000": ("continuacion", "policy-episode-2000.pt", "entrenamiento.json"),
@@ -46,7 +46,7 @@ EXPERIMENTS = {
 }
 
 
-def experiment_arguments(name, *, check=False):
+def experiment_arguments(name):
     """Entradas concretas de los experimentos publicados; no descubrimiento automático."""
     _, config = EXPERIMENTS[name]
     config = CONFIG / config if config else None
@@ -62,10 +62,9 @@ def experiment_arguments(name, *, check=False):
     }
     return argparse.Namespace(
         config=config,
-        output=None
-        if check
-        else output_directory(f"r3_3_evaluacion/experimentos/{name.replace('-', '_')}"),
-        check=check,
+        output=output_directory(
+            f"r3_3_evaluacion/experimentos/{name.replace('-', '_')}"
+        ),
         device=settings.get("training", {}).get("device", "cuda"),
         cases=12,
         case=100002,
@@ -101,12 +100,10 @@ def evaluate_policy(name):
     suffix = name.rsplit("-", 1)[-1]
     expected_episode = int(suffix) if suffix.isdigit() else None
     if filename == "best-rmse.json":
-        from .training_artifacts import policy_name
-
         best = json.loads(checkpoint.read_text())
         expected_episode = best["episode"]
-        if best["policy_file"] != policy_name(expected_episode):
-            raise ValueError("El registro del mejor no identifica su política")
+        if Path(best["policy_file"]).name != best["policy_file"]:
+            raise ValueError("La política del mejor debe pertenecer a la corrida")
         checkpoint = product(key) / best["policy_file"]
     output = output_directory(f"r3_3_evaluacion/politicas/{name}")
     run(
@@ -154,10 +151,14 @@ def main():
     )
     train.add_argument(
         "perfil",
-        choices=("principal", "gamma05", "adaptativo", "adaptativo-continuacion"),
+        choices=("principal", "gamma05", "adaptativo"),
     )
-    train.add_argument("--reanudar", type=Path)
-    train.add_argument("--comprobar", action="store_true")
+    train.add_argument(
+        "--reanudar",
+        type=Path,
+        metavar="RUTA",
+        help="Carpeta de corrida (último estado) o archivo de checkpoint completo",
+    )
     evaluate = commands.add_parser(
         "evaluar", help="Evaluación global, focos y recorrido de una política"
     )
@@ -170,11 +171,12 @@ def main():
         "experimento", help="Reproducir un procedimiento complementario"
     )
     experiment.add_argument("nombre", choices=tuple(EXPERIMENTS))
-    experiment.add_argument("--comprobar", action="store_true")
     commands.add_parser(
         "informe", help="Generar el informe visual con los productos publicados"
     )
-    commands.add_parser("visualizar", help="Localizar el informe visual conservado")
+    commands.add_parser(
+        "visualizar", help="Generar el visor Folium de cuatro mapas sincronizados"
+    )
     args = parser.parse_args()
     try:
         if args.command == "entrenar":
@@ -186,42 +188,23 @@ def main():
                     "principal": "entrenamiento.json",
                     "gamma05": "gamma05.json",
                     "adaptativo": "adaptativo.json",
-                    "adaptativo-continuacion": "adaptativo-continuacion.json",
                 }[args.perfil]
             )
             run(
                 argparse.Namespace(
                     config=config,
-                    check=args.comprobar,
-                    output=None
-                    if args.comprobar
-                    else output_directory(
+                    output=output_directory(
                         f"r3_2_entrenamiento/{'gamma099' if args.perfil == 'principal' else 'adaptativo' if args.perfil.startswith('adaptativo') else args.perfil}"
                     ),
                     resume=args.reanudar,
-                    episodes=None,
-                    seed=None,
                 )
             )
         elif args.command == "evaluar":
             evaluate_policy(args.politica)
         elif args.command == "experimento":
-            if args.comprobar and args.nombre in {
-                "escenarios",
-                "movilidad",
-                "llegadas",
-                "valores-q",
-            }:
-                # Estos diagnósticos no tienen fase de composición: validar sus entradas.
-                options = experiment_arguments(args.nombre, check=True)
-                for path in (options.config, options.checkpoint):
-                    if not path.is_file():
-                        raise FileNotFoundError(path)
-                print("Entradas disponibles; no se ejecutaron misiones.")
-                return
             module, _ = EXPERIMENTS[args.nombre]
             import_module(f".experiments.{module}", __package__).run(
-                experiment_arguments(args.nombre, check=args.comprobar)
+                experiment_arguments(args.nombre)
             )
         elif args.command == "comparar":
             from .training_report import comparison_section
@@ -256,9 +239,8 @@ def main():
                 )
             )
         else:
-            path = product("informe") / "index.html"
-            if not path.is_file():
-                raise FileNotFoundError(path)
-            print(path)
+            from .map_viewer import run
+
+            run()
     except (ValueError, FileNotFoundError, FileExistsError) as error:
         parser.error(str(error))

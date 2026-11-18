@@ -1,7 +1,7 @@
 import io
 import json
 import tarfile
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import timedelta
 
 import numpy as np
@@ -19,6 +19,7 @@ from lima_pm25_rl.hotspot_evaluation import (
     reconstruct_mission,
     route_progress,
     source_files,
+    validate_fixed_reference,
 )
 from lima_pm25_rl.policies import BaselinePolicy
 
@@ -163,6 +164,23 @@ def test_measurement_csv_roundtrip_preserves_fixed_hash_and_rejects_duplicates(
     assert measurement_digest(records) == measurement_digest(tuple(env._records))
     with pytest.raises(ValueError, match="duplicadas"):
         parse_measurements([rows[0], rows[0]])
+
+
+def test_fixed_reference_tolerates_coordinate_roundoff_only(make_env):
+    env = make_env()
+    env.reset(seed=42)
+    fixed = tuple(r for r in env._records if r.sensor_type == "fixed")
+    assert fixed
+    rounded = (replace(fixed[0], x_m=fixed[0].x_m + 1e-10), *fixed[1:])
+    validate_fixed_reference(rounded, fixed)
+    for changed in (
+        replace(fixed[0], x_m=fixed[0].x_m + 0.001),
+        replace(fixed[0], value_ug_m3=fixed[0].value_ug_m3 + 1e-6),
+        replace(fixed[0], noise_stddev_ug_m3=fixed[0].noise_stddev_ug_m3 + 0.01),
+        replace(fixed[0], timestamp_utc=fixed[0].timestamp_utc + timedelta(seconds=1)),
+    ):
+        with pytest.raises(ValueError, match="fijas"):
+            validate_fixed_reference((changed, *fixed[1:]), fixed)
 
 
 @pytest.mark.parametrize("smoke", [True, False])

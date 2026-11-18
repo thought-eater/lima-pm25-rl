@@ -190,11 +190,6 @@ def run(args):
         threshold = json.loads((product("duracion") / "protocol.json").read_text())[
             "threshold_ug_m3"
         ]
-        if args.check:
-            print(
-                f"Preparación válida: {len(seeds)} casos de entrenamiento; cuatro episodios integrados al ejecutar."
-            )
-            return
         output = args.output
         output.mkdir(parents=True, exist_ok=False)
         _write_json(

@@ -384,8 +384,6 @@ def run(args):
     parser = argparse.ArgumentParser(
         description="Doce misiones de diagnóstico GP, sin entrenamiento"
     )
-    if args.check and args.output:
-        parser.error("--check no escribe resultados")
     spec = json.loads(args.config.read_text())
     config = TrainingConfig(**spec["training"])
     _validate_seeds(spec["validation_seeds"])
@@ -400,9 +398,7 @@ def run(args):
             "El control prefijado es BiLG, semilla 42, episodio 200, escenarios generados y shortest"
         )
     candidates = [args.checkpoint]
-    train, env, protocol = prepare_experiment(
-        spec, args.config.resolve().parent, check=args.check
-    )
+    train, env, protocol = prepare_experiment(spec, args.config.resolve().parent)
     train.close()
     assert env is not None
     try:
@@ -431,19 +427,6 @@ def run(args):
                 raise ValueError(
                     f"Falta la traza de referencia del caso {seed} en {reference_dir}"
                 )
-        if args.check:
-            print(
-                json.dumps(
-                    {
-                        "training_executed": False,
-                        "simulation_executed": False,
-                        "checkpoint": str(chosen),
-                        "missions": len(spec["validation_seeds"]),
-                    },
-                    indent=2,
-                )
-            )
-            return
         torch.set_num_threads(config.cpu_threads)
         torch.backends.cudnn.benchmark = False
         torch.backends.cudnn.deterministic = True

@@ -176,8 +176,6 @@ def run(args):
     parser = argparse.ArgumentParser(
         description="Comparar escalas temporales GP sin generar misiones"
     )
-    if args.check and args.output:
-        parser.error("--check no escribe archivos")
     settings = json.loads(args.config.read_text())
     spec_path = (args.config.resolve().parent / settings["experiment_config"]).resolve()
     spec = json.loads(spec_path.read_text())
@@ -266,22 +264,6 @@ def run(args):
                     raise ValueError(f"Faltan datos congelados del caso {seed}")
         if not (source / "source-files.json").is_file():
             raise ValueError("Falta el manifiesto de la validación espacial")
-        if args.check:
-            print(
-                json.dumps(
-                    {
-                        "simulation_executed": False,
-                        "neural_training_executed": False,
-                        "new_missions": 0,
-                        "calibration_cases": len(seeds),
-                        "validation_cases": len(spec["validation_seeds"]),
-                        "temporal_scales_s": scales,
-                        "spatial_source": str(source),
-                    },
-                    indent=2,
-                )
-            )
-            return
         torch.set_num_threads(config.cpu_threads)
         output = args.output
         print(f"Salida: {output}", flush=True)

@@ -1,6 +1,5 @@
 """Control congelado de dos GP y mezclas fija/adaptativa; sin aprendizaje de rutas."""
 
-import argparse
 import hashlib
 import io
 import json
@@ -537,32 +536,8 @@ def run_comparison(loaded, source, output, *, maps=True):
 
 
 def run(args):
-    parser = argparse.ArgumentParser(
-        description="Comparar GP lento/rápido y mezclas fija/adaptativa sobre hot3"
-    )
-    if args.check and args.output:
-        parser.error("--check no escribe resultados")
     source = args.source
     loaded = load_source(source)
-    if args.check:
-        print(
-            json.dumps(
-                {
-                    "source": str(source),
-                    "frozen_missions": len(loaded[2]),
-                    "evaluated_sequences": len(loaded[2]) * 4,
-                    "gp_sequences": len(loaded[2]) * 2,
-                    "arms": ARMS,
-                    "gate": asdict(GATE_CONFIG),
-                    "inputs_verified": True,
-                    "gp_reconstruction_executed": False,
-                    "simulation_executed": False,
-                    "training_executed": False,
-                },
-                indent=2,
-            )
-        )
-        return
     torch.set_num_threads(1)
     output = args.output
     print(f"Entrada: {source}\nSalida: {output}", flush=True)

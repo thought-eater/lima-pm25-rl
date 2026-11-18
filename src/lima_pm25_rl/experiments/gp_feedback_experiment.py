@@ -333,8 +333,6 @@ def run(args):
     parser = argparse.ArgumentParser(
         description="Comparar GP temporal con decisiones libres y pesos congelados"
     )
-    if args.check and args.output:
-        parser.error("--check no escribe resultados")
     spec = json.loads(args.config.read_text())
     config = TrainingConfig(**spec["training"])
     _validate_seeds(spec["validation_seeds"])
@@ -345,9 +343,7 @@ def run(args):
         or spec["episodes"] != 200
     ):
         parser.error("Se requiere BiLG-42 del episodio 200 en escenarios generados")
-    train, env, protocol = prepare_experiment(
-        spec, args.config.resolve().parent, check=args.check
-    )
+    train, env, protocol = prepare_experiment(spec, args.config.resolve().parent)
     train.close()
     assert env is not None
     try:
@@ -416,20 +412,6 @@ def run(args):
         if not all(p.is_file() for p in paths.values()):
             raise ValueError("Faltan trazas originales de control en evaluation-last")
         offline = load_offline(source, spec["validation_seeds"])
-        if args.check:
-            print(
-                json.dumps(
-                    {
-                        "simulation_executed": False,
-                        "training_executed": False,
-                        "missions": 2 * len(paths),
-                        "temporal_scales_s": VARIANTS,
-                        "checkpoint": str(checkpoint),
-                    },
-                    indent=2,
-                )
-            )
-            return
         torch.set_num_threads(config.cpu_threads)
         torch.backends.cudnn.benchmark = False
         torch.backends.cudnn.deterministic = True

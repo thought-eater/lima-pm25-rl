@@ -1,8 +1,7 @@
 {
   "kind": "generated",
   "core_root": "../../lima-pm25-core",
-  "episodes": 20000,
-  "policy_snapshot_episodes": [2000, 5000, 10000, 15000, 20000],
+  "episodes": 30000,
   "steps_per_episode": 36,
   "noise_stddev_ug_m3": 1.0,
   "reward_mode": "model_change",
