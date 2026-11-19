@@ -13,7 +13,7 @@ from matplotlib.figure import Figure
 
 from .files import PROJECT_ROOT, product, source_files, unique_file, write_csv
 from .hotspot_evaluation import field_protocol
-from .training import TrainingConfig
+from .training import TrainingConfig, learning_protocol
 
 DEFAULT_CONFIG = PROJECT_ROOT / "config/informe.json"
 VALIDATION = {
@@ -60,7 +60,13 @@ def load_training(paths, label, *, end_episodes=None):
     expected = None
     for path, end in zip(paths, ends, strict=True):
         files = source_files(
-            path, {"config.json", "metrics.csv", "validation-initial.json"}
+            path,
+            {
+                "config.json",
+                "metrics.csv",
+                "validation-initial.json",
+                "validation-resume.json",
+            },
         )
         config = json.loads(unique_file(files, "config.json"))
         parameters = asdict(TrainingConfig(**config["training"]))
@@ -69,9 +75,8 @@ def load_training(paths, label, *, end_episodes=None):
         }
         identity = (
             parameters,
-            config["protocol"],
+            learning_protocol(config["protocol"]),
             config["validation_seeds"],
-            config["validation_every"],
         )
         if expected is not None and identity != expected:
             raise ValueError(
@@ -110,6 +115,19 @@ def load_training(paths, label, *, end_episodes=None):
                         f"El contador {name} no continúa el tramo anterior"
                     )
             boundaries.append(start)
+            if "validation-resume.json" in files:
+                # El corte inicial del tramo puede aportar RMSE/MAE que los CSV
+                # antiguos no registraban. Conservar las mediciones originales.
+                measurement = json.loads(files["validation-resume.json"])
+                if not validation or validation[-1]["episode"] != start:
+                    validation.append({"episode": start})
+                for key in (
+                    *VALIDATION.values(),
+                    "synthetic_mse",
+                    "synthetic_mae_ug_m3",
+                ):
+                    if key in measurement:
+                        validation[-1].setdefault(key, measurement[key])
         for r in raw:
             row = {key: float(value) if value else None for key, value in r.items()}
             if any(
@@ -195,6 +213,10 @@ def load_training(paths, label, *, end_episodes=None):
     # Nuevas columnas de seguimiento pueden aparecer al reanudar una corrida.
     columns = dict.fromkeys(key for row in rows for key in row)
     rows = [{key: row.get(key) for key in columns} for row in rows]
+    validation_columns = dict.fromkeys(key for row in validation for key in row)
+    validation = [
+        {key: row.get(key) for key in validation_columns} for row in validation
+    ]
     return {
         "label": label,
         "rows": rows,
@@ -389,7 +411,7 @@ def learning_figures(runs, output, window):
     measured = [
         run
         for run in runs
-        if run["validation"] and all("synthetic_mse" in r for r in run["validation"])
+        if any(r.get("synthetic_mse") is not None for r in run["validation"])
     ]
     if measured:
         figure = Figure(figsize=(12, 4), layout="constrained")
@@ -401,7 +423,7 @@ def learning_figures(runs, output, window):
             strict=True,
         ):
             for run in measured:
-                rows = run["validation"]
+                rows = [r for r in run["validation"] if r.get(key) is not None]
                 values = [
                     np.sqrt(r[key]) if key == "synthetic_mse" else r[key] for r in rows
                 ]

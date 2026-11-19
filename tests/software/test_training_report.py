@@ -119,6 +119,21 @@ def test_counter_reset_is_rejected(tmp_path):
         load_training([first, second], "Invalid")
 
 
+def test_changed_validation_cadence_keeps_measured_errors_at_resume(tmp_path):
+    first, second = (
+        segment(tmp_path / "first", 0, 2),
+        segment(tmp_path / "second", 2, 4),
+    )
+    for folder, spacing in ((first, 20), (second, 200)):
+        cfg = json.loads((folder / "config.json").read_text())
+        cfg["protocol"]["validation_every"] = cfg["validation_every"] = spacing
+        (folder / "config.json").write_text(json.dumps(cfg))
+    (second / "validation-resume.json").write_text(json.dumps({"synthetic_mse": 25.0}))
+    run = load_training([first, second], "fijo")
+    assert [r["episode"] for r in run["validation"]] == [0, 2, 4]
+    assert [r["synthetic_mse"] for r in run["validation"]] == [None, 25, None]
+
+
 def test_interrupted_segment_can_continue_without_inventing_missing_episodes(tmp_path):
     first = segment(tmp_path / "first", 0, 2)
     config = json.loads((first / "config.json").read_text())

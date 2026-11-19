@@ -11,7 +11,7 @@ from .study import (
     _sha256,
     prepare_experiment,
 )
-from .training import TrainingConfig, load_policy, resolve_device
+from .training import TrainingConfig, learning_protocol, load_policy, resolve_device
 
 
 def _compatible(state, config: TrainingConfig, protocol) -> bool:
@@ -32,8 +32,10 @@ def _compatible(state, config: TrainingConfig, protocol) -> bool:
     expected = {
         key: value for key, value in asdict(config).items() if key not in hardware
     }
-    return actual == expected and state.get("protocol") == json.loads(
-        json.dumps(protocol)
+    return (
+        actual == expected
+        and isinstance(state.get("protocol"), dict)
+        and learning_protocol(state["protocol"]) == learning_protocol(protocol)
     )
 
 
@@ -70,7 +72,7 @@ def run(args) -> None:
                 "Los episodios de la política no coinciden con la selección"
             )
         del state
-        policy, _ = load_policy(path, device=str(device))
+        policy, saved_protocol = load_policy(path, device=str(device))
         print(f"Dispositivo: {device}", flush=True)
         output = args.output
         print(f"Política: {path}", flush=True)
@@ -82,7 +84,7 @@ def run(args) -> None:
             policy_seeds=spec.get("evaluation_policy_seeds", [0, 1, 2, 3, 4]),
             output=output,
             metadata={
-                "protocol": protocol,
+                "protocol": saved_protocol,
                 "training": asdict(config),
                 "checkpoint_path": str(path),
                 "checkpoint_sha256": _sha256(path),

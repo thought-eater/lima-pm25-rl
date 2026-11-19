@@ -40,7 +40,13 @@ def test_server_config_uses_the_requested_budget_and_separate_final_period():
     spec, configs = server_inputs()
     training = TrainingConfig(**spec["training"])
     assert spec["kind"] == "generated"
-    assert spec["episodes"] == 2000
+    assert spec["episodes"] == 30000
+    adaptive = json.loads((CONFIG.parent / "adaptativo.json").read_text())
+    assert spec["validation_seeds"] == adaptive["validation_seeds"]
+    assert spec["validation_every"] == adaptive["validation_every"] == 200
+    assert spec["checkpoint_every"] == 50
+    assert "adaptive_gp" not in spec
+    assert training.gamma == 0.99 and training.epsilon_decay_steps == 18000
     assert spec["steps_per_episode"] == 36
     assert training.hidden_size == 64 and training.history_length == 4
     assert training.capacity_steps >= spec["steps_per_episode"]

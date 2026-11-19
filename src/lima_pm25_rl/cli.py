@@ -9,6 +9,8 @@ from .files import PROJECT_ROOT, _write_json, output_directory, product
 
 CONFIG = PROJECT_ROOT / "config"
 POLICIES = {
+    "fijo-30000": ("fijo-30000", "policy-last.pt", "entrenamiento.json"),
+    "fijo-mejor": ("fijo-30000", "best-rmse.json", "entrenamiento.json"),
     "adaptativo-20000": ("adaptativo", "policy-last.pt", "adaptativo.json"),
     "adaptativo-30000": (
         "adaptativo-continuacion",

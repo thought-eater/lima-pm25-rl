@@ -80,8 +80,9 @@ uv run --locked lima-pm25-rl entrenar principal
 uv run --locked lima-pm25-rl entrenar gamma05
 ```
 
-Cada perfil fija 2000 episodios, semilla 42 y la programación de exploración
-original. `principal` usa gamma 0,99; `gamma05`, gamma 0,5. El segundo comienza
+`principal` fija actualmente 30 000 episodios, `gamma05` fija 2000. Ambos usan
+semilla 42 y la programación de exploración original. `principal` usa gamma 0,99;
+`gamma05`, gamma 0,5. El segundo comienza
 desde cero, no desde los pesos del primero. Se guardan configuración, métricas,
 políticas y un checkpoint completo entre episodios.
 
@@ -102,6 +103,43 @@ requiere ejecutarlos.
 
 CUDA, configuración y compatibilidad se comprueban automáticamente al ejecutar.
 La CLI no tiene modo separado de comprobación.
+
+### Continuar el GP fijo de 2000 a 30 000
+
+Desde la raíz de RL, con los dos repositorios actualizados en el servidor:
+
+```bash
+uv run --locked lima-pm25-rl entrenar principal \
+  --reanudar resultados/r3_2_entrenamiento/gamma099/2026-11-14_23-34-29/checkpoint-last.pt
+```
+
+Se esperan 2000 episodios completados, 28 000 restantes y epsilon 0,05. El GP,
+recompensa, Adam, replay, redes, semillas y configuración de exploración siguen
+siendo los del fijo. Se reevalúa el punto de partida y se guarda como primer
+mejor por RMSE del tramo. La comparación de mejores usa solo 2000, 2200, …,
+30 000 (141 mediciones, mismos doce casos); la comparación principal usa los dos
+finales. Solo cambia la frecuencia de medir la validación, no el método de
+aprendizaje. En una interrupción reanudar desde la **carpeta nueva** indicada
+en `Salida:`. Anotar cada carpeta si hubo varios tramos.
+
+Después del entrenamiento, sustituir `FECHA_UTC` por el nombre real de la nueva
+carpeta y empaquetar desde la raíz de RL (añadir explícitamente cualquier otro
+tramo nuevo que haya sido necesario para llegar al final):
+
+```bash
+tar --zstd -cf gp-fijo-30000.tar.zst \
+  resultados/r3_2_entrenamiento/gamma099/FECHA_UTC config/entrenamiento.json
+```
+
+Para recibirlo, extraer en una **carpeta nueva** sin sobrescribir el repositorio:
+
+```bash
+mkdir recibido-gp-fijo-30000 && tar --zstd -xf gp-fijo-30000.tar.zst -C recibido-gp-fijo-30000
+```
+
+Conservar las carpetas originales de 1–2000. Para evaluar el tramo recibido,
+registrar su carpeta final como `fijo-30000` en `config/productos.json` y usar
+`evaluar fijo-30000` y `evaluar fijo-mejor`. No registrar hasta recibir la corrida.
 
 ### Candidato adaptativo
 

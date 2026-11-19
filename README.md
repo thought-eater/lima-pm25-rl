@@ -42,6 +42,9 @@ disponible. Se conservan el mejor modelo por RMSE y el final, con sus estados
 completos, además de un último checkpoint rotativo cada 50 episodios.
 `entrenar adaptativo --reanudar RUTA` acepta la carpeta de la corrida (último
 estado completo) o un checkpoint completo concreto. El total se declara en el JSON.
+La [continuación con GP fijo](REPRODUCIR.md#continuar-el-gp-fijo-de-2000-a-30-000)
+usa el estado de gamma 0,99 del episodio 2000 y el mismo calendario de validación
+que el adaptativo desde ese punto.
 
 `visualizar` genera un HTML Folium con cuatro mapas sincronizados: recorrido,
 estimación GP, verdad sintética y error. Incluye reproducción temporal, selección

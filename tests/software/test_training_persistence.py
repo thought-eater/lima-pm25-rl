@@ -9,7 +9,12 @@ import torch
 from lima_pm25_rl.evaluation import evaluate_episode
 from lima_pm25_rl.files import atomic_output
 from lima_pm25_rl.study import run_training
-from lima_pm25_rl.training import Trainer, TrainingConfig, load_policy
+from lima_pm25_rl.training import (
+    Trainer,
+    TrainingConfig,
+    load_policy,
+    read_training_checkpoint,
+)
 from lima_pm25_rl.training_artifacts import latest_checkpoint
 
 
@@ -30,6 +35,28 @@ def trainer_for(make_env):
 
 def load(path):
     return torch.load(path, map_location="cpu", weights_only=True)
+
+
+def test_cadence_change_preserves_scientific_protocol_and_best_selection(
+    make_env, tmp_path
+):
+    trainer = trainer_for(make_env)
+    trainer.protocol = {
+        "validation_every": 20,
+        "validation_seeds": [41, 42],
+        "gp_profile": "fixed",
+    }
+    target = {**trainer.protocol, "validation_every": 200}
+    path = tmp_path / "state.pt"
+    trainer.save_checkpoint(path)
+    read_training_checkpoint(path, trainer.config, target)
+    for changed in ({"validation_seeds": [41, 43]}, {"gp_profile": "adaptive"}):
+        with pytest.raises(ValueError, match="protocolo"):
+            read_training_checkpoint(path, trainer.config, {**target, **changed})
+    trainer.best_validation = {"episode": 20, "rmse": 4.9}
+    trainer.save_checkpoint(path)
+    with pytest.raises(ValueError, match="otra cadencia"):
+        read_training_checkpoint(path, trainer.config, target)
 
 
 def scripted_validation(trainer, monkeypatch, mse_by_episode):

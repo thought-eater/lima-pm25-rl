@@ -88,6 +88,15 @@ def resolve_device(name: str) -> torch.device:
     return torch.device(name)
 
 
+def learning_protocol(protocol):
+    """La cadencia de medición no cambia el aprendizaje; las semillas sí."""
+    return {
+        key: value
+        for key, value in json.loads(json.dumps(protocol)).items()
+        if key != "validation_every"
+    }
+
+
 def read_training_checkpoint(path, config, protocol):
     """Inspección de continuación sin construir redes ni avanzar episodios."""
     state = torch.load(path, map_location="cpu", weights_only=True)
@@ -100,9 +109,18 @@ def read_training_checkpoint(path, config, protocol):
     for key in ("device", "cpu_threads"):
         actual.pop(key)
         expected.pop(key)
-    if actual != expected or state["protocol"] != json.loads(json.dumps(protocol)):
+    if actual != expected or learning_protocol(state["protocol"]) != learning_protocol(
+        protocol
+    ):
         raise ValueError(
             "El protocolo o los hiperparámetros no coinciden con el checkpoint"
+        )
+    if (
+        state["protocol"].get("validation_every") != protocol.get("validation_every")
+        and state.get("best_validation", state.get("best_saved_validation")) is not None
+    ):
+        raise ValueError(
+            "No se puede heredar un mejor por RMSE elegido con otra cadencia"
         )
     required = {
         "online",
