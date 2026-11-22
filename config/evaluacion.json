@@ -1,0 +1,5 @@
+{
+  "protocol_product": "duracion",
+  "truth_product": "diagnostico-gp",
+  "map_ticks": [1, 12, 24, 36]
+}

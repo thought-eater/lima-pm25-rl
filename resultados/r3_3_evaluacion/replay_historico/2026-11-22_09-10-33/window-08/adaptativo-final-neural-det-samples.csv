@@ -1,0 +1,121 @@
+sensor_id,sensor_type,timestamp_utc,simulation_time_s,x_m,y_m,crs,value_ug_m3,quality_status,noise_stddev_ug_m3,position_source_id,provenance
+CAMPO_DE_MARTE,fixed,2026-05-30T05:00:00+00:00,0.0,277593.7650996271,8664821.073000595,EPSG:32718,24.3,accepted,0.0,CAMPO_DE_MARTE,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+SANTA_ANITA,fixed,2026-05-30T05:00:00+00:00,0.0,285390.34287870245,8667920.939161547,EPSG:32718,28.3,accepted,0.0,SANTA_ANITA,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+SAN_JUAN_DE_LURIGANCHO,fixed,2026-05-30T05:00:00+00:00,0.0,282307.42995940126,8674780.815162793,EPSG:32718,28.7,accepted,0.0,SAN_JUAN_DE_LURIGANCHO,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+MOBILE_0,mobile,2026-05-30T05:05:00+00:00,300.0,281854.8559274952,8670960.153254716,EPSG:32718,34.69027550424277,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:05:00+00:00,300.0,283251.246197904,8669637.415717768,EPSG:32718,33.663472287424774,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:05:00+00:00,300.0,284451.7413604409,8664877.036071327,EPSG:32718,34.046142300975916,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:10:00+00:00,600.0,281654.9991116104,8670946.407022104,EPSG:32718,32.78340364940306,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:10:00+00:00,600.0,283043.5528571954,8669627.852599885,EPSG:32718,32.78846006918172,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:10:00+00:00,600.0,284203.9070337019,8665067.70750783,EPSG:32718,34.33013180858208,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:15:00+00:00,900.0,281448.80080172746,8670932.067021037,EPSG:32718,32.57069863929526,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:15:00+00:00,900.0,282837.4433127654,8669619.248395909,EPSG:32718,33.06113504261717,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:15:00+00:00,900.0,283964.95161194965,8665073.200384615,EPSG:32718,33.24854458112131,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:20:00+00:00,1200.0,281168.9995474985,8671022.974551436,EPSG:32718,33.84092964579235,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:20:00+00:00,1200.0,282630.5048477842,8669593.212423252,EPSG:32718,33.95280682789206,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:20:00+00:00,1200.0,283849.61660832743,8665059.877861863,EPSG:32718,34.641923946861006,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:25:00+00:00,1500.0,281042.93607390916,8671036.021508284,EPSG:32718,32.22806921752618,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:25:00+00:00,1500.0,282451.79872414784,8669541.577025184,EPSG:32718,35.156577081416486,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:25:00+00:00,1500.0,283559.7076691235,8665069.610018466,EPSG:32718,33.614999407443584,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:30:00+00:00,1800.0,280809.8023173154,8671047.368892781,EPSG:32718,34.573150739415794,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:30:00+00:00,1800.0,282221.1097887646,8669483.83995402,EPSG:32718,33.34693023500811,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:30:00+00:00,1800.0,283382.3343477307,8664933.930997722,EPSG:32718,33.25654799079868,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:35:00+00:00,2100.0,280775.0755696134,8671080.863185003,EPSG:32718,32.56077903098424,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:35:00+00:00,2100.0,281994.3430599521,8669532.994912319,EPSG:32718,33.98193809410267,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:35:00+00:00,2100.0,283253.42247978714,8664986.707944587,EPSG:32718,34.03705104167982,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:40:00+00:00,2400.0,280794.9589054069,8671290.195753457,EPSG:32718,34.16178718272186,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:40:00+00:00,2400.0,281852.6370114574,8669475.547219418,EPSG:32718,33.492561610502754,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:40:00+00:00,2400.0,283054.443077798,8664875.146844635,EPSG:32718,32.4124408206192,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:45:00+00:00,2700.0,280492.26612388226,8671438.811569968,EPSG:32718,32.55518071779311,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:45:00+00:00,2700.0,281650.6007917561,8669502.653194945,EPSG:32718,32.1400760912746,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:45:00+00:00,2700.0,282834.42684980895,8664979.75565702,EPSG:32718,31.2089185136633,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:50:00+00:00,3000.0,280434.5936329474,8671401.177390663,EPSG:32718,32.31663600764704,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:50:00+00:00,3000.0,281443.78858018026,8669489.946036944,EPSG:32718,33.86154693116266,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:50:00+00:00,3000.0,282644.80591910204,8664879.725999296,EPSG:32718,33.23903984774566,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T05:55:00+00:00,3300.0,280246.63276647654,8671412.6735836,EPSG:32718,34.832830002381115,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T05:55:00+00:00,3300.0,281250.81990456535,8669526.372372648,EPSG:32718,33.032022300147084,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T05:55:00+00:00,3300.0,282405.32713834016,8664889.423340559,EPSG:32718,32.5303328742897,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+CAMPO_DE_MARTE,fixed,2026-05-30T06:00:00+00:00,3600.0,277593.7650996271,8664821.073000595,EPSG:32718,21.7,accepted,0.0,CAMPO_DE_MARTE,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+MOBILE_0,mobile,2026-05-30T06:00:00+00:00,3600.0,280276.7880056908,8671483.147298729,EPSG:32718,33.49468194932801,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:00:00+00:00,3600.0,281038.8320306141,8669515.746979102,EPSG:32718,31.058586036300532,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:00:00+00:00,3600.0,282241.17721302423,8665025.616299093,EPSG:32718,32.003358378296106,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+SANTA_ANITA,fixed,2026-05-30T06:00:00+00:00,3600.0,285390.34287870245,8667920.939161547,EPSG:32718,23.7,accepted,0.0,SANTA_ANITA,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+SAN_JUAN_DE_LURIGANCHO,fixed,2026-05-30T06:00:00+00:00,3600.0,282307.42995940126,8674780.815162793,EPSG:32718,22.4,accepted,0.0,SAN_JUAN_DE_LURIGANCHO,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+MOBILE_0,mobile,2026-05-30T06:05:00+00:00,3900.0,280363.47221536585,8671686.431540487,EPSG:32718,32.63951811549757,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:05:00+00:00,3900.0,280854.9264507795,8669662.834545039,EPSG:32718,33.00843736271228,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:05:00+00:00,3900.0,282046.4684930317,8664910.9911502,EPSG:32718,34.543828515060106,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:10:00+00:00,4200.0,280115.32560674293,8671870.175349867,EPSG:32718,32.530973447656486,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:10:00+00:00,4200.0,280633.19540957996,8669502.503679145,EPSG:32718,31.106765554770902,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:10:00+00:00,4200.0,281851.3211856609,8664906.083136523,EPSG:32718,33.62137935913629,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:15:00+00:00,4500.0,280049.79012921284,8671730.245021949,EPSG:32718,32.83409880004561,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:15:00+00:00,4500.0,280443.18540726823,8669589.593123801,EPSG:32718,33.96964997805012,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:15:00+00:00,4500.0,281549.3560561901,8665072.616155377,EPSG:32718,33.04485014416428,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:20:00+00:00,4800.0,280045.582461314,8671937.24679049,EPSG:32718,32.79771293289756,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:20:00+00:00,4800.0,280253.34466537426,8669573.972123612,EPSG:32718,32.36284655169894,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:20:00+00:00,4800.0,281443.0015199219,8665058.410102578,EPSG:32718,34.2013028527889,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:25:00+00:00,5100.0,280053.2450509802,8672251.81117617,EPSG:32718,33.25821663861876,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:25:00+00:00,5100.0,280041.25144606153,8669588.845300388,EPSG:32718,33.75674549058952,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:25:00+00:00,5100.0,281423.12568221573,8665104.951449722,EPSG:32718,31.260807913577338,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:30:00+00:00,5400.0,279976.9676984168,8672441.6154604,EPSG:32718,34.91659266516673,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:30:00+00:00,5400.0,279949.9880927973,8669679.982376546,EPSG:32718,33.69223495173994,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:30:00+00:00,5400.0,281401.1400137187,8665283.961876001,EPSG:32718,34.83890434272017,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:35:00+00:00,5700.0,280031.9727107283,8672474.781299792,EPSG:32718,32.85747251526081,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:35:00+00:00,5700.0,279854.22259941336,8669701.743278444,EPSG:32718,33.37063135352972,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:35:00+00:00,5700.0,281254.397113626,8665330.411417704,EPSG:32718,33.66434571759408,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:40:00+00:00,6000.0,279990.25434445386,8672862.452605654,EPSG:32718,32.44688756540476,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:40:00+00:00,6000.0,279606.7833670449,8669745.26738165,EPSG:32718,31.830242808994313,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:40:00+00:00,6000.0,280926.58095713914,8665459.182642331,EPSG:32718,31.476273313100787,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:45:00+00:00,6300.0,279948.77254754555,8672883.37872332,EPSG:32718,33.1376627757497,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:45:00+00:00,6300.0,279417.1638077801,8669696.962308899,EPSG:32718,32.6739962809873,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:45:00+00:00,6300.0,280842.7183324123,8665432.182111783,EPSG:32718,33.306955575434564,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:50:00+00:00,6600.0,280020.48656695226,8673246.914786104,EPSG:32718,33.563000989589476,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:50:00+00:00,6600.0,279239.08482281753,8669754.941420656,EPSG:32718,32.086109893182304,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:50:00+00:00,6600.0,280653.86006278126,8665405.80410183,EPSG:32718,34.178485442655116,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T06:55:00+00:00,6900.0,279853.2134587696,8673245.103061067,EPSG:32718,32.51572601893063,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T06:55:00+00:00,6900.0,279039.17181954323,8669848.757211426,EPSG:32718,33.404818905838255,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T06:55:00+00:00,6900.0,280383.17304332345,8665421.596820341,EPSG:32718,32.85347398386934,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+CAMPO_DE_MARTE,fixed,2026-05-30T07:00:00+00:00,7200.0,277593.7650996271,8664821.073000595,EPSG:32718,17.9,accepted,0.0,CAMPO_DE_MARTE,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+MOBILE_0,mobile,2026-05-30T07:00:00+00:00,7200.0,279603.9585883463,8673233.054930042,EPSG:32718,32.5676465836473,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:00:00+00:00,7200.0,278663.8218603464,8669865.513816344,EPSG:32718,34.52914996291155,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:00:00+00:00,7200.0,280177.5044660412,8665407.369195702,EPSG:32718,32.07689072877434,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+SANTA_ANITA,fixed,2026-05-30T07:00:00+00:00,7200.0,285390.34287870245,8667920.939161547,EPSG:32718,29.3,accepted,0.0,SANTA_ANITA,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+SAN_JUAN_DE_LURIGANCHO,fixed,2026-05-30T07:00:00+00:00,7200.0,282307.42995940126,8674780.815162793,EPSG:32718,22.1,accepted,0.0,SAN_JUAN_DE_LURIGANCHO,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+MOBILE_0,mobile,2026-05-30T07:05:00+00:00,7500.0,279754.7597589179,8673207.199641682,EPSG:32718,31.275247253087304,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:05:00+00:00,7500.0,278647.65377388295,8669847.45493675,EPSG:32718,34.359332206211036,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:05:00+00:00,7500.0,280043.07222769497,8665297.190725047,EPSG:32718,32.23641766886088,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:10:00+00:00,7800.0,279603.9585883463,8673233.054930042,EPSG:32718,32.519709110241514,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:10:00+00:00,7800.0,278447.32989659894,8669837.518785672,EPSG:32718,36.42110826343472,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:10:00+00:00,7800.0,279853.15683796507,8665442.051010838,EPSG:32718,32.05447156851131,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:15:00+00:00,8100.0,279754.7597589179,8673207.199641682,EPSG:32718,32.59553127738373,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:15:00+00:00,8100.0,278241.44260448194,8669776.449355219,EPSG:32718,40.685916914195055,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:15:00+00:00,8100.0,279636.28194965224,8665411.252919594,EPSG:32718,32.302092133294934,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:20:00+00:00,8400.0,279603.9585883463,8673233.054930042,EPSG:32718,32.941251957299286,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:20:00+00:00,8400.0,278045.95550588233,8669785.558443109,EPSG:32718,43.289997612442214,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:20:00+00:00,8400.0,279421.79413933563,8665380.696963929,EPSG:32718,33.83240278600472,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:25:00+00:00,8700.0,279754.7597589179,8673207.199641682,EPSG:32718,32.244547126655874,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:25:00+00:00,8700.0,278135.1724886966,8669656.911896268,EPSG:32718,37.702544708640296,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:25:00+00:00,8700.0,279241.368182482,8665355.087485678,EPSG:32718,32.627325034387916,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:30:00+00:00,9000.0,279603.9585883463,8673233.054930042,EPSG:32718,32.3654472835788,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:30:00+00:00,9000.0,278027.1852382439,8669645.585356498,EPSG:32718,42.29555777587635,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:30:00+00:00,9000.0,279015.92411171715,8665323.370688858,EPSG:32718,31.556592387907287,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:35:00+00:00,9300.0,279754.7597589179,8673207.199641682,EPSG:32718,31.491917685669605,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:35:00+00:00,9300.0,277790.80601607286,8669545.584533084,EPSG:32718,53.30093923184182,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:35:00+00:00,9300.0,278840.85346754116,8665299.307934279,EPSG:32718,33.48940600517236,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:40:00+00:00,9600.0,279603.9585883463,8673233.054930042,EPSG:32718,33.56248249420326,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:40:00+00:00,9600.0,277459.21056529036,8669477.488978544,EPSG:32718,75.6995346006654,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:40:00+00:00,9600.0,278643.6082607045,8665431.278496888,EPSG:32718,31.75375325721878,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:45:00+00:00,9900.0,279754.7597589179,8673207.199641682,EPSG:32718,31.10963648611094,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:45:00+00:00,9900.0,277447.7263562027,8669489.52148759,EPSG:32718,100.09942158689803,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:45:00+00:00,9900.0,278364.8884866624,8665322.727017555,EPSG:32718,30.958335444435992,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:50:00+00:00,10200.0,279603.9585883463,8673233.054930042,EPSG:32718,30.76895811148559,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:50:00+00:00,10200.0,277255.390524319,8669673.55097033,EPSG:32718,113.90213465167453,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:50:00+00:00,10200.0,278248.9652515644,8665372.743054943,EPSG:32718,32.666148567226685,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_0,mobile,2026-05-30T07:55:00+00:00,10500.0,279754.7597589179,8673207.199641682,EPSG:32718,30.7983975841162,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T07:55:00+00:00,10500.0,277042.8999222135,8669669.184947394,EPSG:32718,111.19976788803471,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T07:55:00+00:00,10500.0,277996.50289268425,8665468.43422601,EPSG:32718,32.367386147964716,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+CAMPO_DE_MARTE,fixed,2026-05-30T08:00:00+00:00,10800.0,277593.7650996271,8664821.073000595,EPSG:32718,16.2,accepted,0.0,CAMPO_DE_MARTE,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+MOBILE_0,mobile,2026-05-30T08:00:00+00:00,10800.0,279603.9585883463,8673233.054930042,EPSG:32718,33.236282133603545,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_1,mobile,2026-05-30T08:00:00+00:00,10800.0,276847.7549777437,8669638.500570457,EPSG:32718,107.80288196457704,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+MOBILE_2,mobile,2026-05-30T08:00:00+00:00,10800.0,277816.2074756295,8665304.218283499,EPSG:32718,31.176233781755904,accepted,1.0,rl-endpoints,Medición móvil simulada al final del tick de 300 s
+SANTA_ANITA,fixed,2026-05-30T08:00:00+00:00,10800.0,285390.34287870245,8667920.939161547,EPSG:32718,36.7,accepted,0.0,SANTA_ANITA,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed
+SAN_JUAN_DE_LURIGANCHO,fixed,2026-05-30T08:00:00+00:00,10800.0,282307.42995940126,8674780.815162793,EPSG:32718,21.6,accepted,0.0,SAN_JUAN_DE_LURIGANCHO,observed PM2.5 from pm25_lima_2025_2026_imputed.csv; PM2_5_SOURCE=senamhi_observed

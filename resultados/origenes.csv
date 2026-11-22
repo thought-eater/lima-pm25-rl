@@ -1,0 +1,26 @@
+producto,origen,carpeta_original,destino,fecha
+entrenamiento-original,training.tar.zst,cache/training/20261109-231701-100419,resultados/r3_2_entrenamiento/gamma099/2026-11-09_23-17-01,inicio registrado
+continuacion,2kepisodes.tar.zst,cache/training/20261114-233429-846626,resultados/r3_2_entrenamiento/gamma099/2026-11-14_23-34-29,inicio registrado
+gamma05,gamma05.tar.zst,cache/training/gamma05,resultados/r3_2_entrenamiento/gamma05/2026-11-17_02-40-49,fecha de organización; inicio no codificado en el nombre original
+controles-bilg,eval3.tar.zst,cache/architecture-experiments/20261110-065056-136226,resultados/r3_2_entrenamiento/controles_bilg/2026-11-10_06-50-56,inicio registrado
+evaluacion-best,evaluation.tar.zst,cache/evaluation/20261110-023504-863601,resultados/r3_3_evaluacion/politicas/best_original/2026-11-10_02-35-04,inicio registrado
+evaluacion-inicial,evaluation_2.tar.zst,cache/evaluation/20261110-030541-048696,resultados/r3_3_evaluacion/politicas/inicial/2026-11-10_03-05-41,inicio registrado
+evaluacion-gamma05,evagamma.tar.zst,cache/evaluation/gamma05,resultados/r3_3_evaluacion/politicas/gamma05/2026-11-17_02-40-49,fecha de organización; inicio no codificado en el nombre original
+focos-original,meet_paso2.tar.zst,cache/hotspot-evaluation/20261115-050424-177424,resultados/r3_3_evaluacion/politicas/focos_original/2026-11-15_05-04-24,inicio registrado
+duracion,1000-2000.tar.zst,cache/hotspot-evaluation/continuation-1000-2000,resultados/r3_3_evaluacion/duracion/2026-11-17_02-40-49,fecha de organización; inicio no codificado en el nombre original
+descuento,gammavs.tar.zst,cache/hotspot-evaluation/gamma099-vs-gamma05,resultados/r3_3_evaluacion/descuento/2026-11-17_02-40-49,fecha de organización; inicio no codificado en el nombre original
+diagnostico-gp,diag_gp.tar.zst,cache/gp-diagnostics/20261110-171208-669501,resultados/r3_3_evaluacion/experimentos/diagnostico_gp/2026-11-10_17-12-08,inicio registrado
+gp-espacial,gp3.tar.zst,cache/gp-spatial-experiments/20261110-174503-444638,resultados/r3_3_evaluacion/experimentos/gp_espacial/2026-11-10_17-45-03,inicio registrado
+gp-temporal,gp-temporal.tar.zst,cache/gp-temporal-experiments/20261110-181915-980590,resultados/r3_3_evaluacion/experimentos/gp_temporal/2026-11-10_18-19-15,inicio registrado
+gp-realimentado,gp4.tar.zst,cache/gp-feedback-experiments/20261110-193705-811786,resultados/r3_3_evaluacion/experimentos/gp_realimentado/2026-11-10_19-37-05,inicio registrado
+historia,gp5.tar.zst,cache/history-experiments/20261110-234152-063603,resultados/r3_3_evaluacion/experimentos/historia/2026-11-10_23-41-52,inicio registrado
+recompensa,experimento.tar.zst,cache/reward-experiments/20261111-064920-913579,resultados/r3_3_evaluacion/experimentos/recompensa/2026-11-11_06-49-20,inicio registrado
+focos-controlados,hotspot.tar.zst,cache/hotspot-sampling/20261111-034806-296329,resultados/r3_3_evaluacion/experimentos/focos_controlados/2026-11-11_03-48-06,inicio registrado
+gp-focos-espacial,hot2.tar.zst,cache/hotspot-gp-experiments/20261111-041001-272888,resultados/r3_3_evaluacion/experimentos/gp_focos/espacial/2026-11-11_04-10-01,inicio registrado
+gp-focos-temporal,hot3.tar.zst,cache/hotspot-gp-time-experiments/20261111-042616-027028,resultados/r3_3_evaluacion/experimentos/gp_focos/temporal/2026-11-11_04-26-16,inicio registrado
+gp-mezcla,mixgp.tar.zst,cache/hotspot-gp-mixtures/20261111-045405-152645,resultados/r3_3_evaluacion/experimentos/gp_mezcla/2026-11-11_04-54-05,inicio registrado
+gp-multiescala,espacial.tar.zst,cache/gp-multiscale-experiments/20261111-054346-983261,resultados/r3_3_evaluacion/experimentos/gp_multiescala/2026-11-11_05-43-46,inicio registrado
+escenarios,cache/diagnostics/20261109-215323-730076,cache/diagnostics/20261109-215323-730076,resultados/r3_3_evaluacion/experimentos/escenarios/2026-11-09_21-53-23,inicio registrado
+movilidad,cache/mobility-diagnostics/20261110-042312-079886,cache/mobility-diagnostics/20261110-042312-079886,resultados/r3_3_evaluacion/experimentos/movilidad/2026-11-10_04-23-12,inicio registrado
+llegadas,cache/arrival-experiments/20261110-044031-120775,cache/arrival-experiments/20261110-044031-120775,resultados/r3_3_evaluacion/experimentos/llegadas/2026-11-10_04-40-31,inicio registrado
+valores-q,cache/value-diagnostics/20261110-051913-501483,cache/value-diagnostics/20261110-051913-501483,resultados/r3_3_evaluacion/experimentos/valores_q/2026-11-10_05-19-13,inicio registrado

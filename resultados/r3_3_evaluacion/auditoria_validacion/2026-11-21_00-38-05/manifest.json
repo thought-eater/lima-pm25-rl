@@ -1,0 +1,54 @@
+{
+  "partition": "synthetic_validation",
+  "sources": {
+    "fixed": {
+      "label": "Fijo 30 000",
+      "missions": "resultados/r3_3_evaluacion/politicas/fijo-30000/2026-11-20_11-01-46/misiones",
+      "posteriors": "resultados/r3_3_evaluacion/politicas/fijo-30000/2026-11-20_11-01-46/focos"
+    },
+    "adaptive_final": {
+      "label": "Adaptativo 30 000",
+      "missions": "resultados/r3_3_evaluacion/politicas/adaptativo-30000/2026-11-18_18-51-03/misiones",
+      "posteriors": "resultados/r3_3_evaluacion/focos/adaptativo-30000/2026-11-18_19-01-28"
+    },
+    "adaptive_best": {
+      "label": "Adaptativo 28 400",
+      "missions": "resultados/r3_3_evaluacion/politicas/adaptativo-mejor/2026-11-18_18-51-03/misiones",
+      "posteriors": "resultados/r3_3_evaluacion/focos/adaptativo-mejor/2026-11-18_18-59-57"
+    }
+  },
+  "truth": "diagnostico-gp",
+  "strata": {
+    "control/historical": [
+      100002,
+      100003
+    ],
+    "control/historical_perturbed": [
+      100010,
+      100013
+    ],
+    "control/synthetic": [
+      100000,
+      100001
+    ],
+    "event/historical": [
+      100032,
+      100037
+    ],
+    "event/historical_perturbed": [
+      100018,
+      100033
+    ],
+    "event/synthetic": [
+      100006,
+      100011
+    ]
+  },
+  "z95": 1.9599639845400536,
+  "missions": 324,
+  "duplicate_adaptive_references": 144,
+  "vehicle_ticks": 32400,
+  "bootstrap": "4096 paired stratified ordered draws; percentile 95%",
+  "scores": "latent cell mean; trapezoidal time mean incl. t=0 or last instant; replicas then equal cases",
+  "speed": "per vehicle and 300 s tick; pooled moving ticks for percentiles; held fraction excludes ended ticks"
+}

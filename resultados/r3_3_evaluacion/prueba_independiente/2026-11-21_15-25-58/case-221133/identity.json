@@ -1,0 +1,13 @@
+{
+  "case": [
+    221133,
+    "2026-02-18T12:00Z",
+    "control",
+    "synthetic"
+  ],
+  "field_sha256": "ef8efed8ce98c4419aa947fa60db84211d65b1a1dcb3501ad0d9db3d87fc816c",
+  "fixed_measurements_sha256": "950dbde4d493cea6283c568a2c86fcea61d767b37ca6c67b3c0c24024c568244",
+  "initial_positions_sha256": "62454f6e26c31c45874dcd216978a7c6fd5cac8ee4c0f05c0391d6c29dfc7eac",
+  "start_utc": "2026-02-18T12:00:00+00:00",
+  "elapsed_s": 10800.0
+}

@@ -1,0 +1,25 @@
+{
+  "windows": 12,
+  "mobile_missions": 288,
+  "fixed_only_references": 24,
+  "distinct_station_hours": 108,
+  "primary": {
+    "candidate": "fijo/neural",
+    "reference": "fijo/greedy",
+    "metric": "hourly_mae",
+    "delta": 0.2750031474170136,
+    "lo95": -0.15850784548814822,
+    "hi95": 0.9395441746945529,
+    "lower": 5,
+    "tied": 0,
+    "higher": 7,
+    "reduction_pct": -5.70975795363271,
+    "pct_lo95": -15.917613617774176,
+    "pct_hi95": 3.6897634063249045
+  },
+  "one_sided_sign_p": 0.80615234375,
+  "physical_deployment": false,
+  "spatial_ground_truth_observed": false,
+  "training_executed": false,
+  "viewer": "resultados/r3_4_visualizacion/mapas/2026-11-22_09-18-57/index.html"
+}

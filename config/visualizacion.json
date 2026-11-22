@@ -1,0 +1,45 @@
+{
+  "core_root": "../../lima-pm25-core",
+  "truth_product": "diagnostico-gp",
+  "protocol_product": "descuento",
+  "replay_product": "replay-historico",
+  "case_seeds": [100002, 100003],
+  "raster_width": 620,
+  "live_limits": {"concentration":[0,100],"std":[0,55],"error":[-60,60]},
+  "studies": [
+    {
+      "id": "fijo-30000",
+      "label": "GP fijo · mejor y final · 30 000",
+      "policy_product": "fijo-30000",
+      "policy_file": "policy-last.pt",
+      "episodes": 30000,
+      "missions_product": "misiones-fijo-30000",
+      "posteriors_product": "metricas-fijo-30000"
+    },
+    {
+      "id": "adaptativo-mejor",
+      "label": "Adaptativo · mejor en validación · 28 400",
+      "policy_product": "adaptativo-continuacion",
+      "policy_file": "policy-episode-28400.pt",
+      "episodes": 28400,
+      "missions_product": "misiones-adaptativo-mejor",
+      "posteriors_product": "metricas-adaptativo-mejor"
+    },
+    {
+      "id": "adaptativo-final",
+      "label": "Adaptativo · final · 30 000",
+      "policy_product": "adaptativo-continuacion",
+      "policy_file": "policy-last.pt",
+      "episodes": 30000,
+      "missions_product": "misiones-adaptativo-final",
+      "posteriors_product": "metricas-adaptativo-final"
+    }
+  ],
+  "strategies": [
+    {"id": "neural", "label": "BiLG-D3QN", "policy_seed": null},
+    {"id": "greedy", "label": "Greedy · réplica 0", "policy_seed": 0},
+    {"id": "random", "label": "Aleatoria · réplica 0", "policy_seed": 0},
+    {"id": "sweep", "label": "Barrido", "policy_seed": null},
+    {"id": "fixed", "label": "Solo fijas", "policy_seed": null}
+  ]
+}

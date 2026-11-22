@@ -1,0 +1,47 @@
+{
+  "purpose": "Prueba sintética retenida de políticas congeladas O3. Sin selección posterior, reentrenamiento, tope de velocidad ni replay histórico.",
+  "selection": "Solo calendario y semillas. Del 21-ene 09 UTC hasta 24 h antes de abril: primer inicio horario cubierto de 3 h disponible, separado >=27 h entre inicios respecto de ventanas anteriores y nuevas. De 32 huecos elegir 24 índices equiespaciados redondeados, incluidos extremos. En cada grupo de seis, permutar los estratos con default_rng(202611); primera case_seed >=210000 que produce la fecha y estrato en el generador original, descartando colisiones conocidas. Sin consultar campos, rutas ni métricas.",
+  "excluded_starts_utc": [
+    "2026-01-22T05:00Z","2026-01-29T11:00Z","2026-02-06T17:00Z","2026-02-14T23:00Z","2026-02-22T05:00Z","2026-02-27T11:00Z","2026-03-07T17:00Z","2026-03-22T05:00Z","2026-03-28T11:00Z",
+    "2026-02-05T07:00Z","2026-02-16T06:00Z","2026-03-18T22:00Z","2026-03-24T11:00Z","2026-03-13T05:00Z","2026-03-14T18:00Z","2026-03-20T12:00Z","2026-03-17T01:00Z","2026-03-10T16:00Z","2026-02-09T19:00Z","2026-03-12T08:00Z","2026-03-01T12:00Z"
+  ],
+  "primary": "Reducción de varianza integrada final del fijo 30000 frente a aleatoria, barrido y greedy con GP fijo. Calcular cada reducción tras agregar, y la media de esas tres reducciones; informar cada contraste y su IC frente al 20 %. Solo fijas aparte. No declarar cumplimiento general por un solo indicador.",
+  "inference": "Unidad ventana de 3 h; réplicas primero, después igual peso por caso. Bootstrap percentil 95 % pareado por escenarios dentro de los seis estratos, recalcular raíz de MSE y porcentajes en cada remuestra. Un único contraste de signos unilateral (alfa 0,05): fijo frente a greedy en varianza integrada final, H0 probabilidad de ventaja <=1/2 bajo signos independientes equiprobables en la frontera; empates excluidos. No prueba magnitud del 20 % ni variabilidad de reentrenamiento.",
+  "method_contrasts": "Principal fijo-final vs adaptativo-final; secundario fijo-mejor (idénticos pesos al final) vs adaptativo-mejor. Diferencias fijo menos adaptativo.",
+  "scale_contrast": "Reconstrucción posterior de la ruta neural del fijo a 30000: 4 km menos 2 km, RMSE global promedio/final y MAE promedio/final. Mismas lecturas causales, sin realimentación ni selección de escala.",
+  "threshold_ug_m3": 24.555472595740433,
+  "bootstrap_seed": 20261121,
+  "bootstrap_draws": 10000,
+  "policy_seeds": [0,1,2,3,4],
+  "models": {
+    "fijo": ["entrenamiento.json","fijo-30000","policy-last.pt",30000,"82116a3cd0d4ea4c9510a3dc3f3ddcf945d7a1c53e9b45e103ff04072bd057ba"],
+    "adaptativo-final": ["adaptativo.json","adaptativo-continuacion","policy-last.pt",30000,"17312cfd0b7e67c341904db873c933da423e63d68a4f0cdff98eb0d21a049f30"],
+    "adaptativo-mejor": ["adaptativo.json","adaptativo-continuacion","policy-episode-28400.pt",28400,"d0196325f074d3445af8528616ce373ff548a369de9cbd29f6ef3308b3168b46"]
+  },
+  "cases": [
+    [210390,"2026-01-23T08:00Z","control","historical_perturbed"],
+    [213342,"2026-01-24T11:00Z","control","historical"],
+    [212450,"2026-01-26T17:00Z","event","historical"],
+    [225614,"2026-01-27T20:00Z","control","synthetic"],
+    [236289,"2026-01-30T14:00Z","event","synthetic"],
+    [216626,"2026-02-01T20:00Z","event","historical_perturbed"],
+    [241781,"2026-02-02T23:00Z","event","historical"],
+    [211922,"2026-02-04T02:00Z","event","synthetic"],
+    [226727,"2026-02-10T22:00Z","event","historical_perturbed"],
+    [212223,"2026-02-12T01:00Z","control","historical"],
+    [214618,"2026-02-13T04:00Z","control","historical_perturbed"],
+    [221133,"2026-02-18T12:00Z","control","synthetic"],
+    [221482,"2026-02-19T15:00Z","event","synthetic"],
+    [211455,"2026-02-23T08:00Z","control","historical"],
+    [224732,"2026-02-24T11:00Z","control","historical_perturbed"],
+    [223792,"2026-02-25T14:00Z","control","synthetic"],
+    [212442,"2026-03-03T18:00Z","event","historical_perturbed"],
+    [218340,"2026-03-04T21:00Z","event","historical"],
+    [210234,"2026-03-06T00:00Z","control","historical"],
+    [210296,"2026-03-15T21:00Z","event","historical"],
+    [212440,"2026-03-23T08:00Z","control","historical_perturbed"],
+    [224758,"2026-03-25T14:00Z","control","synthetic"],
+    [217399,"2026-03-29T14:00Z","event","synthetic"],
+    [218341,"2026-03-30T17:00Z","event","historical_perturbed"]
+  ]
+}

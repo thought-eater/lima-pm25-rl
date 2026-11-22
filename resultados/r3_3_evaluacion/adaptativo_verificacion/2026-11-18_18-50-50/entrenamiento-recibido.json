@@ -1,0 +1,19 @@
+{
+  "start_episode": 20000,
+  "end_episode": 30000,
+  "additional_episodes": 10000,
+  "physical_steps": 1079858,
+  "optimizer_updates": 1079750,
+  "invalid_actions": 0,
+  "early_termination_episodes": 9,
+  "best_episode": 28400,
+  "best_rmse": 4.831652205493169,
+  "final_rmse": 5.429509978479571,
+  "measured_training_hours": 9.450579375433735,
+  "fit_attempts": 689767.0,
+  "nonconverged_fits": 571.0,
+  "policy_files": 10001,
+  "numbered_checkpoints": 201,
+  "training_executed": false,
+  "scope": "Auditoría de registros recibidos; no entrenamiento nuevo"
+}

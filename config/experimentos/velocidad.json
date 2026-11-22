@@ -1,0 +1,10 @@
+{
+  "max_kmh": 30,
+  "source": "https://www.gob.pe/institucion/mtc/normas-legales/2026176-025-2021-mtc",
+  "rationale": "Sensibilidad de movilidad exclusivamente: 30 km/h como techo operativo uniforme inspirado en calles y jirones (Reglamento Nacional de Tránsito, art. 162, modificado por DS 025-2021-MTC). No representa el límite de cada vía, velocidad observada ni tráfico.",
+  "studies": [
+    ["fijo", "entrenamiento.json", "fijo-30000", "policy-last.pt", "misiones-fijo-30000", "metricas-fijo-30000", 30000],
+    ["adaptativo-final", "adaptativo.json", "adaptativo-continuacion", "policy-last.pt", "misiones-adaptativo-final", "metricas-adaptativo-final", 30000],
+    ["adaptativo-mejor", "adaptativo.json", "adaptativo-continuacion", "policy-episode-28400.pt", "misiones-adaptativo-mejor", "metricas-adaptativo-mejor", 28400]
+  ]
+}

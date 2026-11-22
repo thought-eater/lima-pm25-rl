@@ -1,0 +1,24 @@
+{
+  "models_protocol": "prueba-independiente.json",
+  "studies": ["fijo", "adaptativo-final"],
+  "stations": ["CAMPO_DE_MARTE", "SANTA_ANITA", "SAN_JUAN_DE_LURIGANCHO"],
+  "weather_station": "CAMPO_DE_MARTE",
+  "start_utc": [
+    "2026-04-08T11:00:00+00:00", "2026-04-18T17:00:00+00:00",
+    "2026-04-25T23:00:00+00:00", "2026-05-02T05:00:00+00:00",
+    "2026-05-09T11:00:00+00:00", "2026-05-16T17:00:00+00:00",
+    "2026-05-23T23:00:00+00:00", "2026-05-30T05:00:00+00:00",
+    "2026-06-06T11:00:00+00:00", "2026-06-12T17:00:00+00:00",
+    "2026-06-20T23:00:00+00:00", "2026-06-27T05:00:00+00:00"
+  ],
+  "selection": "13 semanas desde 01-abr 00 local, una propuesta por día a 00/06/12/18 local según semana módulo 4. Hasta una por semana, más cercana al cuarto día y empate hacia el primero. Soportes por semana: 0,1,4,5,6,6,5,5,7,7,6,7,5. Inicios separados >=72 h; guarda de 24 h previa y misión de 3 h dentro de la reserva, sin contacto con contexto/ventanas O2. Observación disponible en las tres estaciones a 0,1,2,3 h; antecedente de cada una en las 24 h previas. Rapidez, precipitación y dirección observadas (dirección no aplicable admitida en calma). No se usó el desempeño para elegir.",
+  "field": "Control rutinario O2 con tasas de fuente escaladas por el factor congelado de calibración. Fondo y frontera uniformes: mediana de observaciones elegibles de las tres estaciones en [inicio−24h,inicio). Meteorología de la ventana. Solo los móviles muestrean este campo hipotético; no es verdad histórica.",
+  "scoring": "Arranque del GP con las fijas en t=0; utilizar todas las fijas observadas de la misión. Predicción en las coordenadas de cada estación, promedio de doce estimaciones causales a 5 min (extremos izquierdos), sellada antes de la lectura final. El cierre se asimila solo para decisiones posteriores. MAE y RMSE sobre los nueve objetivos estación–hora por ventana; sesgo=predicho−observado. No calcular RMSE espacial.",
+  "statistics": "Réplicas dentro de ventana; igual peso por ventana. Bootstrap pareado de ventanas con reposición, percentiles 2,5 y 97,5. RMSE tras agregar MSE. Contraste de signos unilateral prefijado: menor MAE horario del fijo frente a greedy en más de la mitad de las ventanas; excluir empates. RMSE acompañado de IC, sin otra prueba formal. Supuesto de signos independientes; sin inferencia sobre reentrenamiento, toda Lima ni despliegue físico.",
+  "bootstrap_draws": 10000,
+  "bootstrap_seed": 20261122,
+  "first_seed": 711000,
+  "policy_seeds": [0,1,2,3,4],
+  "illustrative_window": 0,
+  "illustrative_replica": 0
+}

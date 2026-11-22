@@ -1,0 +1,13 @@
+{
+  "case": [
+    221482,
+    "2026-02-19T15:00Z",
+    "event",
+    "synthetic"
+  ],
+  "field_sha256": "37f6d3ff4b143b2f4f27d602259d719cb8cb973d447ee821e7240171e107b917",
+  "fixed_measurements_sha256": "6bb84315f806b93127bc0b3058055ed9be2a1541d955efeb8a82543590962e03",
+  "initial_positions_sha256": "6d19690f3b72796097945b8ceabf83591a2e4cea8aa92eed248fd3735c688d73",
+  "start_utc": "2026-02-19T15:00:00+00:00",
+  "elapsed_s": 10800.0
+}

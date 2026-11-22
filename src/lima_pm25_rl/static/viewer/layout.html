@@ -1,0 +1,36 @@
+<main class="viewer-shell">
+  <section class="toolbar" aria-label="Controles de reproducción">
+    <strong class="brand">PM2.5</strong>
+    <label>Misión <select id="mission-select"></select></label>
+    <button id="new-scenario" hidden>Nuevo escenario</button>
+    <label>Estrategia <select id="strategy-select"></select></label>
+    <label>Modelo <select id="model-select"></select></label>
+    <div class="playback">
+      <button id="previous" title="Tick anterior" aria-label="Tick anterior">◀</button>
+      <button id="play">Reproducir</button>
+      <button id="next" title="Tick siguiente" aria-label="Tick siguiente">▶</button>
+      <label>Velocidad <select id="speed"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
+    </div>
+    <div class="timeline"><input id="time-slider" type="range" min="0" max="36" value="0" step="1" aria-label="Tick de la misión"><output id="time-label">0 min</output></div>
+  </section>
+  <div id="viewer-status" role="status" hidden></div>
+  <section class="metrics" aria-label="Métricas del instante">
+    <span id="first-hour" hidden></span>
+    <div><span>RMSE global</span><strong id="global-rmse">—</strong></div>
+    <div><span>RMSE en focos</span><strong id="hot-rmse">—</strong></div>
+    <div><span>Distancia de flota</span><strong id="distance">—</strong></div>
+    <div><span>Sensibilidad en focos</span><strong id="recall">—</strong></div>
+    <div class="layer-options"><label><input id="osm-toggle" type="checkbox" checked> Calles OSM</label><label><input id="samples-toggle" type="checkbox"> Muestras móviles</label></div>
+  </section>
+  <p id="startup-message" role="status">Cargando Folium. Se necesita conexión para las bibliotecas del mapa; las calles OSM y los resultados están incluidos.</p>
+  <section class="map-grid" aria-label="Cuatro mapas sincronizados">
+    <article class="map-card"><h2>Recorrido y sensores</h2><div class="map-slot" id="slot-0"></div><div class="map-legend route-key"><span style="color:#0072b2">● M1</span><span style="color:#d55e00">● M2</span><span style="color:#009e73">● M3</span><span>▲ Fijas sintéticas</span></div>
+      <div class="decisions"><span id="action-line"></span><details id="q-panel" hidden><summary>Valores Q</summary><div class="q-body">
+        <label>Asignación <select id="q-step"></select></label> <strong id="q-choice"></strong>
+        <table id="q-table" aria-label="Valores Q por vehículo y dirección"></table>
+      </div></details></div></article>
+    <article class="map-card"><h2>Estimación GP <select id="estimate-mode" aria-label="Campo estimado"><option value="mean">Concentración</option><option value="std">Incertidumbre</option></select></h2><div class="map-slot" id="slot-1"></div><div class="map-legend" id="estimate-legend"></div></article>
+    <article class="map-card"><h2><span id="truth-title">Campo simulado</span></h2><div class="map-slot" id="slot-2"></div><div class="map-legend" id="truth-legend"></div></article>
+    <article class="map-card"><h2><span id="error-title">Error: simulado − estimado</span></h2><div class="map-slot" id="slot-3"></div><div class="map-legend" id="error-legend"></div></article>
+  </section>
+</main>

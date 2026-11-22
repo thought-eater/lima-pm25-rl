@@ -1,0 +1,29 @@
+{
+  "episode": 20600,
+  "rmse": 5.228026007569663,
+  "case_seeds": [
+    100002,
+    100003,
+    100010,
+    100013,
+    100000,
+    100001,
+    100032,
+    100037,
+    100018,
+    100033,
+    100006,
+    100011
+  ],
+  "metrics": {
+    "reward": 0.2833449482800442,
+    "mean_integrated_variance": 3325665289.319903,
+    "final_integrated_variance": 2860672720.918791,
+    "invalid_actions": 0.0,
+    "synthetic_mse": 27.33225593582479,
+    "synthetic_mae_ug_m3": 2.8510169154774236
+  },
+  "policy_file": "policy-episode-20600.pt",
+  "checkpoint_file": "checkpoint-episode-20600.pt",
+  "validation_file": "validation-episode-20600.json"
+}

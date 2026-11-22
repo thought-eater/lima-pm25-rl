@@ -1,0 +1,32 @@
+{
+  "selected_scale_m": 4000.0,
+  "original_scale_m": 2000.0,
+  "calibration_scores": [
+    {
+      "spatial_scale_m": 500.0,
+      "mean_case_temporal_mse": 24.97561572356138
+    },
+    {
+      "spatial_scale_m": 1000.0,
+      "mean_case_temporal_mse": 22.407531901946957
+    },
+    {
+      "spatial_scale_m": 2000.0,
+      "mean_case_temporal_mse": 19.354426086601695
+    },
+    {
+      "spatial_scale_m": 4000.0,
+      "mean_case_temporal_mse": 19.169124573202556
+    }
+  ],
+  "criterion": "lowest mean case temporal MSE; numerical ties prefer original or nearest log-scale",
+  "selected_gp": {
+    "prior_mean_ug_m3": 19.6,
+    "prior_stddev_ug_m3": 13.363818985063656,
+    "x_length_scale_m": 4000.0,
+    "y_length_scale_m": 4000.0,
+    "temporal_length_scale_s": 3600.0,
+    "include_clipped_observations": false
+  },
+  "selection_partition": "training"
+}

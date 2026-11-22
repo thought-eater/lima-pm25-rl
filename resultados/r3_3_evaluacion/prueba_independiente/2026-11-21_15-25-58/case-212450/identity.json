@@ -1,0 +1,13 @@
+{
+  "case": [
+    212450,
+    "2026-01-26T17:00Z",
+    "event",
+    "historical"
+  ],
+  "field_sha256": "055ec7928bcf16c88079759ee73898f888687323e9b12bc6d126c3fbbea22f3f",
+  "fixed_measurements_sha256": "4fb0f2b35900d006456f8249246d90a6b25906cffffd973fa56e487fed07d2bb",
+  "initial_positions_sha256": "b319e2bb8f43bf96a93915f839449073ae0bfe027b1448d0d356779182860673",
+  "start_utc": "2026-01-26T17:00:00+00:00",
+  "elapsed_s": 10800.0
+}

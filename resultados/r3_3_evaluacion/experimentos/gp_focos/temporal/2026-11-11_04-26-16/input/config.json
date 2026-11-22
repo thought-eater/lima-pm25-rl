@@ -1,0 +1,76 @@
+{
+  "source": "/home/jflores/tesis/lima-pm25-rl/hotspot.tar.zst",
+  "source_config": {
+    "settings": {
+      "core_root": "../../lima-pm25-core",
+      "grid_cells": 41,
+      "cell_size_m": 200,
+      "steps": 36,
+      "initial_common_ticks": 4,
+      "excursion_cells": 6,
+      "focus_sigma_m": 400.0,
+      "background_ug_m3": 19.6,
+      "peak_excess_ug_m3": 60.0,
+      "relaxation_time_s": 900.0,
+      "pulse_on_ticks": 6,
+      "pulse_period_ticks": 12,
+      "core_radius_m": 500.0,
+      "background_from_m": 1200.0,
+      "high_excess_threshold_ug_m3": 20.0,
+      "mobile_noise_stddev_ug_m3": 1.0,
+      "concentration_priority": 1.0,
+      "distance_cost_per_km": 0.0005,
+      "sensor_seeds": [
+        0,
+        1,
+        2
+      ],
+      "map_ticks": [
+        6,
+        12,
+        24,
+        36
+      ]
+    },
+    "gp": {
+      "prior_mean_ug_m3": 19.6,
+      "prior_stddev_ug_m3": 13.363818985063656,
+      "x_length_scale_m": 2000.0,
+      "y_length_scale_m": 2000.0,
+      "temporal_length_scale_s": 3600.0,
+      "include_clipped_observations": false
+    },
+    "gp_profile_sha256": "5ca0de26ca34f74d3cedb7b43aa28c3771b2046aed667b180538ad4ea84a4444",
+    "gp_calibration_sha256": "486104af785fdcfde40a43539187c7de78209e0cdd578ad943d23d4007514375",
+    "history_duration_s": 21600.0,
+    "training_executed": false,
+    "purpose": "controlled_mechanism_not_lima_validation",
+    "code_sha256": "b0359e5444b66ccfd2314928458454ca4a2687ac44661c804b54031b8421eae9",
+    "region_cells": {
+      "core": 21,
+      "surroundings": 88,
+      "background": 1572
+    },
+    "distance_per_plan_m": 21450.0,
+    "artificial_physics": {
+      "mixing_height_m": 200,
+      "diffusivity_m2_s": 0,
+      "wind_speed_m_s": 0,
+      "dry_deposition_velocity_m_s": 0.2222222222222222,
+      "purpose": "Retirada y emisiones compensadoras para un equilibrio discreto controlado; no física calibrada para Lima"
+    },
+    "criterion": "Menor MSE temporal exterior sin aumentar MSE temporal del núcleo ni error absoluto medio del pico; informar consistencia entre ruidos."
+  },
+  "spatial_scales_m": [
+    2000,
+    500
+  ],
+  "simulation_executed": false,
+  "training_executed": false,
+  "code_sha256": {
+    "hotspot_gp_experiment.py": "889e1fe69d77b37c5ae8d98f7482ccd49ccfadc924214a81b17011ffe9df1b87",
+    "hotspot_sampling.py": "b0359e5444b66ccfd2314928458454ca4a2687ac44661c804b54031b8421eae9",
+    "gp_spatial_experiment.py": "994e7cd1c925652f66e679498c5ba897574909cfedbad4623ae70bf467cbc712"
+  },
+  "criterion": "Comparar 500 frente a 2000 m dentro de cada régimen y plan: menor error temporal exterior sin empeorar núcleo ni pico; comprobar además delimitación y ambos signos del error."
+}

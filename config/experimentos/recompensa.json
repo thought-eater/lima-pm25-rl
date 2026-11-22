@@ -1,0 +1,5 @@
+{
+  "experiment_config": "../controles-bilg.json",
+  "candidate_reward_mode": "synthetic_error",
+  "reference_policy_seeds": [42, 43, 44]
+}

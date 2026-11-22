@@ -1,0 +1,11 @@
+{
+  "seed": 43,
+  "episodes": 200,
+  "physical_steps": 7197,
+  "optimizer_updates": 7089,
+  "parameters": 308393,
+  "initial_weights_match": true,
+  "control_episodes": 200,
+  "control_physical_steps": 7200,
+  "control_optimizer_updates": 7092
+}

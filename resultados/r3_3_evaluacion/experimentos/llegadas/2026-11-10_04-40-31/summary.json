@@ -1,0 +1,242 @@
+{
+  "purpose": "paired_arrival_intervention_on_validation",
+  "training_executed": false,
+  "signatures_match": true,
+  "strategies": {
+    "fixed": {
+      "metric_changes": {
+        "synthetic_rmse_ug_m3": {
+          "shortest": 5.5358907447253065,
+          "continuing": 5.5358907447253065,
+          "change": 0.0,
+          "reduction_percent": 0.0
+        },
+        "final_integrated_variance": {
+          "shortest": 26467643795.096405,
+          "continuing": 26467643795.096405,
+          "change": 0.0,
+          "reduction_percent": 0.0
+        },
+        "mean_integrated_variance": {
+          "shortest": 27900757783.39388,
+          "continuing": 27900757783.39388,
+          "change": 0.0,
+          "reduction_percent": 0.0
+        },
+        "distance_m": {
+          "shortest": 0.0,
+          "continuing": 0.0,
+          "change": 0.0,
+          "reduction_percent": null
+        },
+        "reward": {
+          "shortest": 0.0,
+          "continuing": 0.0,
+          "change": 0.0,
+          "reduction_percent": null
+        }
+      },
+      "cases": 12,
+      "cases_with_lower_rmse": 0,
+      "cases_with_lower_final_variance": 0,
+      "mobility": {
+        "shortest": {
+          "held_vehicle_ticks": 0.0,
+          "structural_no_exit_vehicle_ticks": 0.0
+        },
+        "continuing": {
+          "held_vehicle_ticks": 0.0,
+          "structural_no_exit_vehicle_ticks": 0.0
+        }
+      }
+    },
+    "random": {
+      "metric_changes": {
+        "synthetic_rmse_ug_m3": {
+          "shortest": 5.312067636429508,
+          "continuing": 5.317287257295974,
+          "change": 0.0052196208664661015,
+          "reduction_percent": -0.09825968386905082
+        },
+        "final_integrated_variance": {
+          "shortest": 22815765784.503296,
+          "continuing": 22843436661.484283,
+          "change": 27670876.98098755,
+          "reduction_percent": -0.12127963287464905
+        },
+        "mean_integrated_variance": {
+          "shortest": 24199448184.33579,
+          "continuing": 24199041590.55628,
+          "change": -406593.77951049805,
+          "reduction_percent": 0.0016801778966790692
+        },
+        "distance_m": {
+          "shortest": 49297.68097803888,
+          "continuing": 49885.7449586975,
+          "change": 588.0639806586187,
+          "reduction_percent": -1.1928836590114456
+        },
+        "reward": {
+          "shortest": 0.4099930362523841,
+          "continuing": 0.4100265682051292,
+          "change": 3.3531952745136095e-05,
+          "reduction_percent": -0.008178663972358002
+        }
+      },
+      "cases": 12,
+      "cases_with_lower_rmse": 0,
+      "cases_with_lower_final_variance": 0,
+      "mobility": {
+        "shortest": {
+          "held_vehicle_ticks": 1.616666666666667,
+          "structural_no_exit_vehicle_ticks": 1.616666666666667
+        },
+        "continuing": {
+          "held_vehicle_ticks": 0.4833333333333334,
+          "structural_no_exit_vehicle_ticks": 0.4833333333333334
+        }
+      }
+    },
+    "greedy": {
+      "metric_changes": {
+        "synthetic_rmse_ug_m3": {
+          "shortest": 5.039602200915326,
+          "continuing": 5.039602200915326,
+          "change": 0.0,
+          "reduction_percent": 0.0
+        },
+        "final_integrated_variance": {
+          "shortest": 22174756904.1598,
+          "continuing": 22174756904.1598,
+          "change": 0.0,
+          "reduction_percent": 0.0
+        },
+        "mean_integrated_variance": {
+          "shortest": 23620524301.029755,
+          "continuing": 23620524301.029755,
+          "change": 0.0,
+          "reduction_percent": 0.0
+        },
+        "distance_m": {
+          "shortest": 84054.76625151049,
+          "continuing": 84054.76625151049,
+          "change": 0.0,
+          "reduction_percent": 0.0
+        },
+        "reward": {
+          "shortest": 0.5158586213299458,
+          "continuing": 0.5158586213299458,
+          "change": 0.0,
+          "reduction_percent": 0.0
+        }
+      },
+      "cases": 12,
+      "cases_with_lower_rmse": 0,
+      "cases_with_lower_final_variance": 0,
+      "mobility": {
+        "shortest": {
+          "held_vehicle_ticks": 5.583333333333333,
+          "structural_no_exit_vehicle_ticks": 5.583333333333333
+        },
+        "continuing": {
+          "held_vehicle_ticks": 5.583333333333333,
+          "structural_no_exit_vehicle_ticks": 5.583333333333333
+        }
+      }
+    },
+    "sweep": {
+      "metric_changes": {
+        "synthetic_rmse_ug_m3": {
+          "shortest": 5.2337650007670184,
+          "continuing": 5.230373849750443,
+          "change": -0.003391151016575833,
+          "reduction_percent": 0.06479371955139257
+        },
+        "final_integrated_variance": {
+          "shortest": 23265876496.184452,
+          "continuing": 23234788609.982647,
+          "change": -31087886.201805115,
+          "reduction_percent": 0.13362009467773328
+        },
+        "mean_integrated_variance": {
+          "shortest": 24190600226.82221,
+          "continuing": 24169544033.620132,
+          "change": -21056193.20207596,
+          "reduction_percent": 0.08704287204386318
+        },
+        "distance_m": {
+          "shortest": 45260.990582913655,
+          "continuing": 46757.99146525437,
+          "change": 1497.0008823407115,
+          "reduction_percent": -3.3074859013488833
+        },
+        "reward": {
+          "shortest": 0.4403337402946517,
+          "continuing": 0.4437985743283643,
+          "change": 0.0034648340337125605,
+          "reduction_percent": -0.7868654424242116
+        }
+      },
+      "cases": 12,
+      "cases_with_lower_rmse": 2,
+      "cases_with_lower_final_variance": 2,
+      "mobility": {
+        "shortest": {
+          "held_vehicle_ticks": 4.333333333333333,
+          "structural_no_exit_vehicle_ticks": 4.333333333333333
+        },
+        "continuing": {
+          "held_vehicle_ticks": 2.5,
+          "structural_no_exit_vehicle_ticks": 2.5
+        }
+      }
+    },
+    "neural": {
+      "metric_changes": {
+        "synthetic_rmse_ug_m3": {
+          "shortest": 5.192392692164685,
+          "continuing": 5.1853159190795335,
+          "change": -0.007076773085151089,
+          "reduction_percent": 0.13629117643259026
+        },
+        "final_integrated_variance": {
+          "shortest": 22007295287.52236,
+          "continuing": 22004342538.982273,
+          "change": -2952748.5400886536,
+          "reduction_percent": 0.013417135097759658
+        },
+        "mean_integrated_variance": {
+          "shortest": 23690259384.64153,
+          "continuing": 23676861937.577408,
+          "change": -13397447.064121246,
+          "reduction_percent": 0.0565525554051427
+        },
+        "distance_m": {
+          "shortest": 63902.63817625326,
+          "continuing": 64098.70300410402,
+          "change": 196.06482785075787,
+          "reduction_percent": -0.3068180492172834
+        },
+        "reward": {
+          "shortest": 0.507925611262183,
+          "continuing": 0.5098448682981417,
+          "change": 0.0019192570359586325,
+          "reduction_percent": -0.3778618351591545
+        }
+      },
+      "cases": 12,
+      "cases_with_lower_rmse": 1,
+      "cases_with_lower_final_variance": 1,
+      "mobility": {
+        "shortest": {
+          "held_vehicle_ticks": 3.0833333333333335,
+          "structural_no_exit_vehicle_ticks": 2.9166666666666665
+        },
+        "continuing": {
+          "held_vehicle_ticks": 2.25,
+          "structural_no_exit_vehicle_ticks": 2.0833333333333335
+        }
+      }
+    }
+  }
+}

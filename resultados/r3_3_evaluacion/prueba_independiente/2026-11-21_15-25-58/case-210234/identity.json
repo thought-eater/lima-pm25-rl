@@ -1,0 +1,13 @@
+{
+  "case": [
+    210234,
+    "2026-03-06T00:00Z",
+    "control",
+    "historical"
+  ],
+  "field_sha256": "b18bd4fe6db51131bbdd813168b3f97d8cec2a71a81d9fa90194bf6e7e199184",
+  "fixed_measurements_sha256": "51b929c2edfa465a8be07c1a45fe95bdca1b2ba4db46adce2de8a41153c90220",
+  "initial_positions_sha256": "cccc5387191c5c2eb8ca5d91de920db37dbd3598e20835a702301a8805695cdb",
+  "start_utc": "2026-03-06T00:00:00+00:00",
+  "elapsed_s": 10800.0
+}

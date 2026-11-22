@@ -1,0 +1,10 @@
+{
+  "architecture": "bilg",
+  "seed": 42,
+  "parameters": 308393,
+  "episodes": 200,
+  "physical_steps": 7200,
+  "optimizer_updates": 7092,
+  "training_and_validation_seconds": 1805.2721028947271,
+  "evaluation_seconds": 135.18123041978106
+}

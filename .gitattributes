@@ -1,0 +1,4 @@
+resultados/**/*.pt filter=lfs diff=lfs merge=lfs -text
+resultados/**/*.npz filter=lfs diff=lfs merge=lfs -text
+*.jsonl filter=lfs diff=lfs merge=lfs -text
+resultados/r3_4_visualizacion/mapas/*/index.html filter=lfs diff=lfs merge=lfs -text

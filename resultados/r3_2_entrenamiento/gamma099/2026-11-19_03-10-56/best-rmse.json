@@ -1,0 +1,28 @@
+{
+  "episode": 30000,
+  "rmse": 4.548498978100222,
+  "case_seeds": [
+    100002,
+    100003,
+    100010,
+    100013,
+    100000,
+    100001,
+    100032,
+    100037,
+    100018,
+    100033,
+    100006,
+    100011
+  ],
+  "metrics": {
+    "reward": 0.6199076012121707,
+    "mean_integrated_variance": 22961908256.97579,
+    "final_integrated_variance": 21408532377.780045,
+    "invalid_actions": 0.0,
+    "synthetic_mse": 20.68884295377876,
+    "synthetic_mae_ug_m3": 2.8038880287330312
+  },
+  "policy_file": "policy-best.pt",
+  "checkpoint_file": "checkpoint-best.pt"
+}

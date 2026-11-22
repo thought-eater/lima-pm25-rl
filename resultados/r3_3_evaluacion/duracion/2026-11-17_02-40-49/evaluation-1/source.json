@@ -1,0 +1,469 @@
+{
+  "source": "cache/evaluation/continuation-1000",
+  "metadata": {
+    "protocol": {
+      "kind": "generated",
+      "steps_per_episode": 36,
+      "noise_stddev_ug_m3": 1.0,
+      "concentration_priority": 1.0,
+      "distance_cost_per_km": 0.0005,
+      "planning_schema": "global_vehicle_direction_v2",
+      "member": "event",
+      "grid_shape": [
+        59,
+        78
+      ],
+      "gp_profile_sha256": "5ca0de26ca34f74d3cedb7b43aa28c3771b2046aed667b180538ad4ea84a4444",
+      "gp_calibration_sha256": "486104af785fdcfde40a43539187c7de78209e0cdd578ad943d23d4007514375",
+      "graph_sha256": "cd5d84076d9400d35709bf60d09d06d70d0528bb78c15c37337c1a416cfb7b7d",
+      "grid_sha256": "5e06d50adea3eabc833f3ae20ceac9ee04f52f7153c230519a55170cfa6a5cd6",
+      "field_variation": {
+        "ambient_range_ug_m3": [
+          13.6,
+          25.6
+        ],
+        "road_source_scale": 20.09519380779664,
+        "initial_plume_count": 2,
+        "initial_plume_amplitude_range_ug_m3": [
+          5.0,
+          15.0
+        ],
+        "initial_plume_sigma_range_m": [
+          500.0,
+          1200.0
+        ],
+        "provenance": "Currículo sintético de contraste O3. Fondo 19.6 ± 6 µg/m³ y dos plumas iniciales son decisiones experimentales, no campos observados. La escala vial reutiliza el punto de partida de calibración O2 y se aplica a los corredores rutinarios y al evento, conservando sus proporciones; los perfiles e intensidades siguen siendo hipótesis. El diagnóstico debe comprobar el contraste resultante antes de entrenar."
+      },
+      "gp_partition_sha256": "ac994bfc2be20579408c126599e7cf586bfa0e3cc705ec3ff1aa07bc04b068e2",
+      "reserved_final_end_utc": "2026-07-01T05:00:00+00:00",
+      "gp_fit_end_utc": "2026-01-18T09:00:00+00:00",
+      "policy_fit_end_utc": "2026-04-01T05:00:00+00:00",
+      "reserved_final_start_utc": "2026-04-01T05:00:00+00:00",
+      "weather_sha256": "6d63ff43d3a9b324b9536c2d52de0f49f9a717fc7d00efe15decf89a2945a6c8",
+      "scenarios": [
+        {
+          "weight": 0.8,
+          "member": "control",
+          "configuration": {
+            "training_start_utc": "2025-01-01T05:00:00+00:00",
+            "training_end_utc": "2026-01-18T09:00:00+00:00",
+            "evaluation_start_utc": "2026-01-18T09:00:00+00:00",
+            "evaluation_end_utc": "2026-04-01T05:00:00+00:00",
+            "weather_weights": {
+              "historical": 1.0,
+              "historical_perturbed": 1.0,
+              "synthetic": 1.0
+            },
+            "provenance": "Configuración inicial O3: control sintético sin evento adicional. Las tres familias meteorológicas tienen igual peso por diseño, no por frecuencia observada. Perfiles diarios reutilizados del ejemplo de core como hipótesis de actividad; tasas, rangos y fase no son tráfico ni emisiones medidas en Lima. stress=true conserva la clasificación contrafactual de la plantilla: este control no constituye un escenario nominal históricamente validado. No utiliza plausibility.json para ajustar rangos porque ese resumen incluye fechas reservadas. Véase docs/server.md.",
+            "stress": true,
+            "constraint_evidence_ids": [],
+            "perturbation_scale": 0.25,
+            "synthetic_variability_scale": 1.0,
+            "synthetic_precipitation_mm_h": 0.0,
+            "source_variations": [
+              {
+                "source_id": "tupac-amaru",
+                "provenance": "Hipótesis sintética de actividad diaria, no conteos viales medidos",
+                "daily_hours": [
+                  [
+                    0,
+                    0.3
+                  ],
+                  [
+                    5,
+                    0.3
+                  ],
+                  [
+                    7,
+                    1.5
+                  ],
+                  [
+                    9,
+                    1.5
+                  ],
+                  [
+                    11,
+                    0.8
+                  ],
+                  [
+                    16,
+                    0.8
+                  ],
+                  [
+                    18,
+                    1.4
+                  ],
+                  [
+                    20,
+                    1.4
+                  ],
+                  [
+                    23,
+                    0.3
+                  ],
+                  [
+                    24,
+                    0.3
+                  ]
+                ],
+                "intensity_range": [
+                  0.8,
+                  1.2
+                ],
+                "time_shift_s_range": [
+                  -900,
+                  900
+                ]
+              },
+              {
+                "source_id": "javier-prado-este",
+                "provenance": "Hipótesis sintética de actividad diaria, no emisiones observadas",
+                "daily_hours": [
+                  [
+                    0,
+                    0.4
+                  ],
+                  [
+                    6,
+                    0.4
+                  ],
+                  [
+                    8,
+                    1.3
+                  ],
+                  [
+                    10,
+                    1.3
+                  ],
+                  [
+                    12,
+                    0.9
+                  ],
+                  [
+                    17,
+                    0.9
+                  ],
+                  [
+                    19,
+                    1.6
+                  ],
+                  [
+                    21,
+                    1.0
+                  ],
+                  [
+                    24,
+                    0.4
+                  ]
+                ],
+                "intensity_range": [
+                  0.8,
+                  1.2
+                ],
+                "time_shift_s_range": [
+                  -900,
+                  900
+                ]
+              },
+              {
+                "source_id": "circunvalacion",
+                "provenance": "Hipótesis sintética de actividad constante por tramos horarios",
+                "interpolation": "constant",
+                "daily_hours": [
+                  [
+                    0,
+                    0.5
+                  ],
+                  [
+                    6,
+                    1.4
+                  ],
+                  [
+                    10,
+                    0.9
+                  ],
+                  [
+                    17,
+                    1.3
+                  ],
+                  [
+                    21,
+                    0.5
+                  ],
+                  [
+                    24,
+                    0.5
+                  ]
+                ],
+                "intensity_range": [
+                  0.8,
+                  1.2
+                ]
+              }
+            ],
+            "area_sources": []
+          }
+        },
+        {
+          "weight": 0.2,
+          "member": "event",
+          "configuration": {
+            "training_start_utc": "2025-01-01T05:00:00+00:00",
+            "training_end_utc": "2026-01-18T09:00:00+00:00",
+            "evaluation_start_utc": "2026-01-18T09:00:00+00:00",
+            "evaluation_end_utc": "2026-04-01T05:00:00+00:00",
+            "weather_weights": {
+              "historical": 1.0,
+              "historical_perturbed": 1.0,
+              "synthetic": 1.0
+            },
+            "provenance": "Configuración inicial O3 de estrés sintético: mismas fuentes rutinarias que el control y emisión vial adicional de Alfonso Ugarte siempre activa dentro de su intervalo. Intensidad, fase y duración del evento son decisiones experimentales, no sucesos observados ni tasas calibradas para Lima. Meteorología histórica no equivale a un campo PM2.5 observado. No utiliza resúmenes de plausibilidad del periodo final para elegir parámetros. Véase docs/server.md.",
+            "stress": true,
+            "constraint_evidence_ids": [],
+            "perturbation_scale": 0.25,
+            "synthetic_variability_scale": 1.0,
+            "synthetic_precipitation_mm_h": 0.0,
+            "source_variations": [
+              {
+                "source_id": "tupac-amaru",
+                "provenance": "Hipótesis sintética de actividad diaria, no conteos viales medidos",
+                "daily_hours": [
+                  [
+                    0,
+                    0.3
+                  ],
+                  [
+                    5,
+                    0.3
+                  ],
+                  [
+                    7,
+                    1.5
+                  ],
+                  [
+                    9,
+                    1.5
+                  ],
+                  [
+                    11,
+                    0.8
+                  ],
+                  [
+                    16,
+                    0.8
+                  ],
+                  [
+                    18,
+                    1.4
+                  ],
+                  [
+                    20,
+                    1.4
+                  ],
+                  [
+                    23,
+                    0.3
+                  ],
+                  [
+                    24,
+                    0.3
+                  ]
+                ],
+                "intensity_range": [
+                  0.8,
+                  1.2
+                ],
+                "time_shift_s_range": [
+                  -900,
+                  900
+                ]
+              },
+              {
+                "source_id": "javier-prado-este",
+                "provenance": "Hipótesis sintética de actividad diaria, no emisiones observadas",
+                "daily_hours": [
+                  [
+                    0,
+                    0.4
+                  ],
+                  [
+                    6,
+                    0.4
+                  ],
+                  [
+                    8,
+                    1.3
+                  ],
+                  [
+                    10,
+                    1.3
+                  ],
+                  [
+                    12,
+                    0.9
+                  ],
+                  [
+                    17,
+                    0.9
+                  ],
+                  [
+                    19,
+                    1.6
+                  ],
+                  [
+                    21,
+                    1.0
+                  ],
+                  [
+                    24,
+                    0.4
+                  ]
+                ],
+                "intensity_range": [
+                  0.8,
+                  1.2
+                ],
+                "time_shift_s_range": [
+                  -900,
+                  900
+                ]
+              },
+              {
+                "source_id": "circunvalacion",
+                "provenance": "Hipótesis sintética de actividad constante por tramos horarios",
+                "interpolation": "constant",
+                "daily_hours": [
+                  [
+                    0,
+                    0.5
+                  ],
+                  [
+                    6,
+                    1.4
+                  ],
+                  [
+                    10,
+                    0.9
+                  ],
+                  [
+                    17,
+                    1.3
+                  ],
+                  [
+                    21,
+                    0.5
+                  ],
+                  [
+                    24,
+                    0.5
+                  ]
+                ],
+                "intensity_range": [
+                  0.8,
+                  1.2
+                ]
+              },
+              {
+                "source_id": "alfonso-ugarte-event",
+                "provenance": "Emisión transitoria adicional sintética de estrés, no tráfico observado",
+                "intensity_range": [
+                  1.0,
+                  2.0
+                ],
+                "time_shift_s_range": [
+                  -600,
+                  600
+                ],
+                "duration_scale_range": [
+                  0.75,
+                  1.25
+                ],
+                "activation_probability": 1.0
+              }
+            ],
+            "area_sources": []
+          }
+        }
+      ],
+      "validation_seeds": [
+        100002,
+        100003,
+        100010,
+        100013,
+        100000,
+        100001,
+        100032,
+        100037,
+        100018,
+        100033,
+        100006,
+        100011
+      ],
+      "validation_every": 20
+    },
+    "training": {
+      "architecture": "bilg",
+      "seed": 42,
+      "history_length": 4,
+      "history_mode": "history",
+      "hidden_size": 64,
+      "capacity_steps": 2000,
+      "batch_size": 16,
+      "learning_starts": 128,
+      "updates_per_step": 1,
+      "target_update_interval": 200,
+      "learning_rate": 0.0001,
+      "gamma": 0.99,
+      "gradient_clip": 10.0,
+      "epsilon_start": 1.0,
+      "epsilon_end": 0.05,
+      "epsilon_decay_steps": 18000,
+      "device": "cuda",
+      "cpu_threads": 1
+    },
+    "checkpoint_path": "/home/jflores/tesis/lima-pm25-rl/cache/training/20261114-233429-846626/policy-episode-1000.pt",
+    "checkpoint_sha256": "8d8ab3aa77266dc214ce061bf5d91e9b97dd229265744b991233d655b1958066",
+    "torch_version": "2.15.0+cu132",
+    "device": "cuda:0",
+    "partition": "validation",
+    "baseline_rules": {
+      "random": "uniform_over_valid_actions_with_sequential_destination_reservations",
+      "greedy": "max_current_GP_cell_uncertainty; random_tie_breaking",
+      "sweep": "geometric_east_west_row_sweep; directed_roads; no_exhaustive_coverage_guarantee"
+    },
+    "purpose": "diagnostic_validation_not_final",
+    "training_executed": false,
+    "case_seeds": [
+      100002,
+      100003,
+      100010,
+      100013,
+      100000,
+      100001,
+      100032,
+      100037,
+      100018,
+      100033,
+      100006,
+      100011
+    ],
+    "policy_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "representative_case_seed": 100002,
+    "representative_policy_seed": 0,
+    "early_termination_rule": "no_more_mobile_observations; evaluator_advances_field_and_fixed_to_common_horizon",
+    "aggregation": "equal_case_weight; average_replica_MSE_before_pooled_RMSE; policy_seed_sample_SD_is_descriptive"
+  },
+  "smoke_only": false,
+  "file_sha256": {
+    "cases.csv": "6975c44b8a3bbf96e92e86190019d465bf03c57c3b4b0e0a8e192cae35e7ebd4",
+    "config.json": "00afac86f462ea02ab52838bce5b04c9c0e2a623f77250c789d5e68e5d95820e",
+    "measurements.csv": "ebd00c276615011f7d975ff5674740429dc2a7789cd2bac7ed144a4b7b008105",
+    "trajectories.csv": "d2b6e020faf918829e180566bece9e6ef58bd135af20c7a027f9a779ef76a6a4"
+  }
+}

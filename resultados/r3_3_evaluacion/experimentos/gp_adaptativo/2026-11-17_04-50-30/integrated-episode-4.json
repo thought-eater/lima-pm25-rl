@@ -1,0 +1,1579 @@
+{
+  "metrics": {
+    "episode": 4,
+    "scenario_seed": 1494732172,
+    "physical_steps": 144,
+    "episode_steps": 36,
+    "planning_decisions": 108,
+    "reward": 0.2339761685482058,
+    "information_gain": 0.8394849431814618,
+    "distance_cost": 0.027970444748175113,
+    "epsilon_start": 0.9995725000000001,
+    "epsilon_end": 0.9994299999999999,
+    "loss": 0.005162850238977828,
+    "optimizer_updates": 36,
+    "target_updates": 0,
+    "invalid_actions": 0,
+    "distance_m": 55940.889496350224,
+    "initial_integrated_variance": 26563422189.703613,
+    "final_integrated_variance": 748715848.4546634,
+    "mean_integrated_variance": 2462620969.3716526,
+    "replay_steps": 144,
+    "replay_transitions": 432,
+    "replay_array_bytes": 19088752,
+    "environment_seconds": 1.4393540609999036,
+    "optimization_seconds": 17.12463523900078,
+    "seconds": 18.564074530999278,
+    "cuda_peak_bytes": 0,
+    "model_mean_change": 0.169421452254628,
+    "model_uncertainty_change": 0.1850503220835057,
+    "gp_fit_iterations": 143.0,
+    "gp_fit_attempts": 69.0,
+    "gp_fit_nonconverged": 0.0,
+    "gp_fit_seconds": 0.7063047700012248
+  },
+  "wall_seconds": 18.564087520999237,
+  "device": "cpu",
+  "fits": [
+    {
+      "elapsed_s": 0.0,
+      "branch": "factual",
+      "spatial_scale_m": 2000.0,
+      "temporal_scale_s": 3600.0,
+      "amplitude_stddev_ug_m3": 13.363818985063656,
+      "attempted": false,
+      "converged": false,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -14.04646391590435,
+      "log_likelihood_after": -14.04646391590435,
+      "at_bounds": [
+        false,
+        false,
+        false
+      ],
+      "seconds": 0.0036592460000974825,
+      "status": "Datos insuficientes: se conserva la escala previa"
+    },
+    {
+      "elapsed_s": 0.0,
+      "branch": "fixed_only",
+      "spatial_scale_m": 2000.0,
+      "temporal_scale_s": 3600.0,
+      "amplitude_stddev_ug_m3": 13.363818985063656,
+      "attempted": false,
+      "converged": false,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -14.04646391590435,
+      "log_likelihood_after": -14.04646391590435,
+      "at_bounds": [
+        false,
+        false,
+        false
+      ],
+      "seconds": 0.0018855590005841805,
+      "status": "Datos insuficientes: se conserva la escala previa"
+    },
+    {
+      "elapsed_s": 300.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 2000.0,
+      "temporal_scale_s": 3600.0,
+      "amplitude_stddev_ug_m3": 13.363818985063656,
+      "attempted": false,
+      "converged": false,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -14.04646391590435,
+      "log_likelihood_after": -14.04646391590435,
+      "at_bounds": [
+        false,
+        false,
+        false
+      ],
+      "seconds": 0.002044630000455072,
+      "status": "Datos insuficientes: se conserva la escala previa"
+    },
+    {
+      "elapsed_s": 300.0,
+      "branch": "factual",
+      "spatial_scale_m": 2000.0,
+      "temporal_scale_s": 3600.0,
+      "amplitude_stddev_ug_m3": 13.363818985063656,
+      "attempted": false,
+      "converged": false,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -24.115176629268255,
+      "log_likelihood_after": -24.115176629268255,
+      "at_bounds": [
+        false,
+        false,
+        false
+      ],
+      "seconds": 0.0019664899991767015,
+      "status": "Datos insuficientes: se conserva la escala previa"
+    },
+    {
+      "elapsed_s": 600.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 2000.0,
+      "temporal_scale_s": 3600.0,
+      "amplitude_stddev_ug_m3": 13.363818985063656,
+      "attempted": false,
+      "converged": false,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -24.115176629268255,
+      "log_likelihood_after": -24.115176629268255,
+      "at_bounds": [
+        false,
+        false,
+        false
+      ],
+      "seconds": 0.002145111000572797,
+      "status": "Datos insuficientes: se conserva la escala previa"
+    },
+    {
+      "elapsed_s": 600.0,
+      "branch": "factual",
+      "spatial_scale_m": 2000.0,
+      "temporal_scale_s": 3600.0,
+      "amplitude_stddev_ug_m3": 13.363818985063656,
+      "attempted": false,
+      "converged": false,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -31.033436215186207,
+      "log_likelihood_after": -31.033436215186207,
+      "at_bounds": [
+        false,
+        false,
+        false
+      ],
+      "seconds": 0.0020377500004542526,
+      "status": "Datos insuficientes: se conserva la escala previa"
+    },
+    {
+      "elapsed_s": 900.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 2000.0,
+      "temporal_scale_s": 3600.0,
+      "amplitude_stddev_ug_m3": 13.363818985063656,
+      "attempted": false,
+      "converged": false,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -31.033436215186207,
+      "log_likelihood_after": -31.033436215186207,
+      "at_bounds": [
+        false,
+        false,
+        false
+      ],
+      "seconds": 0.0020525899999483954,
+      "status": "Datos insuficientes: se conserva la escala previa"
+    },
+    {
+      "elapsed_s": 900.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 2,
+      "log_likelihood_before": -37.82314665505088,
+      "log_likelihood_after": -26.394347713343105,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.005547384000237798,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 1200.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -26.394347713343105,
+      "log_likelihood_after": -26.394347713343105,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.0033675430004223017,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 1200.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -30.179597965826737,
+      "log_likelihood_after": -30.179597965826737,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.0035893059994123178,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 1500.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -30.179597965826737,
+      "log_likelihood_after": -30.179597965826737,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.0036571159998857183,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 1500.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 13290.71279978652,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 5,
+      "log_likelihood_before": -34.49498497784805,
+      "log_likelihood_after": -34.48818015252908,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.006780306999644381,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 1800.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 13290.71279978652,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -34.48818015252908,
+      "log_likelihood_after": -34.48818015252908,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.003711557001224719,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 1800.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 2,
+      "log_likelihood_before": -39.46692083017656,
+      "log_likelihood_after": -39.35539461853038,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.0047613879996788455,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 2100.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -39.35539461853038,
+      "log_likelihood_after": -39.35539461853038,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.0042638119994080625,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 2100.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -44.40404541711804,
+      "log_likelihood_after": -44.40404541711804,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.004232662000504206,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 2400.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -44.40404541711804,
+      "log_likelihood_after": -44.40404541711804,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.004179090999969048,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 2400.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -48.556208019465124,
+      "log_likelihood_after": -48.556208019465124,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.00433148199954303,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 2700.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -48.55620801946513,
+      "log_likelihood_after": -48.55620801946513,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.00431177199970989,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 2700.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -51.763777183418654,
+      "log_likelihood_after": -51.763777183418654,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.004507485000431188,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 3000.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -51.76377718341865,
+      "log_likelihood_after": -51.76377718341865,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.005827046999911545,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 3000.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -55.73252516640534,
+      "log_likelihood_after": -55.73252516640534,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.006904518999363063,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 3300.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -55.73252516640534,
+      "log_likelihood_after": -55.73252516640534,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.004993149999791058,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 3300.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 21600.0,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -59.29729651824845,
+      "log_likelihood_after": -59.29729651824845,
+      "at_bounds": [
+        true,
+        true,
+        true
+      ],
+      "seconds": 0.005968068999209208,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 3600.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4156.135373579408,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 8,
+      "log_likelihood_before": -119.5658594720584,
+      "log_likelihood_after": -75.73470107666265,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.00945533300000534,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 3600.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4263.991665175628,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 8,
+      "log_likelihood_before": -123.59729398531968,
+      "log_likelihood_after": -80.13704714703306,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.009693645999504952,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 3600.0,
+      "branch": "fixed_only",
+      "spatial_scale_m": 2000.0,
+      "temporal_scale_s": 3600.0,
+      "amplitude_stddev_ug_m3": 13.363818985063656,
+      "attempted": false,
+      "converged": false,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -27.89620542644293,
+      "log_likelihood_after": -27.89620542644293,
+      "at_bounds": [
+        false,
+        false,
+        false
+      ],
+      "seconds": 0.001957959000719711,
+      "status": "Datos insuficientes: se conserva la escala previa"
+    },
+    {
+      "elapsed_s": 3900.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4263.991665175628,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -80.13704714703307,
+      "log_likelihood_after": -80.13704714703307,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.005729477001295891,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 3900.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4342.4113329410075,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 2,
+      "log_likelihood_before": -84.53754203513267,
+      "log_likelihood_after": -84.53586101520295,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.007321272998524364,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 4200.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4342.4113329410075,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -84.53586101520295,
+      "log_likelihood_after": -84.53586101520295,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.006663086000116891,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 4200.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4534.846552546719,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 3,
+      "log_likelihood_before": -88.7998231240662,
+      "log_likelihood_after": -88.78948168624282,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.00974963599946932,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 4500.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4534.846552546719,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -88.78948168624282,
+      "log_likelihood_after": -88.78948168624282,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.006050340000001597,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 4500.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4768.765408688458,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 3,
+      "log_likelihood_before": -92.90597119963289,
+      "log_likelihood_after": -92.89069842351506,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.008253120999142993,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 4800.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4768.765408688458,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -92.89069842351506,
+      "log_likelihood_after": -92.89069842351506,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.007736976000160212,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 4800.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4772.755252836035,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 1,
+      "log_likelihood_before": -97.94346142289609,
+      "log_likelihood_after": -97.94345697646635,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.008160751000104938,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 5100.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4772.755252836035,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -97.94345697646634,
+      "log_likelihood_after": -97.94345697646634,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.007377781999821309,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 5100.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 5040.752193609224,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 3,
+      "log_likelihood_before": -103.41301694304195,
+      "log_likelihood_after": -103.39277745441716,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.009001058999274392,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 5400.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 5040.752193609224,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -103.39277745441719,
+      "log_likelihood_after": -103.39277745441719,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.006878787999085034,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 5400.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 5203.369167592226,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 3,
+      "log_likelihood_before": -107.3631438152842,
+      "log_likelihood_after": -107.35564388026083,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.009272241999497055,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 5700.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 5203.369167592226,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -107.35564388026083,
+      "log_likelihood_after": -107.35564388026083,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.007350972999120131,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 5700.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 5108.97658449091,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 2,
+      "log_likelihood_before": -113.58605316328686,
+      "log_likelihood_after": -113.5835767313275,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.010095900001033442,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 6000.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 5108.97658449091,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -113.5835767313275,
+      "log_likelihood_after": -113.5835767313275,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.008396452998567838,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 6000.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4250.532116324515,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 6,
+      "log_likelihood_before": -122.86083303041207,
+      "log_likelihood_after": -122.65492595005502,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.011775315999329905,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 6300.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4250.532116324515,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -122.654925950055,
+      "log_likelihood_after": -122.654925950055,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.009164860999590019,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 6300.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4809.268032822401,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 5,
+      "log_likelihood_before": -129.16802058930952,
+      "log_likelihood_after": -129.07002573700788,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.017596163001144305,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 6600.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4809.268032822401,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -129.07002573700785,
+      "log_likelihood_after": -129.07002573700785,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.01018422000015562,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 6600.0,
+      "branch": "factual",
+      "spatial_scale_m": 3824.6056266777196,
+      "temporal_scale_s": 5121.860027183134,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 5,
+      "log_likelihood_before": -133.7268679317673,
+      "log_likelihood_after": -133.69642973479353,
+      "at_bounds": [
+        true,
+        false,
+        false
+      ],
+      "seconds": 0.014077428999371477,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 6900.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3824.6056266777196,
+      "temporal_scale_s": 5121.860027183134,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -133.69642973479353,
+      "log_likelihood_after": -133.69642973479353,
+      "at_bounds": [
+        true,
+        false,
+        false
+      ],
+      "seconds": 0.009300912000981043,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 6900.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 5134.233909864647,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 4,
+      "log_likelihood_before": -137.80296179349915,
+      "log_likelihood_after": -137.78757723364143,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.01186015700113785,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 7200.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4159.0845809906095,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 5,
+      "log_likelihood_before": -147.0431529187228,
+      "log_likelihood_after": -146.3377995099248,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.014862247000564821,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 7200.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4152.532020445997,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 5,
+      "log_likelihood_before": -151.6852142841846,
+      "log_likelihood_after": -150.98931155387388,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.013900828000259935,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 7200.0,
+      "branch": "fixed_only",
+      "spatial_scale_m": 626.7623993464606,
+      "temporal_scale_s": 2438.704527533292,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 18,
+      "log_likelihood_before": -41.41191392117445,
+      "log_likelihood_after": -29.891488957047287,
+      "at_bounds": [
+        true,
+        false,
+        false
+      ],
+      "seconds": 0.011827396001535817,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 7500.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4152.532020445997,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -150.98931155387388,
+      "log_likelihood_after": -150.98931155387388,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.01038738200077205,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 7500.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4196.246648032787,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 2,
+      "log_likelihood_before": -155.51155250553342,
+      "log_likelihood_after": -155.51003606333128,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.011550854000233812,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 7800.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4196.246648032787,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -155.51003606333128,
+      "log_likelihood_after": -155.51003606333128,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.010831216999577009,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 7800.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 3911.9098747331054,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 4,
+      "log_likelihood_before": -163.0231085464323,
+      "log_likelihood_after": -162.95712819867896,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.01475545500034059,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 8100.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 3911.9098747331054,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -162.95712819867902,
+      "log_likelihood_after": -162.95712819867902,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.00909855999998399,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 8100.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4117.299958363337,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 3,
+      "log_likelihood_before": -167.83823421137566,
+      "log_likelihood_after": -167.80240004568873,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.01537854299931496,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 8400.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4117.299958363337,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -167.80240004568873,
+      "log_likelihood_after": -167.80240004568873,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.011677374999635504,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 8400.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4139.755426993439,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 2,
+      "log_likelihood_before": -172.82369904276385,
+      "log_likelihood_after": -172.82324746456942,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.01410707899958652,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 8700.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4139.755426993439,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -172.82324746456936,
+      "log_likelihood_after": -172.82324746456936,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.012035208999805036,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 8700.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4179.468865822812,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 2,
+      "log_likelihood_before": -176.58067832207934,
+      "log_likelihood_after": -176.5792394551671,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.014733355999851483,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 9000.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4179.468865822812,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -176.57923945516706,
+      "log_likelihood_after": -176.57923945516706,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.014100669000981725,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 9000.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4282.75860303635,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 3,
+      "log_likelihood_before": -180.56843710534724,
+      "log_likelihood_after": -180.55868427817632,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.016147970000019995,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 9300.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4282.75860303635,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -180.55868427817632,
+      "log_likelihood_after": -180.55868427817632,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.012536083000668441,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 9300.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4123.688919696661,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 3,
+      "log_likelihood_before": -186.6887770013706,
+      "log_likelihood_after": -186.6655459085636,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.015480063000723021,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 9600.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4123.688919696661,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -186.66554590856362,
+      "log_likelihood_after": -186.66554590856362,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.013145880000593024,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 9600.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4184.397971807194,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 2,
+      "log_likelihood_before": -190.5397663262574,
+      "log_likelihood_after": -190.53614886730514,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.01506247900033486,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 9900.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4184.397971807194,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -190.5361488673052,
+      "log_likelihood_after": -190.5361488673052,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.014284361001045909,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 9900.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4327.8323941386,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 3,
+      "log_likelihood_before": -195.10815325600316,
+      "log_likelihood_after": -195.08808201962947,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.0205214130000968,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 10200.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4327.8323941386,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 0,
+      "log_likelihood_before": -195.0880820196295,
+      "log_likelihood_after": -195.0880820196295,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.01149929399980465,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 10200.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4351.772986882897,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 2,
+      "log_likelihood_before": -201.18409610217194,
+      "log_likelihood_after": -201.18355613789745,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.017252940999242128,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 10500.0,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4351.772986882897,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": false,
+      "iterations": 1,
+      "log_likelihood_before": -201.18355613789743,
+      "log_likelihood_after": -201.18355613789743,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.015168769999945653,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 10500.0,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 4349.0259168531975,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 1,
+      "log_likelihood_before": -206.13857907737616,
+      "log_likelihood_after": -206.13857216349572,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.015089380000063102,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 10800,
+      "branch": "counterfactual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 3924.4999794322375,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 4,
+      "log_likelihood_before": -217.05167180701804,
+      "log_likelihood_after": -216.83056331418544,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.019466032999844174,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 10800,
+      "branch": "factual",
+      "spatial_scale_m": 3999.9999999999995,
+      "temporal_scale_s": 3854.8589320299475,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 4,
+      "log_likelihood_before": -221.85230547806086,
+      "log_likelihood_after": -221.54700552811386,
+      "at_bounds": [
+        true,
+        true,
+        false
+      ],
+      "seconds": 0.021789215999888256,
+      "status": "Convergencia"
+    },
+    {
+      "elapsed_s": 10800,
+      "branch": "fixed_only",
+      "spatial_scale_m": 626.7368662343314,
+      "temporal_scale_s": 2225.8470236011512,
+      "amplitude_stddev_ug_m3": 3.340954746265914,
+      "attempted": true,
+      "converged": true,
+      "improved": true,
+      "iterations": 3,
+      "log_likelihood_before": -41.014085404978694,
+      "log_likelihood_after": -40.994234626815256,
+      "at_bounds": [
+        true,
+        false,
+        false
+      ],
+      "seconds": 0.005330603000402334,
+      "status": "Convergencia"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "seed": 711005,
+  "start_utc": "2026-05-16T17:00:00+00:00",
+  "ambient_ug_m3": 29.0,
+  "initial_positions": [
+    [
+      287015.73308430833,
+      8666844.391197449
+    ],
+    [
+      283507.31071023445,
+      8664854.125393191
+    ],
+    [
+      291633.49622703786,
+      8675057.616213962
+    ]
+  ],
+  "fixed_digest": "b01c5db6099164fb91e1a48f6552a6704c42caa7f48d85e79bdaba8fb8ebddcd",
+  "simulated_mobile_field_sha256": "d6b23aebac24cf79feae1fec802f8d7687a635bd4db78c499f43fda62d69f109"
+}

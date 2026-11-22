@@ -1,0 +1,13 @@
+{
+  "case": [
+    217399,
+    "2026-03-29T14:00Z",
+    "event",
+    "synthetic"
+  ],
+  "field_sha256": "c03baca05b5b276d75104151bef7b2512c76d2bf3679d263d6dd15975f553757",
+  "fixed_measurements_sha256": "0443901b1105cc5fc4b71b25240455088655e7805f390167e712080d7ea30d89",
+  "initial_positions_sha256": "aafa0e6728fe4dcbefa6360156a884a55914ab95c33ca498691cb4573d3c80c9",
+  "start_utc": "2026-03-29T14:00:00+00:00",
+  "elapsed_s": 10800.0
+}

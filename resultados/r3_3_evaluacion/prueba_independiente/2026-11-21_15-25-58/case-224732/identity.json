@@ -1,0 +1,13 @@
+{
+  "case": [
+    224732,
+    "2026-02-24T11:00Z",
+    "control",
+    "historical_perturbed"
+  ],
+  "field_sha256": "896da843f810848918ee7d7267a99ed2b699184ecf7b9700be0cf3203fabb022",
+  "fixed_measurements_sha256": "505104cb6d4b1a62e4eaa06ee3238e0970eb23a6ccacb833cf01700e6391172a",
+  "initial_positions_sha256": "c20e30c64e65d9c217a5a5290663f80639879342ae14ede36cd4ddcc1d56ade9",
+  "start_utc": "2026-02-24T11:00:00+00:00",
+  "elapsed_s": 10800.0
+}

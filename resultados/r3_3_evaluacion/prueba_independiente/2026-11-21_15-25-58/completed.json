@@ -1,0 +1,21 @@
+{
+  "cases": 24,
+  "mobile_missions": 600,
+  "fixed_only_references": 48,
+  "scale_pairs": 24,
+  "primary": {
+    "study": "fijo",
+    "metric": "final_integrated_variance",
+    "mean_reduction_pct": 3.8955642430138084,
+    "lo95": 3.015293901076936,
+    "hi95": 4.774206413829682
+  },
+  "sign_test_fixed_vs_greedy": {
+    "wins": 17,
+    "non_ties": 24,
+    "ties": 0,
+    "one_sided_p": 0.03195732831954956
+  },
+  "training_executed": false,
+  "historical_replay_executed": false
+}

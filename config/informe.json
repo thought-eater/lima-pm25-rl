@@ -1,0 +1,67 @@
+{
+  "training_runs": [
+    {
+      "label": "GP fijo · gamma 0,99 · 30 000 episodios",
+      "sources": ["entrenamiento-original", "continuacion", "fijo-30000"]
+    },
+    {
+      "label": "Gamma 0,5",
+      "sources": ["gamma05"]
+    },
+    {
+      "label": "Adaptativo · 30 000 episodios",
+      "sources": ["adaptativo", "adaptativo-continuacion"]
+    }
+  ],
+  "smoothing_episodes": 50,
+  "block_episodes": 200,
+  "comparisons": [
+    {
+      "protocol_product": "duracion",
+      "title": "Final 1000 frente a final 2000 — gamma 0,99",
+      "products": {
+        "metricas-gamma099-1000": "Final 1000",
+        "metricas-gamma099-2000": "Final 2000"
+      }
+    },
+    {
+      "protocol_product": "descuento",
+      "title": "Gamma 0,99 frente a 0,5 — finales de 2000 episodios",
+      "products": {
+        "metricas-gamma099-2000": "Gamma 0,99",
+        "metricas-gamma05-2000": "Gamma 0,5"
+      }
+    },
+    {
+      "protocol_product": "descuento",
+      "title": "GP adaptativo: mejor seleccionado en validación (28 400) frente al final (30 000)",
+      "products": {
+        "metricas-adaptativo-mejor": "Mejor 28 400",
+        "metricas-adaptativo-final": "Final 30 000"
+      }
+    },
+    {
+      "protocol_product": "descuento",
+      "title": "Métodos: GP fijo a 2000 frente a GP adaptativo; presupuesto y recompensa distintos",
+      "products": {
+        "metricas-gamma099-2000": "GP fijo · final 2000",
+        "metricas-adaptativo-mejor": "Adaptativo · mejor 28 400",
+        "metricas-adaptativo-final": "Adaptativo · final 30 000"
+      }
+    }
+  ],
+  "paired_validation": {
+    "fixed": ["Fijo 30 000", "misiones-fijo-30000", "metricas-fijo-30000"],
+    "adaptive_final": ["Adaptativo 30 000", "misiones-adaptativo-final", "metricas-adaptativo-final"],
+    "adaptive_best": ["Adaptativo 28 400", "misiones-adaptativo-mejor", "metricas-adaptativo-mejor"],
+    "strata": {
+      "control/historical": [100002, 100003],
+      "control/historical_perturbed": [100010, 100013],
+      "control/synthetic": [100000, 100001],
+      "event/historical": [100032, 100037],
+      "event/historical_perturbed": [100018, 100033],
+      "event/synthetic": [100006, 100011]
+    }
+  },
+  "pending_note": "La comparación entre métodos a 30 000 controla el presupuesto de entrenamiento, pero cambian el estimador, la recompensa y la exploración. Los resultados en los doce casos de selección no demuestran generalización independiente ni cumplimiento general del 20 %. La prueba independiente y el replay histórico final permanecen pendientes."
+}

@@ -1,0 +1,313 @@
+adaptive,metric,case_seed,delta
+Adaptativo 30 000,RMSE global promedio (µg/m³),100002,0.9397077298761274
+Adaptativo 30 000,RMSE global promedio (µg/m³),100003,0.23037016970319923
+Adaptativo 30 000,RMSE global promedio (µg/m³),100010,0.6959242445355502
+Adaptativo 30 000,RMSE global promedio (µg/m³),100013,-0.3917445375362867
+Adaptativo 30 000,RMSE global promedio (µg/m³),100000,0.034334042706078316
+Adaptativo 30 000,RMSE global promedio (µg/m³),100001,0.578366839639465
+Adaptativo 30 000,RMSE global promedio (µg/m³),100032,-0.20539818817968047
+Adaptativo 30 000,RMSE global promedio (µg/m³),100037,0.21561119013290497
+Adaptativo 30 000,RMSE global promedio (µg/m³),100018,-0.04692504986507995
+Adaptativo 30 000,RMSE global promedio (µg/m³),100033,0.779240471922316
+Adaptativo 30 000,RMSE global promedio (µg/m³),100006,0.10749827769127318
+Adaptativo 30 000,RMSE global promedio (µg/m³),100011,0.19523543860657355
+Adaptativo 30 000,RMSE global final (µg/m³),100002,1.0069718473676956
+Adaptativo 30 000,RMSE global final (µg/m³),100003,-0.127438491414952
+Adaptativo 30 000,RMSE global final (µg/m³),100010,0.47042448397333114
+Adaptativo 30 000,RMSE global final (µg/m³),100013,-3.3272389931584794
+Adaptativo 30 000,RMSE global final (µg/m³),100000,-0.06861607267446956
+Adaptativo 30 000,RMSE global final (µg/m³),100001,0.5480563175063189
+Adaptativo 30 000,RMSE global final (µg/m³),100032,-0.689738753332378
+Adaptativo 30 000,RMSE global final (µg/m³),100037,-0.18619770455282847
+Adaptativo 30 000,RMSE global final (µg/m³),100018,-0.3332986267137441
+Adaptativo 30 000,RMSE global final (µg/m³),100033,0.04997382967136721
+Adaptativo 30 000,RMSE global final (µg/m³),100006,-2.6549206864467614
+Adaptativo 30 000,RMSE global final (µg/m³),100011,-0.37469639901972585
+Adaptativo 30 000,MAE global promedio (µg/m³),100002,0.8008826018677802
+Adaptativo 30 000,MAE global promedio (µg/m³),100003,0.36452409953029674
+Adaptativo 30 000,MAE global promedio (µg/m³),100010,0.7831734629388216
+Adaptativo 30 000,MAE global promedio (µg/m³),100013,0.09464312192973967
+Adaptativo 30 000,MAE global promedio (µg/m³),100000,0.031529936273358095
+Adaptativo 30 000,MAE global promedio (µg/m³),100001,0.679666364294752
+Adaptativo 30 000,MAE global promedio (µg/m³),100032,-0.5417716979068024
+Adaptativo 30 000,MAE global promedio (µg/m³),100037,0.8608100429008196
+Adaptativo 30 000,MAE global promedio (µg/m³),100018,0.06927346834781511
+Adaptativo 30 000,MAE global promedio (µg/m³),100033,0.6947186540897456
+Adaptativo 30 000,MAE global promedio (µg/m³),100006,0.09650746879203842
+Adaptativo 30 000,MAE global promedio (µg/m³),100011,0.2855978187328656
+Adaptativo 30 000,MAE global final (µg/m³),100002,0.8474504057936023
+Adaptativo 30 000,MAE global final (µg/m³),100003,0.41742978082581006
+Adaptativo 30 000,MAE global final (µg/m³),100010,0.5834197578911158
+Adaptativo 30 000,MAE global final (µg/m³),100013,-2.223354803492124
+Adaptativo 30 000,MAE global final (µg/m³),100000,-0.1884752763110682
+Adaptativo 30 000,MAE global final (µg/m³),100001,0.6271067611429817
+Adaptativo 30 000,MAE global final (µg/m³),100032,-1.1517313282588848
+Adaptativo 30 000,MAE global final (µg/m³),100037,0.48683588918248066
+Adaptativo 30 000,MAE global final (µg/m³),100018,-0.3728843368235215
+Adaptativo 30 000,MAE global final (µg/m³),100033,-0.0066046077892663035
+Adaptativo 30 000,MAE global final (µg/m³),100006,-0.954372928512091
+Adaptativo 30 000,MAE global final (µg/m³),100011,-0.32600751392154725
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100002,18.911248313161025
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100003,20.865615937093487
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100010,20.274036202463737
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100013,20.158210661140778
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100000,20.469674739291175
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100001,19.81778646203724
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100032,17.855274162451938
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100037,20.990684056757157
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100018,15.352045260710621
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100033,20.37463812606317
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100006,18.867463589400447
+Adaptativo 30 000,Varianza integrada promedio (10⁹),100011,20.951707768786562
+Adaptativo 30 000,Varianza integrada final (10⁹),100002,19.87462850088406
+Adaptativo 30 000,Varianza integrada final (10⁹),100003,21.210015915663796
+Adaptativo 30 000,Varianza integrada final (10⁹),100010,20.94641581820094
+Adaptativo 30 000,Varianza integrada final (10⁹),100013,15.487352022308386
+Adaptativo 30 000,Varianza integrada final (10⁹),100000,20.068395504516953
+Adaptativo 30 000,Varianza integrada final (10⁹),100001,19.50988770292926
+Adaptativo 30 000,Varianza integrada final (10⁹),100032,16.437733001412887
+Adaptativo 30 000,Varianza integrada final (10⁹),100037,20.397352042990704
+Adaptativo 30 000,Varianza integrada final (10⁹),100018,15.375086073595439
+Adaptativo 30 000,Varianza integrada final (10⁹),100033,20.38934067668669
+Adaptativo 30 000,Varianza integrada final (10⁹),100006,15.111437576658105
+Adaptativo 30 000,Varianza integrada final (10⁹),100011,20.934959690041822
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100002,0.6279434850863419
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100003,0.08970621215519192
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100010,0.605516932047544
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100013,0.0897062121551917
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100000,0.4036779546983629
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100001,0.0897062121551917
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100032,1.0091948867459075
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100037,0.9419152276295135
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100018,1.0540479928235031
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100033,-0.0897062121551917
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100006,1.031621439784705
+Adaptativo 30 000,Cobertura de muestreo móvil (%),100011,0.0
+Adaptativo 30 000,Recorrido de flota (km),100002,26.763924565501156
+Adaptativo 30 000,Recorrido de flota (km),100003,33.25441604608027
+Adaptativo 30 000,Recorrido de flota (km),100010,13.851346820951044
+Adaptativo 30 000,Recorrido de flota (km),100013,0.5586031611220506
+Adaptativo 30 000,Recorrido de flota (km),100000,33.424452023523116
+Adaptativo 30 000,Recorrido de flota (km),100001,24.609515972960807
+Adaptativo 30 000,Recorrido de flota (km),100032,13.03772878780591
+Adaptativo 30 000,Recorrido de flota (km),100037,15.848170636481626
+Adaptativo 30 000,Recorrido de flota (km),100018,4.560306404720848
+Adaptativo 30 000,Recorrido de flota (km),100033,20.099073657446063
+Adaptativo 30 000,Recorrido de flota (km),100006,24.583527531505958
+Adaptativo 30 000,Recorrido de flota (km),100011,32.69378337601308
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100002,1.2059982625338916
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100003,0.21730943276468473
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100010,1.155621039739251
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100013,-1.490136799450731
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100000,1.2378291380825672
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100001,-0.3496365938919217
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100032,1.0010639695739645
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100037,-1.1133116058835189
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100018,-0.06159782154139304
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100033,1.6066124929047216
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100006,-2.533830564966806
+Adaptativo 30 000,RMSE en focos promedio (µg/m³),100011,0.5459645837799307
+Adaptativo 30 000,RMSE en focos final (µg/m³),100002,1.715759071503821
+Adaptativo 30 000,RMSE en focos final (µg/m³),100003,1.1719187702927627
+Adaptativo 30 000,RMSE en focos final (µg/m³),100010,0.9221659697567484
+Adaptativo 30 000,RMSE en focos final (µg/m³),100013,-3.735919873656915
+Adaptativo 30 000,RMSE en focos final (µg/m³),100000,0.6860246679256861
+Adaptativo 30 000,RMSE en focos final (µg/m³),100001,-0.22500718394239794
+Adaptativo 30 000,RMSE en focos final (µg/m³),100032,1.2311242640129123
+Adaptativo 30 000,RMSE en focos final (µg/m³),100037,-2.7792763996980643
+Adaptativo 30 000,RMSE en focos final (µg/m³),100018,-0.502984032919791
+Adaptativo 30 000,RMSE en focos final (µg/m³),100033,0.2426139948984707
+Adaptativo 30 000,RMSE en focos final (µg/m³),100006,-7.466110533085036
+Adaptativo 30 000,RMSE en focos final (µg/m³),100011,-1.0703069113819632
+Adaptativo 30 000,Sensibilidad en focos (%),100002,-34.08540339869751
+Adaptativo 30 000,Sensibilidad en focos (%),100003,-11.107247183196552
+Adaptativo 30 000,Sensibilidad en focos (%),100010,-8.105576974105233
+Adaptativo 30 000,Sensibilidad en focos (%),100013,-7.413750917543432
+Adaptativo 30 000,Sensibilidad en focos (%),100000,-16.403691574873474
+Adaptativo 30 000,Sensibilidad en focos (%),100001,0.0
+Adaptativo 30 000,Sensibilidad en focos (%),100032,-13.02374521012625
+Adaptativo 30 000,Sensibilidad en focos (%),100037,2.420010521784877
+Adaptativo 30 000,Sensibilidad en focos (%),100018,3.2688718481396073
+Adaptativo 30 000,Sensibilidad en focos (%),100033,-12.841980633430587
+Adaptativo 30 000,Sensibilidad en focos (%),100006,10.378634212305611
+Adaptativo 30 000,Sensibilidad en focos (%),100011,-13.384019905999448
+Adaptativo 30 000,Área media de falsas alarmas (km²),100002,-39.47222222222222
+Adaptativo 30 000,Área media de falsas alarmas (km²),100003,0.1905555555555556
+Adaptativo 30 000,Área media de falsas alarmas (km²),100010,-5.235555555555555
+Adaptativo 30 000,Área media de falsas alarmas (km²),100013,-0.4638888888888888
+Adaptativo 30 000,Área media de falsas alarmas (km²),100000,-1.0055555555555558
+Adaptativo 30 000,Área media de falsas alarmas (km²),100001,0.0
+Adaptativo 30 000,Área media de falsas alarmas (km²),100032,-23.78666666666667
+Adaptativo 30 000,Área media de falsas alarmas (km²),100037,0.09111111111111111
+Adaptativo 30 000,Área media de falsas alarmas (km²),100018,1.7688888888888892
+Adaptativo 30 000,Área media de falsas alarmas (km²),100033,-0.27722222222222204
+Adaptativo 30 000,Área media de falsas alarmas (km²),100006,2.3927777777777774
+Adaptativo 30 000,Área media de falsas alarmas (km²),100011,-0.9177777777777777
+Adaptativo 30 000,Eventos completados omitidos (%),100002,83.33333333333333
+Adaptativo 30 000,Eventos completados omitidos (%),100003,-2.054794520547958
+Adaptativo 30 000,Eventos completados omitidos (%),100010,-33.33333333333333
+Adaptativo 30 000,Eventos completados omitidos (%),100013,-7.236842105263165
+Adaptativo 30 000,Eventos completados omitidos (%),100000,3.787878787878796
+Adaptativo 30 000,Eventos completados omitidos (%),100001,0.0
+Adaptativo 30 000,Eventos completados omitidos (%),100032,20.473773265651435
+Adaptativo 30 000,Eventos completados omitidos (%),100037,0.0
+Adaptativo 30 000,Eventos completados omitidos (%),100018,-48.70317002881845
+Adaptativo 30 000,Eventos completados omitidos (%),100033,-10.048426150121074
+Adaptativo 30 000,Eventos completados omitidos (%),100006,-2.8409090909090793
+Adaptativo 30 000,Eventos completados omitidos (%),100011,30.88512241054614
+Adaptativo 28 400,RMSE global promedio (µg/m³),100002,1.1358587934401787
+Adaptativo 28 400,RMSE global promedio (µg/m³),100003,0.4319533558561992
+Adaptativo 28 400,RMSE global promedio (µg/m³),100010,0.42816433827617795
+Adaptativo 28 400,RMSE global promedio (µg/m³),100013,-0.19107071457487734
+Adaptativo 28 400,RMSE global promedio (µg/m³),100000,0.07566481717669893
+Adaptativo 28 400,RMSE global promedio (µg/m³),100001,0.6733077165327233
+Adaptativo 28 400,RMSE global promedio (µg/m³),100032,-0.20808042093691714
+Adaptativo 28 400,RMSE global promedio (µg/m³),100037,0.4183154335461641
+Adaptativo 28 400,RMSE global promedio (µg/m³),100018,0.17500309899506128
+Adaptativo 28 400,RMSE global promedio (µg/m³),100033,0.3639431026937747
+Adaptativo 28 400,RMSE global promedio (µg/m³),100006,0.040937693689972576
+Adaptativo 28 400,RMSE global promedio (µg/m³),100011,0.10345393207138809
+Adaptativo 28 400,RMSE global final (µg/m³),100002,1.5231294426446995
+Adaptativo 28 400,RMSE global final (µg/m³),100003,0.1951718321972593
+Adaptativo 28 400,RMSE global final (µg/m³),100010,0.4100563690189736
+Adaptativo 28 400,RMSE global final (µg/m³),100013,-0.37195912363445416
+Adaptativo 28 400,RMSE global final (µg/m³),100000,-0.18433285445463676
+Adaptativo 28 400,RMSE global final (µg/m³),100001,0.7531261533868223
+Adaptativo 28 400,RMSE global final (µg/m³),100032,-0.6140653414931734
+Adaptativo 28 400,RMSE global final (µg/m³),100037,0.06294125552855956
+Adaptativo 28 400,RMSE global final (µg/m³),100018,0.6174994602518105
+Adaptativo 28 400,RMSE global final (µg/m³),100033,0.0063468235210457635
+Adaptativo 28 400,RMSE global final (µg/m³),100006,-2.9246916704449433
+Adaptativo 28 400,RMSE global final (µg/m³),100011,0.19616442900793984
+Adaptativo 28 400,MAE global promedio (µg/m³),100002,1.1270384266097382
+Adaptativo 28 400,MAE global promedio (µg/m³),100003,0.31104112286812446
+Adaptativo 28 400,MAE global promedio (µg/m³),100010,0.43379402081955076
+Adaptativo 28 400,MAE global promedio (µg/m³),100013,0.03814747363069593
+Adaptativo 28 400,MAE global promedio (µg/m³),100000,0.1214743885949976
+Adaptativo 28 400,MAE global promedio (µg/m³),100001,0.808527662221848
+Adaptativo 28 400,MAE global promedio (µg/m³),100032,-0.2694521661364382
+Adaptativo 28 400,MAE global promedio (µg/m³),100037,0.49697926695725414
+Adaptativo 28 400,MAE global promedio (µg/m³),100018,0.2922023886250238
+Adaptativo 28 400,MAE global promedio (µg/m³),100033,0.43833755810872876
+Adaptativo 28 400,MAE global promedio (µg/m³),100006,0.06095245564438878
+Adaptativo 28 400,MAE global promedio (µg/m³),100011,0.256280165479601
+Adaptativo 28 400,MAE global final (µg/m³),100002,1.3265818143384343
+Adaptativo 28 400,MAE global final (µg/m³),100003,0.40682126480226755
+Adaptativo 28 400,MAE global final (µg/m³),100010,0.2345978478885229
+Adaptativo 28 400,MAE global final (µg/m³),100013,-0.4319661355285618
+Adaptativo 28 400,MAE global final (µg/m³),100000,-0.10690560759200629
+Adaptativo 28 400,MAE global final (µg/m³),100001,0.8489489579742617
+Adaptativo 28 400,MAE global final (µg/m³),100032,-0.4448982575364804
+Adaptativo 28 400,MAE global final (µg/m³),100037,0.02987740888809043
+Adaptativo 28 400,MAE global final (µg/m³),100018,0.29737464126910407
+Adaptativo 28 400,MAE global final (µg/m³),100033,-0.006990118640755716
+Adaptativo 28 400,MAE global final (µg/m³),100006,-1.1164499255411844
+Adaptativo 28 400,MAE global final (µg/m³),100011,0.29410673121592845
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100002,20.29667476263997
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100003,20.6674832330341
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100010,19.585042673944614
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100013,17.469063121082662
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100000,20.40555052011543
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100001,19.864557686647245
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100032,17.22444396050443
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100037,18.03191435421663
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100018,17.577146456672963
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100033,20.02806211367439
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100006,15.3422304209197
+Adaptativo 28 400,Varianza integrada promedio (10⁹),100011,20.7754676345712
+Adaptativo 28 400,Varianza integrada final (10⁹),100002,19.81212759031362
+Adaptativo 28 400,Varianza integrada final (10⁹),100003,20.440544273491472
+Adaptativo 28 400,Varianza integrada final (10⁹),100010,18.713721698173476
+Adaptativo 28 400,Varianza integrada final (10⁹),100013,-8.732300294386114
+Adaptativo 28 400,Varianza integrada final (10⁹),100000,20.023957071515632
+Adaptativo 28 400,Varianza integrada final (10⁹),100001,19.54354349168758
+Adaptativo 28 400,Varianza integrada final (10⁹),100032,8.022651410863455
+Adaptativo 28 400,Varianza integrada final (10⁹),100037,16.169949295386452
+Adaptativo 28 400,Varianza integrada final (10⁹),100018,17.72473612503543
+Adaptativo 28 400,Varianza integrada final (10⁹),100033,20.05939033212521
+Adaptativo 28 400,Varianza integrada final (10⁹),100006,11.95846265358313
+Adaptativo 28 400,Varianza integrada final (10⁹),100011,21.343480024792804
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100002,0.20183897734918133
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100003,0.13455931823278777
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100010,0.1794124243103834
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100013,0.47095761381475665
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100000,1.41287284144427
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100001,0.426104507737161
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100032,1.0989010989010992
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100037,1.0091948867459073
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100018,1.009194886745907
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100033,0.5830903790087463
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100006,1.2110338640950886
+Adaptativo 28 400,Cobertura de muestreo móvil (%),100011,0.6279434850863421
+Adaptativo 28 400,Recorrido de flota (km),100002,-15.577718274722898
+Adaptativo 28 400,Recorrido de flota (km),100003,8.982612152929818
+Adaptativo 28 400,Recorrido de flota (km),100010,-18.226788494498344
+Adaptativo 28 400,Recorrido de flota (km),100013,-17.85986192008859
+Adaptativo 28 400,Recorrido de flota (km),100000,38.78682595422581
+Adaptativo 28 400,Recorrido de flota (km),100001,-92.84627905495755
+Adaptativo 28 400,Recorrido de flota (km),100032,-6.5314287418126185
+Adaptativo 28 400,Recorrido de flota (km),100037,33.25060101740918
+Adaptativo 28 400,Recorrido de flota (km),100018,11.417433581930624
+Adaptativo 28 400,Recorrido de flota (km),100033,7.4041089101076665
+Adaptativo 28 400,Recorrido de flota (km),100006,15.673805748921225
+Adaptativo 28 400,Recorrido de flota (km),100011,40.555720604348814
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100002,1.322546591928195
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100003,2.5902426538922523
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100010,0.7245064264778334
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100013,-0.9235109676631872
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100000,1.2383391635380514
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100001,-0.45770783217739197
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100032,-0.1427740042278547
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100037,1.0709177361901734
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100018,0.5691430541425211
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100033,0.5179896241472379
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100006,-2.7782495149280564
+Adaptativo 28 400,RMSE en focos promedio (µg/m³),100011,0.01894558658124268
+Adaptativo 28 400,RMSE en focos final (µg/m³),100002,1.8300528344963687
+Adaptativo 28 400,RMSE en focos final (µg/m³),100003,2.8132608818722167
+Adaptativo 28 400,RMSE en focos final (µg/m³),100010,0.8035105342650777
+Adaptativo 28 400,RMSE en focos final (µg/m³),100013,-3.219874397321341
+Adaptativo 28 400,RMSE en focos final (µg/m³),100000,0.5959726469151523
+Adaptativo 28 400,RMSE en focos final (µg/m³),100001,-0.04499797646728876
+Adaptativo 28 400,RMSE en focos final (µg/m³),100032,-2.4918745839265988
+Adaptativo 28 400,RMSE en focos final (µg/m³),100037,-1.005937307536973
+Adaptativo 28 400,RMSE en focos final (µg/m³),100018,0.9040282488746434
+Adaptativo 28 400,RMSE en focos final (µg/m³),100033,-0.11809243470218966
+Adaptativo 28 400,RMSE en focos final (µg/m³),100006,-8.13584470891524
+Adaptativo 28 400,RMSE en focos final (µg/m³),100011,0.10648634128746792
+Adaptativo 28 400,Sensibilidad en focos (%),100002,-30.45074765053012
+Adaptativo 28 400,Sensibilidad en focos (%),100003,-39.45611350674641
+Adaptativo 28 400,Sensibilidad en focos (%),100010,-3.6539872321163784
+Adaptativo 28 400,Sensibilidad en focos (%),100013,-0.6647092406818409
+Adaptativo 28 400,Sensibilidad en focos (%),100000,-16.880023816612088
+Adaptativo 28 400,Sensibilidad en focos (%),100001,0.0
+Adaptativo 28 400,Sensibilidad en focos (%),100032,9.221684779194682
+Adaptativo 28 400,Sensibilidad en focos (%),100037,-25.123152709359605
+Adaptativo 28 400,Sensibilidad en focos (%),100018,-3.4012986099328373
+Adaptativo 28 400,Sensibilidad en focos (%),100033,-8.3090194088545
+Adaptativo 28 400,Sensibilidad en focos (%),100006,10.781240395844858
+Adaptativo 28 400,Sensibilidad en focos (%),100011,-1.556538567873929
+Adaptativo 28 400,Área media de falsas alarmas (km²),100002,-20.050555555555555
+Adaptativo 28 400,Área media de falsas alarmas (km²),100003,-1.038333333333333
+Adaptativo 28 400,Área media de falsas alarmas (km²),100010,-0.4155555555555557
+Adaptativo 28 400,Área media de falsas alarmas (km²),100013,0.8622222222222221
+Adaptativo 28 400,Área media de falsas alarmas (km²),100000,-1.6344444444444446
+Adaptativo 28 400,Área media de falsas alarmas (km²),100001,0.0
+Adaptativo 28 400,Área media de falsas alarmas (km²),100032,-6.041666666666666
+Adaptativo 28 400,Área media de falsas alarmas (km²),100037,-0.7427777777777778
+Adaptativo 28 400,Área media de falsas alarmas (km²),100018,-20.375
+Adaptativo 28 400,Área media de falsas alarmas (km²),100033,0.9494444444444445
+Adaptativo 28 400,Área media de falsas alarmas (km²),100006,2.5794444444444444
+Adaptativo 28 400,Área media de falsas alarmas (km²),100011,0.2738888888888889
+Adaptativo 28 400,Eventos completados omitidos (%),100002,93.33333333333333
+Adaptativo 28 400,Eventos completados omitidos (%),100003,3.4246575342465633
+Adaptativo 28 400,Eventos completados omitidos (%),100010,-31.623931623931625
+Adaptativo 28 400,Eventos completados omitidos (%),100013,-3.9473684210526443
+Adaptativo 28 400,Eventos completados omitidos (%),100000,5.303030303030297
+Adaptativo 28 400,Eventos completados omitidos (%),100001,0.0
+Adaptativo 28 400,Eventos completados omitidos (%),100032,9.306260575296108
+Adaptativo 28 400,Eventos completados omitidos (%),100037,1.5789473684210549
+Adaptativo 28 400,Eventos completados omitidos (%),100018,8.645533141210365
+Adaptativo 28 400,Eventos completados omitidos (%),100033,-20.944309927360763
+Adaptativo 28 400,Eventos completados omitidos (%),100006,-2.8409090909090793
+Adaptativo 28 400,Eventos completados omitidos (%),100011,-1.3182674199623392
